@@ -1,0 +1,1806 @@
+{
+  "cells": [
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "n_traces": 175,
+      "completed_rate": 0.9943,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 524.0,
+      "mean_new_tokens": 594.6,
+      "success_rate": 0.1143,
+      "quality_score": null,
+      "mean_behavior_count": 0.737
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "n_traces": 500,
+      "completed_rate": 0.884,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 564.5,
+      "mean_new_tokens": 1056.3,
+      "success_rate": 0.278,
+      "quality_score": null,
+      "mean_behavior_count": 9.236
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 538.0,
+      "mean_new_tokens": 550.1,
+      "success_rate": null,
+      "quality_score": 0.5546,
+      "mean_behavior_count": 1.02
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "n_traces": 500,
+      "completed_rate": 0.952,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 346.0,
+      "mean_new_tokens": 649.6,
+      "success_rate": 0.108,
+      "quality_score": null,
+      "mean_behavior_count": 2.44
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 614.5,
+      "mean_new_tokens": 612.1,
+      "success_rate": null,
+      "quality_score": 0.682,
+      "mean_behavior_count": 6.387
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "n_traces": 500,
+      "completed_rate": 0.986,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 429.5,
+      "mean_new_tokens": 585.9,
+      "success_rate": 0.422,
+      "quality_score": null,
+      "mean_behavior_count": 4.058
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "n_traces": 175,
+      "completed_rate": 0.9143,
+      "has_answer_rate": 0.9429,
+      "median_new_tokens": 7670.0,
+      "mean_new_tokens": 18755.8,
+      "success_rate": 0.4229,
+      "quality_score": null,
+      "mean_behavior_count": 25.726
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "n_traces": 500,
+      "completed_rate": 0.99,
+      "has_answer_rate": 0.99,
+      "median_new_tokens": 14483.0,
+      "mean_new_tokens": 17843.5,
+      "success_rate": 0.78,
+      "quality_score": null,
+      "mean_behavior_count": 32.332
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 4499.5,
+      "mean_new_tokens": 4550.9,
+      "success_rate": null,
+      "quality_score": null,
+      "mean_behavior_count": 44.92
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 5190.5,
+      "mean_new_tokens": 8164.6,
+      "success_rate": 0.034,
+      "quality_score": null,
+      "mean_behavior_count": 20.73
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 2618.0,
+      "mean_new_tokens": 2757.1,
+      "success_rate": null,
+      "quality_score": null,
+      "mean_behavior_count": 17.982
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 7320.0,
+      "mean_new_tokens": 9572.0,
+      "success_rate": 0.77,
+      "quality_score": null,
+      "mean_behavior_count": 19.49
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "n_traces": 175,
+      "completed_rate": 0.9943,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 9673.0,
+      "mean_new_tokens": 15018.5,
+      "success_rate": 0.3486,
+      "quality_score": null,
+      "mean_behavior_count": 27.057
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "n_traces": 500,
+      "completed_rate": 0.948,
+      "has_answer_rate": 0.952,
+      "median_new_tokens": 21222.0,
+      "mean_new_tokens": 26184.4,
+      "success_rate": 0.706,
+      "quality_score": null,
+      "mean_behavior_count": 36.516
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "n_traces": 500,
+      "completed_rate": 0.998,
+      "has_answer_rate": 0.998,
+      "median_new_tokens": 5699.5,
+      "mean_new_tokens": 5859.0,
+      "success_rate": null,
+      "quality_score": null,
+      "mean_behavior_count": 61.122
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "n_traces": 500,
+      "completed_rate": 0.998,
+      "has_answer_rate": 0.998,
+      "median_new_tokens": 6239.5,
+      "mean_new_tokens": 10812.7,
+      "success_rate": 0.056,
+      "quality_score": null,
+      "mean_behavior_count": 23.842
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 3127.0,
+      "mean_new_tokens": 3357.2,
+      "success_rate": null,
+      "quality_score": null,
+      "mean_behavior_count": 20.28
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "n_traces": 500,
+      "completed_rate": 0.994,
+      "has_answer_rate": 0.996,
+      "median_new_tokens": 14320.5,
+      "mean_new_tokens": 16885.9,
+      "success_rate": 0.604,
+      "quality_score": null,
+      "mean_behavior_count": 23.492
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "n_traces": 175,
+      "completed_rate": 0.9543,
+      "has_answer_rate": 0.9657,
+      "median_new_tokens": 12456.0,
+      "mean_new_tokens": 18303.1,
+      "success_rate": 0.4,
+      "quality_score": null,
+      "mean_behavior_count": 27.217
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "n_traces": 500,
+      "completed_rate": 0.972,
+      "has_answer_rate": 0.976,
+      "median_new_tokens": 18303.5,
+      "mean_new_tokens": 22460.0,
+      "success_rate": 0.738,
+      "quality_score": null,
+      "mean_behavior_count": 34.616
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 5990.0,
+      "mean_new_tokens": 6074.3,
+      "success_rate": null,
+      "quality_score": null,
+      "mean_behavior_count": 57.858
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "n_traces": 500,
+      "completed_rate": 0.996,
+      "has_answer_rate": 0.996,
+      "median_new_tokens": 5792.0,
+      "mean_new_tokens": 9693.2,
+      "success_rate": 0.054,
+      "quality_score": null,
+      "mean_behavior_count": 22.522
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 2932.0,
+      "mean_new_tokens": 3162.0,
+      "success_rate": null,
+      "quality_score": null,
+      "mean_behavior_count": 18.772
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "n_traces": 500,
+      "completed_rate": 1.0,
+      "has_answer_rate": 1.0,
+      "median_new_tokens": 11322.0,
+      "mean_new_tokens": 13258.7,
+      "success_rate": 0.648,
+      "quality_score": null,
+      "mean_behavior_count": 22.038
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "n_traces": 175,
+      "completed_rate": 0.8343,
+      "has_answer_rate": 0.84,
+      "median_new_tokens": 13522.0,
+      "mean_new_tokens": 14302.5,
+      "success_rate": 0.1886,
+      "quality_score": null,
+      "mean_behavior_count": 54.737
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "n_traces": 500,
+      "completed_rate": 0.968,
+      "has_answer_rate": 0.97,
+      "median_new_tokens": 5581.0,
+      "mean_new_tokens": 6933.1,
+      "success_rate": 0.456,
+      "quality_score": null,
+      "mean_behavior_count": 40.032
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "n_traces": 500,
+      "completed_rate": 0.982,
+      "has_answer_rate": 0.982,
+      "median_new_tokens": 1091.0,
+      "mean_new_tokens": 1832.7,
+      "success_rate": null,
+      "quality_score": 0.5574,
+      "mean_behavior_count": 30.702
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "n_traces": 500,
+      "completed_rate": 0.994,
+      "has_answer_rate": 0.996,
+      "median_new_tokens": 1960.5,
+      "mean_new_tokens": 3500.5,
+      "success_rate": 0.736,
+      "quality_score": null,
+      "mean_behavior_count": 16.99
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "n_traces": 500,
+      "completed_rate": 0.998,
+      "has_answer_rate": 0.998,
+      "median_new_tokens": 1183.5,
+      "mean_new_tokens": 1249.7,
+      "success_rate": null,
+      "quality_score": 0.509,
+      "mean_behavior_count": 16.412
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "n_traces": 500,
+      "completed_rate": 0.85,
+      "has_answer_rate": 0.884,
+      "median_new_tokens": 3440.0,
+      "mean_new_tokens": 7817.2,
+      "success_rate": 0.276,
+      "quality_score": null,
+      "mean_behavior_count": 26.854
+    }
+  ],
+  "behavior_counts": [
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 0.2057
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "Perspective_Shift",
+      "mean_count": 0.2971
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "Question_and_Answering",
+      "mean_count": 0.0057
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "Reconciliation",
+      "mean_count": 0.0457
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "backtracking",
+      "mean_count": 0.1314
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "subgoal",
+      "mean_count": 0.0514
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 2.99
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "Perspective_Shift",
+      "mean_count": 2.97
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "Question_and_Answering",
+      "mean_count": 0.708
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "Reconciliation",
+      "mean_count": 0.406
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "backtracking",
+      "mean_count": 0.992
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "backward_chaining",
+      "mean_count": 0.028
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "subgoal",
+      "mean_count": 0.574
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "behavior": "verification",
+      "mean_count": 0.568
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 0.034
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "Perspective_Shift",
+      "mean_count": 0.148
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "Question_and_Answering",
+      "mean_count": 0.166
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "Reconciliation",
+      "mean_count": 0.092
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "backtracking",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "subgoal",
+      "mean_count": 0.58
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 0.652
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "Perspective_Shift",
+      "mean_count": 0.586
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "Question_and_Answering",
+      "mean_count": 0.346
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "Reconciliation",
+      "mean_count": 0.082
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "backtracking",
+      "mean_count": 0.116
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "subgoal",
+      "mean_count": 0.512
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "behavior": "verification",
+      "mean_count": 0.146
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 1.3086
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "Perspective_Shift",
+      "mean_count": 3.2024
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "Question_and_Answering",
+      "mean_count": 0.1383
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "Reconciliation",
+      "mean_count": 1.1543
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "backtracking",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "subgoal",
+      "mean_count": 0.5832
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 1.208
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "Perspective_Shift",
+      "mean_count": 1.548
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "Question_and_Answering",
+      "mean_count": 0.756
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "Reconciliation",
+      "mean_count": 0.174
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "backtracking",
+      "mean_count": 0.082
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "backward_chaining",
+      "mean_count": 0.066
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "subgoal",
+      "mean_count": 0.088
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "behavior": "verification",
+      "mean_count": 0.136
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 4.8743
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "Perspective_Shift",
+      "mean_count": 6.9314
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.0514
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "Reconciliation",
+      "mean_count": 3.4457
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "backtracking",
+      "mean_count": 1.0343
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0229
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "subgoal",
+      "mean_count": 1.2057
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "behavior": "verification",
+      "mean_count": 1.16
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 6.742
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "Perspective_Shift",
+      "mean_count": 7.812
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "Question_and_Answering",
+      "mean_count": 11.21
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "Reconciliation",
+      "mean_count": 4.17
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "backtracking",
+      "mean_count": 0.71
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "backward_chaining",
+      "mean_count": 0.134
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "subgoal",
+      "mean_count": 1.39
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "behavior": "verification",
+      "mean_count": 0.164
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 8.514
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "Perspective_Shift",
+      "mean_count": 14.696
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.406
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "Reconciliation",
+      "mean_count": 3.82
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "backtracking",
+      "mean_count": 9.16
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "subgoal",
+      "mean_count": 1.324
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 3.028
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "Perspective_Shift",
+      "mean_count": 4.584
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.656
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "Reconciliation",
+      "mean_count": 2.528
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "backtracking",
+      "mean_count": 0.204
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "backward_chaining",
+      "mean_count": 0.012
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "subgoal",
+      "mean_count": 2.03
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "behavior": "verification",
+      "mean_count": 0.688
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 3.536
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "Perspective_Shift",
+      "mean_count": 4.604
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "Question_and_Answering",
+      "mean_count": 4.326
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "Reconciliation",
+      "mean_count": 2.508
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "backtracking",
+      "mean_count": 0.336
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "subgoal",
+      "mean_count": 2.672
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 4.152
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "Perspective_Shift",
+      "mean_count": 4.296
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.988
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "Reconciliation",
+      "mean_count": 2.682
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "backtracking",
+      "mean_count": 0.046
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "backward_chaining",
+      "mean_count": 0.07
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "subgoal",
+      "mean_count": 0.17
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "behavior": "verification",
+      "mean_count": 0.086
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 5.56
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "Perspective_Shift",
+      "mean_count": 7.2457
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.3486
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "Reconciliation",
+      "mean_count": 3.4629
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "backtracking",
+      "mean_count": 1.5371
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0171
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "subgoal",
+      "mean_count": 0.9086
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "behavior": "verification",
+      "mean_count": 0.9771
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 8.288
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "Perspective_Shift",
+      "mean_count": 9.236
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "Question_and_Answering",
+      "mean_count": 11.826
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "Reconciliation",
+      "mean_count": 4.606
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "backtracking",
+      "mean_count": 1.198
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "backward_chaining",
+      "mean_count": 0.158
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "subgoal",
+      "mean_count": 1.08
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "behavior": "verification",
+      "mean_count": 0.124
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 11.724
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "Perspective_Shift",
+      "mean_count": 21.554
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "Question_and_Answering",
+      "mean_count": 8.726
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "Reconciliation",
+      "mean_count": 4.324
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "backtracking",
+      "mean_count": 13.686
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "subgoal",
+      "mean_count": 1.108
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 3.996
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "Perspective_Shift",
+      "mean_count": 5.444
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "Question_and_Answering",
+      "mean_count": 8.388
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "Reconciliation",
+      "mean_count": 3.024
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "backtracking",
+      "mean_count": 0.456
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "backward_chaining",
+      "mean_count": 0.012
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "subgoal",
+      "mean_count": 1.818
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "behavior": "verification",
+      "mean_count": 0.704
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 4.658
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "Perspective_Shift",
+      "mean_count": 4.898
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "Question_and_Answering",
+      "mean_count": 5.182
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "Reconciliation",
+      "mean_count": 3.026
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "backtracking",
+      "mean_count": 0.826
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "subgoal",
+      "mean_count": 1.69
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 5.486
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "Perspective_Shift",
+      "mean_count": 5.492
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "Question_and_Answering",
+      "mean_count": 8.698
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "Reconciliation",
+      "mean_count": 3.338
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "backtracking",
+      "mean_count": 0.114
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "backward_chaining",
+      "mean_count": 0.076
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "subgoal",
+      "mean_count": 0.146
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "behavior": "verification",
+      "mean_count": 0.142
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 5.4514
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "Perspective_Shift",
+      "mean_count": 7.32
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.5714
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "Reconciliation",
+      "mean_count": 3.5029
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "backtracking",
+      "mean_count": 1.2686
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0343
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "subgoal",
+      "mean_count": 1.0629
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "behavior": "verification",
+      "mean_count": 1.0057
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 7.72
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "Perspective_Shift",
+      "mean_count": 8.572
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "Question_and_Answering",
+      "mean_count": 11.558
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "Reconciliation",
+      "mean_count": 4.426
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "backtracking",
+      "mean_count": 0.916
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "backward_chaining",
+      "mean_count": 0.128
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "subgoal",
+      "mean_count": 1.12
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "behavior": "verification",
+      "mean_count": 0.176
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 11.044
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "Perspective_Shift",
+      "mean_count": 19.494
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "Question_and_Answering",
+      "mean_count": 9.798
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "Reconciliation",
+      "mean_count": 4.57
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "backtracking",
+      "mean_count": 11.772
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "subgoal",
+      "mean_count": 1.18
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 3.602
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "Perspective_Shift",
+      "mean_count": 5.07
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.96
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "Reconciliation",
+      "mean_count": 2.806
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "backtracking",
+      "mean_count": 0.322
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "backward_chaining",
+      "mean_count": 0.012
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "subgoal",
+      "mean_count": 2.0
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "behavior": "verification",
+      "mean_count": 0.75
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 4.136
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "Perspective_Shift",
+      "mean_count": 4.726
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "Question_and_Answering",
+      "mean_count": 4.818
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "Reconciliation",
+      "mean_count": 2.794
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "backtracking",
+      "mean_count": 0.528
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "subgoal",
+      "mean_count": 1.77
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 5.07
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "Perspective_Shift",
+      "mean_count": 4.918
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "Question_and_Answering",
+      "mean_count": 8.488
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "Reconciliation",
+      "mean_count": 3.152
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "backtracking",
+      "mean_count": 0.092
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "backward_chaining",
+      "mean_count": 0.066
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "subgoal",
+      "mean_count": 0.134
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "behavior": "verification",
+      "mean_count": 0.118
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 12.1771
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "Perspective_Shift",
+      "mean_count": 15.4857
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "Question_and_Answering",
+      "mean_count": 12.1086
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "Reconciliation",
+      "mean_count": 4.5943
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "backtracking",
+      "mean_count": 5.8229
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0171
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "subgoal",
+      "mean_count": 1.8457
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "behavior": "verification",
+      "mean_count": 2.6857
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 10.792
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "Perspective_Shift",
+      "mean_count": 11.172
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "Question_and_Answering",
+      "mean_count": 9.04
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "Reconciliation",
+      "mean_count": 3.566
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "backtracking",
+      "mean_count": 3.856
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "backward_chaining",
+      "mean_count": 0.098
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "subgoal",
+      "mean_count": 1.208
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "behavior": "verification",
+      "mean_count": 0.3
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 5.698
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "Perspective_Shift",
+      "mean_count": 13.664
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "Question_and_Answering",
+      "mean_count": 4.552
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "Reconciliation",
+      "mean_count": 2.05
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "backtracking",
+      "mean_count": 4.156
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "subgoal",
+      "mean_count": 0.582
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 3.216
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "Perspective_Shift",
+      "mean_count": 4.342
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "Question_and_Answering",
+      "mean_count": 4.856
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "Reconciliation",
+      "mean_count": 1.902
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "backtracking",
+      "mean_count": 0.826
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "backward_chaining",
+      "mean_count": 0.006
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "subgoal",
+      "mean_count": 1.496
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "behavior": "verification",
+      "mean_count": 0.346
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 3.622
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "Perspective_Shift",
+      "mean_count": 7.51
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "Question_and_Answering",
+      "mean_count": 2.662
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "Reconciliation",
+      "mean_count": 1.996
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "backtracking",
+      "mean_count": 0.01
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "backward_chaining",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "subgoal",
+      "mean_count": 0.612
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "behavior": "verification",
+      "mean_count": 0.0
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "Conflict_of_Perspectives",
+      "mean_count": 7.63
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "Perspective_Shift",
+      "mean_count": 6.394
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "Question_and_Answering",
+      "mean_count": 7.636
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "Reconciliation",
+      "mean_count": 3.358
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "backtracking",
+      "mean_count": 0.9
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "backward_chaining",
+      "mean_count": 0.022
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "subgoal",
+      "mean_count": 0.836
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "behavior": "verification",
+      "mean_count": 0.078
+    }
+  ]
+}

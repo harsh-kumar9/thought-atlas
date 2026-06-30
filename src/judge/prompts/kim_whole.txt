@@ -1,0 +1,20 @@
+Your task is to analyze the following text and count how many times behaviors corresponding to each of the four dimensions appear.
+**Text to Analyze:**
+{chain_of_thought}
+---
+You must output a single valid JSON object with the exact schema below and nothing else.
+{{
+"Question_and_Answering": <int>,
+"Perspective_Shift": <int>,
+"Conflict_of_Perspectives": <int>,
+"Reconciliation": <int>
+}}
+Use the following definitions:
+1. **Question and Answering** — A question is posed and later answered, as in conversations.
+(e.g., "Why...? Because...", "What if...? Then...", "How do we know? Well...", "Let's try X...? This gives us Y")
+2. **Perspective Shift** — A transition to a different idea, viewpoint, assumption, or approach, as in conversations.
+3. **Conflict of Perspectives** — Expressions of disagreement, correction, or tension with another perspective.
+(e.g., "Wait, that can't be right...", "No, actually...", "This contradicts...")
+4. **Reconciliation** — Conflicting views are integrated or resolved into a coherent synthesis.
+(e.g., "So perhaps both are true if...", "Combining these insights...", "This resolves the tension...")
+For each category, count the number of distinct times the behavior occurs in the chain of thought and return the result as integers. If none are present, use 0.

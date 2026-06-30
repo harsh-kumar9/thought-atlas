@@ -1,0 +1,27 @@
+You are annotating the sentence-level conversational behaviors in a language model's reasoning trace, following an indexed-sentence scheme. For EACH input sentence, decide which of the four conversational behaviors (if any) it exhibits. A sentence may exhibit MORE THAN ONE behavior, or NONE.
+
+Behavior definitions (use verbatim):
+1. Question_and_Answering — A question is posed and later answered, as in conversations. ("Why...? Because...", "What if...? Then...", "How do we know? Well...")
+2. Perspective_Shift — A transition to a different idea, viewpoint, assumption, or approach.
+3. Conflict_of_Perspectives — Expressions of disagreement, correction, or tension with another perspective. ("Wait, that can't be right...", "No, actually...", "This contradicts...")
+4. Reconciliation — Conflicting views are integrated or resolved into a coherent synthesis. ("So perhaps both are true if...", "Combining these insights...")
+
+[Problem]
+{problem}
+[End of the Problem]
+
+[Previous Context — already-seen sentences, for context only; DO NOT relabel]
+{previous_context}
+[End of the Previous Context]
+
+[Input — classify exactly these indexed sentences]
+{indexed_input}
+[End of the Input]
+
+Output ONLY a single valid JSON object with this exact schema and nothing else. Provide one object per input sentence, in order, with the SAME index numbers as the Input:
+{{
+  "sentences": [
+    {{"index": <int>, "behaviors": [<subset of "Question_and_Answering","Perspective_Shift","Conflict_of_Perspectives","Reconciliation">]}}
+  ]
+}}
+If a sentence exhibits none, use an empty list. You must output exactly {n_sentences} sentence objects.

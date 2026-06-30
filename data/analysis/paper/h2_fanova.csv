@@ -1,0 +1,9 @@
+behavior,overall_rate,F_between_within,assessable,note
+verification,0.12601,6.0,true,OK
+backtracking,0.06457,6.0,true,OK
+subgoal,0.05614,6.0,true,OK
+backward_chaining,0.00443,6.0,false,too rare for positional test
+Question_and_Answering,0.0267,6.0,true,OK
+Perspective_Shift,0.20499,6.0,true,OK
+Conflict_of_Perspectives,0.15382,6.0,true,OK
+Reconciliation,0.05457,6.0,true,OK

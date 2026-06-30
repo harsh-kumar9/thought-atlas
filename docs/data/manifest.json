@@ -1,0 +1,100 @@
+{
+  "project": "Thought Atlas",
+  "experiment": "society-task-exp2",
+  "source_paper": "https://arxiv.org/abs/2601.10825",
+  "bins": 24,
+  "samples_per_cell": 12,
+  "max_text_chars": 12000,
+  "models": [
+    {
+      "gen_model": "anchor",
+      "gen_model_id": "meta-llama/Llama-3.1-8B-Instruct",
+      "n_traces": 2675
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "gen_model_id": "Qwen/Qwen3.5-27B",
+      "n_traces": 2675
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "gen_model_id": "Qwen/Qwen3.5-4B",
+      "n_traces": 2675
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "gen_model_id": "Qwen/Qwen3.5-9B",
+      "n_traces": 2675
+    },
+    {
+      "gen_model": "reasoner",
+      "gen_model_id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+      "n_traces": 2675
+    }
+  ],
+  "domains": [
+    {
+      "task_type": "code",
+      "n_traces": 875
+    },
+    {
+      "task_type": "gpqa",
+      "n_traces": 2500
+    },
+    {
+      "task_type": "idea",
+      "n_traces": 2500
+    },
+    {
+      "task_type": "math",
+      "n_traces": 2500
+    },
+    {
+      "task_type": "moral",
+      "n_traces": 2500
+    },
+    {
+      "task_type": "planning",
+      "n_traces": 2500
+    }
+  ],
+  "behaviors": [
+    {
+      "key": "verification",
+      "family": "cognitive"
+    },
+    {
+      "key": "backtracking",
+      "family": "cognitive"
+    },
+    {
+      "key": "subgoal",
+      "family": "cognitive"
+    },
+    {
+      "key": "backward_chaining",
+      "family": "cognitive"
+    },
+    {
+      "key": "Question_and_Answering",
+      "family": "conversational"
+    },
+    {
+      "key": "Perspective_Shift",
+      "family": "conversational"
+    },
+    {
+      "key": "Conflict_of_Perspectives",
+      "family": "conversational"
+    },
+    {
+      "key": "Reconciliation",
+      "family": "conversational"
+    }
+  ],
+  "notes": [
+    "Raw full-fidelity traces remain in data/traces/*.parquet.",
+    "Dashboard trace text is sampled and clipped for browser performance.",
+    "Split thinking/answer token counts are estimates; n_new_tokens is the model-reported total generation length."
+  ]
+}

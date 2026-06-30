@@ -1,0 +1,66 @@
+# configs/judges/candidates.yaml — judge bake-off shortlist (verified IDs, May 2026).
+#
+# All single-card on a 96GB RTX PRO 6000 -> replicate 8x data-parallel for throughput.
+# Recommendation: prefer DENSE for a judge (no quant/kernel risk, deterministic,
+# fits bf16 on one card, replicate 8x). MoE (A3B/A4B) is faster per token but the
+# sm_120 FP4-MoE path can fall back to Marlin (~half speed) — at bf16 it's fine but
+# tighter, and its speed edge matters more for generation than a latency-tolerant
+# batch judge. gpt-oss is the reasoning-judge / escalation tier.
+#
+# Family-bias control: target generators are Llama-3.1-8B (Llama family) and
+# R1-Distill-Llama-8B (DeepSeek+Llama). Judges below are Google/Alibaba/OpenAI
+# families => cross-family coverage. Avoid making a Llama-family model the sole judge.
+
+defaults:
+  dtype: bfloat16
+  max_model_len: 16384
+  gpu_memory_utilization: 0.92
+  data_parallel_size: 4        # 4 GPUs on vega (one NUMA island); bump to 8 for whole box
+
+candidates:
+  gemma4-31b-dense:
+    model: google/gemma-4-31B-it        # VERIFY exact -it suffix on HF before pull
+    family: google
+    arch: dense
+    note: "~31B dense; ~62GB bf16 on one card; strong reasoner; default primary candidate"
+
+  qwen35-27b-dense:
+    model: Qwen/Qwen3.5-27B-Instruct     # VERIFY exact ID (27B dense, Feb 2026 medium series)
+    family: qwen
+    arch: dense
+    note: "~27B dense; ~54GB bf16; thinking/non-thinking toggle; primary candidate"
+
+  qwen35-35b-moe:
+    model: Qwen/Qwen3.5-35B-A3B-Instruct # VERIFY exact ID (35B total / 3B active MoE)
+    family: qwen
+    arch: moe
+    extra: {enable_expert_parallel: true}
+    note: "MoE 3B-active; fast; bf16 ~70GB tight on one card; grep logs for 'Marlin' if FP4"
+
+  gemma4-26b-moe:
+    model: google/gemma-4-26B-A4B-it
+    family: google
+    arch: moe
+    extra: {enable_expert_parallel: true}
+    note: "MoE 4B-active; fast, efficient long-context attention"
+
+  gpt-oss-120b:
+    model: openai/gpt-oss-120b
+    family: openai
+    arch: moe
+    note: "117B/5.1B-active, ~61GB MXFP4, one card; reasoning judge / escalation tier.
+           sm_120: use Triton attn backend (attention sinks); recent vLLM (no 'Marlin'); harmony chat template."
+
+  gpt-oss-20b:
+    model: openai/gpt-oss-20b
+    family: openai
+    arch: moe
+    note: "21B/3.6B-active, ~13GB; cheap first-pass / cascade bottom tier; many replicas"
+
+# Optional bake-off plan:
+#   1. Stratified calibration sample across (gen_model x task x section_type x failure_mode).
+#   2. Run every candidate (temp=0, guided-JSON) on the sample.
+#   3. IRR: pairwise Krippendorff alpha / Cohen kappa between candidates (per behavior);
+#      alignment: agreement vs gold labels (human and/or frontier silver reference).
+#   4. Pick the SMALLEST clearing the bar (~human-level agreement); optionally cascade
+#      cheap->big (gpt-oss-20b -> dense -> gpt-oss-120b) per Trust-or-Escalate.

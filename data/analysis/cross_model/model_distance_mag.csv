@@ -1,0 +1,11 @@
+model_a,model_b,overall_dist,cognitive_dist,conversational_dist,vs_noise_floor,top_divergences
+qwen35_27b,qwen35_4b,0.1007,0.1235,0.0836,0.7,backtracking|moral=0.3803; verification|moral=0.2948; Question_and_Answering|idea=0.2705; subgoal|planning=0.1995; verification|idea=0.1558
+qwen35_27b,anchor,0.764,0.791,0.744,5.32,verification|moral=1.9851; backtracking|moral=1.9277; Question_and_Answering|gpqa=1.8301; Question_and_Answering|math=1.6604; Question_and_Answering|planning=1.2761
+qwen35_27b,reasoner,0.2566,0.2682,0.2479,1.79,backtracking|moral=0.768; verification|moral=0.6681; Question_and_Answering|idea=0.55; Reconciliation|moral=0.5428; verification|idea=0.4851
+qwen35_27b,qwen35_9b,0.0793,0.0999,0.0638,0.55,backtracking|moral=0.2383; verification|moral=0.2003; backtracking|code=0.1982; Question_and_Answering|idea=0.1851; subgoal|planning=0.1573
+qwen35_4b,anchor,0.7611,0.7884,0.741,5.3,verification|moral=1.9795; backtracking|moral=1.8562; Question_and_Answering|gpqa=1.7832; Question_and_Answering|math=1.648; verification|idea=1.4077
+qwen35_4b,reasoner,0.2438,0.2468,0.2416,1.7,backtracking|moral=0.6983; Reconciliation|moral=0.5836; verification|idea=0.5443; verification|moral=0.4813; Conflict_of_Perspectives|idea=0.4285
+qwen35_4b,qwen35_9b,0.0558,0.0667,0.0477,0.39,verification|moral=0.1782; backtracking|moral=0.163; Question_and_Answering|idea=0.1092; Reconciliation|idea=0.0975; verification|idea=0.0896
+anchor,reasoner,0.6878,0.7194,0.6643,4.78,verification|moral=1.928; Question_and_Answering|gpqa=1.7378; Question_and_Answering|math=1.5887; backtracking|moral=1.5765; Reconciliation|code=1.2391
+anchor,qwen35_9b,0.7573,0.7788,0.7414,5.27,verification|moral=1.9888; backtracking|moral=1.8761; Question_and_Answering|gpqa=1.7931; Question_and_Answering|math=1.6742; verification|idea=1.3567
+reasoner,qwen35_9b,0.2495,0.2544,0.2458,1.74,backtracking|moral=0.758; Reconciliation|moral=0.5908; verification|moral=0.5883; verification|idea=0.512; Conflict_of_Perspectives|idea=0.4701

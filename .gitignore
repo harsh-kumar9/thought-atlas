@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+data/judge_cache/
+outputs/
+.scratch/
+wandb/
+*.log
+*.err
+.env
+.DS_Store
+.pytest_cache/
+*.egg-info/
+dashboard_data/

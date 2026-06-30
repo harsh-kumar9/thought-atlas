@@ -1,0 +1,6 @@
+Mechanism coefficients are difficulty-controlled ASSOCIATIONS, not causal effects.
+Deliberation is endogenous to within-problem difficulty; difficulty_raw controls are
+coarse (esp. math, where success is ~flat across levels for this model). A negative
+coefficient (e.g. backtracking in math) most plausibly indicates the behavior MARKS a
+trace where the model is struggling, not that the behavior CAUSES failure. Causal claims
+require intervention (behavior ablation/steering), which is future work.

@@ -1,0 +1,17 @@
+model,behavior,min_domain,max_domain,min_rate,max_rate,rate_ratio,H1_pass_gt1p5
+anchor,verification,code,gpqa,0.0,0.566,999.0,true
+anchor,backtracking,idea,gpqa,0.0,0.99,999.0,true
+anchor,subgoal,code,moral,0.051,0.591,11.5,true
+anchor,backward_chaining,code,planning,0.0,0.066,999.0,true
+anchor,Question_and_Answering,code,planning,0.006,0.748,130.9,true
+anchor,Perspective_Shift,idea,moral,0.164,3.192,19.47,true
+anchor,Conflict_of_Perspectives,idea,gpqa,0.034,2.984,87.76,true
+anchor,Reconciliation,code,moral,0.046,1.154,25.25,true
+reasoner,verification,idea,code,0.0,2.703,999.0,true
+reasoner,backtracking,moral,code,0.01,5.829,582.86,true
+reasoner,subgoal,idea,code,0.584,1.851,3.17,true
+reasoner,backward_chaining,idea,gpqa,0.0,0.098,999.0,true
+reasoner,Question_and_Answering,moral,code,2.654,12.103,4.56,true
+reasoner,Perspective_Shift,math,code,4.342,15.406,3.55,true
+reasoner,Conflict_of_Perspectives,math,code,3.214,12.16,3.78,true
+reasoner,Reconciliation,math,code,1.904,4.594,2.41,true

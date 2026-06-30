@@ -1,0 +1,22 @@
+{
+  "lme4_canonical": {
+    "Question_and_Answering": "Question_and_Answering ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb",
+    "Perspective_Shift": "Perspective_Shift ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb",
+    "Conflict_of_Perspectives": "Conflict_of_Perspectives ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb",
+    "Reconciliation": "Reconciliation ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb",
+    "verification": "verification ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb",
+    "backtracking": "backtracking ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb",
+    "subgoal": "subgoal ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb",
+    "backward_chaining": "backward_chaining ~ task_type * gen_model + (1|instance_id) + (1|seed)  # glmer.nb"
+  },
+  "gee_python": {
+    "Question_and_Answering": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723fd00cab90>",
+    "Perspective_Shift": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723ed3d33010>",
+    "Conflict_of_Perspectives": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723ed330cc90>",
+    "Reconciliation": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723f00942690>",
+    "verification": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723f01945b50>",
+    "backtracking": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723f00941850>",
+    "subgoal": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723ed331ee50>",
+    "backward_chaining": "<statsmodels.genmod.generalized_estimating_equations.GEEResultsWrapper object at 0x723f01f90f50>"
+  }
+}

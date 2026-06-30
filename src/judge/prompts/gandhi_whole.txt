@@ -1,0 +1,34 @@
+Here is a chain-of-reasoning that a Language Model generated.
+Model's reasoning:
+{chain_of_thought}
+Evaluate whether the chain-of-reasoning contains any of the following behaviors.
+1) Answer Verification
+We want to mark instances where the chain-of-reasoning explicitly checks the current result against the target solution.
+Examples:
+- "This sequence results in 1, which is not equal to 22"
+- "Since 25 is not equal to 22"
+If you find any answer-verification steps, please count them and provide the count as "verification_count". If the chain-of-reasoning does not contain any answer-verification steps, please provide a count of 0.
+2) Backtracking
+Evaluate whether the chain-of-reasoning contains any backtracking behavior, where the model realizes a path won't work and explicitly goes back to try a different approach. We want to mark instances where the chain-of-reasoning is abandoned and the model backtracks to a previous reasoning step.
+Examples:
+- "Let me try again"
+- "We need to try a different sequence"
+Count the number of distinct backtracking instances and provide the count as "backtracking_count". If the chain-of-reasoning does not contain any backtracking behavior, please provide a count of 0.
+3) Subgoal Setting
+Evaluate whether the chain-of-reasoning contains any explicit subgoal setting, where the model breaks down the problem into smaller, intermediate goals.
+Example:
+- "First, I'll try to get close to half the target, then..."
+Count the number of distinct subgoals set and provide the count as "subgoal_count". If the chain-of-reasoning does not contain any subgoal setting, please provide a count of 0.
+4) Backward-Chaining
+Evaluate whether the chain-of-reasoning contains any backward-chaining behavior, where the model starts from the target solution and works backwards to the initial problems.
+Examples:
+- "Let's work backwards from the target. 24/2 = 12. So, 12*2 = 24."
+- "Since the target is 22, and 22 + 3 = 25, ..."
+Count the number of distinct backward-chaining instances and provide the count as "backward_count". If the chain-of-reasoning does not contain any backward-chaining behavior, please provide a count of 0.
+Output ONLY a single valid JSON object with EXACTLY these keys:
+{{
+"verification_count": <int>,
+"backtracking_count": <int>,
+"subgoal_count": <int>,
+"backward_count": <int>
+}}

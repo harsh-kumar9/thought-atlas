@@ -1,0 +1,13 @@
+datasets
+huggingface_hub
+matplotlib
+numpy
+omegaconf
+pandas
+polars
+pyarrow
+pytest
+pyyaml
+scipy
+statsmodels
+sympy

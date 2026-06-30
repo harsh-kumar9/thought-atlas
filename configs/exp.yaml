@@ -1,0 +1,170 @@
+# configs/exp.yaml — master config for society-task-exp2. OmegaConf/Hydra-compatible.
+project_name: society-task-exp2
+seed: 42
+sample_seeds: [42]                       # 1 sample/problem (matches ThinkARM 1-response-per-problem)
+
+paths:
+  hf_read_cache: /grace/cache/huggingface          # shared lab cache (read)
+  hf_write_cache: /ada1/u/harsh/.cache/huggingface  # personal downloads (write)
+  data_root: /ada1/u/harsh/society-task-exp2/data
+  local_scratch: /vega/u/harsh/sote                 # stage hot data here on the box
+  outputs_root: /ada1/u/harsh/society-task-exp2/outputs
+
+# ---------------- Generation models (cross-model contrast) ----------------
+gen_models:
+  reasoner:                       # existing
+    hf_id: deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: r1            # <-- add (defaults to r1 if kind=reasoning, but be explicit)
+  anchor:
+    hf_id: meta-llama/Llama-3.1-8B-Instruct
+    kind: non_reasoning
+    analysis_source: answer_text
+    thinking_style: none          # <-- add
+  gemma4_e4b:
+    hf_id: google/gemma-4-E4B-it
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: gemma4
+  gemma4_12b:
+    hf_id: google/gemma-4-12B-it
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: gemma4
+  gemma4_31b:
+    hf_id: google/gemma-4-31B-it
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: gemma4
+  qwen35_4b:
+    hf_id: Qwen/Qwen3.5-4B
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: qwen35
+  qwen35_9b:
+    hf_id: Qwen/Qwen3.5-9B
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: qwen35
+  qwen35_27b:
+    hf_id: Qwen/Qwen3.5-27B
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: qwen35
+    max_num_seqs: 128          # ADD: 27B GDN Mamba-cache cap (had only 418 blocks; default 1024 fails)
+    gpu_memory_utilization: 0.90        # more cache room for the GDN blocks
+
+generation:
+  backend: vllm
+  data_parallel_size: 4          # 4 GPUs = one NUMA island on vega
+  dtype: bfloat16
+  max_model_len: 65536
+  decode:                        # shared decoding across models (don't confound)
+    temperature: 0.6
+    top_p: 0.95
+    top_k: 20
+    max_new_tokens_reasoning: 65536
+    max_new_tokens_anchor: 4096
+  gpu_memory_utilization: 0.80
+  max_num_batched_tokens: 4096
+  # failure handling: keep first-attempt, characterize post-hoc (exp1 lesson; no retries)
+
+# ---------------- Tasks (6 domains; reasoning-mode axis) ----------------
+# Performance: mechanical for math/code/planning/gpqa; judge-scored for moral/idea.
+# N is uneven by design (GPQA Diamond is small + pedigreed); fine for the between-domain GLMM.
+tasks:
+  math:                          # deductive
+    hf_id: HuggingFaceH4/MATH-500
+    n_instances: 500
+    strata_field: level
+    perf: math_correctness
+  code:                          # procedural
+    hf_id: livecodebench/code_generation_lite
+    source_files: ["test6.jsonl"]  # most recent window (all 2025) = cleanest vs 2024-era models
+    post_date: "2025-01-01"
+    n_instances: 175             # test6 ceiling; older files = contamination risk, kept out by design
+    strata_field: difficulty
+    perf: code_execution
+  moral:                         # normative (judge-scored)
+    hf_id: morebench/morebench
+    config_name: morebench_public
+    n_instances: 500
+    strata_field: dilemma_type
+    perf: moral_rubric
+  planning:                      # planning — ACPBench MCQ, pooled across 5 competencies
+    hf_id: ibm/acp_bench
+    acp_configs: [acp_reach_mcq, acp_prog_mcq, acp_app_mcq, acp_val_mcq, acp_land_mcq]
+    n_instances: 500             # stratified by competency `group`
+    strata_field: group
+    perf: mcq_accuracy
+  gpqa:                          # hard science (4-way MCQ; 8B FLOORS — analyze structure, not correctness)
+    hf_id: Idavidrein/gpqa
+    primary_config: gpqa_diamond # all 198 Diamond...
+    fill_config: gpqa_extended   # ...topped to 500 from extended MINUS Diamond Record IDs (gated dataset)
+    n_instances: 500
+    strata_field: high_level_domain
+    perf: mcq_accuracy
+  idea:                          # abductive/divergent — LiveIdeaBench (judge-scored originality+feasibility)
+    hf_id: 6cf/LiveIdeaBench
+    n_instances: 500             # unique keywords (1180 available)
+    strata_field: null
+    perf: idea_rubric
+
+# ---------------- Segmentation (ThinkARM, deterministic) ----------------
+segmentation:
+  method: thinkarm_sentence       # vendored byte-identical splitter
+  min_segments_for_temporal: 10   # token floor handled in analysis (ThinkARM uses >=300 tok)
+  semantic_moves: false           # robustness layer; off by default (judge-dependent)
+
+# ---------------- Judge ----------------
+judge:
+  backend: vllm
+  max_model_len: 65536            # judge supports 262144; traces cap at 32K so a full-context prompt
+                                  # (problem + all prior sentences + batch + output) maxes ~35K. 64K
+                                  # holds every trace untruncated with headroom; the guard never fires.
+                                  # NOT set to 262144: KV-cache scales with this, crushing batch
+                                  # concurrency / risking alloc-fail next to 31B weights. 64K is the
+                                  # smallest value that guarantees zero truncation here.
+  max_num_seqs: 256               # cap batch concurrency; hybrid-Mamba judges (Qwen3.6) limit Mamba cache blocks
+  candidates_config: configs/judges/candidates.yaml
+  production_model: google/gemma-4-31B-it   # single judge for v1; add cross-family IRR as robustness later
+  jury: []                        # optional: 2-3 cross-family ids to aggregate
+  temperature: 0
+  guided_json: true
+  passes:
+    aggregate: true               # Track A: whole-trace verbatim Kim+Gandhi counts (cheap; run on ALL)
+    per_sentence_full_context: true   # Track B pass-1
+    per_sentence_isolated: true       # Track B pass-2 (context-dependence)
+    cross_judge_fraction: 0.15        # Track B pass-3 (sample)
+  # Track B labels every sentence x 2 taxonomies x 2 context modes -> the expensive pass.
+  # At 500/domain this is millions of calls. Pilot on a stratified subset, lock the judge,
+  # THEN scale Track B to all. null = no cap (full run). Set e.g. 100 for the pilot.
+  track_b_pilot_per_domain: 100
+  batch_size_sentences: 20        # ThinkARM convention
+  prompts:
+    kim_whole: src/judge/prompts/kim_whole.txt
+    gandhi_whole: src/judge/prompts/gandhi_whole.txt
+    kim_per_sentence: src/judge/prompts/kim_per_sentence.txt
+    gandhi_per_sentence: src/judge/prompts/gandhi_per_sentence.txt
+
+bakeoff:
+  calibration_n_per_cell: 10      # per (gen_model x task x section_type)
+  irr_metric: krippendorff_alpha  # also report Cohen kappa pairwise
+  reliability_bar: 0.6            # alpha; document as reliability not validity
+
+# ---------------- Analysis ----------------
+analysis:
+  glmm:
+    counts_family: negative_binomial
+    presence_family: binomial
+    formula: "outcome ~ domain * model * artifact_type + (1|problem_id) + (1|instance_seed)"
+  heartbeat:
+    n_position_bins: 20
+    functional_anova: true
+    min_tokens: 300
+  hmm:
+    regime_ranges: {math: [3,5], code: [2,4], moral: [2,4], planning: [3,5], gpqa: [3,5], idea: [2,4]}
+    selection: bic
+  null_model:
+    shuffle_within_trace: true

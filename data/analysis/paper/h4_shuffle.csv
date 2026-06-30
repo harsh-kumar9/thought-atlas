@@ -1,0 +1,9 @@
+behavior,obs_var,null_mean,p_perm,structured
+verification,0.000695,5e-6,0.002,true
+backtracking,0.000173,4e-6,0.002,true
+subgoal,0.000597,6e-6,0.002,true
+backward_chaining,1e-6,0.0,0.002,false
+Question_and_Answering,0.000127,1e-6,0.002,true
+Perspective_Shift,0.00127,7e-6,0.002,true
+Conflict_of_Perspectives,0.001123,0.000014,0.002,true
+Reconciliation,0.000366,1e-6,0.002,true

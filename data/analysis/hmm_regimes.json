@@ -1,0 +1,80 @@
+{
+  "idea": {
+    "task_type": "idea",
+    "selected": {
+      "k": 4,
+      "bic": 140173.23409421084,
+      "loglik": -69828.98340369147
+    },
+    "k_range": [
+      2,
+      4
+    ],
+    "n_seqs": 1000
+  },
+  "math": {
+    "task_type": "math",
+    "selected": {
+      "k": 4,
+      "bic": 200579.89789134267,
+      "loglik": -100021.87247495432
+    },
+    "k_range": [
+      3,
+      5
+    ],
+    "n_seqs": 946
+  },
+  "moral": {
+    "task_type": "moral",
+    "selected": {
+      "k": 4,
+      "bic": 109760.02379687014,
+      "loglik": -54649.53612875295
+    },
+    "k_range": [
+      2,
+      4
+    ],
+    "n_seqs": 994
+  },
+  "code": {
+    "task_type": "code",
+    "selected": {
+      "k": 4,
+      "bic": 345997.7551155327,
+      "loglik": -172722.05489596285
+    },
+    "k_range": [
+      2,
+      4
+    ],
+    "n_seqs": 350
+  },
+  "gpqa": {
+    "task_type": "gpqa",
+    "selected": {
+      "k": 5,
+      "bic": 458877.2379214205,
+      "loglik": -229052.80932121948
+    },
+    "k_range": [
+      3,
+      5
+    ],
+    "n_seqs": 999
+  },
+  "planning": {
+    "task_type": "planning",
+    "selected": {
+      "k": 5,
+      "bic": 594283.9396085101,
+      "loglik": -296746.9099155597
+    },
+    "k_range": [
+      3,
+      5
+    ],
+    "n_seqs": 1000
+  }
+}

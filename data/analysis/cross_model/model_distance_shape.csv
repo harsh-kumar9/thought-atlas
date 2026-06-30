@@ -1,0 +1,11 @@
+model_a,model_b,overall_dist,cognitive_dist,conversational_dist,vs_noise_floor,top_divergences
+qwen35_9b,qwen35_4b,0.0224,0.0188,0.0252,0.44,subgoal|code=0.1036; Reconciliation|planning=0.0846; Reconciliation|code=0.0565; Perspective_Shift|planning=0.0475; Conflict_of_Perspectives|planning=0.0458
+qwen35_9b,reasoner,0.2137,0.1916,0.2302,4.21,Conflict_of_Perspectives|planning=0.7804; verification|idea=0.6214; subgoal|code=0.4828; subgoal|moral=0.4623; Reconciliation|planning=0.437
+qwen35_9b,qwen35_27b,0.0308,0.0225,0.037,0.61,Conflict_of_Perspectives|planning=0.3551; Reconciliation|planning=0.0896; Question_and_Answering|idea=0.0884; Perspective_Shift|code=0.0746; verification|code=0.0636
+qwen35_9b,anchor,0.4004,0.3828,0.4135,7.88,Question_and_Answering|gpqa=0.9459; Conflict_of_Perspectives|planning=0.8951; verification|idea=0.8208; backtracking|planning=0.8177; backtracking|gpqa=0.7519
+qwen35_4b,reasoner,0.2204,0.2013,0.2347,4.34,Conflict_of_Perspectives|planning=0.6994; verification|idea=0.6163; subgoal|code=0.518; Perspective_Shift|gpqa=0.4881; subgoal|moral=0.4654
+qwen35_4b,qwen35_27b,0.0471,0.0309,0.0593,0.93,Conflict_of_Perspectives|planning=0.2997; Reconciliation|planning=0.2216; Question_and_Answering|idea=0.1957; subgoal|code=0.134; Perspective_Shift|planning=0.1249
+qwen35_4b,anchor,0.4134,0.4066,0.4184,8.14,Conflict_of_Perspectives|planning=0.9427; Question_and_Answering|gpqa=0.9272; backtracking|planning=0.8586; verification|idea=0.8221; Reconciliation|code=0.8215
+reasoner,qwen35_27b,0.1934,0.1751,0.2071,3.81,verification|idea=0.4969; subgoal|code=0.4277; subgoal|moral=0.407; Conflict_of_Perspectives|idea=0.4023; Question_and_Answering|idea=0.3527
+reasoner,anchor,0.2916,0.324,0.2677,5.74,Reconciliation|code=0.7645; subgoal|code=0.6715; subgoal|idea=0.6314; verification|moral=0.6044; Question_and_Answering|gpqa=0.6025
+qwen35_27b,anchor,0.3994,0.3932,0.404,7.86,Question_and_Answering|gpqa=0.9537; Perspective_Shift|code=0.7806; Reconciliation|code=0.7716; backtracking|planning=0.7621; verification|idea=0.7252

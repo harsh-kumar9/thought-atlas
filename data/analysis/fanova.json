@@ -1,0 +1,42 @@
+{
+  "Question_and_Answering": {
+    "behavior": "Question_and_Answering",
+    "fanova_stat": 12.26717006758233,
+    "p_value": 0.0
+  },
+  "Perspective_Shift": {
+    "behavior": "Perspective_Shift",
+    "fanova_stat": 111.29858685279756,
+    "p_value": 0.0
+  },
+  "Conflict_of_Perspectives": {
+    "behavior": "Conflict_of_Perspectives",
+    "fanova_stat": 33.082092073389425,
+    "p_value": 0.0
+  },
+  "Reconciliation": {
+    "behavior": "Reconciliation",
+    "fanova_stat": 53.96333015453361,
+    "p_value": 0.0
+  },
+  "verification": {
+    "behavior": "verification",
+    "fanova_stat": 153.46565235693515,
+    "p_value": 0.0
+  },
+  "backtracking": {
+    "behavior": "backtracking",
+    "fanova_stat": 9.580918149060105,
+    "p_value": 0.0
+  },
+  "subgoal": {
+    "behavior": "subgoal",
+    "fanova_stat": 66.62049299952922,
+    "p_value": 0.0
+  },
+  "backward_chaining": {
+    "behavior": "backward_chaining",
+    "fanova_stat": 0.8194535379171424,
+    "p_value": 0.0
+  }
+}

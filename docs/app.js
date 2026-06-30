@@ -31,9 +31,12 @@ const OUTCOME_GROUPS = {
   unknown: { label: "Unknown outcome", outcomes: ["unknown"] },
 };
 
-const LANE_COLORS = {
-  a: { line: "#137a3f", band: "rgba(19, 122, 63, 0.13)" },
-  b: { line: "#cf3f36", band: "rgba(207, 63, 54, 0.13)" },
+const MODEL_COLORS = {
+  anchor: "#64748b",
+  qwen35_4b: "#0891b2",
+  qwen35_9b: "#7c3aed",
+  qwen35_27b: "#d97706",
+  reasoner: "#2563eb",
 };
 
 const state = {
@@ -258,11 +261,23 @@ function renderAll() {
 
 function renderComparison() {
   const progress = state.bin / (store.manifest.bins - 1);
+  const styleA = laneStyle("a");
+  const styleB = laneStyle("b");
+  document.documentElement.style.setProperty("--lane-a-color", styleA.line);
+  document.documentElement.style.setProperty("--lane-b-color", styleB.line);
   $("progressPct").textContent = `${Math.round(progress * 100)}%`;
   $("comparisonSubtitle").textContent = `${state.behaviors.size} behavior${state.behaviors.size === 1 ? "" : "s"} at ${Math.round(progress * 100)}% through trace`;
   $("laneReadout").innerHTML = `
-    <div class="lane-chip a"><strong>${laneTitle("a")}</strong><span>${OUTCOME_GROUPS[state.outcomeA].label}</span></div>
-    <div class="lane-chip b"><strong>${laneTitle("b")}</strong><span>${OUTCOME_GROUPS[state.outcomeB].label}</span></div>
+    <div class="lane-chip a" style="border-left-color:${styleA.line}">
+      <strong><i class="model-dot" style="background:${styleA.line}"></i>${modelLabel(state.modelA)}</strong>
+      <span>${titleCase(state.domainA)}</span>
+      <em class="outcome-chip ${outcomeTone(state.outcomeA)}">${OUTCOME_GROUPS[state.outcomeA].label}</em>
+    </div>
+    <div class="lane-chip b" style="border-left-color:${styleB.line}">
+      <strong><i class="model-dot" style="background:${styleB.line}"></i>${modelLabel(state.modelB)}</strong>
+      <span>${titleCase(state.domainB)}</span>
+      <em class="outcome-chip ${outcomeTone(state.outcomeB)}">${OUTCOME_GROUPS[state.outcomeB].label}</em>
+    </div>
   `;
 
   const behaviors = [...state.behaviors];
@@ -291,7 +306,7 @@ function renderComparison() {
     card.innerHTML = `
       <div class="mini-chart-head">
         <div><h3>${titleCase(behavior)}</h3><small>${titleCase(familyFor(behavior))}</small></div>
-        <span class="delta-pill">${signedPct(delta)}</span>
+        <span class="delta-pill ${delta >= 0 ? "delta-up" : "delta-down"}">${signedPct(delta)}</span>
       </div>
       <svg role="img" aria-label="${titleCase(behavior)} trajectory comparison"></svg>
     `;
@@ -333,7 +348,7 @@ function renderInspector() {
     ["Early delta (0-40%)", signedPct(earlyA - earlyB)],
     ["Late delta (60-100%)", signedPct(lateA - lateB)],
   ]
-    .map(([label, value]) => `<div class="delta-fact"><span>${label}</span><strong class="${value.startsWith("-") ? "negative" : "positive"}">${value}</strong></div>`)
+    .map(([label, value]) => `<div class="delta-fact"><span>${label}</span><strong class="${value.startsWith("-") ? "delta-down" : "delta-up"}">${value}</strong></div>`)
     .join("");
 
   renderSampleInspector(behavior);
@@ -371,6 +386,8 @@ function sampleCard(trace, lane, behavior) {
 }
 
 function drawMiniChart(svg, curveA, curveB) {
+  const styleA = laneStyle("a");
+  const styleB = laneStyle("b");
   const width = 300;
   const height = 165;
   const margin = { top: 12, right: 12, bottom: 25, left: 34 };
@@ -385,10 +402,10 @@ function drawMiniChart(svg, curveA, curveB) {
   svg.innerHTML = "";
   drawMiniGrid(svg, width, height, margin, plotW, plotH, maxY, x);
   drawBoundary(svg, curveA.boundary, curveB.boundary, x, margin, plotH);
-  drawBand(svg, curveA.values, x, y, LANE_COLORS.a.band);
-  drawBand(svg, curveB.values, x, y, LANE_COLORS.b.band);
-  drawLine(svg, curveA.values, x, y, LANE_COLORS.a.line, false);
-  drawLine(svg, curveB.values, x, y, LANE_COLORS.b.line, true);
+  drawBand(svg, curveA.values, x, y, styleA.band);
+  drawBand(svg, curveB.values, x, y, styleB.band);
+  drawLine(svg, curveA.values, x, y, styleA.line, false);
+  drawLine(svg, curveB.values, x, y, styleB.line, true);
 
   const scrubX = x(state.bin);
   svg.appendChild(svgEl("line", {
@@ -408,7 +425,7 @@ function drawMiniChart(svg, curveA, curveB) {
       cx: scrubX,
       cy: y(point.freq || 0),
       r: "3.2",
-      fill: idx === 0 ? LANE_COLORS.a.line : LANE_COLORS.b.line,
+      fill: idx === 0 ? styleA.line : styleB.line,
       stroke: "#fff",
       "stroke-width": "1.4",
     }));
@@ -516,6 +533,31 @@ function laneConfig(laneKey) {
   return laneKey === "a"
     ? { model: state.modelA, domain: state.domainA, outcome: state.outcomeA }
     : { model: state.modelB, domain: state.domainB, outcome: state.outcomeB };
+}
+
+function laneStyle(laneKey) {
+  const lane = laneConfig(laneKey);
+  const line = colorForModel(lane.model);
+  return { line, band: alphaColor(line, 0.13) };
+}
+
+function colorForModel(model) {
+  return MODEL_COLORS[model] || "#334155";
+}
+
+function alphaColor(hex, alpha) {
+  const clean = hex.replace("#", "");
+  const r = parseInt(clean.slice(0, 2), 16);
+  const g = parseInt(clean.slice(2, 4), 16);
+  const b = parseInt(clean.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function outcomeTone(outcomeKey) {
+  if (["positive", "solved", "high_quality"].includes(outcomeKey)) return "good";
+  if (["negative", "failed", "low_quality"].includes(outcomeKey)) return "bad";
+  if (outcomeKey === "unknown") return "unknown";
+  return "mixed";
 }
 
 function laneTitle(laneKey) {

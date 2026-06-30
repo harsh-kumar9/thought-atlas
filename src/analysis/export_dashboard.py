@@ -15,6 +15,8 @@ from typing import Any
 
 import polars as pl
 
+from src.segment.thinkarm_vendored import process_response_to_sentences
+
 
 KIM = [
     "Question_and_Answering",
@@ -124,6 +126,44 @@ def clipped(text: str | None, max_chars: int) -> dict[str, Any]:
     }
 
 
+def segment_annotations(
+    full_text: str | None,
+    labels_by_idx: dict[int, list[str]],
+    *,
+    max_items: int = 80,
+    max_chars: int = 260,
+) -> list[dict[str, Any]]:
+    """Reconstruct sampled sentence labels for raw-text inspection.
+
+    The judge output stores behavior labels by segment index. The dashboard export
+    keeps this compact by reconstructing sentence text only for sampled traces.
+    """
+    if not labels_by_idx:
+        return []
+    segments = process_response_to_sentences(full_text or "", apply_merging=True)
+    n = len(segments)
+    rows = []
+    for idx, seg in enumerate(segments):
+        behaviors = labels_by_idx.get(idx)
+        if not behaviors:
+            continue
+        text = seg.get("sentence") or ""
+        if len(text) > max_chars:
+            text = text[:max_chars] + "..."
+        rows.append(
+            {
+                "seg_idx": idx,
+                "norm_pos": (idx / (n - 1)) if n > 1 else 0.0,
+                "section_type": seg.get("type"),
+                "text": text,
+                "behaviors": behaviors,
+            }
+        )
+        if len(rows) >= max_items:
+            break
+    return rows
+
+
 def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespace) -> None:
     models = (
         traces.group_by(["gen_model", "gen_model_id"])
@@ -224,12 +264,30 @@ def export_heartbeat(
             .select(["gen_model", "task_type", "outcome", "behavior", "bin", "freq", "n_segments", "n_traces"])
         )
     heartbeat = pl.concat(parts).sort(["gen_model", "task_type", "outcome", "behavior", "bin"])
-    write_json(out_dir / "heartbeat.json", {"bins": bins, "curves": heartbeat.to_dicts()})
+    boundaries = (
+        track_b.filter(pl.col("section_type") == "answer")
+        .group_by("trace_id")
+        .agg(pl.col("norm_pos").min().alias("answer_start"))
+        .join(meta, on="trace_id", how="inner")
+        .group_by(["gen_model", "task_type", "outcome"])
+        .agg(
+            pl.col("answer_start").quantile(0.25).round(5).alias("q25"),
+            pl.col("answer_start").median().round(5).alias("median"),
+            pl.col("answer_start").quantile(0.75).round(5).alias("q75"),
+            pl.len().alias("n_traces"),
+        )
+        .sort(["gen_model", "task_type", "outcome"])
+    )
+    write_json(
+        out_dir / "heartbeat.json",
+        {"bins": bins, "curves": heartbeat.to_dicts(), "answer_boundaries": boundaries.to_dicts()},
+    )
 
 
 def export_trace_samples(
     with_outcomes: pl.DataFrame,
     track_a: pl.DataFrame,
+    track_b: pl.DataFrame,
     out_dir: Path,
     samples_per_cell: int,
     max_text_chars: int,
@@ -238,37 +296,55 @@ def export_trace_samples(
         r["trace_id"]: {b: r.get(b, 0) for b in BEHAVIORS}
         for r in track_a.select(["trace_id"] + [b for b in BEHAVIORS if b in track_a.columns]).to_dicts()
     }
-    rows = []
+    sample_records = []
     for model in sorted(with_outcomes["gen_model"].unique().to_list()):
         for domain in DOMAINS:
             sub = with_outcomes.filter((pl.col("gen_model") == model) & (pl.col("task_type") == domain))
             if sub.height == 0:
                 continue
             sample = sub.sort("trace_id").head(samples_per_cell)
-            for r in sample.iter_rows(named=True):
-                think = clipped(r.get("think_text"), max_text_chars)
-                answer = clipped(r.get("answer_text"), max_text_chars)
-                prompt = clipped(r.get("prompt"), max_text_chars // 2)
-                rows.append(
-                    {
-                        "trace_id": r["trace_id"],
-                        "gen_model": r["gen_model"],
-                        "gen_model_id": r.get("gen_model_id"),
-                        "task_type": r["task_type"],
-                        "outcome": r.get("outcome"),
-                        "instance_id": r.get("instance_id"),
-                        "completed": r.get("completed"),
-                        "finish_reason": r.get("finish_reason"),
-                        "failure_mode": r.get("failure_mode"),
-                        "n_new_tokens": r.get("n_new_tokens"),
-                        "success": r.get("success"),
-                        "quality_score": r.get("quality_score"),
-                        "prompt": prompt,
-                        "thinking": think,
-                        "answer": answer,
-                        "behavior_counts": counts.get(r["trace_id"], {}),
-                    }
-                )
+            sample_records.extend(sample.iter_rows(named=True))
+
+    label_cols = [b for b in BEHAVIORS if b in track_b.columns]
+    sample_ids = [r["trace_id"] for r in sample_records]
+    labels_by_trace: dict[str, dict[int, list[str]]] = {}
+    if sample_ids and label_cols and track_b.height:
+        label_rows = (
+            track_b.filter(pl.col("trace_id").is_in(sample_ids))
+            .select(["trace_id", "seg_idx"] + label_cols)
+            .to_dicts()
+        )
+        for row in label_rows:
+            labels = [b for b in label_cols if row.get(b)]
+            if labels:
+                labels_by_trace.setdefault(row["trace_id"], {})[int(row["seg_idx"])] = labels
+
+    rows = []
+    for r in sample_records:
+        think = clipped(r.get("think_text"), max_text_chars)
+        answer = clipped(r.get("answer_text"), max_text_chars)
+        prompt = clipped(r.get("prompt"), max_text_chars // 2)
+        rows.append(
+            {
+                "trace_id": r["trace_id"],
+                "gen_model": r["gen_model"],
+                "gen_model_id": r.get("gen_model_id"),
+                "task_type": r["task_type"],
+                "outcome": r.get("outcome"),
+                "instance_id": r.get("instance_id"),
+                "completed": r.get("completed"),
+                "finish_reason": r.get("finish_reason"),
+                "failure_mode": r.get("failure_mode"),
+                "n_new_tokens": r.get("n_new_tokens"),
+                "success": r.get("success"),
+                "quality_score": r.get("quality_score"),
+                "prompt": prompt,
+                "thinking": think,
+                "answer": answer,
+                "behavior_counts": counts.get(r["trace_id"], {}),
+                "annotations": segment_annotations(r.get("full_text"), labels_by_trace.get(r["trace_id"], {})),
+            }
+        )
     write_json(out_dir / "trace_samples.json", {"traces": rows})
 
 
@@ -311,7 +387,7 @@ def main() -> int:
     export_manifest(traces, out_dir, args)
     export_summary(traces, track_a, with_outcomes, out_dir)
     export_heartbeat(track_b, with_outcomes, out_dir, args.bins)
-    export_trace_samples(with_outcomes, track_a, out_dir, args.samples_per_cell, args.max_text_chars)
+    export_trace_samples(with_outcomes, track_a, track_b, out_dir, args.samples_per_cell, args.max_text_chars)
     export_distances(Path(args.distance_dir), out_dir)
     print(f"dashboard data -> {out_dir}")
     return 0

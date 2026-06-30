@@ -107521,5 +107521,511 @@
       "n_segments": 841,
       "n_traces": 138
     }
+  ],
+  "answer_boundaries": [
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "outcome": "failed",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 155
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "code",
+      "outcome": "solved",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 20
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "outcome": "failed",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 361
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "gpqa",
+      "outcome": "solved",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 139
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "outcome": "high_quality",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 343
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "idea",
+      "outcome": "low_quality",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 157
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "outcome": "failed",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 446
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "math",
+      "outcome": "solved",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 54
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "outcome": "high_quality",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 326
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "moral",
+      "outcome": "low_quality",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 173
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "outcome": "failed",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 289
+    },
+    {
+      "gen_model": "anchor",
+      "task_type": "planning",
+      "outcome": "solved",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 211
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "outcome": "failed",
+      "q25": 0.58182,
+      "median": 0.87184,
+      "q75": 0.95794,
+      "n_traces": 101
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "code",
+      "outcome": "solved",
+      "q25": 0.82614,
+      "median": 0.91056,
+      "q75": 0.96124,
+      "n_traces": 74
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "outcome": "failed",
+      "q25": 0.94238,
+      "median": 0.97056,
+      "q75": 0.98409,
+      "n_traces": 110
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "gpqa",
+      "outcome": "solved",
+      "q25": 0.92696,
+      "median": 0.95152,
+      "q75": 0.9705,
+      "n_traces": 390
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "idea",
+      "outcome": "unknown",
+      "q25": 0.93454,
+      "median": 0.95171,
+      "q75": 0.96419,
+      "n_traces": 500
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "outcome": "failed",
+      "q25": 0.88132,
+      "median": 0.93215,
+      "q75": 0.96524,
+      "n_traces": 483
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "math",
+      "outcome": "solved",
+      "q25": 0.93916,
+      "median": 0.96274,
+      "q75": 0.97089,
+      "n_traces": 17
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "moral",
+      "outcome": "unknown",
+      "q25": 0.57551,
+      "median": 0.62671,
+      "q75": 0.68105,
+      "n_traces": 500
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "outcome": "failed",
+      "q25": 0.89258,
+      "median": 0.92096,
+      "q75": 0.94823,
+      "n_traces": 115
+    },
+    {
+      "gen_model": "qwen35_27b",
+      "task_type": "planning",
+      "outcome": "solved",
+      "q25": 0.89687,
+      "median": 0.92149,
+      "q75": 0.94353,
+      "n_traces": 385
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "outcome": "failed",
+      "q25": 0.62132,
+      "median": 0.84593,
+      "q75": 0.93878,
+      "n_traces": 114
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "outcome": "solved",
+      "q25": 0.84458,
+      "median": 0.9063,
+      "q75": 0.95576,
+      "n_traces": 61
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "outcome": "failed",
+      "q25": 0.93059,
+      "median": 0.97292,
+      "q75": 0.98413,
+      "n_traces": 147
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "outcome": "solved",
+      "q25": 0.95052,
+      "median": 0.96938,
+      "q75": 0.97957,
+      "n_traces": 353
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "outcome": "unknown",
+      "q25": 0.94485,
+      "median": 0.95883,
+      "q75": 0.96858,
+      "n_traces": 500
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "outcome": "failed",
+      "q25": 0.90365,
+      "median": 0.94335,
+      "q75": 0.97007,
+      "n_traces": 472
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "outcome": "solved",
+      "q25": 0.94671,
+      "median": 0.96258,
+      "q75": 0.97592,
+      "n_traces": 28
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "outcome": "unknown",
+      "q25": 0.64414,
+      "median": 0.71803,
+      "q75": 0.79272,
+      "n_traces": 500
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "outcome": "failed",
+      "q25": 0.916,
+      "median": 0.94916,
+      "q75": 0.96208,
+      "n_traces": 198
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "outcome": "solved",
+      "q25": 0.91995,
+      "median": 0.9447,
+      "q75": 0.96165,
+      "n_traces": 302
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "outcome": "failed",
+      "q25": 0.58929,
+      "median": 0.90038,
+      "q75": 0.96823,
+      "n_traces": 105
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "code",
+      "outcome": "solved",
+      "q25": 0.85586,
+      "median": 0.91182,
+      "q75": 0.95137,
+      "n_traces": 70
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "outcome": "failed",
+      "q25": 0.9498,
+      "median": 0.97269,
+      "q75": 0.98446,
+      "n_traces": 131
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "gpqa",
+      "outcome": "solved",
+      "q25": 0.94289,
+      "median": 0.96189,
+      "q75": 0.97794,
+      "n_traces": 369
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "idea",
+      "outcome": "unknown",
+      "q25": 0.94763,
+      "median": 0.96057,
+      "q75": 0.96941,
+      "n_traces": 500
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "outcome": "failed",
+      "q25": 0.88889,
+      "median": 0.93784,
+      "q75": 0.96612,
+      "n_traces": 473
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "math",
+      "outcome": "solved",
+      "q25": 0.94419,
+      "median": 0.96188,
+      "q75": 0.97489,
+      "n_traces": 27
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "moral",
+      "outcome": "unknown",
+      "q25": 0.6203,
+      "median": 0.67658,
+      "q75": 0.74644,
+      "n_traces": 500
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "outcome": "failed",
+      "q25": 0.91154,
+      "median": 0.93404,
+      "q75": 0.95668,
+      "n_traces": 176
+    },
+    {
+      "gen_model": "qwen35_9b",
+      "task_type": "planning",
+      "outcome": "solved",
+      "q25": 0.91399,
+      "median": 0.94069,
+      "q75": 0.95677,
+      "n_traces": 324
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "outcome": "failed",
+      "q25": 0.84632,
+      "median": 0.95419,
+      "q75": 0.96682,
+      "n_traces": 142
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "code",
+      "outcome": "solved",
+      "q25": 0.8835,
+      "median": 0.92969,
+      "q75": 0.9546,
+      "n_traces": 33
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "outcome": "failed",
+      "q25": 0.95136,
+      "median": 0.97327,
+      "q75": 0.98565,
+      "n_traces": 272
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "gpqa",
+      "outcome": "solved",
+      "q25": 0.93939,
+      "median": 0.96859,
+      "q75": 0.98396,
+      "n_traces": 228
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "outcome": "high_quality",
+      "q25": 0.78685,
+      "median": 0.843,
+      "q75": 0.89298,
+      "n_traces": 344
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "outcome": "low_quality",
+      "q25": 0.77251,
+      "median": 0.82759,
+      "q75": 0.87199,
+      "n_traces": 147
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "idea",
+      "outcome": "unknown",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 9
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "outcome": "failed",
+      "q25": 0.5,
+      "median": 0.90327,
+      "q75": 0.96536,
+      "n_traces": 132
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "math",
+      "outcome": "solved",
+      "q25": 0.58333,
+      "median": 0.8914,
+      "q75": 0.93902,
+      "n_traces": 368
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "outcome": "high_quality",
+      "q25": 0.75081,
+      "median": 0.79167,
+      "q75": 0.81748,
+      "n_traces": 178
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "outcome": "low_quality",
+      "q25": 0.75676,
+      "median": 0.7963,
+      "q75": 0.85,
+      "n_traces": 321
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "moral",
+      "outcome": "unknown",
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "n_traces": 1
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "outcome": "failed",
+      "q25": 0.8651,
+      "median": 0.97803,
+      "q75": 0.99164,
+      "n_traces": 362
+    },
+    {
+      "gen_model": "reasoner",
+      "task_type": "planning",
+      "outcome": "solved",
+      "q25": 0.94327,
+      "median": 0.98062,
+      "q75": 0.99267,
+      "n_traces": 138
+    }
   ]
 }

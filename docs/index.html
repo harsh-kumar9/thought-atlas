@@ -10,82 +10,80 @@
   <body>
     <header class="topbar">
       <div class="brand">
-        <button class="icon-button" id="toggleFilters" aria-label="Toggle filters">
+        <button class="icon-button" id="toggleControls" aria-label="Toggle controls">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
         </button>
         <div class="mark" aria-hidden="true">
           <svg viewBox="0 0 32 32"><path d="M16 3v26M3 16h26M7.5 7.5l17 17M24.5 7.5l-17 17" /><circle cx="16" cy="16" r="8.5" /></svg>
         </div>
-        <h1>Thought Atlas</h1>
+        <div>
+          <h1>Thought Atlas</h1>
+          <p>Trajectory explorer for Society of Thought experiments</p>
+        </div>
       </div>
       <nav class="tabs" aria-label="Dashboard sections">
-        <button class="tab active" data-scroll="explorer">Explorer</button>
-        <button class="tab" data-scroll="traces">Traces</button>
-        <button class="tab" data-scroll="comparisons">Comparisons</button>
+        <button class="tab active" data-scroll="compare">Compare</button>
+        <button class="tab" data-scroll="raw">Raw traces</button>
+        <button class="tab" data-scroll="overview">Overview</button>
       </nav>
       <div class="top-actions">
         <a class="ghost-link" href="data/manifest.json" title="Dashboard data manifest">
           <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="7" ry="3" /><path d="M5 5v14c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" /></svg>
           data
         </a>
-        <a class="icon-button" href="https://arxiv.org/abs/2601.10825" aria-label="Source paper">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6z" /><path d="M14 3v4h4M9 12h6M9 16h6M9 8h2" /></svg>
+        <a class="icon-button" href="https://github.com/harsh-kumar9/thought-atlas" aria-label="GitHub repository">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.5-4-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4.1-1 4.1-4.4 0-1-.3-1.8-.8-2.5.1-.2.4-1.3-.1-2.5 0 0-.7-.2-2.6 1a9 9 0 0 0-4.6 0c-1.9-1.2-2.6-1-2.6-1-.5 1.2-.2 2.3-.1 2.5A3.6 3.6 0 0 0 7 11.1c0 3.4 2.1 4.2 4.1 4.4-.3.3-.5.7-.5 1.4V21" /></svg>
         </a>
       </div>
     </header>
 
-    <div class="app-shell" id="explorer">
-      <aside class="filters" id="filtersPanel">
-        <div class="filter-heading">
-          <h2>Filters</h2>
-          <button class="text-button" id="resetFilters">Reset</button>
+    <div class="app-shell">
+      <aside class="controls" id="controlsPanel">
+        <div class="control-heading">
+          <div>
+            <h2>Comparison</h2>
+            <p>Pick two model/domain lanes, then choose behaviors.</p>
+          </div>
+          <button class="text-button" id="resetControls">Reset</button>
         </div>
-        <section class="filter-group">
-          <div class="filter-title"><span>Model</span><span id="modelCount" class="count-pill"></span></div>
-          <div id="modelFilters" class="checks"></div>
-        </section>
-        <section class="filter-group">
-          <div class="filter-title"><span>Domain</span><span id="domainCount" class="count-pill"></span></div>
-          <div id="domainFilters" class="checks"></div>
-        </section>
-        <section class="filter-group">
-          <div class="filter-title"><span>Behavior Family</span><span class="count-pill">2</span></div>
-          <div id="familyFilters" class="checks"></div>
-        </section>
-        <section class="filter-group">
-          <div class="filter-title"><span>Outcome</span><span class="count-pill">5</span></div>
-          <div id="outcomeFilters" class="checks"></div>
-        </section>
-      </aside>
 
-      <main class="main-grid">
-        <section class="panel heartbeat-panel">
-          <div class="panel-head">
-            <div>
-              <h2>Temporal Heartbeat</h2>
-              <p id="chartSubtitle">Loading dashboard data...</p>
-            </div>
-            <div class="segmented" role="group" aria-label="Chart aggregation">
-              <button class="active" data-chart-mode="behavior">Behavior</button>
-              <button data-chart-mode="family">Family</button>
-            </div>
+        <section class="control-group lane lane-a">
+          <div class="lane-title"><i></i><span>Lane A</span></div>
+          <label>Model <select id="modelA"></select></label>
+          <label>Domain <select id="domainA"></select></label>
+          <label>Outcome <select id="outcomeA"></select></label>
+        </section>
+
+        <section class="control-group lane lane-b">
+          <div class="lane-title"><i></i><span>Lane B</span></div>
+          <label>Model <select id="modelB"></select></label>
+          <label>Domain <select id="domainB"></select></label>
+          <label>Outcome <select id="outcomeB"></select></label>
+          <button class="secondary-button" id="swapLanes">Swap lanes</button>
+        </section>
+
+        <section class="control-group">
+          <div class="control-title"><span>Behaviors</span><span id="behaviorCount" class="count-pill"></span></div>
+          <div class="quick-row" role="group" aria-label="Behavior presets">
+            <button class="mini-button" data-preset="conversational">Conversational</button>
+            <button class="mini-button" data-preset="cognitive">Cognitive</button>
+            <button class="mini-button" data-preset="all">All</button>
           </div>
-          <div class="metric-row" id="metricRow"></div>
-          <div class="chart-wrap">
-            <svg id="heartbeatChart" role="img" aria-label="Temporal behavior trends"></svg>
-            <div id="scrubTooltip" class="scrub-tooltip"></div>
-          </div>
+          <div id="behaviorFilters" class="checks"></div>
+        </section>
+
+        <section class="control-group">
+          <div class="control-title"><span>Progress</span><strong id="progressPct">43%</strong></div>
           <div class="scrubber-row">
             <span>0%</span>
             <input id="progressSlider" type="range" min="0" max="23" value="10" />
             <span>100%</span>
           </div>
-          <div class="chart-controls">
+          <div class="step-row">
             <button class="icon-text" id="stepBack">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
               Prev
             </button>
-            <div class="progress-readout"><span id="progressPct">43%</span></div>
             <button class="icon-text" id="stepForward">
               Next
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
@@ -93,11 +91,49 @@
           </div>
         </section>
 
-        <aside class="panel trace-panel" id="traces">
+        <section class="control-group">
+          <div class="control-title"><span>Raw Trace Lane</span></div>
+          <div class="segmented two" role="group" aria-label="Raw trace lane">
+            <button class="active" data-trace-lane="a">Lane A</button>
+            <button data-trace-lane="b">Lane B</button>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main-grid">
+        <section class="panel compare-panel" id="compare">
+          <div class="panel-head">
+            <div>
+              <h2>Behavior Trajectories</h2>
+              <p id="comparisonSubtitle">Loading trajectory data...</p>
+            </div>
+            <div class="legend">
+              <span><i class="line-a"></i>Lane A</span>
+              <span><i class="line-b"></i>Lane B</span>
+              <span><i class="scrub-line"></i>progress</span>
+            </div>
+          </div>
+          <div class="lane-readout" id="laneReadout"></div>
+          <div id="comparisonGrid" class="comparison-grid" aria-live="polite"></div>
+        </section>
+
+        <aside class="panel inspector-panel">
           <div class="panel-head compact">
             <div>
-              <h2 id="traceTitle">Trace</h2>
-              <p id="traceMeta">Select filters to inspect sampled raw traces.</p>
+              <h2 id="inspectorTitle">Inspector</h2>
+              <p id="inspectorSubtitle">Select a mini-plot to inspect deltas and examples.</p>
+            </div>
+          </div>
+          <div id="deltaFacts" class="delta-facts"></div>
+          <div class="inspector-note" id="annotationNote"></div>
+          <div class="sample-list" id="sampleList"></div>
+        </aside>
+
+        <section class="panel raw-panel" id="raw">
+          <div class="panel-head compact">
+            <div>
+              <h2 id="traceTitle">Raw Trace</h2>
+              <p id="traceMeta">Sampled prompts, thinking text, and answer text for the active raw trace lane.</p>
             </div>
             <div class="trace-nav">
               <button class="icon-button" id="prevTrace" aria-label="Previous trace">
@@ -109,25 +145,27 @@
             </div>
           </div>
           <div id="traceFacts" class="trace-facts"></div>
-          <div class="raw-block">
-            <div class="raw-head"><span>Task Prompt</span><button class="copy-btn" data-copy="prompt">Copy</button></div>
-            <pre id="promptText"></pre>
+          <div class="raw-columns">
+            <div class="raw-block">
+              <div class="raw-head"><span>Task Prompt</span><button class="copy-btn" data-copy="prompt">Copy</button></div>
+              <pre id="promptText"></pre>
+            </div>
+            <div class="raw-block thinking">
+              <div class="raw-head"><span id="thinkingLabel">Thinking</span><button class="copy-btn" data-copy="thinking">Copy</button></div>
+              <pre id="thinkingText"></pre>
+            </div>
+            <div class="raw-block answer">
+              <div class="raw-head"><span id="answerLabel">Answer</span><button class="copy-btn" data-copy="answer">Copy</button></div>
+              <pre id="answerText"></pre>
+            </div>
           </div>
-          <div class="raw-block thinking">
-            <div class="raw-head"><span id="thinkingLabel">Thinking</span><button class="copy-btn" data-copy="thinking">Copy</button></div>
-            <pre id="thinkingText"></pre>
-          </div>
-          <div class="raw-block answer">
-            <div class="raw-head"><span id="answerLabel">Answer</span><button class="copy-btn" data-copy="answer">Copy</button></div>
-            <pre id="answerText"></pre>
-          </div>
-        </aside>
+        </section>
 
-        <section class="panel summary-panel" id="comparisons">
+        <section class="panel summary-panel" id="overview">
           <div class="panel-head compact">
             <div>
-              <h2>Model × Domain Summary</h2>
-              <p>Completion, generated-token length, and success or quality by cell.</p>
+              <h2>Model × Domain Overview</h2>
+              <p>Completion, generated-token length, success or quality, and behavior density by cell.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -151,13 +189,6 @@
         </section>
       </main>
     </div>
-
-    <template id="metricTemplate">
-      <div class="metric">
-        <span></span>
-        <strong></strong>
-      </div>
-    </template>
 
     <script src="app.js" defer></script>
   </body>

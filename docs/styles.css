@@ -292,6 +292,12 @@ select {
   margin-bottom: 10px;
 }
 
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
 .mini-button {
   min-height: 30px;
   padding: 0 6px;
@@ -414,6 +420,10 @@ input[type="range"] {
   background: #e8fbf8;
   color: #075e55;
   font-weight: 800;
+}
+
+.view-mode {
+  margin-top: 10px;
 }
 
 .main-grid {
@@ -574,6 +584,67 @@ input[type="range"] {
   gap: 10px;
 }
 
+.comparison-grid.grouped {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.behavior-family-group {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.behavior-family-group.conversational {
+  border-top: 3px solid var(--teal);
+}
+
+.behavior-family-group.cognitive {
+  border-top: 3px solid var(--blue);
+}
+
+.family-group-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.family-group-head h3 {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.family-group-head p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.family-group-head span {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  padding: 3px 8px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.family-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
+
 .mini-chart {
   min-width: 0;
   border: 1px solid var(--line);
@@ -682,6 +753,77 @@ input[type="range"] {
   color: #475569;
 }
 
+.divergence-panel,
+.hypothesis-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.inspector-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.inspector-section-title em {
+  color: var(--muted);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.divergence-list {
+  display: grid;
+  gap: 6px;
+}
+
+.divergence-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  padding: 7px 9px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.divergence-card.selected {
+  border-color: rgba(37, 99, 235, 0.45);
+  background: #eff6ff;
+}
+
+.divergence-card strong {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.divergence-card span {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.hypothesis-list article {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  padding: 9px 10px;
+  color: #334155;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
 .inspector-note {
   margin: 10px 0;
   color: var(--muted);
@@ -708,6 +850,30 @@ input[type="range"] {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.45;
+}
+
+.annotation-snippets {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.annotation-snippet {
+  border-left: 2px solid var(--teal);
+  padding-left: 8px;
+}
+
+.annotation-snippet span {
+  display: block;
+  margin-bottom: 2px;
+  color: #0b5d55;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.annotation-snippet p {
+  color: #334155;
 }
 
 .behavior-chips {
@@ -747,6 +913,61 @@ input[type="range"] {
 
 .trace-facts .fact {
   padding: 8px 9px;
+}
+
+.trace-annotation-rail {
+  margin-bottom: 12px;
+}
+
+.trace-annotation-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 7px;
+  font-size: 12px;
+}
+
+.trace-annotation-head span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.trace-annotation-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.trace-annotation {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+  padding: 9px;
+}
+
+.trace-annotation.near {
+  border-color: rgba(20, 155, 143, 0.35);
+  background: #f0fdfa;
+}
+
+.trace-annotation > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 11px;
+}
+
+.trace-annotation > div:first-child span {
+  color: var(--muted);
+}
+
+.trace-annotation p {
+  margin: 0;
+  color: #334155;
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .fact span {
@@ -978,6 +1199,17 @@ td small {
   }
 
   .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .family-chart-grid,
+  .trace-annotation-list {
+    grid-template-columns: 1fr;
+  }
+
+  .family-group-head,
+  .trace-annotation-head {
+    display: grid;
     grid-template-columns: 1fr;
   }
 

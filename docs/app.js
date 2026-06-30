@@ -39,6 +39,19 @@ const MODEL_COLORS = {
   reasoner: "#2563eb",
 };
 
+const FAMILY_META = {
+  conversational: {
+    label: "Conversational Behaviors",
+    short: "Conversational",
+    description: "Questioning, perspective moves, conflict, and reconciliation.",
+  },
+  cognitive: {
+    label: "Cognitive Behavior Markers",
+    short: "Cognitive",
+    description: "Verification, backtracking, subgoals, and backward chaining.",
+  },
+};
+
 const state = {
   modelA: null,
   domainA: null,
@@ -49,6 +62,7 @@ const state = {
   behaviors: new Set(),
   selectedBehavior: null,
   bin: 10,
+  viewMode: "full",
   traceLane: "a",
   traceIndex: 0,
 };
@@ -93,6 +107,9 @@ function initializeState() {
   state.behaviors = new Set(conversational.length ? conversational : store.behaviors.map((b) => b.key));
   state.selectedBehavior = [...state.behaviors][0];
   state.bin = Math.round((store.manifest.bins - 1) * 0.43);
+  state.viewMode = "full";
+  state.traceLane = "a";
+  state.traceIndex = 0;
   $("progressSlider").max = store.manifest.bins - 1;
   $("progressSlider").value = state.bin;
 }
@@ -105,6 +122,7 @@ function renderControls() {
   makeSelect("outcomeA", Object.keys(OUTCOME_GROUPS), (k) => OUTCOME_GROUPS[k].label, state.outcomeA);
   makeSelect("outcomeB", Object.keys(OUTCOME_GROUPS), (k) => OUTCOME_GROUPS[k].label, state.outcomeB);
   renderBehaviorFilters();
+  syncButtonStates();
 }
 
 function makeSelect(id, values, labeler, selected) {
@@ -167,6 +185,14 @@ function bindEvents() {
     renderAll();
   });
 
+  document.querySelectorAll("[data-recipe]").forEach((button) => {
+    button.addEventListener("click", () => {
+      applyRecipe(button.dataset.recipe);
+      renderControls();
+      renderAll();
+    });
+  });
+
   document.querySelectorAll("[data-preset]").forEach((button) => {
     button.addEventListener("click", () => {
       const preset = button.dataset.preset;
@@ -188,6 +214,16 @@ function bindEvents() {
     renderTrace();
   });
 
+  document.querySelectorAll("[data-view-mode]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.viewMode = button.dataset.viewMode;
+      syncButtonStates();
+      renderComparison();
+      renderInspector();
+      renderTrace();
+    });
+  });
+
   $("stepBack").addEventListener("click", () => {
     state.bin = Math.max(0, state.bin - 1);
     $("progressSlider").value = state.bin;
@@ -206,10 +242,9 @@ function bindEvents() {
 
   document.querySelectorAll("[data-trace-lane]").forEach((button) => {
     button.addEventListener("click", () => {
-      document.querySelectorAll("[data-trace-lane]").forEach((b) => b.classList.remove("active"));
-      button.classList.add("active");
       state.traceLane = button.dataset.traceLane;
       state.traceIndex = 0;
+      syncButtonStates();
       renderTrace();
       renderInspector();
     });
@@ -259,6 +294,42 @@ function renderAll() {
   renderDistance();
 }
 
+function syncButtonStates() {
+  document.querySelectorAll("[data-view-mode]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.viewMode === state.viewMode);
+  });
+  document.querySelectorAll("[data-trace-lane]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.traceLane === state.traceLane);
+  });
+}
+
+function applyRecipe(recipe) {
+  const qwenSmall = store.models.find((m) => m.includes("4b")) || store.models[0];
+  const qwenLarge = store.models.find((m) => m.includes("27b")) || store.models[store.models.length - 1];
+  const reasoner = store.models.find((m) => m === "reasoner") || store.models[0];
+  const base = store.models.find((m) => m.includes("27b")) || store.models.find((m) => m !== reasoner) || store.models[0];
+
+  if (recipe === "outcome") {
+    state.modelB = state.modelA;
+    state.domainB = state.domainA;
+    state.outcomeA = "positive";
+    state.outcomeB = "negative";
+  } else if (recipe === "scale") {
+    state.modelA = qwenSmall;
+    state.modelB = qwenLarge;
+    state.domainB = state.domainA;
+    state.outcomeA = "all";
+    state.outcomeB = "all";
+  } else if (recipe === "reasoner") {
+    state.modelA = reasoner;
+    state.modelB = base === reasoner ? store.models[0] : base;
+    state.domainB = state.domainA;
+    state.outcomeA = "all";
+    state.outcomeB = "all";
+  }
+  state.traceIndex = 0;
+}
+
 function renderComparison() {
   const progress = state.bin / (store.manifest.bins - 1);
   const styleA = laneStyle("a");
@@ -266,7 +337,7 @@ function renderComparison() {
   document.documentElement.style.setProperty("--lane-a-color", styleA.line);
   document.documentElement.style.setProperty("--lane-b-color", styleB.line);
   $("progressPct").textContent = `${Math.round(progress * 100)}%`;
-  $("comparisonSubtitle").textContent = `${state.behaviors.size} behavior${state.behaviors.size === 1 ? "" : "s"} at ${Math.round(progress * 100)}% through trace`;
+  $("comparisonSubtitle").textContent = `${state.behaviors.size} behavior${state.behaviors.size === 1 ? "" : "s"} at ${Math.round(progress * 100)}% through trace · ${viewModeLabel(state.viewMode)}`;
   $("laneReadout").innerHTML = `
     <div class="lane-chip a" style="border-left-color:${styleA.line}">
       <strong><i class="model-dot" style="background:${styleA.line}"></i>${modelLabel(state.modelA)}</strong>
@@ -280,39 +351,67 @@ function renderComparison() {
     </div>
   `;
 
-  const behaviors = [...state.behaviors];
+  const behaviors = orderedBehaviors([...state.behaviors]);
   const grid = $("comparisonGrid");
   grid.innerHTML = "";
+  grid.className = "comparison-grid";
   if (!behaviors.length) {
     grid.innerHTML = '<div class="empty-state">Select at least one behavior to draw trajectory comparisons.</div>';
     return;
   }
 
-  behaviors.forEach((behavior) => {
-    const card = document.createElement("button");
-    card.type = "button";
-    card.className = `mini-chart ${behavior === state.selectedBehavior ? "selected" : ""}`;
-    card.addEventListener("click", () => {
-      state.selectedBehavior = behavior;
-      renderComparison();
-      renderInspector();
+  const groups = behaviorGroups(behaviors);
+  if (groups.length > 1) {
+    grid.className = "comparison-grid grouped";
+    groups.forEach((group) => {
+      const section = document.createElement("section");
+      section.className = `behavior-family-group ${group.family}`;
+      section.innerHTML = `
+        <div class="family-group-head">
+          <div>
+            <h3>${escapeHtml(group.meta.label)}</h3>
+            <p>${escapeHtml(group.meta.description)}</p>
+          </div>
+          <span>${group.behaviors.length} selected</span>
+        </div>
+        <div class="family-chart-grid"></div>
+      `;
+      const familyGrid = section.querySelector(".family-chart-grid");
+      group.behaviors.forEach((behavior) => familyGrid.appendChild(behaviorCard(behavior)));
+      grid.appendChild(section);
     });
+  } else {
+    behaviors.forEach((behavior) => grid.appendChild(behaviorCard(behavior)));
+  }
+}
 
-    const curveA = aggregateCurve("a", behavior);
-    const curveB = aggregateCurve("b", behavior);
-    const pointA = curveA.values[state.bin]?.freq || 0;
-    const pointB = curveB.values[state.bin]?.freq || 0;
-    const delta = pointA - pointB;
-    card.innerHTML = `
-      <div class="mini-chart-head">
-        <div><h3>${titleCase(behavior)}</h3><small>${titleCase(familyFor(behavior))}</small></div>
-        <span class="delta-pill ${delta >= 0 ? "delta-up" : "delta-down"}">${signedPct(delta)}</span>
-      </div>
-      <svg role="img" aria-label="${titleCase(behavior)} trajectory comparison"></svg>
-    `;
-    drawMiniChart(card.querySelector("svg"), curveA, curveB);
-    grid.appendChild(card);
+function behaviorCard(behavior) {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = `mini-chart ${behavior === state.selectedBehavior ? "selected" : ""}`;
+  card.addEventListener("click", () => {
+    state.selectedBehavior = behavior;
+    renderComparison();
+    renderInspector();
   });
+
+  const curveA = aggregateCurve("a", behavior);
+  const curveB = aggregateCurve("b", behavior);
+  const pointA = curveA.values[state.bin] || {};
+  const pointB = curveB.values[state.bin] || {};
+  const delta = (pointA.freq || 0) - (pointB.freq || 0);
+  card.innerHTML = `
+    <div class="mini-chart-head">
+      <div>
+        <h3>${titleCase(behavior)}</h3>
+        <small>${familyShortLabel(behavior)} · ${sampleSizeLabel(pointA.n, pointB.n)}</small>
+      </div>
+      <span class="delta-pill ${delta >= 0 ? "delta-up" : "delta-down"}">${signedPct(delta)}</span>
+    </div>
+    <svg role="img" aria-label="${titleCase(behavior)} trajectory comparison"></svg>
+  `;
+  drawMiniChart(card.querySelector("svg"), curveA, curveB);
+  return card;
 }
 
 function renderInspector() {
@@ -321,6 +420,8 @@ function renderInspector() {
     $("inspectorTitle").textContent = "Inspector";
     $("inspectorSubtitle").textContent = "Select a behavior to inspect.";
     $("deltaFacts").innerHTML = "";
+    $("divergencePanel").innerHTML = "";
+    $("hypothesisList").innerHTML = "";
     $("annotationNote").textContent = "";
     $("sampleList").innerHTML = "";
     return;
@@ -351,15 +452,115 @@ function renderInspector() {
     .map(([label, value]) => `<div class="delta-fact"><span>${label}</span><strong class="${value.startsWith("-") ? "delta-down" : "delta-up"}">${value}</strong></div>`)
     .join("");
 
+  renderDivergencePanel();
   renderSampleInspector(behavior);
 }
 
+function renderDivergencePanel() {
+  const behaviors = orderedBehaviors([...state.behaviors]);
+  if (behaviors.length < 2) {
+    $("divergencePanel").innerHTML = "";
+    $("hypothesisList").innerHTML = "";
+    return;
+  }
+
+  const divergences = behaviors
+    .map((behavior) => {
+      const curveA = aggregateCurve("a", behavior);
+      const curveB = aggregateCurve("b", behavior);
+      const atA = curveA.values[state.bin]?.freq || 0;
+      const atB = curveB.values[state.bin]?.freq || 0;
+      const earlyDelta = average(curveA.values.slice(0, Math.max(1, state.bin + 1)).map((v, idx) => (v.freq || 0) - (curveB.values[idx]?.freq || 0)));
+      const lateDelta = average(curveA.values.slice(state.bin).map((v, idx) => (v.freq || 0) - (curveB.values[state.bin + idx]?.freq || 0)));
+      return {
+        behavior,
+        family: familyFor(behavior),
+        atA,
+        atB,
+        delta: atA - atB,
+        earlyDelta,
+        lateDelta,
+      };
+    })
+    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+
+  const top = divergences.slice(0, 3);
+  $("divergencePanel").innerHTML = `
+    <div class="inspector-section-title">
+      <span>Divergence at Cursor</span>
+      <em>${Math.round((state.bin / (store.manifest.bins - 1)) * 100)}%</em>
+    </div>
+    <div class="divergence-list">
+      ${top
+        .map(
+          (row) => `
+            <button class="divergence-card ${row.behavior === state.selectedBehavior ? "selected" : ""}" data-behavior="${escapeAttr(row.behavior)}">
+              <strong>${titleCase(row.behavior)}</strong>
+              <span>${familyShortLabel(row.behavior)} · ${signedPct(row.delta)}</span>
+            </button>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
+  $("divergencePanel").querySelectorAll("[data-behavior]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.selectedBehavior = button.dataset.behavior;
+      renderComparison();
+      renderInspector();
+    });
+  });
+
+  renderHypothesisList(divergences);
+}
+
+function renderHypothesisList(divergences) {
+  const top = divergences[0];
+  if (!top) {
+    $("hypothesisList").innerHTML = "";
+    return;
+  }
+
+  const familyRows = ["conversational", "cognitive"]
+    .map((family) => {
+      const rows = divergences.filter((row) => row.family === family);
+      return rows.length ? { family, delta: average(rows.map((row) => row.delta)) } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+
+  const prompts = [];
+  prompts.push(
+    `${higherLane(top.delta)} is higher on ${titleCase(top.behavior)} by ${signedPct(Math.abs(top.delta)).replace("+", "")} at the cursor; use Reveal mode to see whether that gap appears before or after the answer boundary.`,
+  );
+
+  if (familyRows.length) {
+    const family = familyRows[0];
+    prompts.push(
+      `${FAMILY_META[family.family]?.short || titleCase(family.family)} markers lean toward ${higherLane(family.delta)} by ${signedPct(Math.abs(family.delta)).replace("+", "")} on average at this point.`,
+    );
+  }
+
+  if (state.modelA !== state.modelB && state.domainA === state.domainB) {
+    prompts.push(`Model hypothesis: keep ${titleCase(state.domainA)} fixed and switch outcomes to test whether the model gap survives performance stratification.`);
+  } else if (state.outcomeA !== state.outcomeB && state.modelA === state.modelB && state.domainA === state.domainB) {
+    prompts.push(`Outcome hypothesis: this isolates performance for ${modelLabel(state.modelA)} on ${titleCase(state.domainA)}; check if the divergence grows close to the answer phase.`);
+  } else {
+    prompts.push("Domain hypothesis: pin one model and one outcome group, then sweep domains to see whether this shape is task-specific.");
+  }
+
+  $("hypothesisList").innerHTML = `
+    <div class="inspector-section-title"><span>Hypothesis Prompts</span></div>
+    ${prompts.map((prompt) => `<article>${escapeHtml(prompt)}</article>`).join("")}
+  `;
+}
+
 function renderSampleInspector(behavior) {
-  const tracesA = filteredTracesForLane("a").slice(0, 3);
-  const tracesB = filteredTracesForLane("b").slice(0, 3);
+  const tracesA = rankedTracesForInspector("a", behavior, 3);
+  const tracesB = rankedTracesForInspector("b", behavior, 3);
   const annotated = [...tracesA, ...tracesB].some((trace) => Array.isArray(trace.annotations) && trace.annotations.length);
   $("annotationNote").textContent = annotated
-    ? "Sentence-level behavior annotations are shown for sampled traces when the export includes them."
+    ? `Evidence prioritizes sentence annotations near the ${Math.round((state.bin / (store.manifest.bins - 1)) * 100)}% cursor, then falls back to the closest matching behavior spans.`
     : "Current static samples expose raw prompt/thinking/answer text plus per-trace behavior counts. Re-run the dashboard export after the annotation upgrade to show sentence-level behavior spans.";
 
   const cards = [
@@ -371,18 +572,76 @@ function renderSampleInspector(behavior) {
 
 function sampleCard(trace, lane, behavior) {
   const count = trace.behavior_counts?.[behavior] || 0;
-  const matchingAnnotations = (trace.annotations || []).filter((a) => (a.behaviors || []).includes(behavior)).slice(0, 2);
+  const matchingAnnotations = rankedAnnotations(trace, behavior, 3);
   const snippet = matchingAnnotations.length
-    ? matchingAnnotations.map((a) => `${Math.round(a.norm_pos * 100)}%: ${escapeHtml(a.text)}`).join("<br>")
+    ? `<div class="annotation-snippets">${matchingAnnotations
+        .map(
+          (a) => `
+            <div class="annotation-snippet">
+              <span>${Math.round(a.norm_pos * 100)}% · ${titleCase(a.section_type)}</span>
+              <p>${escapeHtml(a.text)}</p>
+            </div>
+          `,
+        )
+        .join("")}</div>`
     : escapeHtml(firstUsefulText(trace));
   return `
     <article class="sample-card">
       <h3>${lane} · ${modelLabel(trace.gen_model)} · ${titleCase(trace.task_type)}</h3>
       <p>${shortId(trace.trace_id)} · ${titleCase(trace.outcome)} · ${fmt.format(count)} ${titleCase(behavior)} mark${count === 1 ? "" : "s"}</p>
-      <p>${snippet || "No text excerpt available for this sample."}</p>
+      ${matchingAnnotations.length ? snippet : `<p>${snippet || "No text excerpt available for this sample."}</p>`}
       <div class="behavior-chips">${topBehaviorChips(trace)}</div>
     </article>
   `;
+}
+
+function rankedTracesForInspector(laneKey, behavior, limit) {
+  return filteredTracesForLane(laneKey)
+    .map((trace, index) => ({
+      trace,
+      index,
+      score: traceEvidenceScore(trace, behavior),
+    }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .slice(0, limit)
+    .map((row) => row.trace);
+}
+
+function traceEvidenceScore(trace, behavior) {
+  const annotations = rankedAnnotations(trace, behavior, 3);
+  const count = trace.behavior_counts?.[behavior] || 0;
+  if (!annotations.length) return count * 0.1;
+  const best = annotations[0];
+  const nearBoost = Math.max(0, 1 - Math.abs((best.norm_pos || 0) - cursorProgress()) / cursorWindow());
+  const behaviorBoost = (best.behaviors || []).includes(behavior) ? 2 : 0;
+  return 1 + behaviorBoost + nearBoost + Math.min(1, count / 8);
+}
+
+function rankedAnnotations(trace, behavior, limit = 5, selectedOnly = true) {
+  const annotations = Array.isArray(trace?.annotations) ? trace.annotations : [];
+  const cursor = cursorProgress();
+  const window = cursorWindow();
+  const selected = state.behaviors.size ? state.behaviors : new Set(store.behaviors.map((b) => b.key));
+  const rows = annotations
+    .filter((annotation) => {
+      const behaviors = annotation.behaviors || [];
+      if (!selectedOnly) return true;
+      return behaviors.includes(behavior) || behaviors.some((b) => selected.has(b));
+    })
+    .map((annotation) => {
+      const dist = Math.abs((annotation.norm_pos || 0) - cursor);
+      const behaviors = annotation.behaviors || [];
+      const exact = behaviors.includes(behavior) ? 0 : 1;
+      const near = dist <= window ? 0 : 1;
+      return { ...annotation, _score: near * 4 + exact * 2 + dist };
+    })
+    .sort((a, b) => a._score - b._score)
+    .slice(0, limit);
+
+  return rows.length ? rows : annotations
+    .map((annotation) => ({ ...annotation, _score: Math.abs((annotation.norm_pos || 0) - cursor) }))
+    .sort((a, b) => a._score - b._score)
+    .slice(0, limit);
 }
 
 function drawMiniChart(svg, curveA, curveB) {
@@ -402,10 +661,13 @@ function drawMiniChart(svg, curveA, curveB) {
   svg.innerHTML = "";
   drawMiniGrid(svg, width, height, margin, plotW, plotH, maxY, x);
   drawBoundary(svg, curveA.boundary, curveB.boundary, x, margin, plotH);
-  drawBand(svg, curveA.values, x, y, styleA.band);
-  drawBand(svg, curveB.values, x, y, styleB.band);
-  drawLine(svg, curveA.values, x, y, styleA.line, false);
-  drawLine(svg, curveB.values, x, y, styleB.line, true);
+  drawWindowHighlight(svg, x, margin, plotH);
+  const visibleA = visibleCurveValues(curveA.values);
+  const visibleB = visibleCurveValues(curveB.values);
+  drawBand(svg, visibleA, x, y, styleA.band);
+  drawBand(svg, visibleB, x, y, styleB.band);
+  drawLine(svg, visibleA, x, y, styleA.line, false);
+  drawLine(svg, visibleB, x, y, styleB.line, true);
 
   const scrubX = x(state.bin);
   svg.appendChild(svgEl("line", {
@@ -430,6 +692,26 @@ function drawMiniChart(svg, curveA, curveB) {
       "stroke-width": "1.4",
     }));
   });
+}
+
+function visibleCurveValues(values) {
+  if (state.viewMode === "reveal") return values.filter((value) => value.bin <= state.bin);
+  if (state.viewMode === "window") return values.filter((value) => Math.abs(value.bin - state.bin) <= cursorBinWindow());
+  return values;
+}
+
+function drawWindowHighlight(svg, x, margin, plotH) {
+  if (state.viewMode !== "window") return;
+  const left = Math.max(0, state.bin - cursorBinWindow());
+  const right = Math.min(store.manifest.bins - 1, state.bin + cursorBinWindow());
+  svg.appendChild(svgEl("rect", {
+    x: x(left),
+    y: margin.top,
+    width: Math.max(1, x(right) - x(left)),
+    height: plotH,
+    fill: "rgba(20, 155, 143, 0.06)",
+    stroke: "none",
+  }));
 }
 
 function drawBoundary(svg, boundaryA, boundaryB, x, margin, plotH) {
@@ -571,6 +853,7 @@ function renderTrace() {
     $("traceTitle").textContent = "Raw Trace";
     $("traceMeta").textContent = "No sampled traces match the active raw trace lane.";
     $("traceFacts").innerHTML = "";
+    $("traceAnnotationRail").innerHTML = "";
     $("promptText").textContent = "";
     $("thinkingText").textContent = "";
     $("answerText").textContent = "";
@@ -589,11 +872,46 @@ function renderTrace() {
     ["Failure Mode", trace.failure_mode || "-"],
   ];
   $("traceFacts").innerHTML = facts.map(([k, v]) => `<div class="fact"><span>${k}</span><strong title="${escapeAttr(v)}">${escapeHtml(v)}</strong></div>`).join("");
+  renderTraceAnnotationRail(trace);
   $("thinkingLabel").textContent = `Thinking (${fmt.format(trace.thinking.tokens_est || 0)} est. tokens${trace.thinking.truncated ? ", clipped" : ""})`;
   $("answerLabel").textContent = `Answer (${fmt.format(trace.answer.tokens_est || 0)} est. tokens${trace.answer.truncated ? ", clipped" : ""})`;
   $("promptText").textContent = trace.prompt.text || "-";
   $("thinkingText").textContent = trace.thinking.text || "No explicit thinking block for this trace.";
   $("answerText").textContent = trace.answer.text || "-";
+}
+
+function renderTraceAnnotationRail(trace) {
+  const behavior = state.selectedBehavior || [...state.behaviors][0];
+  const annotations = rankedAnnotations(trace, behavior, 5, false);
+  if (!annotations.length) {
+    $("traceAnnotationRail").innerHTML = "";
+    return;
+  }
+
+  $("traceAnnotationRail").innerHTML = `
+    <div class="trace-annotation-head">
+      <strong>Cursor Evidence</strong>
+      <span>${Math.round(cursorProgress() * 100)}% through trace · closest annotated spans</span>
+    </div>
+    <div class="trace-annotation-list">
+      ${annotations
+        .map(
+          (annotation) => `
+            <article class="trace-annotation ${Math.abs((annotation.norm_pos || 0) - cursorProgress()) <= cursorWindow() ? "near" : ""}">
+              <div>
+                <strong>${Math.round((annotation.norm_pos || 0) * 100)}%</strong>
+                <span>${titleCase(annotation.section_type || "trace")}</span>
+              </div>
+              <p>${escapeHtml(annotation.text || "")}</p>
+              <div class="behavior-chips">${(annotation.behaviors || [])
+                .map((b) => `<span class="behavior-chip">${titleCase(b)}</span>`)
+                .join("")}</div>
+            </article>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
 }
 
 function filteredTracesForLane(laneKey) {
@@ -681,8 +999,68 @@ function firstUsefulText(trace) {
   return text.length > 240 ? `${text.slice(0, 240)}...` : text;
 }
 
+function orderedBehaviors(behaviors) {
+  const order = new Map(store.behaviors.map((behavior, index) => [behavior.key, index]));
+  const familyOrder = new Map([
+    ["conversational", 0],
+    ["cognitive", 1],
+  ]);
+  return behaviors.slice().sort((a, b) => {
+    const familyA = familyFor(a);
+    const familyB = familyFor(b);
+    return (familyOrder.get(familyA) ?? 9) - (familyOrder.get(familyB) ?? 9) || (order.get(a) ?? 999) - (order.get(b) ?? 999);
+  });
+}
+
+function behaviorGroups(behaviors) {
+  const groups = new Map();
+  orderedBehaviors(behaviors).forEach((behavior) => {
+    const family = familyFor(behavior);
+    if (!groups.has(family)) groups.set(family, []);
+    groups.get(family).push(behavior);
+  });
+  return ["conversational", "cognitive", ...groups.keys()]
+    .filter((family, index, arr) => arr.indexOf(family) === index && groups.has(family))
+    .map((family) => ({
+      family,
+      meta: FAMILY_META[family] || { label: titleCase(family), short: titleCase(family), description: "Behavior markers in this framework." },
+      behaviors: groups.get(family),
+    }));
+}
+
 function familyFor(behavior) {
   return store.behaviors.find((b) => b.key === behavior)?.family || "cognitive";
+}
+
+function familyShortLabel(behavior) {
+  const family = familyFor(behavior);
+  return FAMILY_META[family]?.short || titleCase(family);
+}
+
+function sampleSizeLabel(nA = 0, nB = 0) {
+  return `A/B n ${fmt.format(Math.round(nA || 0))}/${fmt.format(Math.round(nB || 0))}`;
+}
+
+function viewModeLabel(mode) {
+  if (mode === "reveal") return "reveal to cursor";
+  if (mode === "window") return "local window";
+  return "full curve";
+}
+
+function cursorProgress() {
+  return state.bin / Math.max(1, store.manifest.bins - 1);
+}
+
+function cursorBinWindow() {
+  return Math.max(2, Math.round((store.manifest.bins - 1) * 0.08));
+}
+
+function cursorWindow() {
+  return cursorBinWindow() / Math.max(1, store.manifest.bins - 1);
+}
+
+function higherLane(delta) {
+  return delta >= 0 ? "Lane A" : "Lane B";
 }
 
 function modelLabel(model) {

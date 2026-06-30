@@ -63,6 +63,15 @@
         </section>
 
         <section class="control-group">
+          <div class="control-title"><span>Recipes</span></div>
+          <div class="recipe-grid" role="group" aria-label="Comparison recipes">
+            <button class="mini-button" data-recipe="outcome">Outcome split</button>
+            <button class="mini-button" data-recipe="scale">Scale sweep</button>
+            <button class="mini-button" data-recipe="reasoner">Reasoner check</button>
+          </div>
+        </section>
+
+        <section class="control-group">
           <div class="control-title"><span>Behaviors</span><span id="behaviorCount" class="count-pill"></span></div>
           <div class="quick-row" role="group" aria-label="Behavior presets">
             <button class="mini-button" data-preset="conversational">Conversational</button>
@@ -78,6 +87,11 @@
             <span>0%</span>
             <input id="progressSlider" type="range" min="0" max="23" value="10" />
             <span>100%</span>
+          </div>
+          <div class="segmented view-mode" role="group" aria-label="Temporal view mode">
+            <button class="active" data-view-mode="full">Full</button>
+            <button data-view-mode="reveal">Reveal</button>
+            <button data-view-mode="window">Window</button>
           </div>
           <div class="step-row">
             <button class="icon-text" id="stepBack">
@@ -127,6 +141,8 @@
             </div>
           </div>
           <div id="deltaFacts" class="delta-facts"></div>
+          <div id="divergencePanel" class="divergence-panel"></div>
+          <div id="hypothesisList" class="hypothesis-list"></div>
           <div class="inspector-note" id="annotationNote"></div>
           <div class="sample-list" id="sampleList"></div>
         </aside>
@@ -147,6 +163,7 @@
             </div>
           </div>
           <div id="traceFacts" class="trace-facts"></div>
+          <div id="traceAnnotationRail" class="trace-annotation-rail"></div>
           <div class="raw-columns">
             <div class="raw-block">
               <div class="raw-head"><span>Task Prompt</span><button class="copy-btn" data-copy="prompt">Copy</button></div>

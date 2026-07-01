@@ -39,6 +39,8 @@ const MODEL_COLORS = {
   reasoner: "#2563eb",
 };
 
+const LANE_DASHES = ["", "5 4", "2 3", "7 3 2 3", "1 4", "10 4 2 4"];
+
 const FAMILY_META = {
   conversational: {
     label: "Conversational Behaviors",
@@ -64,17 +66,13 @@ const BEHAVIOR_DETAILS = {
 };
 
 const state = {
-  modelA: null,
-  domainA: null,
-  outcomeA: "all",
-  modelB: null,
-  domainB: null,
-  outcomeB: "all",
+  lanes: [],
+  nextLaneIndex: 0,
   behaviors: new Set(),
   selectedBehavior: null,
   bin: 10,
   viewMode: "full",
-  traceLane: "a",
+  traceLane: null,
   traceIndex: 0,
 };
 
@@ -109,38 +107,110 @@ async function loadData() {
 }
 
 function initializeState() {
-  state.modelA = store.models.includes("reasoner") ? "reasoner" : store.models[0];
-  state.modelB = store.models.includes("qwen35_27b") ? "qwen35_27b" : store.models[Math.min(1, store.models.length - 1)];
-  state.domainA = store.domains.includes("math") ? "math" : store.domains[0];
-  state.domainB = state.domainA;
-  state.outcomeA = "all";
-  state.outcomeB = "all";
+  const domain = store.domains.includes("math") ? "math" : store.domains[0];
+  const primaryModel = store.models.includes("reasoner") ? "reasoner" : store.models[0];
+  const secondaryModel = store.models.includes("qwen35_27b") ? "qwen35_27b" : store.models[Math.min(1, store.models.length - 1)];
+  setLanes([
+    { model: primaryModel, domain, outcome: "all" },
+    { model: secondaryModel, domain, outcome: "all" },
+  ]);
   const conversational = store.behaviors.filter((b) => b.family === "conversational").map((b) => b.key);
   state.behaviors = new Set(conversational.length ? conversational : store.behaviors.map((b) => b.key));
   state.selectedBehavior = [...state.behaviors][0];
   state.bin = Math.round((store.manifest.bins - 1) * 0.43);
   state.viewMode = "full";
-  state.traceLane = "a";
   state.traceIndex = 0;
   $("progressSlider").max = store.manifest.bins - 1;
   $("progressSlider").value = state.bin;
 }
 
 function renderControls() {
-  makeSelect("modelA", store.models, modelLabel, state.modelA);
-  makeSelect("modelB", store.models, modelLabel, state.modelB);
-  makeSelect("domainA", store.domains, titleCase, state.domainA);
-  makeSelect("domainB", store.domains, titleCase, state.domainB);
-  makeSelect("outcomeA", Object.keys(OUTCOME_GROUPS), (k) => OUTCOME_GROUPS[k].label, state.outcomeA);
-  makeSelect("outcomeB", Object.keys(OUTCOME_GROUPS), (k) => OUTCOME_GROUPS[k].label, state.outcomeB);
+  renderLaneControls();
+  renderTraceLaneControls();
   renderBehaviorFilters();
   syncButtonStates();
 }
 
-function makeSelect(id, values, labeler, selected) {
-  const select = $(id);
-  select.innerHTML = values.map((value) => `<option value="${escapeAttr(value)}">${labeler(value)}</option>`).join("");
-  select.value = selected;
+function setLanes(configs) {
+  state.nextLaneIndex = 0;
+  state.lanes = configs.map((config) => createLane(config));
+  state.traceLane = state.lanes[0]?.id || null;
+  state.traceIndex = 0;
+}
+
+function createLane(config = {}) {
+  const fallbackModel = store.models[state.nextLaneIndex % Math.max(1, store.models.length)] || store.models[0];
+  const id = config.id || `lane-${state.nextLaneIndex}`;
+  state.nextLaneIndex += 1;
+  return {
+    id,
+    model: config.model || fallbackModel,
+    domain: config.domain || store.domains[0],
+    outcome: config.outcome || "all",
+  };
+}
+
+function addLane() {
+  const source = state.lanes[state.lanes.length - 1] || {};
+  const model = store.models[state.lanes.length % Math.max(1, store.models.length)] || source.model || store.models[0];
+  state.lanes.push(createLane({ ...source, model }));
+  state.traceLane = state.traceLane || state.lanes[0].id;
+}
+
+function removeLane(laneId) {
+  if (state.lanes.length <= 1) return;
+  state.lanes = state.lanes.filter((lane) => lane.id !== laneId);
+  if (!state.lanes.some((lane) => lane.id === state.traceLane)) state.traceLane = state.lanes[0]?.id || null;
+  state.traceIndex = 0;
+}
+
+function duplicateLane(laneId) {
+  const lane = laneConfig(laneId);
+  if (!lane) return;
+  state.lanes.push(createLane({ model: lane.model, domain: lane.domain, outcome: lane.outcome }));
+}
+
+function renderLaneControls() {
+  const target = $("laneControls");
+  target.innerHTML = state.lanes
+    .map((lane, index) => {
+      const style = laneStyle(lane.id);
+      return `
+        <section class="control-group lane dynamic-lane" data-lane-id="${escapeAttr(lane.id)}" style="--lane-control-color:${style.line}">
+          <div class="lane-title">
+            <i style="background:${style.line}"></i>
+            <span>${laneLabel(lane.id)}</span>
+            <div class="lane-title-actions">
+              <button class="mini-action" data-duplicate-lane="${escapeAttr(lane.id)}" aria-label="Duplicate ${laneLabel(lane.id)}">Copy</button>
+              <button class="mini-action" data-remove-lane="${escapeAttr(lane.id)}" ${state.lanes.length === 1 ? "disabled" : ""} aria-label="Remove ${laneLabel(lane.id)}">Remove</button>
+            </div>
+          </div>
+          <label>Model <select data-lane-id="${escapeAttr(lane.id)}" data-lane-field="model">${selectOptions(store.models, modelLabel, lane.model)}</select></label>
+          <label>Domain <select data-lane-id="${escapeAttr(lane.id)}" data-lane-field="domain">${selectOptions(store.domains, titleCase, lane.domain)}</select></label>
+          <label>Outcome <select data-lane-id="${escapeAttr(lane.id)}" data-lane-field="outcome">${selectOptions(Object.keys(OUTCOME_GROUPS), (k) => OUTCOME_GROUPS[k].label, lane.outcome)}</select></label>
+        </section>
+      `;
+    })
+    .join("");
+  $("addLane").textContent = "Add lane";
+}
+
+function renderTraceLaneControls() {
+  const target = $("traceLaneButtons");
+  target.innerHTML = state.lanes
+    .map((lane) => {
+      const style = laneStyle(lane.id);
+      return `
+        <button data-trace-lane="${escapeAttr(lane.id)}" class="${lane.id === state.traceLane ? "active" : ""}" style="--lane-control-color:${style.line}">
+          <i style="background:${style.line}"></i>${laneLabel(lane.id)}
+        </button>
+      `;
+    })
+    .join("");
+}
+
+function selectOptions(values, labeler, selected) {
+  return values.map((value) => `<option value="${escapeAttr(value)}" ${value === selected ? "selected" : ""}>${labeler(value)}</option>`).join("");
 }
 
 function renderBehaviorFilters() {
@@ -177,18 +247,29 @@ function renderBehaviorFilters() {
 }
 
 function bindEvents() {
-  ["modelA", "modelB", "domainA", "domainB", "outcomeA", "outcomeB"].forEach((id) => {
-    $(id).addEventListener("change", (event) => {
-      state[id] = event.target.value;
-      state.traceIndex = 0;
-      renderAll();
-    });
+  $("laneControls").addEventListener("change", (event) => {
+    const select = event.target.closest("select[data-lane-id][data-lane-field]");
+    if (!select) return;
+    const lane = laneConfig(select.dataset.laneId);
+    if (!lane) return;
+    lane[select.dataset.laneField] = select.value;
+    state.traceIndex = 0;
+    renderControls();
+    renderAll();
   });
 
-  $("swapLanes").addEventListener("click", () => {
-    [state.modelA, state.modelB] = [state.modelB, state.modelA];
-    [state.domainA, state.domainB] = [state.domainB, state.domainA];
-    [state.outcomeA, state.outcomeB] = [state.outcomeB, state.outcomeA];
+  $("laneControls").addEventListener("click", (event) => {
+    const remove = event.target.closest("[data-remove-lane]");
+    const duplicate = event.target.closest("[data-duplicate-lane]");
+    if (remove) removeLane(remove.dataset.removeLane);
+    if (duplicate) duplicateLane(duplicate.dataset.duplicateLane);
+    if (!remove && !duplicate) return;
+    renderControls();
+    renderAll();
+  });
+
+  $("addLane").addEventListener("click", () => {
+    addLane();
     renderControls();
     renderAll();
   });
@@ -254,14 +335,14 @@ function bindEvents() {
     renderTrace();
   });
 
-  document.querySelectorAll("[data-trace-lane]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.traceLane = button.dataset.traceLane;
-      state.traceIndex = 0;
-      syncButtonStates();
-      renderTrace();
-      renderInspector();
-    });
+  $("traceLaneButtons").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-trace-lane]");
+    if (!button) return;
+    state.traceLane = button.dataset.traceLane;
+    state.traceIndex = 0;
+    syncButtonStates();
+    renderTrace();
+    renderInspector();
   });
 
   $("prevTrace").addEventListener("click", () => {
@@ -402,51 +483,32 @@ function syncButtonStates() {
 
 function applyRecipe(recipe) {
   const qwenSmall = store.models.find((m) => m.includes("4b")) || store.models[0];
+  const qwenMid = store.models.find((m) => m.includes("9b"));
   const qwenLarge = store.models.find((m) => m.includes("27b")) || store.models[store.models.length - 1];
   const reasoner = store.models.find((m) => m === "reasoner") || store.models[0];
+  const anchor = store.models.find((m) => m === "anchor");
   const base = store.models.find((m) => m.includes("27b")) || store.models.find((m) => m !== reasoner) || store.models[0];
+  const anchorLane = state.lanes[0] || { model: reasoner, domain: store.domains[0], outcome: "all" };
 
   if (recipe === "outcome") {
-    state.modelB = state.modelA;
-    state.domainB = state.domainA;
-    state.outcomeA = "positive";
-    state.outcomeB = "negative";
+    setLanes([
+      { model: anchorLane.model, domain: anchorLane.domain, outcome: "positive" },
+      { model: anchorLane.model, domain: anchorLane.domain, outcome: "negative" },
+    ]);
   } else if (recipe === "scale") {
-    state.modelA = qwenSmall;
-    state.modelB = qwenLarge;
-    state.domainB = state.domainA;
-    state.outcomeA = "all";
-    state.outcomeB = "all";
+    setLanes([qwenSmall, qwenMid, qwenLarge].filter(Boolean).map((model) => ({ model, domain: anchorLane.domain, outcome: "all" })));
   } else if (recipe === "reasoner") {
-    state.modelA = reasoner;
-    state.modelB = base === reasoner ? store.models[0] : base;
-    state.domainB = state.domainA;
-    state.outcomeA = "all";
-    state.outcomeB = "all";
+    setLanes([reasoner, base === reasoner ? store.models[0] : base, anchor].filter(Boolean).map((model) => ({ model, domain: anchorLane.domain, outcome: "all" })));
   }
   state.traceIndex = 0;
 }
 
 function renderComparison() {
   const progress = state.bin / (store.manifest.bins - 1);
-  const styleA = laneStyle("a");
-  const styleB = laneStyle("b");
-  document.documentElement.style.setProperty("--lane-a-color", styleA.line);
-  document.documentElement.style.setProperty("--lane-b-color", styleB.line);
   $("progressPct").textContent = `${Math.round(progress * 100)}%`;
-  $("comparisonSubtitle").textContent = `${state.behaviors.size} behavior${state.behaviors.size === 1 ? "" : "s"} at ${Math.round(progress * 100)}% through trace · ${viewModeLabel(state.viewMode)}`;
-  $("laneReadout").innerHTML = `
-    <div class="lane-chip a" style="border-left-color:${styleA.line}">
-      <strong><i class="model-dot" style="background:${styleA.line}"></i>${modelLabel(state.modelA)}</strong>
-      <span>${titleCase(state.domainA)}</span>
-      <em class="outcome-chip ${outcomeTone(state.outcomeA)}">${OUTCOME_GROUPS[state.outcomeA].label}</em>
-    </div>
-    <div class="lane-chip b" style="border-left-color:${styleB.line}">
-      <strong><i class="model-dot" style="background:${styleB.line}"></i>${modelLabel(state.modelB)}</strong>
-      <span>${titleCase(state.domainB)}</span>
-      <em class="outcome-chip ${outcomeTone(state.outcomeB)}">${OUTCOME_GROUPS[state.outcomeB].label}</em>
-    </div>
-  `;
+  $("comparisonSubtitle").textContent = `${state.lanes.length} lane${state.lanes.length === 1 ? "" : "s"} · ${state.behaviors.size} behavior${state.behaviors.size === 1 ? "" : "s"} at ${Math.round(progress * 100)}% through trace · ${viewModeLabel(state.viewMode)}`;
+  renderLaneLegend();
+  $("laneReadout").innerHTML = state.lanes.map((lane) => laneChip(lane)).join("");
 
   const behaviors = orderedBehaviors([...state.behaviors]);
   const grid = $("comparisonGrid");
@@ -482,6 +544,32 @@ function renderComparison() {
   }
 }
 
+function renderLaneLegend() {
+  const performanceLegend = `
+    <span><i class="perf-good"></i>Solved / high-quality</span>
+    <span><i class="perf-bad"></i>Failed / low-quality</span>
+    <span><i class="scrub-line"></i>progress</span>
+  `;
+  const laneItems = state.lanes
+    .map((lane) => {
+      const style = laneStyle(lane.id);
+      return `<span><i class="line-swatch" style="${lineSwatchStyle(style)}"></i>${laneLabel(lane.id)} · ${modelLabel(lane.model)}</span>`;
+    })
+    .join("");
+  $("laneLegend").innerHTML = `${laneItems}${performanceLegend}`;
+}
+
+function laneChip(lane) {
+  const style = laneStyle(lane.id);
+  return `
+    <div class="lane-chip" style="border-left-color:${style.line}">
+      <strong><i class="model-dot" style="background:${style.line}"></i>${laneLabel(lane.id)} · ${modelLabel(lane.model)}</strong>
+      <span>${titleCase(lane.domain)}</span>
+      <em class="outcome-chip ${outcomeTone(lane.outcome)}">${OUTCOME_GROUPS[lane.outcome].label}</em>
+    </div>
+  `;
+}
+
 function behaviorCard(behavior) {
   const card = document.createElement("button");
   card.type = "button";
@@ -492,22 +580,19 @@ function behaviorCard(behavior) {
     renderInspector();
   });
 
-  const curveA = aggregateCurve("a", behavior);
-  const curveB = aggregateCurve("b", behavior);
-  const pointA = curveA.values[state.bin] || {};
-  const pointB = curveB.values[state.bin] || {};
-  const delta = (pointA.freq || 0) - (pointB.freq || 0);
+  const curves = state.lanes.map((lane) => aggregateCurve(lane.id, behavior));
+  const spread = curveSpread(curves, state.bin);
   card.innerHTML = `
     <div class="mini-chart-head">
       <div>
         <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
-        <small>${familyShortLabel(behavior)} · ${sampleSizeLabel(pointA.n, pointB.n)}</small>
+        <small>${familyShortLabel(behavior)} · ${state.lanes.length} lane${state.lanes.length === 1 ? "" : "s"}</small>
       </div>
-      <span class="delta-pill ${delta >= 0 ? "delta-up" : "delta-down"}">${signedPct(delta)}</span>
+      <span class="delta-pill">${state.lanes.length === 1 ? pct.format(spread.maxValue) : `spread ${signedPct(spread.spread).replace("+", "")}`}</span>
     </div>
     <svg role="img" aria-label="${titleCase(behavior)} trajectory comparison"></svg>
   `;
-  drawMiniChart(card.querySelector("svg"), curveA, curveB);
+  drawMiniChart(card.querySelector("svg"), curves);
   return card;
 }
 
@@ -524,30 +609,22 @@ function renderInspector() {
     return;
   }
 
-  const curveA = aggregateCurve("a", behavior);
-  const curveB = aggregateCurve("b", behavior);
+  const curves = state.lanes.map((lane) => aggregateCurve(lane.id, behavior));
   const progress = state.bin / (store.manifest.bins - 1);
-  const atA = curveA.values[state.bin]?.freq || 0;
-  const atB = curveB.values[state.bin]?.freq || 0;
-  const aucA = average(curveA.values.map((v) => v.freq));
-  const aucB = average(curveB.values.map((v) => v.freq));
-  const earlyA = average(curveA.values.filter((v) => v.bin / (store.manifest.bins - 1) <= 0.4).map((v) => v.freq));
-  const earlyB = average(curveB.values.filter((v) => v.bin / (store.manifest.bins - 1) <= 0.4).map((v) => v.freq));
-  const lateA = average(curveA.values.filter((v) => v.bin / (store.manifest.bins - 1) >= 0.6).map((v) => v.freq));
-  const lateB = average(curveB.values.filter((v) => v.bin / (store.manifest.bins - 1) >= 0.6).map((v) => v.freq));
+  const stats = curves.map((curve) => laneStats(curve));
+  const spread = curveSpread(curves, state.bin);
 
   $("inspectorTitle").textContent = titleCase(behavior);
   $("inspectorSubtitle").textContent = `${Math.round(progress * 100)}% through trace · ${titleCase(familyFor(behavior))} behavior`;
   $("deltaFacts").innerHTML = [
-    ["Lane A at cursor", pct.format(atA)],
-    ["Lane B at cursor", pct.format(atB)],
-    ["Cursor delta", signedPct(atA - atB)],
-    ["AUC delta", signedPct(aucA - aucB)],
-    ["Early delta (0-40%)", signedPct(earlyA - earlyB)],
-    ["Late delta (60-100%)", signedPct(lateA - lateB)],
-  ]
-    .map(([label, value]) => `<div class="delta-fact"><span>${label}</span><strong class="${value.startsWith("-") ? "delta-down" : "delta-up"}">${value}</strong></div>`)
-    .join("");
+    ...stats.map((row) => {
+      const style = laneStyle(row.lane.id);
+      return `<div class="delta-fact lane-fact" style="border-left-color:${style.line}"><span>${laneLabel(row.lane.id)} · ${modelLabel(row.lane.model)}</span><strong>${pct.format(row.atCursor)}</strong><small>AUC ${pct.format(row.auc)} · early ${pct.format(row.early)} · late ${pct.format(row.late)}</small></div>`;
+    }),
+    state.lanes.length > 1
+      ? `<div class="delta-fact spread-fact"><span>Cursor spread</span><strong>${signedPct(spread.spread).replace("+", "")}</strong><small>${laneLabel(spread.maxLane?.id)} leads ${laneLabel(spread.minLane?.id)}</small></div>`
+      : "",
+  ].join("");
 
   renderDivergencePanel();
   renderSampleInspector(behavior);
@@ -555,7 +632,7 @@ function renderInspector() {
 
 function renderDivergencePanel() {
   const behaviors = orderedBehaviors([...state.behaviors]);
-  if (behaviors.length < 2) {
+  if (behaviors.length < 2 || state.lanes.length < 2) {
     $("divergencePanel").innerHTML = "";
     $("hypothesisList").innerHTML = "";
     return;
@@ -563,23 +640,19 @@ function renderDivergencePanel() {
 
   const divergences = behaviors
     .map((behavior) => {
-      const curveA = aggregateCurve("a", behavior);
-      const curveB = aggregateCurve("b", behavior);
-      const atA = curveA.values[state.bin]?.freq || 0;
-      const atB = curveB.values[state.bin]?.freq || 0;
-      const earlyDelta = average(curveA.values.slice(0, Math.max(1, state.bin + 1)).map((v, idx) => (v.freq || 0) - (curveB.values[idx]?.freq || 0)));
-      const lateDelta = average(curveA.values.slice(state.bin).map((v, idx) => (v.freq || 0) - (curveB.values[state.bin + idx]?.freq || 0)));
+      const curves = state.lanes.map((lane) => aggregateCurve(lane.id, behavior));
+      const spread = curveSpread(curves, state.bin);
+      const early = curveSpreadAtBins(curves, (value) => value.bin / (store.manifest.bins - 1) <= 0.4);
+      const late = curveSpreadAtBins(curves, (value) => value.bin / (store.manifest.bins - 1) >= 0.6);
       return {
         behavior,
         family: familyFor(behavior),
-        atA,
-        atB,
-        delta: atA - atB,
-        earlyDelta,
-        lateDelta,
+        ...spread,
+        earlySpread: early,
+        lateSpread: late,
       };
     })
-    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+    .sort((a, b) => b.spread - a.spread);
 
   const top = divergences.slice(0, 3);
   $("divergencePanel").innerHTML = `
@@ -593,7 +666,7 @@ function renderDivergencePanel() {
           (row) => `
             <button class="divergence-card ${row.behavior === state.selectedBehavior ? "selected" : ""}" data-behavior="${escapeAttr(row.behavior)}">
               <strong class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(row.behavior))}">${titleCase(row.behavior)}</strong>
-              <span>${familyShortLabel(row.behavior)} · ${signedPct(row.delta)}</span>
+              <span>${familyShortLabel(row.behavior)} · ${signedPct(row.spread).replace("+", "")}</span>
             </button>
           `,
         )
@@ -621,29 +694,29 @@ function renderHypothesisList(divergences) {
   const familyRows = ["conversational", "cognitive"]
     .map((family) => {
       const rows = divergences.filter((row) => row.family === family);
-      return rows.length ? { family, delta: average(rows.map((row) => row.delta)) } : null;
+      return rows.length ? { family, spread: average(rows.map((row) => row.spread)) } : null;
     })
     .filter(Boolean)
-    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+    .sort((a, b) => b.spread - a.spread);
 
   const prompts = [];
   prompts.push(
-    `${higherLane(top.delta)} is higher on ${titleCase(top.behavior)} by ${signedPct(Math.abs(top.delta)).replace("+", "")} at the cursor; use Reveal mode to see whether that gap appears before or after the answer boundary.`,
+    `${laneLabel(top.maxLane?.id)} is highest and ${laneLabel(top.minLane?.id)} is lowest on ${titleCase(top.behavior)}, separated by ${signedPct(top.spread).replace("+", "")} at the cursor; use Reveal mode to see when that gap opens.`,
   );
 
   if (familyRows.length) {
     const family = familyRows[0];
     prompts.push(
-      `${FAMILY_META[family.family]?.short || titleCase(family.family)} markers lean toward ${higherLane(family.delta)} by ${signedPct(Math.abs(family.delta)).replace("+", "")} on average at this point.`,
+      `${FAMILY_META[family.family]?.short || titleCase(family.family)} markers have the broadest average lane separation at ${signedPct(family.spread).replace("+", "")}.`,
     );
   }
 
-  if (state.modelA !== state.modelB && state.domainA === state.domainB) {
-    prompts.push(`Model hypothesis: keep ${titleCase(state.domainA)} fixed and switch outcomes to test whether the model gap survives performance stratification.`);
-  } else if (state.outcomeA !== state.outcomeB && state.modelA === state.modelB && state.domainA === state.domainB) {
-    prompts.push(`Outcome hypothesis: this isolates performance for ${modelLabel(state.modelA)} on ${titleCase(state.domainA)}; check if the divergence grows close to the answer phase.`);
+  if (uniqueValues(state.lanes, "model").length > 1 && uniqueValues(state.lanes, "domain").length === 1) {
+    prompts.push(`Model hypothesis: ${state.lanes.length} lanes share ${titleCase(state.lanes[0].domain)}; switch outcomes to test whether the model gap survives performance stratification.`);
+  } else if (uniqueValues(state.lanes, "outcome").length > 1 && uniqueValues(state.lanes, "model").length === 1 && uniqueValues(state.lanes, "domain").length === 1) {
+    prompts.push(`Outcome hypothesis: this isolates performance for ${modelLabel(state.lanes[0].model)} on ${titleCase(state.lanes[0].domain)}; check if separation grows near the answer phase.`);
   } else {
-    prompts.push("Domain hypothesis: pin one model and one outcome group, then sweep domains to see whether this shape is task-specific.");
+    prompts.push("Domain hypothesis: pin one model and one outcome group, then add domain lanes to see whether this shape is task-specific.");
   }
 
   $("hypothesisList").innerHTML = `
@@ -653,17 +726,14 @@ function renderHypothesisList(divergences) {
 }
 
 function renderSampleInspector(behavior) {
-  const tracesA = rankedTracesForInspector("a", behavior, 3);
-  const tracesB = rankedTracesForInspector("b", behavior, 3);
-  const annotated = [...tracesA, ...tracesB].some((trace) => Array.isArray(trace.annotations) && trace.annotations.length);
+  const limit = state.lanes.length > 3 ? 1 : 2;
+  const laneSamples = state.lanes.flatMap((lane) => rankedTracesForInspector(lane.id, behavior, limit).map((trace) => ({ lane, trace })));
+  const annotated = laneSamples.some(({ trace }) => Array.isArray(trace.annotations) && trace.annotations.length);
   $("annotationNote").textContent = annotated
     ? `Evidence prioritizes sentence annotations near the ${Math.round((state.bin / (store.manifest.bins - 1)) * 100)}% cursor, then falls back to the closest matching behavior spans.`
     : "Current static samples expose raw prompt/thinking/answer text plus per-trace behavior counts. Re-run the dashboard export after the annotation upgrade to show sentence-level behavior spans.";
 
-  const cards = [
-    ...tracesA.map((trace) => sampleCard(trace, "Lane A", behavior)),
-    ...tracesB.map((trace) => sampleCard(trace, "Lane B", behavior)),
-  ];
+  const cards = laneSamples.map(({ lane, trace }) => sampleCard(trace, laneLabel(lane.id), behavior));
   $("sampleList").innerHTML = cards.join("") || '<div class="empty-state">No sampled traces match the selected comparison lanes.</div>';
 }
 
@@ -741,15 +811,13 @@ function rankedAnnotations(trace, behavior, limit = 5, selectedOnly = true) {
     .slice(0, limit);
 }
 
-function drawMiniChart(svg, curveA, curveB) {
-  const styleA = laneStyle("a");
-  const styleB = laneStyle("b");
+function drawMiniChart(svg, curves) {
   const width = 300;
   const height = 165;
   const margin = { top: 12, right: 12, bottom: 25, left: 34 };
   const plotW = width - margin.left - margin.right;
   const plotH = height - margin.top - margin.bottom;
-  const all = [...curveA.values, ...curveB.values];
+  const all = curves.flatMap((curve) => curve.values);
   const maxY = Math.max(0.01, ...all.map((v) => v.upper || v.freq || 0)) * 1.05;
   const x = (bin) => margin.left + (bin / (store.manifest.bins - 1)) * plotW;
   const y = (value) => margin.top + plotH - (value / maxY) * plotH;
@@ -757,14 +825,17 @@ function drawMiniChart(svg, curveA, curveB) {
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svg.innerHTML = "";
   drawMiniGrid(svg, width, height, margin, plotW, plotH, maxY, x);
-  drawBoundary(svg, curveA.boundary, curveB.boundary, x, margin, plotH);
+  drawBoundary(svg, curves.map((curve) => curve.boundary), x, margin, plotH);
   drawWindowHighlight(svg, x, margin, plotH);
-  const visibleA = visibleCurveValues(curveA.values);
-  const visibleB = visibleCurveValues(curveB.values);
-  drawBand(svg, visibleA, x, y, styleA.band);
-  drawBand(svg, visibleB, x, y, styleB.band);
-  drawLine(svg, visibleA, x, y, styleA.line, false);
-  drawLine(svg, visibleB, x, y, styleB.line, true);
+  curves.forEach((curve) => {
+    const style = laneStyle(curve.lane);
+    const visible = visibleCurveValues(curve.values);
+    if (curves.length <= 4) drawBand(svg, visible, x, y, style.band);
+  });
+  curves.forEach((curve) => {
+    const style = laneStyle(curve.lane);
+    drawLine(svg, visibleCurveValues(curve.values), x, y, style.line, style.dash);
+  });
 
   const scrubX = x(state.bin);
   svg.appendChild(svgEl("line", {
@@ -777,14 +848,15 @@ function drawMiniChart(svg, curveA, curveB) {
     "stroke-dasharray": "3 3",
   }));
 
-  [curveA, curveB].forEach((curve, idx) => {
+  curves.forEach((curve) => {
+    const style = laneStyle(curve.lane);
     const point = curve.values[state.bin];
     if (!point) return;
     svg.appendChild(svgEl("circle", {
       cx: scrubX,
       cy: y(point.freq || 0),
       r: "3.2",
-      fill: idx === 0 ? styleA.line : styleB.line,
+      fill: style.line,
       stroke: "#fff",
       "stroke-width": "1.4",
     }));
@@ -811,8 +883,8 @@ function drawWindowHighlight(svg, x, margin, plotH) {
   }));
 }
 
-function drawBoundary(svg, boundaryA, boundaryB, x, margin, plotH) {
-  const ranges = [boundaryA, boundaryB].filter(Boolean);
+function drawBoundary(svg, boundaries, x, margin, plotH) {
+  const ranges = boundaries.filter(Boolean);
   if (!ranges.length) return;
   const q25 = Math.min(...ranges.map((r) => r.q25));
   const q75 = Math.max(...ranges.map((r) => r.q75));
@@ -855,7 +927,7 @@ function drawBand(svg, values, x, y, color) {
   svg.appendChild(svgEl("path", { d: `${upper} ${lower} Z`, fill: color, stroke: "none" }));
 }
 
-function drawLine(svg, values, x, y, color, dashed) {
+function drawLine(svg, values, x, y, color, dashArray) {
   if (!values.length) return;
   const path = values.map((v, i) => `${i === 0 ? "M" : "L"} ${x(v.bin).toFixed(2)} ${y(v.freq || 0).toFixed(2)}`).join(" ");
   svg.appendChild(svgEl("path", {
@@ -863,12 +935,15 @@ function drawLine(svg, values, x, y, color, dashed) {
     fill: "none",
     stroke: color,
     "stroke-width": "2.2",
-    "stroke-dasharray": dashed ? "5 4" : "",
+    "stroke-dasharray": dashArray || "",
   }));
 }
 
 function aggregateCurve(laneKey, behavior) {
   const lane = laneConfig(laneKey);
+  if (!lane) {
+    return { lane: laneKey, boundary: null, values: Array.from({ length: store.manifest.bins }, (_, bin) => ({ bin, freq: 0, n: 0, lower: 0, upper: 0 })) };
+  }
   const outcomes = new Set(OUTCOME_GROUPS[lane.outcome].outcomes);
   const bins = Array.from({ length: store.manifest.bins }, (_, bin) => ({ bin, sum: 0, weight: 0, traces: 0 }));
   store.heartbeat.curves.forEach((row) => {
@@ -909,15 +984,15 @@ function aggregateBoundary(lane) {
 }
 
 function laneConfig(laneKey) {
-  return laneKey === "a"
-    ? { model: state.modelA, domain: state.domainA, outcome: state.outcomeA }
-    : { model: state.modelB, domain: state.domainB, outcome: state.outcomeB };
+  return state.lanes.find((lane) => lane.id === laneKey) || null;
 }
 
 function laneStyle(laneKey) {
   const lane = laneConfig(laneKey);
+  if (!lane) return { line: "#334155", band: "rgba(51, 65, 85, 0.1)", dash: "" };
+  const index = Math.max(0, state.lanes.findIndex((item) => item.id === laneKey));
   const line = colorForModel(lane.model);
-  return { line, band: alphaColor(line, 0.13) };
+  return { line, band: alphaColor(line, state.lanes.length > 3 ? 0.07 : 0.12), dash: LANE_DASHES[index % LANE_DASHES.length] };
 }
 
 function colorForModel(model) {
@@ -941,7 +1016,50 @@ function outcomeTone(outcomeKey) {
 
 function laneTitle(laneKey) {
   const lane = laneConfig(laneKey);
-  return `${modelLabel(lane.model)} · ${titleCase(lane.domain)}`;
+  return lane ? `${modelLabel(lane.model)} · ${titleCase(lane.domain)}` : "-";
+}
+
+function laneLabel(laneKey) {
+  const index = state.lanes.findIndex((lane) => lane.id === laneKey);
+  if (index < 0) return "Lane";
+  const letter = index < 26 ? String.fromCharCode(65 + index) : `${index + 1}`;
+  return `Lane ${letter}`;
+}
+
+function lineSwatchStyle(style) {
+  return `border-top:3px ${style.dash ? "dashed" : "solid"} ${style.line};background:transparent`;
+}
+
+function laneStats(curve) {
+  const lane = laneConfig(curve.lane);
+  return {
+    lane,
+    atCursor: curve.values[state.bin]?.freq || 0,
+    auc: average(curve.values.map((v) => v.freq)),
+    early: average(curve.values.filter((v) => v.bin / (store.manifest.bins - 1) <= 0.4).map((v) => v.freq)),
+    late: average(curve.values.filter((v) => v.bin / (store.manifest.bins - 1) >= 0.6).map((v) => v.freq)),
+  };
+}
+
+function curveSpread(curves, bin) {
+  const rows = curves
+    .map((curve) => ({ lane: laneConfig(curve.lane), value: curve.values[bin]?.freq || 0 }))
+    .filter((row) => row.lane);
+  if (!rows.length) return { spread: 0, maxValue: 0, minValue: 0, maxLane: null, minLane: null };
+  const max = rows.reduce((best, row) => (row.value > best.value ? row : best), rows[0]);
+  const min = rows.reduce((best, row) => (row.value < best.value ? row : best), rows[0]);
+  return { spread: max.value - min.value, maxValue: max.value, minValue: min.value, maxLane: max.lane, minLane: min.lane };
+}
+
+function curveSpreadAtBins(curves, predicate) {
+  const spreads = Array.from({ length: store.manifest.bins }, (_, bin) => bin)
+    .filter((bin) => predicate({ bin }))
+    .map((bin) => curveSpread(curves, bin).spread);
+  return average(spreads);
+}
+
+function uniqueValues(rows, key) {
+  return [...new Set(rows.map((row) => row[key]))].filter((value) => value != null);
 }
 
 function renderTrace() {
@@ -958,7 +1076,7 @@ function renderTrace() {
   }
 
   const traces = filteredTracesForLane(state.traceLane);
-  $("traceTitle").textContent = `${state.traceLane === "a" ? "Lane A" : "Lane B"} Raw Trace`;
+  $("traceTitle").textContent = `${laneLabel(state.traceLane)} Raw Trace`;
   $("traceMeta").textContent = `${state.traceIndex + 1} of ${traces.length} sampled traces · ${shortId(trace.trace_id)}`;
   const facts = [
     ["Model", modelLabel(trace.gen_model)],
@@ -1013,6 +1131,7 @@ function renderTraceAnnotationRail(trace) {
 
 function filteredTracesForLane(laneKey) {
   const lane = laneConfig(laneKey);
+  if (!lane) return [];
   const outcomes = new Set(OUTCOME_GROUPS[lane.outcome].outcomes);
   return store.traces.filter((trace) => trace.gen_model === lane.model && trace.task_type === lane.domain && outcomes.has(trace.outcome));
 }
@@ -1143,10 +1262,6 @@ function behaviorDescription(behavior) {
   return BEHAVIOR_DETAILS[behavior] || "Behavior marker detected in the trace annotation pipeline.";
 }
 
-function sampleSizeLabel(nA = 0, nB = 0) {
-  return `A/B n ${fmt.format(Math.round(nA || 0))}/${fmt.format(Math.round(nB || 0))}`;
-}
-
 function viewModeLabel(mode) {
   if (mode === "reveal") return "reveal to cursor";
   if (mode === "window") return "local window";
@@ -1163,10 +1278,6 @@ function cursorBinWindow() {
 
 function cursorWindow() {
   return cursorBinWindow() / Math.max(1, store.manifest.bins - 1);
-}
-
-function higherLane(delta) {
-  return delta >= 0 ? "Lane A" : "Lane B";
 }
 
 function modelLabel(model) {

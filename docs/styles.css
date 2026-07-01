@@ -246,14 +246,8 @@ svg {
   border-radius: 999px;
 }
 
-.lane-a .lane-title i,
-.line-a {
-  background: var(--lane-a-color);
-}
-
-.lane-b .lane-title i,
-.line-b {
-  background: var(--lane-b-color);
+.line-swatch {
+  background: transparent;
 }
 
 .lane label {
@@ -283,6 +277,42 @@ select {
   height: 34px;
   color: var(--muted);
   font-size: 12px;
+}
+
+.lane-stack {
+  display: grid;
+}
+
+.dynamic-lane {
+  border-left: 3px solid var(--lane-control-color, var(--line));
+}
+
+.lane-title-actions {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.mini-action {
+  min-height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 7px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: none;
+}
+
+.mini-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.lane-toolbar {
+  background: var(--panel-soft);
 }
 
 .quick-row {
@@ -459,6 +489,39 @@ input[type="range"] {
   font-weight: 800;
 }
 
+.trace-lane-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.trace-lane-buttons button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 9px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.trace-lane-buttons button.active {
+  border-color: color-mix(in srgb, var(--lane-control-color) 42%, var(--line));
+  background: color-mix(in srgb, var(--lane-control-color) 10%, #fff);
+  color: var(--text);
+}
+
+.trace-lane-buttons i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
 .view-mode {
   margin-top: 10px;
 }
@@ -542,7 +605,7 @@ input[type="range"] {
 
 .lane-readout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 8px;
   margin-bottom: 12px;
 }
@@ -774,12 +837,27 @@ input[type="range"] {
   font-size: 12px;
 }
 
+.lane-fact {
+  border-left-width: 3px;
+}
+
 .delta-fact span {
   color: var(--muted);
 }
 
 .delta-fact strong {
   font-size: 13px;
+}
+
+.delta-fact small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.spread-fact {
+  background: #f8fbff;
 }
 
 .delta-up {

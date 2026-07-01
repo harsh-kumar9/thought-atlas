@@ -42,24 +42,14 @@
         <div class="control-heading">
           <div>
             <h2>Comparison</h2>
-            <p>Pick two model/domain lanes, then choose behaviors.</p>
+            <p>Add one or more model/domain lanes, then choose behaviors.</p>
           </div>
           <button class="text-button" id="resetControls">Reset</button>
         </div>
 
-        <section class="control-group lane lane-a">
-          <div class="lane-title"><i></i><span>Lane A</span></div>
-          <label>Model <select id="modelA"></select></label>
-          <label>Domain <select id="domainA"></select></label>
-          <label>Outcome <select id="outcomeA"></select></label>
-        </section>
-
-        <section class="control-group lane lane-b">
-          <div class="lane-title"><i></i><span>Lane B</span></div>
-          <label>Model <select id="modelB"></select></label>
-          <label>Domain <select id="domainB"></select></label>
-          <label>Outcome <select id="outcomeB"></select></label>
-          <button class="secondary-button" id="swapLanes">Swap lanes</button>
+        <div id="laneControls" class="lane-stack"></div>
+        <section class="control-group lane-toolbar">
+          <button class="secondary-button" id="addLane">Add lane</button>
         </section>
 
         <section class="control-group">
@@ -107,10 +97,7 @@
 
         <section class="control-group">
           <div class="control-title"><span>Raw Trace Lane</span></div>
-          <div class="segmented two" role="group" aria-label="Raw trace lane">
-            <button class="active" data-trace-lane="a">Lane A</button>
-            <button data-trace-lane="b">Lane B</button>
-          </div>
+          <div id="traceLaneButtons" class="trace-lane-buttons" role="group" aria-label="Raw trace lane"></div>
         </section>
       </aside>
 
@@ -121,9 +108,7 @@
               <h2>Behavior Trajectories</h2>
               <p id="comparisonSubtitle">Loading trajectory data...</p>
             </div>
-            <div class="legend">
-              <span><i class="line-a"></i>Lane A</span>
-              <span><i class="line-b"></i>Lane B</span>
+            <div class="legend" id="laneLegend">
               <span><i class="perf-good"></i>Solved / high-quality</span>
               <span><i class="perf-bad"></i>Failed / low-quality</span>
               <span><i class="scrub-line"></i>progress</span>

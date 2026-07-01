@@ -12,6 +12,8 @@ failure_mode label. Stage task parquets to local NVMe before iterating.
 Usage:
     python -m src.generate.generate_traces --config configs/exp.yaml \
         --gen-model reasoner --tasks math code gpqa planning moral idea
+
+    reasoner = DeepSeek-R1-Distill-Llama-8B; anchor = Llama-3.1-8B-Instruct.
 """
 
 from __future__ import annotations
@@ -58,7 +60,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default="configs/exp.yaml")
     ap.add_argument("--gen-model", required=True,
-                    help="key under gen_models in the config (e.g. anchor, reasoner, qwen35_9b)")
+                    help="key under gen_models in the config, e.g. anchor=Llama-3.1-8B-Instruct, "
+                         "reasoner=DeepSeek-R1-Distill-Llama-8B, qwen35_9b")
     ap.add_argument("--tasks", nargs="*", default=None)
     ap.add_argument("--tasks-dir", default="data/tasks")
     ap.add_argument("--out-dir", default="data/traces")

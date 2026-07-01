@@ -7,7 +7,7 @@ all with bootstrap 95% CIs (per-domain N varies: code=175 vs 500, so CIs must be
 Outputs (data/analysis/):
   trackA_rate_heatmap.png        domain x behavior, per model — the headline interaction
   trackA_presence_vs_rate.png    presence (frac>0) and frequency (rate) side by side
-  trackA_model_contrast.png      reasoner vs anchor per behavior, CIs
+  trackA_model_contrast.png      DeepSeek-R1-Distill-Llama-8B vs Llama-3.1-8B-Instruct per behavior, CIs
   trackA_rate_ratios.csv         H1 test: max/min across-domain rate ratio per behavior
 
 Run:  python scripts/analyze_trackA.py --config configs/exp.yaml --judge-tag google_gemma-4-31B-it
@@ -79,9 +79,9 @@ def main() -> int:
         return c, (c > 0).astype(float)
 
     # ===== Main figure: 2 rows (cognitive / conversational) x 4 behavior columns =====
-    # vertical bars, domain on x; reasoner accent color, anchor faint grey; shared y within a row.
-    ACCENT = "#1b6ca8"   # reasoner
-    GREY = "#bdbdbd"     # anchor (de-emphasized)
+    # vertical bars, domain on x; DeepSeek accent color, Llama control faint grey; shared y within a row.
+    ACCENT = "#1b6ca8"   # DeepSeek-R1-Distill-Llama-8B
+    GREY = "#bdbdbd"     # Llama-3.1-8B-Instruct (de-emphasized)
     rows_spec = [("Cognitive behaviors (Gandhi)", GAN), ("Conversational behaviors (Kim)", KIM)]
     reasoner_key = "reasoner" if "reasoner" in models else models[-1]
     anchor_key = "anchor" if "anchor" in models else models[0]
@@ -146,7 +146,7 @@ def main() -> int:
     rr = pl.DataFrame(rows).with_columns(pl.col("H1_pass_gt1p5").cast(pl.Boolean))
     rr.write_csv(out / "trackA_rate_ratios.csv")
     npass = rr.filter((pl.col("model") == reasoner_key) & pl.col("H1_pass_gt1p5")).height
-    print(f"[H1] {reasoner_key}: {npass}/{len(BEH)} behaviors show >1.5x across-domain rate ratio "
+    print(f"[H1] {name[reasoner_key]}: {npass}/{len(BEH)} behaviors show >1.5x across-domain rate ratio "
           f"(prereg threshold: >=4).  ->  {'SUPPORTED' if npass >= 4 else 'NOT met'}")
     print(rr.filter(pl.col("model") == reasoner_key).sort("rate_ratio", descending=True))
     print(f"\nfigures + trackA_rate_ratios.csv -> {out}/")

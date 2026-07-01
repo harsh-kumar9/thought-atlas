@@ -11,7 +11,7 @@ and a static GitHub Pages dashboard in `docs/`.
 
 ## Current Dataset
 
-- 5 generation conditions: `anchor`, `reasoner`, `qwen35_4b`, `qwen35_9b`, `qwen35_27b`
+- 5 generation conditions: `Llama-3.1-8B-Instruct`, `DeepSeek-R1-Distill-Llama-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Qwen3.5-27B`
 - 6 domains: `math`, `code`, `gpqa`, `planning`, `moral`, `idea`
 - 13,375 generated traces
 - Track A behavior counts for 13,374 traces
@@ -24,6 +24,10 @@ Large parquet files are intentionally tracked with Git LFS. Before pushing or cl
 git lfs install
 git lfs track "*.parquet" "*.pdf"
 ```
+
+The persisted `gen_model` keys still use historical identifiers such as `anchor`
+for `Llama-3.1-8B-Instruct` and `reasoner` for
+`DeepSeek-R1-Distill-Llama-8B`; the dashboard and docs use the model names.
 
 ## Repo Map
 
@@ -106,7 +110,7 @@ Add a new entry under `gen_models:` in `configs/exp.yaml` with:
 
 - `hf_id`
 - `kind`: `reasoning` or `non_reasoning`
-- `analysis_source`: usually `think_text` for reasoning models and `answer_text` for anchors
+- `analysis_source`: usually `think_text` for reasoning models and `answer_text` for non-reasoning controls
 - `thinking_style`: one of the styles in `src/generate/thinking_spec.py`
 - optional vLLM overrides such as `max_num_seqs` or `gpu_memory_utilization`
 

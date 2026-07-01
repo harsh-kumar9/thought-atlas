@@ -9,27 +9,32 @@
     {
       "gen_model": "anchor",
       "gen_model_id": "meta-llama/Llama-3.1-8B-Instruct",
-      "n_traces": 2675
+      "n_traces": 2675,
+      "display_name": "Llama-3.1-8B-Instruct"
     },
     {
       "gen_model": "qwen35_27b",
       "gen_model_id": "Qwen/Qwen3.5-27B",
-      "n_traces": 2675
+      "n_traces": 2675,
+      "display_name": "Qwen3.5-27B"
     },
     {
       "gen_model": "qwen35_4b",
       "gen_model_id": "Qwen/Qwen3.5-4B",
-      "n_traces": 2675
+      "n_traces": 2675,
+      "display_name": "Qwen3.5-4B"
     },
     {
       "gen_model": "qwen35_9b",
       "gen_model_id": "Qwen/Qwen3.5-9B",
-      "n_traces": 2675
+      "n_traces": 2675,
+      "display_name": "Qwen3.5-9B"
     },
     {
       "gen_model": "reasoner",
       "gen_model_id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
-      "n_traces": 2675
+      "n_traces": 2675,
+      "display_name": "DeepSeek-R1-Distill-Llama-8B"
     }
   ],
   "domains": [

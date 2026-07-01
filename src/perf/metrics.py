@@ -99,7 +99,7 @@ def grade_moral(answer_text: str, metadata: dict, *,
                 judge_fn: Optional[Callable[[str], dict]] = None) -> dict:
     """LLM-graded rubric adherence. judge_fn(prompt)->dict (a guided-JSON judge call).
 
-    Use a judge from a DIFFERENT family than the generator (R1-Distill-Llama is Llama-lineage).
+    Use a judge from a DIFFERENT family than the generator (DeepSeek-R1-Distill-Llama is Llama-lineage).
     If no judge_fn supplied (e.g. dry run), returns status=needs_judge.
     """
     rubric = metadata.get("rubric")

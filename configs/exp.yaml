@@ -12,12 +12,12 @@ paths:
 
 # ---------------- Generation models (cross-model contrast) ----------------
 gen_models:
-  reasoner:                       # existing
+  reasoner:                       # historical key: DeepSeek-R1-Distill-Llama-8B
     hf_id: deepseek-ai/DeepSeek-R1-Distill-Llama-8B
     kind: reasoning
     analysis_source: think_text
     thinking_style: r1            # <-- add (defaults to r1 if kind=reasoning, but be explicit)
-  anchor:
+  anchor:                         # historical key: Llama-3.1-8B-Instruct
     hf_id: meta-llama/Llama-3.1-8B-Instruct
     kind: non_reasoning
     analysis_source: answer_text

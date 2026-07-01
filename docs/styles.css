@@ -593,7 +593,8 @@ input[type="range"] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
+  max-width: 250px;
+  white-space: normal;
 }
 
 .scrub-line {
@@ -620,7 +621,7 @@ input[type="range"] {
 
 .lane-readout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 8px;
   margin-bottom: 12px;
 }
@@ -637,11 +638,10 @@ input[type="range"] {
 
 .lane-chip strong {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  line-height: 1.25;
+  white-space: normal;
   font-size: 13px;
 }
 

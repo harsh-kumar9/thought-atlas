@@ -27,6 +27,13 @@ KIM = [
 GANDHI = ["verification", "backtracking", "subgoal", "backward_chaining"]
 BEHAVIORS = GANDHI + KIM
 DOMAINS = ["math", "code", "gpqa", "planning", "moral", "idea"]
+MODEL_DISPLAY_NAMES = {
+    "anchor": "Llama-3.1-8B-Instruct",
+    "reasoner": "DeepSeek-R1-Distill-Llama-8B",
+    "qwen35_4b": "Qwen3.5-4B",
+    "qwen35_9b": "Qwen3.5-9B",
+    "qwen35_27b": "Qwen3.5-27B",
+}
 OUTCOME_GROUPS = {
     "all": ["solved", "failed", "high_quality", "low_quality", "unknown"],
     "positive": ["solved", "high_quality"],
@@ -122,6 +129,14 @@ def write_json(path: Path, data: Any) -> None:
     path.write_text(json.dumps(_safe(data), indent=2, ensure_ascii=False))
 
 
+def model_display_name(model_key: str | None, model_id: str | None) -> str:
+    if model_key in MODEL_DISPLAY_NAMES:
+        return MODEL_DISPLAY_NAMES[model_key]
+    if model_id:
+        return model_id.split("/")[-1]
+    return str(model_key or "")
+
+
 def clipped(text: str | None, max_chars: int) -> dict[str, Any]:
     text = text or ""
     was = len(text) > max_chars
@@ -181,6 +196,8 @@ def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespac
         .sort("gen_model")
         .to_dicts()
     )
+    for model in models:
+        model["display_name"] = model_display_name(model.get("gen_model"), model.get("gen_model_id"))
     domains = (
         traces.group_by("task_type")
         .agg(pl.len().alias("n_traces"))

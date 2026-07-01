@@ -39,6 +39,14 @@ const MODEL_COLORS = {
   reasoner: "#2563eb",
 };
 
+const MODEL_DISPLAY_NAMES = {
+  anchor: "Llama-3.1-8B-Instruct",
+  reasoner: "DeepSeek-R1-Distill-Llama-8B",
+  qwen35_4b: "Qwen3.5-4B",
+  qwen35_9b: "Qwen3.5-9B",
+  qwen35_27b: "Qwen3.5-27B",
+};
+
 const LANE_DASHES = ["", "5 4", "2 3", "7 3 2 3", "1 4", "10 4 2 4"];
 
 const FAMILY_META = {
@@ -104,6 +112,12 @@ async function loadData() {
     behaviors: manifest.behaviors,
     domains: manifest.domains.map((d) => d.task_type),
     models: manifest.models.map((m) => m.gen_model),
+    modelLabels: new Map(
+      manifest.models.map((m) => [
+        m.gen_model,
+        m.display_name || MODEL_DISPLAY_NAMES[m.gen_model] || shortModelName(m.gen_model_id) || titleCase(m.gen_model),
+      ]),
+    ),
   });
 
   ensureDashboardMarkup();
@@ -1633,11 +1647,11 @@ function cursorWindow() {
 }
 
 function modelLabel(model) {
-  return (model || "")
-    .replace("qwen35_", "Qwen3.5 ")
-    .replace("reasoner", "DeepSeek R1-Distill")
-    .replace("anchor", "Llama 3.1 Anchor")
-    .replace(/_/g, " ");
+  return store.modelLabels?.get(model) || MODEL_DISPLAY_NAMES[model] || titleCase(model);
+}
+
+function shortModelName(modelId) {
+  return modelId ? modelId.split("/").pop() : "";
 }
 
 function titleCase(value) {

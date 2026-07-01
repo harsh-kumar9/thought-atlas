@@ -84,13 +84,14 @@ set +u   # conda hook/activate references unbound vars; re-enable -u after
 eval "$(/ada1/u/harsh/miniconda3/bin/conda shell.bash hook)"; conda activate sote
 set -u
 
-# Args: positional first (sbatch blackwell.sbatch generate anchor), env-var override second.
+# Args: positional first (sbatch blackwell.sbatch generate anchor for Llama-3.1-8B-Instruct),
+# env-var override second.
 STAGE="${1:-${STAGE:-help}}"
-MODEL="${2:-${MODEL:-}}"        # for generate: anchor|reasoner ; for judge: the judge model id
+MODEL="${2:-${MODEL:-}}"        # for generate: config model key; for judge: the judge model id
 echo "STAGE=$STAGE MODEL=${MODEL:-<none>}"
 case "$STAGE" in
   generate)
-    [ -n "$MODEL" ] || { echo "generate needs a model: sbatch blackwell.sbatch generate {anchor|reasoner}"; exit 2; }
+    [ -n "$MODEL" ] || { echo "generate needs a model key, e.g. anchor=Llama-3.1-8B-Instruct or reasoner=DeepSeek-R1-Distill-Llama-8B"; exit 2; }
     # True data-parallel: one single-GPU vLLM replica per allocated GPU, each over a dataset shard.
     # (vLLM 0.22 dropped in-process data_parallel_size; replicate-don't-shard is the right pattern
     #  for an 8B model that fits one card anyway.)

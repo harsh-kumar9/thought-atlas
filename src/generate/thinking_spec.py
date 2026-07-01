@@ -8,7 +8,7 @@ Everything downstream stays delimiter-agnostic and unchanged.
 
 Specs are keyed by a `thinking_style` string set per model in config (gen_models.<name>.thinking_style).
 
-  r1        : DeepSeek-R1-Distill — chat template opens <think>; model emits </think>. Canonical already.
+  r1        : DeepSeek-R1-Distill-Llama — chat template opens <think>; model emits </think>. Canonical already.
   gemma4    : Gemma 4 — enable via "<|think|>" at START of system prompt; output wraps reasoning in
               "<|channel>thought\n ... <channel|>" then the answer. Normalize those to <think>/</think>.
   qwen35    : Qwen3.5 — thinks by DEFAULT (no soft switch); emits <think>...</think> like Qwen3.

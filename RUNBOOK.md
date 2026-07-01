@@ -46,8 +46,8 @@ data/analysis/setup_notes.md
 One job per configured model key:
 
 ```bash
-sbatch -w mira scripts/blackwell.sbatch generate anchor
-sbatch -w mira scripts/blackwell.sbatch generate reasoner
+sbatch -w mira scripts/blackwell.sbatch generate anchor      # Llama-3.1-8B-Instruct
+sbatch -w mira scripts/blackwell.sbatch generate reasoner    # DeepSeek-R1-Distill-Llama-8B
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_4b
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_9b
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_27b

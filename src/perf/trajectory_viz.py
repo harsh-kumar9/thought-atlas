@@ -143,7 +143,7 @@ def make_family_figure(trackB, grades, traces_meta, behaviors, family_name, out_
                Line2D([0], [0], color="#999", lw=5, alpha=0.3, label="think→answer boundary (IQR)")]
     fig.legend(handles=handles, loc="upper center", ncol=3, fontsize=9.5, frameon=False, bbox_to_anchor=(0.5, 1.0))
     fig.suptitle(f"Deliberation trajectories by outcome — {family_name} behaviors\n"
-                 "per-position rate, success vs failure, 95% bootstrap CI (R1-Distill-Llama-8B)",
+                 "per-position rate, success vs failure, 95% bootstrap CI (DeepSeek-R1-Distill-Llama-8B)",
                  fontsize=12, y=1.04 if nrows > 2 else 1.08)
     fig.tight_layout(rect=[0, 0, 1, 0.97])
     for ext in ("png", "pdf"):

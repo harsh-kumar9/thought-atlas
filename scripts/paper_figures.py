@@ -1,7 +1,7 @@
 """scripts/paper_figures.py — publication-ready figures + final stats for the paper.
 
 Produces (data/analysis/paper/):
-  fig1_composition.{png,pdf}    H1: domain x behavior, cognitive/conversational rows, reasoner vs anchor
+  fig1_composition.{png,pdf}    H1: domain x behavior, cognitive/conversational rows, DeepSeek-R1-Distill-Llama-8B vs Llama-3.1-8B-Instruct
   fig2_heartbeat.{png,pdf}      H2: per-domain positional arcs, shape-normalized, cog/conv rows
   fig3_section.{png,pdf}        think-block vs answer-block behavior split (H3 support)
   h2_fanova.csv                 functional ANOVA per behavior (with rarity-guarded p)
@@ -82,7 +82,7 @@ def fig1(a, out):
             ax = axes[ri][ci]
             am, al, ah = cache[(b, ak)]; rm, rl, rh = cache[(b, rk)]
             ax.bar(x-w/2, am, w, yerr=[al, ah], capsize=2, color=GREY, ecolor="#888", label="Llama-3.1-8B-Instruct")
-            ax.bar(x+w/2, rm, w, yerr=[rl, rh], capsize=2, color=ACCENT, ecolor="#0d3b5c", label="R1-Distill-Llama-8B")
+            ax.bar(x+w/2, rm, w, yerr=[rl, rh], capsize=2, color=ACCENT, ecolor="#0d3b5c", label="DeepSeek-R1-Distill-Llama-8B")
             ax.set_title(FULL[b], fontweight="bold", fontsize=9.5)
             ax.set_xticks(x); ax.set_xticklabels([DOM_LABEL[d] for d in doms], rotation=40, ha="right", fontsize=8)
             ax.set_ylim(0, rmax*1.12)
@@ -117,7 +117,7 @@ def fig2(bf, out, nbins=20):
             ax.set_ylabel(("Cognitive" if idx == 0 else "Conversational") + "\nshare of behavior", fontsize=9)
     axes[0][0].legend(fontsize=7, ncol=2, frameon=False, loc="upper right")
     fig.suptitle("Positional 'heartbeat': where each behavior occurs within the reasoning trace\n"
-                 "(shape-normalized per domain; R1-Distill-Llama-8B)", fontsize=12, y=1.0)
+                 "(shape-normalized per domain; DeepSeek-R1-Distill-Llama-8B)", fontsize=12, y=1.0)
     fig.tight_layout()
     for ext in ("png", "pdf"):
         fig.savefig(out / f"fig2_heartbeat.{ext}")
@@ -141,7 +141,7 @@ def fig3(bf, out):
     ax.axvline(3.5, color="#ccc", ls="--", lw=1)
     ax.text(1.5, ax.get_ylim()[1]*0.95, "cognitive", ha="center", fontsize=9, color="#555")
     ax.text(5.5, ax.get_ylim()[1]*0.95, "conversational", ha="center", fontsize=9, color="#555")
-    fig.suptitle("Behavior rates in think-block vs answer-block (R1-Distill)", fontsize=12)
+    fig.suptitle("Behavior rates in think-block vs answer-block (DeepSeek-R1-Distill-Llama-8B)", fontsize=12)
     fig.tight_layout()
     for ext in ("png", "pdf"):
         fig.savefig(out / f"fig3_section.{ext}")

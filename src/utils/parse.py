@@ -1,14 +1,15 @@
-"""src/utils/parse.py — Per-model think/answer parsing for the two generators.
+"""src/utils/parse.py — Per-model think/answer parsing for the two Llama-line models.
 
 Cross-model design (not Qwen thinking on/off):
-  * reasoner (DeepSeek-R1-Distill-Llama-8B): native <think>...</think>. The chat template
-    opens <think>; the model emits </think> then the final answer. We split on </think>:
-    prefix=think_text, suffix=answer_text. Missing </think> => truncated/looped (completed=False).
-  * anchor (Llama-3.1-8B-Instruct): no think block. Whole generation is the answer;
+  * DeepSeek-R1-Distill-Llama-8B (`reasoner` key): native <think>...</think>. The
+    chat template opens <think>; the model emits </think> then the final answer.
+    We split on </think>: prefix=think_text, suffix=answer_text. Missing </think>
+    => truncated/looped (completed=False).
+  * Llama-3.1-8B-Instruct (`anchor` key): no think block. Whole generation is the answer;
     think_text=None. This is the non-reasoning control.
 
-`reasoning_text_for_analysis` = think_text for the reasoner, answer_text for the anchor
-(config: gen_models.*.analysis_source).
+`reasoning_text_for_analysis` = think_text for DeepSeek-R1-Distill-Llama-8B,
+answer_text for Llama-3.1-8B-Instruct (config: gen_models.*.analysis_source).
 """
 
 from __future__ import annotations

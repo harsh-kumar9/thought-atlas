@@ -33,6 +33,10 @@ data/traces/traces_qwen35_9b.parquet
 data/traces/traces_qwen35_27b.parquet
 ```
 
+Historical keys map to model names as follows: `anchor` is
+`Llama-3.1-8B-Instruct`, and `reasoner` is
+`DeepSeek-R1-Distill-Llama-8B`.
+
 Important columns:
 
 - `trace_id`

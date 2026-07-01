@@ -166,7 +166,6 @@ function renderBehaviorFilters() {
     const text = document.createElement("span");
     text.className = "label behavior-label has-tooltip";
     text.textContent = titleCase(behavior.key);
-    text.title = behaviorDescription(behavior.key);
     text.dataset.tooltip = behaviorDescription(behavior.key);
     text.tabIndex = 0;
     const family = document.createElement("span");
@@ -309,7 +308,7 @@ function bindBehaviorTooltips() {
     if (target) showBehaviorTooltip(target);
   });
   document.addEventListener("focusin", (event) => {
-    const target = event.target.closest?.(".has-tooltip[data-tooltip]");
+    const target = tooltipTargetForEvent(event);
     if (target) showBehaviorTooltip(target);
   });
   document.addEventListener("mouseout", (event) => {
@@ -317,7 +316,7 @@ function bindBehaviorTooltips() {
     if (target && !target.contains(event.relatedTarget)) hideBehaviorTooltip(target);
   });
   document.addEventListener("focusout", (event) => {
-    const target = event.target.closest?.(".has-tooltip[data-tooltip]");
+    const target = tooltipTargetForEvent(event);
     if (target) hideBehaviorTooltip(target);
   });
   document.addEventListener("keydown", (event) => {
@@ -337,6 +336,15 @@ function tooltipElement() {
     document.body.appendChild(tooltip);
   }
   return tooltip;
+}
+
+function tooltipTargetForEvent(event) {
+  const direct = event.target.closest?.(".has-tooltip[data-tooltip]");
+  if (direct) return direct;
+  if (event.type === "focusin") {
+    return event.target.querySelector?.(".has-tooltip[data-tooltip]") || null;
+  }
+  return null;
 }
 
 function showBehaviorTooltip(target) {
@@ -492,7 +500,7 @@ function behaviorCard(behavior) {
   card.innerHTML = `
     <div class="mini-chart-head">
       <div>
-        <h3 class="has-tooltip" title="${escapeAttr(behaviorDescription(behavior))}" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
+        <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
         <small>${familyShortLabel(behavior)} · ${sampleSizeLabel(pointA.n, pointB.n)}</small>
       </div>
       <span class="delta-pill ${delta >= 0 ? "delta-up" : "delta-down"}">${signedPct(delta)}</span>
@@ -584,7 +592,7 @@ function renderDivergencePanel() {
         .map(
           (row) => `
             <button class="divergence-card ${row.behavior === state.selectedBehavior ? "selected" : ""}" data-behavior="${escapeAttr(row.behavior)}">
-              <strong class="has-tooltip" title="${escapeAttr(behaviorDescription(row.behavior))}" data-tooltip="${escapeAttr(behaviorDescription(row.behavior))}">${titleCase(row.behavior)}</strong>
+              <strong class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(row.behavior))}">${titleCase(row.behavior)}</strong>
               <span>${familyShortLabel(row.behavior)} · ${signedPct(row.delta)}</span>
             </button>
           `,
@@ -677,7 +685,7 @@ function sampleCard(trace, lane, behavior) {
   return `
     <article class="sample-card">
       <h3>${lane} · ${modelLabel(trace.gen_model)} · ${titleCase(trace.task_type)}</h3>
-      <p>${shortId(trace.trace_id)} · ${titleCase(trace.outcome)} · ${fmt.format(count)} <span class="has-tooltip inline-tooltip" title="${escapeAttr(behaviorDescription(behavior))}" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</span> mark${count === 1 ? "" : "s"}</p>
+      <p>${shortId(trace.trace_id)} · ${titleCase(trace.outcome)} · ${fmt.format(count)} <span class="has-tooltip inline-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</span> mark${count === 1 ? "" : "s"}</p>
       ${matchingAnnotations.length ? snippet : `<p>${snippet || "No text excerpt available for this sample."}</p>`}
       <div class="behavior-chips">${topBehaviorChips(trace)}</div>
     </article>
@@ -1085,7 +1093,7 @@ function topBehaviorChips(trace) {
 
 function behaviorChip(behavior, suffix = "") {
   const detail = behaviorDescription(behavior);
-  return `<span class="behavior-chip has-tooltip" title="${escapeAttr(detail)}" data-tooltip="${escapeAttr(detail)}">${titleCase(behavior)}${suffix ? ` ${suffix}` : ""}</span>`;
+  return `<span class="behavior-chip has-tooltip" data-tooltip="${escapeAttr(detail)}">${titleCase(behavior)}${suffix ? ` ${suffix}` : ""}</span>`;
 }
 
 function firstUsefulText(trace) {

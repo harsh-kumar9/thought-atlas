@@ -52,6 +52,17 @@ const FAMILY_META = {
   },
 };
 
+const BEHAVIOR_DETAILS = {
+  verification: "Checks or validates a claim, calculation, assumption, feasibility constraint, or intermediate result.",
+  backtracking: "Revises course after detecting a weak path, mistake, contradiction, or unproductive line of reasoning.",
+  subgoal: "Breaks the task into intermediate objectives, steps, milestones, or local targets before continuing.",
+  backward_chaining: "Reasons backward from a desired answer, condition, proof target, or success criterion to needed premises.",
+  Question_and_Answering: "Frames uncertainty as explicit questions, then answers or partially answers them inside the trace.",
+  Perspective_Shift: "Switches viewpoint, representation, strategy, stakeholder frame, or interpretation of the task.",
+  Conflict_of_Perspectives: "Surfaces tension between competing hypotheses, constraints, values, options, or interpretations.",
+  Reconciliation: "Integrates competing considerations into a compromise, synthesis, final choice, or resolved direction.",
+};
+
 const state = {
   modelA: null,
   domainA: null,
@@ -68,6 +79,7 @@ const state = {
 };
 
 const store = {};
+let activeTooltipTarget = null;
 const $ = (id) => document.getElementById(id);
 
 async function loadData() {
@@ -152,8 +164,11 @@ function renderBehaviorFilters() {
       renderInspector();
     });
     const text = document.createElement("span");
-    text.className = "label";
+    text.className = "label behavior-label has-tooltip";
     text.textContent = titleCase(behavior.key);
+    text.title = behaviorDescription(behavior.key);
+    text.dataset.tooltip = behaviorDescription(behavior.key);
+    text.tabIndex = 0;
     const family = document.createElement("span");
     family.className = "family";
     family.textContent = titleCase(behavior.family);
@@ -284,6 +299,80 @@ function bindEvents() {
       setTimeout(() => (button.textContent = "Copy"), 900);
     });
   });
+
+  bindBehaviorTooltips();
+}
+
+function bindBehaviorTooltips() {
+  document.addEventListener("mouseover", (event) => {
+    const target = event.target.closest?.(".has-tooltip[data-tooltip]");
+    if (target) showBehaviorTooltip(target);
+  });
+  document.addEventListener("focusin", (event) => {
+    const target = event.target.closest?.(".has-tooltip[data-tooltip]");
+    if (target) showBehaviorTooltip(target);
+  });
+  document.addEventListener("mouseout", (event) => {
+    const target = event.target.closest?.(".has-tooltip[data-tooltip]");
+    if (target && !target.contains(event.relatedTarget)) hideBehaviorTooltip(target);
+  });
+  document.addEventListener("focusout", (event) => {
+    const target = event.target.closest?.(".has-tooltip[data-tooltip]");
+    if (target) hideBehaviorTooltip(target);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") hideBehaviorTooltip();
+  });
+  window.addEventListener("scroll", () => hideBehaviorTooltip(), true);
+  window.addEventListener("resize", () => hideBehaviorTooltip());
+}
+
+function tooltipElement() {
+  let tooltip = $("behaviorTooltip");
+  if (!tooltip) {
+    tooltip = document.createElement("div");
+    tooltip.id = "behaviorTooltip";
+    tooltip.className = "floating-tooltip";
+    tooltip.setAttribute("role", "tooltip");
+    document.body.appendChild(tooltip);
+  }
+  return tooltip;
+}
+
+function showBehaviorTooltip(target) {
+  const detail = target.dataset.tooltip;
+  if (!detail) return;
+  if (activeTooltipTarget && activeTooltipTarget !== target) activeTooltipTarget.removeAttribute("aria-describedby");
+  activeTooltipTarget = target;
+  const tooltip = tooltipElement();
+  tooltip.textContent = detail;
+  tooltip.classList.add("visible");
+  target.setAttribute("aria-describedby", tooltip.id);
+  positionBehaviorTooltip(target, tooltip);
+}
+
+function positionBehaviorTooltip(target, tooltip) {
+  const margin = 10;
+  const gap = 8;
+  const targetRect = target.getBoundingClientRect();
+  const tooltipRect = tooltip.getBoundingClientRect();
+  let left = targetRect.left;
+  let top = targetRect.bottom + gap;
+  if (left + tooltipRect.width > window.innerWidth - margin) {
+    left = window.innerWidth - tooltipRect.width - margin;
+  }
+  if (top + tooltipRect.height > window.innerHeight - margin) {
+    top = targetRect.top - tooltipRect.height - gap;
+  }
+  tooltip.style.left = `${Math.max(margin, left)}px`;
+  tooltip.style.top = `${Math.max(margin, top)}px`;
+}
+
+function hideBehaviorTooltip(target = activeTooltipTarget) {
+  const tooltip = $("behaviorTooltip");
+  if (target) target.removeAttribute("aria-describedby");
+  if (tooltip) tooltip.classList.remove("visible");
+  if (!target || target === activeTooltipTarget) activeTooltipTarget = null;
 }
 
 function renderAll() {
@@ -403,7 +492,7 @@ function behaviorCard(behavior) {
   card.innerHTML = `
     <div class="mini-chart-head">
       <div>
-        <h3>${titleCase(behavior)}</h3>
+        <h3 class="has-tooltip" title="${escapeAttr(behaviorDescription(behavior))}" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
         <small>${familyShortLabel(behavior)} · ${sampleSizeLabel(pointA.n, pointB.n)}</small>
       </div>
       <span class="delta-pill ${delta >= 0 ? "delta-up" : "delta-down"}">${signedPct(delta)}</span>
@@ -495,7 +584,7 @@ function renderDivergencePanel() {
         .map(
           (row) => `
             <button class="divergence-card ${row.behavior === state.selectedBehavior ? "selected" : ""}" data-behavior="${escapeAttr(row.behavior)}">
-              <strong>${titleCase(row.behavior)}</strong>
+              <strong class="has-tooltip" title="${escapeAttr(behaviorDescription(row.behavior))}" data-tooltip="${escapeAttr(behaviorDescription(row.behavior))}">${titleCase(row.behavior)}</strong>
               <span>${familyShortLabel(row.behavior)} · ${signedPct(row.delta)}</span>
             </button>
           `,
@@ -588,7 +677,7 @@ function sampleCard(trace, lane, behavior) {
   return `
     <article class="sample-card">
       <h3>${lane} · ${modelLabel(trace.gen_model)} · ${titleCase(trace.task_type)}</h3>
-      <p>${shortId(trace.trace_id)} · ${titleCase(trace.outcome)} · ${fmt.format(count)} ${titleCase(behavior)} mark${count === 1 ? "" : "s"}</p>
+      <p>${shortId(trace.trace_id)} · ${titleCase(trace.outcome)} · ${fmt.format(count)} <span class="has-tooltip inline-tooltip" title="${escapeAttr(behaviorDescription(behavior))}" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</span> mark${count === 1 ? "" : "s"}</p>
       ${matchingAnnotations.length ? snippet : `<p>${snippet || "No text excerpt available for this sample."}</p>`}
       <div class="behavior-chips">${topBehaviorChips(trace)}</div>
     </article>
@@ -904,7 +993,7 @@ function renderTraceAnnotationRail(trace) {
               </div>
               <p>${escapeHtml(annotation.text || "")}</p>
               <div class="behavior-chips">${(annotation.behaviors || [])
-                .map((b) => `<span class="behavior-chip">${titleCase(b)}</span>`)
+                .map((b) => behaviorChip(b))
                 .join("")}</div>
             </article>
           `,
@@ -990,8 +1079,13 @@ function topBehaviorChips(trace) {
     .filter(([, count]) => count > 0)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 4)
-    .map(([behavior, count]) => `<span class="behavior-chip">${titleCase(behavior)} ${fmt.format(count)}</span>`)
+    .map(([behavior, count]) => behaviorChip(behavior, fmt.format(count)))
     .join("");
+}
+
+function behaviorChip(behavior, suffix = "") {
+  const detail = behaviorDescription(behavior);
+  return `<span class="behavior-chip has-tooltip" title="${escapeAttr(detail)}" data-tooltip="${escapeAttr(detail)}">${titleCase(behavior)}${suffix ? ` ${suffix}` : ""}</span>`;
 }
 
 function firstUsefulText(trace) {
@@ -1035,6 +1129,10 @@ function familyFor(behavior) {
 function familyShortLabel(behavior) {
   const family = familyFor(behavior);
   return FAMILY_META[family]?.short || titleCase(family);
+}
+
+function behaviorDescription(behavior) {
+  return BEHAVIOR_DETAILS[behavior] || "Behavior marker detected in the trace annotation pipeline.";
 }
 
 function sampleSizeLabel(nA = 0, nB = 0) {

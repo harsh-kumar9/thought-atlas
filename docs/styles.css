@@ -356,6 +356,43 @@ select {
   font-size: 10px;
 }
 
+.has-tooltip {
+  position: relative;
+  cursor: help;
+  text-decoration: underline dotted rgba(100, 112, 132, 0.55);
+  text-underline-offset: 3px;
+}
+
+.inline-tooltip {
+  color: inherit;
+}
+
+.floating-tooltip {
+  position: fixed;
+  z-index: 80;
+  width: min(280px, 72vw);
+  padding: 8px 9px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: 7px;
+  background: #111827;
+  box-shadow: 0 12px 28px rgba(17, 24, 39, 0.18);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-2px);
+  transition: opacity 120ms ease, transform 120ms ease;
+  visibility: hidden;
+}
+
+.floating-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
 .scrubber-row {
   display: grid;
   grid-template-columns: auto 1fr auto;

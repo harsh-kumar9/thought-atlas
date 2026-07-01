@@ -100,10 +100,54 @@ async function loadData() {
     models: manifest.models.map((m) => m.gen_model),
   });
 
+  ensureDashboardMarkup();
   initializeState();
   renderControls();
   bindEvents();
   renderAll();
+}
+
+function ensureDashboardMarkup() {
+  const controls = $("controlsPanel");
+  const headingCopy = controls?.querySelector(".control-heading p");
+  if (headingCopy) headingCopy.textContent = "Add one or more model/domain lanes, then choose behaviors.";
+  if (controls && !$("laneControls")) {
+    controls.querySelectorAll(".lane-a, .lane-b").forEach((node) => node.remove());
+    const laneMarkup = `
+      <div id="laneControls" class="lane-stack"></div>
+      <section class="control-group lane-toolbar">
+        <button class="secondary-button" id="addLane">Add lane</button>
+      </section>
+    `;
+    const heading = controls.querySelector(".control-heading");
+    if (heading) heading.insertAdjacentHTML("afterend", laneMarkup);
+    else controls.insertAdjacentHTML("afterbegin", laneMarkup);
+  } else if ($("laneControls") && !$("addLane")) {
+    $("laneControls").insertAdjacentHTML(
+      "afterend",
+      '<section class="control-group lane-toolbar"><button class="secondary-button" id="addLane">Add lane</button></section>',
+    );
+  }
+
+  if (controls && !$("traceLaneButtons")) {
+    const rawGroup = [...controls.querySelectorAll(".control-group")].find((section) => section.textContent.includes("Raw Trace Lane"));
+    const oldButtons = rawGroup?.querySelector('[aria-label="Raw trace lane"]');
+    if (oldButtons) {
+      oldButtons.outerHTML = '<div id="traceLaneButtons" class="trace-lane-buttons" role="group" aria-label="Raw trace lane"></div>';
+    } else if (rawGroup) {
+      rawGroup.insertAdjacentHTML("beforeend", '<div id="traceLaneButtons" class="trace-lane-buttons" role="group" aria-label="Raw trace lane"></div>');
+    }
+  }
+
+  const legend = document.querySelector(".compare-panel .legend");
+  if (legend && !$("laneLegend")) {
+    legend.id = "laneLegend";
+    legend.innerHTML = `
+      <span><i class="perf-good"></i>Solved / high-quality</span>
+      <span><i class="perf-bad"></i>Failed / low-quality</span>
+      <span><i class="scrub-line"></i>progress</span>
+    `;
+  }
 }
 
 function initializeState() {
@@ -153,7 +197,7 @@ function createLane(config = {}) {
 function addLane() {
   const source = state.lanes[state.lanes.length - 1] || {};
   const model = store.models[state.lanes.length % Math.max(1, store.models.length)] || source.model || store.models[0];
-  state.lanes.push(createLane({ ...source, model }));
+  state.lanes.push(createLane({ model, domain: source.domain, outcome: source.outcome }));
   state.traceLane = state.traceLane || state.lanes[0].id;
 }
 

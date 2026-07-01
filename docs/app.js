@@ -81,12 +81,15 @@ let activeTooltipTarget = null;
 const $ = (id) => document.getElementById(id);
 
 async function loadData() {
-  const [manifest, summary, heartbeat, traces, distance] = await Promise.all([
+  const [manifest, summary, heartbeat, traces, distance, trackA] = await Promise.all([
     fetch("data/manifest.json").then((r) => r.json()),
     fetch("data/summary.json").then((r) => r.json()),
     fetch("data/heartbeat.json").then((r) => r.json()),
     fetch("data/trace_samples.json").then((r) => r.json()),
     fetch("data/distance.json").then((r) => r.json()),
+    fetch("data/trackA.json")
+      .then((r) => (r.ok ? r.json() : { cells: [], families: [] }))
+      .catch(() => ({ cells: [], families: [] })),
   ]);
 
   Object.assign(store, {
@@ -95,6 +98,9 @@ async function loadData() {
     heartbeat,
     traces: traces.traces,
     distance,
+    trackA,
+    trackAIndex: new Map((trackA.cells || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.behavior), row])),
+    trackAFamilyIndex: new Map((trackA.families || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.family), row])),
     behaviors: manifest.behaviors,
     domains: manifest.domains.map((d) => d.task_type),
     models: manifest.models.map((m) => m.gen_model),
@@ -275,6 +281,7 @@ function renderBehaviorFilters() {
       }
       renderBehaviorFilters();
       renderComparison();
+      renderTrackA();
       renderInspector();
     });
     const text = document.createElement("span");
@@ -342,6 +349,7 @@ function bindEvents() {
       state.selectedBehavior = selected[0] || state.selectedBehavior;
       renderBehaviorFilters();
       renderComparison();
+      renderTrackA();
       renderInspector();
     });
   });
@@ -510,6 +518,7 @@ function hideBehaviorTooltip(target = activeTooltipTarget) {
 
 function renderAll() {
   renderComparison();
+  renderTrackA();
   renderInspector();
   renderTrace();
   renderSummary();
@@ -621,6 +630,7 @@ function behaviorCard(behavior) {
   card.addEventListener("click", () => {
     state.selectedBehavior = behavior;
     renderComparison();
+    renderTrackA();
     renderInspector();
   });
 
@@ -638,6 +648,193 @@ function behaviorCard(behavior) {
   `;
   drawMiniChart(card.querySelector("svg"), curves);
   return card;
+}
+
+function renderTrackA() {
+  if (!$("trackAGrid")) return;
+  const behaviors = orderedBehaviors([...state.behaviors]);
+  $("trackASubtitle").textContent = `${state.lanes.length} lane${state.lanes.length === 1 ? "" : "s"} · ${state.behaviors.size} behavior${state.behaviors.size === 1 ? "" : "s"} · whole-trace count and presence, no temporal binning`;
+  renderTrackALegend();
+  $("trackAReadout").innerHTML = state.lanes.map((lane) => laneChip(lane)).join("");
+
+  const grid = $("trackAGrid");
+  grid.innerHTML = "";
+  grid.className = "tracka-grid";
+  if (!store.trackA?.cells?.length) {
+    grid.innerHTML = '<div class="empty-state">Track A data is not available in this dashboard export yet.</div>';
+    $("trackADetail").innerHTML = "";
+    return;
+  }
+  if (!behaviors.length) {
+    grid.innerHTML = '<div class="empty-state">Select at least one behavior to compare whole-trace counts.</div>';
+    $("trackADetail").innerHTML = "";
+    return;
+  }
+
+  const groups = behaviorGroups(behaviors);
+  grid.className = groups.length > 1 ? "tracka-grid grouped" : "tracka-grid";
+  if (groups.length > 1) {
+    groups.forEach((group) => {
+      const section = document.createElement("section");
+      section.className = `behavior-family-group ${group.family}`;
+      section.innerHTML = `
+        <div class="family-group-head">
+          <div>
+            <h3>${escapeHtml(group.meta.label)}</h3>
+            <p>${escapeHtml(group.meta.description)}</p>
+          </div>
+          <span>${group.behaviors.length} selected</span>
+        </div>
+        <div class="tracka-card-grid"></div>
+      `;
+      const familyGrid = section.querySelector(".tracka-card-grid");
+      group.behaviors.forEach((behavior) => familyGrid.appendChild(trackACard(behavior)));
+      grid.appendChild(section);
+    });
+  } else {
+    behaviors.forEach((behavior) => grid.appendChild(trackACard(behavior)));
+  }
+  renderTrackADetail(state.selectedBehavior || behaviors[0]);
+}
+
+function renderTrackALegend() {
+  const laneItems = state.lanes
+    .map((lane) => {
+      const style = laneStyle(lane.id);
+      return `<span><i class="line-swatch" style="${lineSwatchStyle(style)}"></i>${laneLabel(lane.id)} · ${modelLabel(lane.model)}</span>`;
+    })
+    .join("");
+  $("trackALegend").innerHTML = `${laneItems}<span><i class="tracka-mean"></i>mean count</span><span><i class="tracka-presence"></i>presence rate</span>`;
+}
+
+function trackACard(behavior) {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = `tracka-card ${behavior === state.selectedBehavior ? "selected" : ""}`;
+  card.addEventListener("click", () => {
+    state.selectedBehavior = behavior;
+    renderComparison();
+    renderTrackA();
+    renderInspector();
+  });
+
+  const rows = state.lanes.map((lane) => trackAMetric(lane.id, behavior));
+  const countSpread = metricSpread(rows, "meanCount");
+  const presenceSpread = metricSpread(rows, "presenceRate");
+  const maxCount = Math.max(0.1, ...rows.map((row) => row.upperCount || row.meanCount || 0));
+  card.innerHTML = `
+    <div class="mini-chart-head">
+      <div>
+        <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
+        <small>${familyShortLabel(behavior)} · Track A whole trace</small>
+      </div>
+      <span class="delta-pill">${state.lanes.length === 1 ? one.format(countSpread.maxValue) : `spread ${one.format(countSpread.spread)}`}</span>
+    </div>
+    <div class="tracka-bars">
+      ${rows
+        .map((row) => {
+          const style = laneStyle(row.lane.id);
+          const width = Math.max(2, Math.min(100, (row.meanCount / maxCount) * 100));
+          const presence = row.presenceRate == null ? "-" : pct.format(row.presenceRate);
+          const countRange = row.nTraces ? `${one.format(row.lowerCount)}-${one.format(row.upperCount)}` : "-";
+          return `
+            <div class="tracka-bar-row" style="--bar-color:${style.line}">
+              <div class="tracka-bar-label">
+                <strong>${laneLabel(row.lane.id)}</strong>
+                <span>${fmt.format(row.nTraces)} traces</span>
+              </div>
+              <div class="tracka-bar-shell"><i style="width:${width}%"></i></div>
+              <div class="tracka-bar-values">
+                <strong>${one.format(row.meanCount)}</strong>
+                <span>${presence} present · CI ${countRange}</span>
+              </div>
+            </div>
+          `;
+        })
+        .join("")}
+    </div>
+    <div class="tracka-card-foot">
+      <span>Presence spread ${presenceSpread.spread == null ? "-" : signedPct(presenceSpread.spread).replace("+", "")}</span>
+      <span>${laneLabel(countSpread.maxLane?.id)} highest</span>
+    </div>
+  `;
+  return card;
+}
+
+function renderTrackADetail(behavior) {
+  const target = $("trackADetail");
+  if (!target || !behavior) return;
+  const rows = state.lanes.map((lane) => trackAMetric(lane.id, behavior));
+  const countSpread = metricSpread(rows, "meanCount");
+  const presenceSpread = metricSpread(rows, "presenceRate");
+  const familyRows = state.lanes.map((lane) => trackAFamilyMetric(lane.id, familyFor(behavior)));
+  const familyMax = Math.max(0.1, ...familyRows.map((row) => row.meanCount || 0));
+  const domainProfiles = state.lanes.map((lane) => ({
+    lane,
+    style: laneStyle(lane.id),
+    metrics: store.domains.map((domain) => trackAMetricForConfig({ ...lane, domain }, behavior)),
+  }));
+  const profileMax = Math.max(0.1, ...domainProfiles.flatMap((profile) => profile.metrics.map((metric) => metric.meanCount || 0)));
+
+  target.innerHTML = `
+    <div class="tracka-detail-head">
+      <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
+      <p>Static Track A counts across the full trace. These values ignore cursor position and answer-boundary timing.</p>
+    </div>
+    <div class="delta-facts tracka-facts">
+      ${rows
+        .map((row) => {
+          const style = laneStyle(row.lane.id);
+          return `<div class="delta-fact lane-fact" style="border-left-color:${style.line}"><span>${laneLabel(row.lane.id)} · ${modelLabel(row.lane.model)}</span><strong>${one.format(row.meanCount)}</strong><small>${pct.format(row.presenceRate || 0)} present · n=${fmt.format(row.nTraces)} · ${titleCase(row.lane.domain)}</small></div>`;
+        })
+        .join("")}
+      ${
+        state.lanes.length > 1
+          ? `<div class="delta-fact spread-fact"><span>Static count spread</span><strong>${one.format(countSpread.spread)}</strong><small>${laneLabel(countSpread.maxLane?.id)} leads ${laneLabel(countSpread.minLane?.id)} · presence spread ${signedPct(presenceSpread.spread).replace("+", "")}</small></div>`
+          : ""
+      }
+    </div>
+    <div class="tracka-subsection">
+      <div class="inspector-section-title"><span>${familyShortLabel(behavior)} Family Volume</span></div>
+      <div class="tracka-family-bars">
+        ${familyRows
+          .map((row) => {
+            const style = laneStyle(row.lane.id);
+            return `<div class="tracka-family-row" style="--bar-color:${style.line}"><span>${laneLabel(row.lane.id)}</span><i><b style="width:${Math.max(2, Math.min(100, (row.meanCount / familyMax) * 100))}%"></b></i><strong>${one.format(row.meanCount)}</strong></div>`;
+          })
+          .join("")}
+      </div>
+    </div>
+    <div class="tracka-subsection">
+      <div class="inspector-section-title"><span>Domain Profile</span></div>
+      <div class="tracka-domain-profiles">
+        ${domainProfiles
+          .map(
+            (profile) => `
+              <article style="--bar-color:${profile.style.line}">
+                <strong>${laneLabel(profile.lane.id)} · ${modelLabel(profile.lane.model)}</strong>
+                ${profile.metrics
+                  .map(
+                    (metric) => `
+                      <div class="tracka-domain-row">
+                        <span>${titleCase(metric.lane.domain)}</span>
+                        <i><b style="width:${Math.max(2, Math.min(100, (metric.meanCount / profileMax) * 100))}%"></b></i>
+                        <em>${one.format(metric.meanCount)}</em>
+                      </div>
+                    `,
+                  )
+                  .join("")}
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="hypothesis-list tracka-hypotheses">
+      <div class="inspector-section-title"><span>Static Hypothesis Prompts</span></div>
+      ${trackAHypotheses(behavior, rows, countSpread, presenceSpread).map((prompt) => `<article>${escapeHtml(prompt)}</article>`).join("")}
+    </div>
+  `;
 }
 
 function renderInspector() {
@@ -721,6 +918,7 @@ function renderDivergencePanel() {
     button.addEventListener("click", () => {
       state.selectedBehavior = button.dataset.behavior;
       renderComparison();
+      renderTrackA();
       renderInspector();
     });
   });
@@ -1072,6 +1270,116 @@ function laneLabel(laneKey) {
 
 function lineSwatchStyle(style) {
   return `border-top:3px ${style.dash ? "dashed" : "solid"} ${style.line};background:transparent`;
+}
+
+function trackAKey(model, domain, outcome, behavior) {
+  return `${model}|${domain}|${outcome}|${behavior}`;
+}
+
+function trackAMetric(laneKey, behavior) {
+  const lane = laneConfig(laneKey);
+  if (!lane) return emptyTrackAMetric({ id: laneKey, model: "", domain: "", outcome: "all" }, behavior);
+  return trackAMetricForConfig(lane, behavior);
+}
+
+function trackAMetricForConfig(config, behavior) {
+  const row = store.trackAIndex?.get(trackAKey(config.model, config.domain, config.outcome, behavior));
+  const lane = {
+    id: config.id || `${config.model}-${config.domain}-${config.outcome}`,
+    model: config.model,
+    domain: config.domain,
+    outcome: config.outcome,
+  };
+  if (!row) return emptyTrackAMetric(lane, behavior);
+  return {
+    lane,
+    behavior,
+    nTraces: row.n_traces || 0,
+    totalCount: row.total_count || 0,
+    meanCount: row.mean_count || 0,
+    lowerCount: row.lower_count ?? row.mean_count ?? 0,
+    upperCount: row.upper_count ?? row.mean_count ?? 0,
+    presenceRate: row.presence_rate ?? 0,
+    lowerPresence: row.lower_presence ?? row.presence_rate ?? 0,
+    upperPresence: row.upper_presence ?? row.presence_rate ?? 0,
+  };
+}
+
+function emptyTrackAMetric(lane, behavior) {
+  return {
+    lane,
+    behavior,
+    nTraces: 0,
+    totalCount: 0,
+    meanCount: 0,
+    lowerCount: 0,
+    upperCount: 0,
+    presenceRate: 0,
+    lowerPresence: 0,
+    upperPresence: 0,
+  };
+}
+
+function trackAFamilyMetric(laneKey, family) {
+  const lane = laneConfig(laneKey);
+  if (!lane) return emptyTrackAMetric({ id: laneKey, model: "", domain: "", outcome: "all" }, family);
+  const row = store.trackAFamilyIndex?.get(trackAKey(lane.model, lane.domain, lane.outcome, family));
+  if (row) {
+    return {
+      lane,
+      behavior: family,
+      nTraces: row.n_traces || 0,
+      totalCount: row.total_count || 0,
+      meanCount: row.mean_count || 0,
+      lowerCount: row.lower_count ?? row.mean_count ?? 0,
+      upperCount: row.upper_count ?? row.mean_count ?? 0,
+      presenceRate: row.presence_rate ?? 0,
+      lowerPresence: row.lower_presence ?? row.presence_rate ?? 0,
+      upperPresence: row.upper_presence ?? row.presence_rate ?? 0,
+    };
+  }
+  const familyBehaviors = store.behaviors.filter((behavior) => behavior.family === family).map((behavior) => behavior.key);
+  const metrics = familyBehaviors.map((behavior) => trackAMetric(lane.id, behavior));
+  return {
+    lane,
+    behavior: family,
+    nTraces: Math.max(0, ...metrics.map((metric) => metric.nTraces || 0)),
+    totalCount: metrics.reduce((sum, metric) => sum + metric.totalCount, 0),
+    meanCount: metrics.reduce((sum, metric) => sum + metric.meanCount, 0),
+    lowerCount: metrics.reduce((sum, metric) => sum + metric.lowerCount, 0),
+    upperCount: metrics.reduce((sum, metric) => sum + metric.upperCount, 0),
+    presenceRate: 0,
+    lowerPresence: 0,
+    upperPresence: 0,
+  };
+}
+
+function metricSpread(rows, field) {
+  const values = rows.filter((row) => row.lane && Number.isFinite(row[field]));
+  if (!values.length) return { spread: 0, maxValue: 0, minValue: 0, maxLane: null, minLane: null };
+  const max = values.reduce((best, row) => (row[field] > best[field] ? row : best), values[0]);
+  const min = values.reduce((best, row) => (row[field] < best[field] ? row : best), values[0]);
+  return { spread: max[field] - min[field], maxValue: max[field], minValue: min[field], maxLane: max.lane, minLane: min.lane };
+}
+
+function trackAHypotheses(behavior, rows, countSpread, presenceSpread) {
+  if (!rows.some((row) => row.nTraces)) return ["No Track A rows match the current lane configuration."];
+  const prompts = [
+    `${laneLabel(countSpread.maxLane?.id)} has the highest whole-trace ${titleCase(behavior)} volume, exceeding ${laneLabel(countSpread.minLane?.id)} by ${one.format(countSpread.spread)} marks per trace.`,
+  ];
+  if (presenceSpread.spread > 0.12) {
+    prompts.push(`Presence varies by ${signedPct(presenceSpread.spread).replace("+", "")}, so the difference may be about whether traces use this behavior at all.`);
+  } else if (countSpread.spread > 0.5) {
+    prompts.push("Presence is comparatively stable, so the difference may be intensity among traces that already use the behavior.");
+  }
+  if (uniqueValues(state.lanes, "model").length > 1 && uniqueValues(state.lanes, "domain").length === 1) {
+    prompts.push(`Model hypothesis: lanes share ${titleCase(state.lanes[0].domain)}; compare Track A volume with the temporal tab to see whether extra behavior is spread throughout the trace or localized.`);
+  } else if (uniqueValues(state.lanes, "domain").length > 1 && uniqueValues(state.lanes, "model").length === 1) {
+    prompts.push(`Domain hypothesis: ${modelLabel(state.lanes[0].model)} may invoke this behavior more often for some task families even before considering where it occurs.`);
+  } else if (uniqueValues(state.lanes, "outcome").length > 1) {
+    prompts.push("Outcome hypothesis: static count gaps can separate successful from failed traces even when their temporal shapes look similar.");
+  }
+  return prompts;
 }
 
 function laneStats(curve) {

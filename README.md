@@ -137,5 +137,9 @@ python -m http.server 8000 -d docs
 
 Open `http://127.0.0.1:8000/`.
 
+The Compare tab explores temporal Track B behavior trajectories. The Track A tab
+uses the same model/domain/outcome lanes for whole-trace behavior count and
+presence comparisons without any temporal cursor.
+
 The dashboard samples raw trace text for browser speed. The full raw prompt,
 thinking, and answer fields remain in `data/traces/*.parquet`.

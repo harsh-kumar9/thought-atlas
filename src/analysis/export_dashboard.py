@@ -27,6 +27,16 @@ KIM = [
 GANDHI = ["verification", "backtracking", "subgoal", "backward_chaining"]
 BEHAVIORS = GANDHI + KIM
 DOMAINS = ["math", "code", "gpqa", "planning", "moral", "idea"]
+OUTCOME_GROUPS = {
+    "all": ["solved", "failed", "high_quality", "low_quality", "unknown"],
+    "positive": ["solved", "high_quality"],
+    "negative": ["failed", "low_quality"],
+    "solved": ["solved"],
+    "failed": ["failed"],
+    "high_quality": ["high_quality"],
+    "low_quality": ["low_quality"],
+    "unknown": ["unknown"],
+}
 
 
 def _read_many(paths: list[str], *, required: bool = True) -> pl.DataFrame:
@@ -243,6 +253,105 @@ def export_summary(
     )
 
 
+def _track_a_aggregate(df: pl.DataFrame, value_col: str, *, key_col: str, key_value: str) -> pl.DataFrame:
+    part = (
+        df.group_by(["gen_model", "task_type"])
+        .agg(
+            pl.len().alias("n_traces"),
+            pl.col(value_col).sum().round(4).alias("total_count"),
+            pl.col(value_col).cast(pl.Float64).mean().alias("mean_count"),
+            pl.col(value_col).cast(pl.Float64).std().fill_null(0).alias("_sd_count"),
+            (pl.col(value_col) > 0).cast(pl.Float64).mean().alias("presence_rate"),
+        )
+        .with_columns(
+            (pl.col("_sd_count") / pl.col("n_traces").cast(pl.Float64).sqrt()).alias("_se_count"),
+            ((pl.col("presence_rate") * (1 - pl.col("presence_rate")) / pl.col("n_traces")).sqrt()).alias("_se_presence"),
+        )
+        .with_columns(
+            pl.lit(key_value).alias(key_col),
+            pl.max_horizontal(pl.lit(0.0), pl.col("mean_count") - 1.96 * pl.col("_se_count")).round(4).alias("lower_count"),
+            (pl.col("mean_count") + 1.96 * pl.col("_se_count")).round(4).alias("upper_count"),
+            pl.max_horizontal(pl.lit(0.0), pl.col("presence_rate") - 1.96 * pl.col("_se_presence")).round(4).alias("lower_presence"),
+            pl.min_horizontal(pl.lit(1.0), pl.col("presence_rate") + 1.96 * pl.col("_se_presence")).round(4).alias("upper_presence"),
+            pl.col("mean_count").round(4),
+            pl.col("presence_rate").round(4),
+        )
+    )
+    return part
+
+
+def export_track_a(track_a: pl.DataFrame, with_outcomes: pl.DataFrame, out_dir: Path) -> None:
+    """Export whole-trace Track A counts for non-temporal dashboard views."""
+    count_cols = [c for c in BEHAVIORS if c in track_a.columns]
+    meta = with_outcomes.select(["trace_id", "gen_model", "task_type", "outcome"])
+    df = track_a.select(["trace_id"] + count_cols).join(meta, on="trace_id", how="inner")
+    cells: list[pl.DataFrame] = []
+    families: list[pl.DataFrame] = []
+    family_specs = {
+        "cognitive": [b for b in GANDHI if b in count_cols],
+        "conversational": [b for b in KIM if b in count_cols],
+    }
+
+    for outcome_group, outcomes in OUTCOME_GROUPS.items():
+        sub = df.filter(pl.col("outcome").is_in(outcomes))
+        if sub.height == 0:
+            continue
+        for behavior in count_cols:
+            cells.append(
+                _track_a_aggregate(sub, behavior, key_col="behavior", key_value=behavior)
+                .with_columns(pl.lit(outcome_group).alias("outcome_group"))
+                .select(
+                    [
+                        "gen_model",
+                        "task_type",
+                        "outcome_group",
+                        "behavior",
+                        "n_traces",
+                        "total_count",
+                        "mean_count",
+                        "lower_count",
+                        "upper_count",
+                        "presence_rate",
+                        "lower_presence",
+                        "upper_presence",
+                    ]
+                )
+            )
+        for family, behaviors in family_specs.items():
+            if not behaviors:
+                continue
+            family_df = sub.with_columns(pl.sum_horizontal([pl.col(b) for b in behaviors]).alias("_family_count"))
+            families.append(
+                _track_a_aggregate(family_df, "_family_count", key_col="family", key_value=family)
+                .with_columns(pl.lit(outcome_group).alias("outcome_group"))
+                .select(
+                    [
+                        "gen_model",
+                        "task_type",
+                        "outcome_group",
+                        "family",
+                        "n_traces",
+                        "total_count",
+                        "mean_count",
+                        "lower_count",
+                        "upper_count",
+                        "presence_rate",
+                        "lower_presence",
+                        "upper_presence",
+                    ]
+                )
+            )
+
+    write_json(
+        out_dir / "trackA.json",
+        {
+            "description": "Track A whole-trace behavior counts, stratified by model, domain, and outcome group.",
+            "cells": pl.concat(cells).sort(["gen_model", "task_type", "outcome_group", "behavior"]).to_dicts() if cells else [],
+            "families": pl.concat(families).sort(["gen_model", "task_type", "outcome_group", "family"]).to_dicts() if families else [],
+        },
+    )
+
+
 def export_heartbeat(
     track_b: pl.DataFrame, with_outcomes: pl.DataFrame, out_dir: Path, bins: int
 ) -> None:
@@ -386,6 +495,7 @@ def main() -> int:
 
     export_manifest(traces, out_dir, args)
     export_summary(traces, track_a, with_outcomes, out_dir)
+    export_track_a(track_a, with_outcomes, out_dir)
     export_heartbeat(track_b, with_outcomes, out_dir, args.bins)
     export_trace_samples(with_outcomes, track_a, track_b, out_dir, args.samples_per_cell, args.max_text_chars)
     export_distances(Path(args.distance_dir), out_dir)

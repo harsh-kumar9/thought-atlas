@@ -178,6 +178,24 @@ python -m src.analysis.timing_level \
   --seed 0
 ```
 
+Prefix monitorability analysis:
+
+```bash
+python -m src.analysis.prefix_monitor \
+  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
+  --traces-glob "data/traces/traces_*.parquet" \
+  --grades data/perf/success_grades.parquet data/perf/code_grades.parquet \
+  --quality data/judge/prod/quality__google_gemma-4-31B-it.parquet \
+  --out-dir data/analysis/prefix_monitor \
+  --boot 50 \
+  --folds 5 \
+  --seed 0
+```
+
+This fits nested regularized logistic monitors at 25%, 50%, 75%, and 100%
+retrospective prefixes. Treat percentage prefixes as scientific diagnostics; they
+are not online budgets because the final trace length is known only after the run.
+
 ## 6. Dashboard Export
 
 ```bash
@@ -185,6 +203,7 @@ python -m src.analysis.export_dashboard \
   --traces-glob "data/traces/traces_*.parquet" \
   --trackA data/judge/prod/trackA_counts__google_gemma-4-31B-it.parquet \
   --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
+  --prefix-monitor-dir data/analysis/prefix_monitor \
   --timing-level data/analysis/timing_level.parquet \
   --grades data/perf/success_grades.parquet data/perf/code_grades.parquet \
   --quality data/judge/prod/quality__google_gemma-4-31B-it.parquet \

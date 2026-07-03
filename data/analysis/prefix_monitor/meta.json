@@ -1,0 +1,48 @@
+{
+  "prefixes": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "temporal_bins": 4,
+  "splits": [
+    "prompt_disjoint",
+    "random_trace"
+  ],
+  "feature_sets": [
+    "metadata",
+    "length",
+    "counts",
+    "temporal",
+    "time_shuffled"
+  ],
+  "feature_labels": {
+    "metadata": "Metadata",
+    "length": "Metadata + length",
+    "counts": "Metadata + length + counts",
+    "temporal": "Metadata + length + temporal bins",
+    "time_shuffled": "Counts repeated across time"
+  },
+  "n_folds": 5,
+  "boot": 50,
+  "l2": 1.0,
+  "n_by_prefix": {
+    "0.25": 10364,
+    "0.5": 10364,
+    "0.75": 10364,
+    "1.0": 10364
+  },
+  "quality_split": {
+    "reasoner|idea": 0.55,
+    "reasoner|moral": 0.4883720930232558,
+    "anchor|moral": 0.6582156611039796,
+    "anchor|idea": 0.55
+  },
+  "notes": [
+    "Outcome is solved for deterministic domains and per-model/domain median quality split for moral/idea.",
+    "Features use metadata, observed prefix length, behavior counts, and behavior timing within the prefix; final answer/completion fields are not features.",
+    "Prompt-disjoint folds group all model attempts of the same instance_id into the same fold.",
+    "Percentage prefixes are retrospective and should not be treated as online intervention budgets."
+  ]
+}

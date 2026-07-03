@@ -15,6 +15,8 @@ from typing import Any
 
 import polars as pl
 
+from src.analysis.prefix_monitor import rows_from_csv as prefix_rows_from_csv
+from src.analysis.prefix_monitor import write_dashboard_json as write_prefix_monitor_json
 from src.analysis.timing_level import rows_from_parquet, write_dashboard_json as write_timing_level_json
 from src.segment.thinkarm_vendored import process_response_to_sentences
 
@@ -225,6 +227,7 @@ def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespac
                 "summary.json",
                 "trackA.json",
                 "heartbeat.json",
+                "prefix_monitor.json",
                 "timing_level.json",
                 "trace_samples.json",
                 "distance.json",
@@ -233,6 +236,7 @@ def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespac
                 "Raw full-fidelity traces remain in data/traces/*.parquet.",
                 "Dashboard trace text is sampled and clipped for browser performance.",
                 "Split thinking/answer token counts are estimates; n_new_tokens is the model-reported total generation length.",
+                "Prefix monitorability is predictive, prompt-disjoint where indicated, and should not be read causally.",
                 "Timing vs level is exploratory and uses the dashboard heartbeat trace population with trace-clustered bootstrap covariance.",
             ],
         },
@@ -504,6 +508,22 @@ def export_timing_level(timing_path: Path, out_dir: Path) -> None:
         write_timing_level_json(out_dir / "timing_level.json", [])
 
 
+def export_prefix_monitor(prefix_dir: Path, out_dir: Path) -> None:
+    metrics_path = prefix_dir / "metrics.csv"
+    deltas_path = prefix_dir / "deltas.csv"
+    meta_path = prefix_dir / "meta.json"
+    if metrics_path.exists() and deltas_path.exists() and meta_path.exists():
+        meta = json.loads(meta_path.read_text())
+        write_prefix_monitor_json(out_dir / "prefix_monitor.json", prefix_rows_from_csv(metrics_path), prefix_rows_from_csv(deltas_path), meta)
+    else:
+        write_prefix_monitor_json(
+            out_dir / "prefix_monitor.json",
+            [],
+            [],
+            {"prefixes": [], "splits": [], "feature_sets": [], "feature_labels": {}, "notes": ["Prefix monitor analysis has not been exported yet."]},
+        )
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--traces-glob", default="data/traces/traces_*.parquet")
@@ -513,6 +533,7 @@ def main() -> int:
     ap.add_argument("--quality", default="data/judge/prod/quality__google_gemma-4-31B-it.parquet")
     ap.add_argument("--distance-dir", default="data/analysis/cross_model")
     ap.add_argument("--timing-level", default="data/analysis/timing_level.parquet")
+    ap.add_argument("--prefix-monitor-dir", default="data/analysis/prefix_monitor")
     ap.add_argument("--out-dir", default="docs/data")
     ap.add_argument("--bins", type=int, default=24)
     ap.add_argument("--samples-per-cell", type=int, default=12)
@@ -533,6 +554,7 @@ def main() -> int:
     export_summary(traces, track_a, with_outcomes, out_dir)
     export_track_a(track_a, with_outcomes, out_dir)
     export_heartbeat(track_b, with_outcomes, out_dir, args.bins)
+    export_prefix_monitor(Path(args.prefix_monitor_dir), out_dir)
     export_timing_level(Path(args.timing_level), out_dir)
     export_trace_samples(with_outcomes, track_a, track_b, out_dir, args.samples_per_cell, args.max_text_chars)
     export_distances(Path(args.distance_dir), out_dir)

@@ -95,10 +95,15 @@ docs/data/manifest.json
 docs/data/summary.json
 docs/data/trackA.json
 docs/data/heartbeat.json
+docs/data/prefix_monitor.json
 docs/data/timing_level.json
 docs/data/trace_samples.json
 docs/data/distance.json
 ```
+
+`data/analysis/prefix_monitor/` contains the corresponding monitorability CSVs:
+out-of-fold metrics, temporal-vs-baseline deltas, top logistic coefficients, and
+analysis metadata.
 
 Regenerate it with:
 

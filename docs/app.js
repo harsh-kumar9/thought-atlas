@@ -55,6 +55,14 @@ const TIMING_CLASSES = {
   insufficient: { label: "Insufficient", tone: "insufficient" },
 };
 
+const MONITOR_FEATURES = {
+  metadata: { label: "Metadata", color: "#64748b", dash: "" },
+  length: { label: "Metadata + length", color: "#0891b2", dash: "4 4" },
+  counts: { label: "Counts", color: "#2563eb", dash: "" },
+  temporal: { label: "Temporal bins", color: "#d97706", dash: "" },
+  time_shuffled: { label: "Time-shuffled", color: "#7c3aed", dash: "6 4" },
+};
+
 const LANE_DASHES = ["", "5 4", "2 3", "7 3 2 3", "1 4", "10 4 2 4"];
 
 const FAMILY_META = {
@@ -97,6 +105,9 @@ const state = {
     classes: new Set(Object.keys(TIMING_CLASSES)),
     selectedKey: null,
   },
+  monitor: {
+    split: "prompt_disjoint",
+  },
 };
 
 const store = {};
@@ -104,7 +115,7 @@ let activeTooltipTarget = null;
 const $ = (id) => document.getElementById(id);
 
 async function loadData() {
-  const [manifest, summary, heartbeat, traces, distance, trackA, timingLevel] = await Promise.all([
+  const [manifest, summary, heartbeat, traces, distance, trackA, timingLevel, prefixMonitor] = await Promise.all([
     fetch("data/manifest.json").then((r) => r.json()),
     fetch("data/summary.json").then((r) => r.json()),
     fetch("data/heartbeat.json").then((r) => r.json()),
@@ -116,6 +127,9 @@ async function loadData() {
     fetch("data/timing_level.json")
       .then((r) => (r.ok ? r.json() : { meta: {}, pairs: [] }))
       .catch(() => ({ meta: {}, pairs: [] })),
+    fetch("data/prefix_monitor.json")
+      .then((r) => (r.ok ? r.json() : { meta: {}, metrics: [], deltas: [] }))
+      .catch(() => ({ meta: {}, metrics: [], deltas: [] })),
   ]);
 
   Object.assign(store, {
@@ -126,6 +140,7 @@ async function loadData() {
     distance,
     trackA,
     timingLevel,
+    prefixMonitor,
     timingIndex: new Map((timingLevel.pairs || []).map((row) => [timingKey(row), row])),
     trackAIndex: new Map((trackA.cells || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.behavior), row])),
     trackAFamilyIndex: new Map((trackA.families || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.family), row])),
@@ -206,6 +221,9 @@ function initializeState() {
   state.timing.families = new Set(["cognitive", "conversational"]);
   state.timing.classes = new Set(Object.keys(TIMING_CLASSES));
   state.timing.selectedKey = preferredTimingPair()?.key || null;
+  state.monitor.split = (store.prefixMonitor?.meta?.splits || []).includes("prompt_disjoint")
+    ? "prompt_disjoint"
+    : (store.prefixMonitor?.meta?.splits || [])[0] || "prompt_disjoint";
   state.bin = Math.round((store.manifest.bins - 1) * 0.43);
   state.viewMode = "full";
   state.traceIndex = 0;
@@ -479,6 +497,14 @@ function bindEvents() {
       selectTimingPair(row.dataset.timingKey);
     });
   }
+  if ($("monitorSplitButtons")) {
+    $("monitorSplitButtons").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-monitor-split]");
+      if (!button) return;
+      state.monitor.split = button.dataset.monitorSplit;
+      renderMonitorability();
+    });
+  }
 
   document.querySelectorAll("[data-scroll]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -587,6 +613,7 @@ function hideBehaviorTooltip(target = activeTooltipTarget) {
 function renderAll() {
   renderComparison();
   renderTrackA();
+  renderMonitorability();
   renderTimingLevel();
   renderInspector();
   renderTrace();
@@ -904,6 +931,168 @@ function renderTrackADetail(behavior) {
       ${trackAHypotheses(behavior, rows, countSpread, presenceSpread).map((prompt) => `<article>${escapeHtml(prompt)}</article>`).join("")}
     </div>
   `;
+}
+
+function renderMonitorability() {
+  if (!$("monitorCurve")) return;
+  const metrics = store.prefixMonitor?.metrics || [];
+  const deltas = store.prefixMonitor?.deltas || [];
+  const splits = store.prefixMonitor?.meta?.splits || [];
+  $("monitorSubtitle").textContent = metrics.length
+    ? `${fmt.format(metrics[0]?.n || 0)} labeled Track B traces · regularized logistic monitors · out-of-fold metrics`
+    : "Prefix monitorability data is not available in this dashboard export yet.";
+  renderMonitorSplitButtons(splits);
+  const rows = metrics.filter((row) => row.split === state.monitor.split);
+  const deltaRows = deltas.filter((row) => row.split === state.monitor.split);
+  renderMonitorSummary(rows, deltaRows);
+  drawMonitorCurve($("monitorCurve"), rows);
+  renderMonitorDeltaTable(deltaRows);
+  renderMonitorNotes();
+}
+
+function renderMonitorSplitButtons(splits) {
+  const target = $("monitorSplitButtons");
+  if (!target) return;
+  target.innerHTML = (splits.length ? splits : [state.monitor.split])
+    .map((split) => `<button class="${split === state.monitor.split ? "active" : ""}" data-monitor-split="${escapeAttr(split)}">${monitorSplitLabel(split)}</button>`)
+    .join("");
+}
+
+function renderMonitorSummary(rows, deltaRows) {
+  const target = $("monitorSummary");
+  if (!target) return;
+  if (!rows.length) {
+    target.innerHTML = "<span>No monitorability results match the selected split.</span>";
+    return;
+  }
+  const bestTemporal = rows.filter((row) => row.feature_set === "temporal").slice().sort((a, b) => (b.auroc || 0) - (a.auroc || 0))[0];
+  const bestCounts = rows.filter((row) => row.feature_set === "counts").slice().sort((a, b) => (b.auroc || 0) - (a.auroc || 0))[0];
+  const temporalDeltas = deltaRows.filter((row) => row.feature_set === "temporal" && row.baseline === "counts");
+  const positiveDeltas = temporalDeltas.filter((row) => (row.delta_auroc || 0) > 0).length;
+  const lastDelta = temporalDeltas.slice().sort((a, b) => (a.prefix || 0) - (b.prefix || 0)).at(-1);
+  target.innerHTML = `
+    <span><strong>${monitorSplitLabel(state.monitor.split)}</strong> split</span>
+    <span><strong>${formatNumber(bestTemporal?.auroc, 3)}</strong> best temporal AUROC at ${formatPrefix(bestTemporal?.prefix)}</span>
+    <span><strong>${formatNumber(bestCounts?.auroc, 3)}</strong> best counts AUROC at ${formatPrefix(bestCounts?.prefix)}</span>
+    <span><strong>${formatSignedNumber(lastDelta?.delta_auroc, 3)}</strong> temporal-counts delta at full trace</span>
+    <span><strong>${positiveDeltas}/${temporalDeltas.length}</strong> prefixes favor temporal bins</span>
+  `;
+}
+
+function drawMonitorCurve(svg, rows) {
+  const width = 760;
+  const height = 330;
+  const margin = { top: 24, right: 24, bottom: 48, left: 52 };
+  const plotW = width - margin.left - margin.right;
+  const plotH = height - margin.top - margin.bottom;
+  const prefixes = [...new Set(rows.map((row) => row.prefix))].sort((a, b) => a - b);
+  const featureSets = Object.keys(MONITOR_FEATURES).filter((feature) => rows.some((row) => row.feature_set === feature));
+  const values = rows.map((row) => row.auroc).filter(Number.isFinite);
+  const ymin = Math.max(0.5, Math.floor((Math.min(...values, 0.7) - 0.03) * 20) / 20);
+  const ymax = Math.min(1, Math.ceil((Math.max(...values, 0.75) + 0.03) * 20) / 20);
+  const x = (prefix) => margin.left + (prefixes.indexOf(prefix) / Math.max(1, prefixes.length - 1)) * plotW;
+  const y = (value) => margin.top + plotH - ((value - ymin) / Math.max(0.001, ymax - ymin)) * plotH;
+
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.innerHTML = "";
+  svg.appendChild(svgEl("rect", { x: margin.left, y: margin.top, width: plotW, height: plotH, fill: "#fff", stroke: "#dce3eb", "stroke-width": "1" }));
+  Array.from({ length: 5 }, (_, i) => ymin + ((ymax - ymin) * i) / 4).forEach((tick) => {
+    const yy = y(tick);
+    svg.appendChild(svgEl("line", { x1: margin.left, x2: width - margin.right, y1: yy, y2: yy, stroke: "#edf2f7", "stroke-width": "1" }));
+    const label = svgEl("text", { x: margin.left - 8, y: yy + 4, "text-anchor": "end", "font-size": "10", fill: "#647084", stroke: "none" });
+    label.textContent = tick.toFixed(2);
+    svg.appendChild(label);
+  });
+  prefixes.forEach((prefix) => {
+    const xx = x(prefix);
+    svg.appendChild(svgEl("line", { x1: xx, x2: xx, y1: margin.top, y2: height - margin.bottom, stroke: "#f1f5f9", "stroke-width": "1" }));
+    const label = svgEl("text", { x: xx, y: height - 24, "text-anchor": "middle", "font-size": "10", fill: "#647084", stroke: "none" });
+    label.textContent = formatPrefix(prefix);
+    svg.appendChild(label);
+  });
+  const xLabel = svgEl("text", { x: margin.left + plotW / 2, y: height - 7, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
+  xLabel.textContent = "Trace prefix";
+  svg.appendChild(xLabel);
+  const yLabel = svgEl("text", { x: 15, y: margin.top + plotH / 2, transform: `rotate(-90 15 ${margin.top + plotH / 2})`, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
+  yLabel.textContent = "Out-of-fold AUROC";
+  svg.appendChild(yLabel);
+
+  featureSets.forEach((feature) => {
+    const meta = MONITOR_FEATURES[feature];
+    const points = prefixes.map((prefix) => rows.find((row) => row.prefix === prefix && row.feature_set === feature)).filter(Boolean);
+    if (!points.length) return;
+    const path = points.map((row, i) => `${i ? "L" : "M"} ${x(row.prefix).toFixed(2)} ${y(row.auroc).toFixed(2)}`).join(" ");
+    svg.appendChild(svgEl("path", { d: path, fill: "none", stroke: meta.color, "stroke-width": feature === "temporal" ? "2.8" : "2.1", "stroke-dasharray": meta.dash }));
+    points.forEach((row) => {
+      const dot = svgEl("circle", { cx: x(row.prefix), cy: y(row.auroc), r: feature === "temporal" ? "4.5" : "3.5", fill: meta.color, stroke: "#fff", "stroke-width": "1" });
+      const title = svgEl("title", {});
+      title.textContent = `${meta.label} · ${formatPrefix(row.prefix)} · AUROC ${formatNumber(row.auroc, 3)} (${formatNumber(row.auroc_ci_low, 3)}-${formatNumber(row.auroc_ci_high, 3)})`;
+      dot.appendChild(title);
+      svg.appendChild(dot);
+    });
+  });
+  featureSets.forEach((feature, i) => {
+    const meta = MONITOR_FEATURES[feature];
+    const x0 = margin.left + (i % 3) * 210;
+    const y0 = 12 + Math.floor(i / 3) * 14;
+    svg.appendChild(svgEl("line", { x1: x0, x2: x0 + 24, y1: y0, y2: y0, stroke: meta.color, "stroke-width": "2.3", "stroke-dasharray": meta.dash }));
+    const label = svgEl("text", { x: x0 + 30, y: y0 + 4, "font-size": "10", fill: "#334155", stroke: "none" });
+    label.textContent = meta.label;
+    svg.appendChild(label);
+  });
+}
+
+function renderMonitorDeltaTable(rows) {
+  const target = $("monitorDeltaTable");
+  if (!target) return;
+  const temporal = rows
+    .filter((row) => row.feature_set === "temporal" && ["counts", "time_shuffled"].includes(row.baseline))
+    .sort((a, b) => a.prefix - b.prefix || a.baseline.localeCompare(b.baseline));
+  if (!temporal.length) {
+    target.innerHTML = "<tbody><tr><td>No temporal ablation deltas available.</td></tr></tbody>";
+    return;
+  }
+  const countsRows = temporal.filter((row) => row.baseline === "counts");
+  const nonPositive = countsRows.filter((row) => (row.delta_auroc || 0) <= 0).length;
+  const full = countsRows.find((row) => row.prefix === 1);
+  $("monitorTakeaway").textContent =
+    nonPositive >= Math.max(1, countsRows.length - 1)
+      ? `In this split, temporal bins mostly do not beat behavior counts; full-trace delta is ${formatSignedNumber(full?.delta_auroc, 3)} AUROC.`
+      : `Temporal bins add value at ${countsRows.length - nonPositive} prefix${countsRows.length - nonPositive === 1 ? "" : "es"}; full-trace delta is ${formatSignedNumber(full?.delta_auroc, 3)} AUROC.`;
+  let html = "<thead><tr><th>Prefix</th><th>Baseline</th><th>Δ AUROC</th><th>95% CI</th><th>Δ log loss</th></tr></thead><tbody>";
+  temporal.forEach((row) => {
+    html += `
+      <tr>
+        <td>${formatPrefix(row.prefix)}</td>
+        <td>${row.baseline === "counts" ? "Counts" : "Time-shuffled"}</td>
+        <td><strong>${formatSignedNumber(row.delta_auroc, 3)}</strong></td>
+        <td>${formatNumber(row.delta_auroc_ci_low, 3)} to ${formatNumber(row.delta_auroc_ci_high, 3)}</td>
+        <td>${formatSignedNumber(row.delta_log_loss, 4)}</td>
+      </tr>
+    `;
+  });
+  html += "</tbody>";
+  target.innerHTML = html;
+}
+
+function renderMonitorNotes() {
+  const target = $("monitorNotes");
+  if (!target) return;
+  const notes = store.prefixMonitor?.meta?.notes || [];
+  target.innerHTML = `
+    <strong>Interpretation guardrails</strong>
+    ${notes.map((note) => `<span>${escapeHtml(note)}</span>`).join("")}
+  `;
+}
+
+function monitorSplitLabel(split) {
+  if (split === "prompt_disjoint") return "Prompt-disjoint";
+  if (split === "random_trace") return "Random trace";
+  return titleCase(split);
+}
+
+function formatPrefix(prefix) {
+  return Number.isFinite(Number(prefix)) ? `${Math.round(Number(prefix) * 100)}%` : "n/a";
 }
 
 function renderTimingLevel() {
@@ -2052,6 +2241,12 @@ function signedPct(value) {
 
 function formatNumber(value, digits = 2) {
   return Number.isFinite(value) ? Number(value).toFixed(digits) : "-";
+}
+
+function formatSignedNumber(value, digits = 3) {
+  if (!Number.isFinite(value)) return "-";
+  const n = Number(value);
+  return `${n > 0 ? "+" : ""}${n.toFixed(digits)}`;
 }
 
 function formatQ(value) {

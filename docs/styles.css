@@ -543,6 +543,7 @@ input[type="range"] {
 .compare-panel,
 .inspector-panel,
 .tracka-panel,
+.monitor-panel,
 .timing-panel,
 .raw-panel,
 .summary-panel,
@@ -560,6 +561,7 @@ input[type="range"] {
 
 .raw-panel,
 .tracka-panel,
+.monitor-panel,
 .timing-panel,
 .summary-panel,
 .distance-panel {
@@ -567,6 +569,7 @@ input[type="range"] {
 }
 
 .tracka-panel,
+.monitor-panel,
 .timing-panel {
   grid-column: 1 / -1;
 }
@@ -1097,6 +1100,124 @@ input[type="range"] {
 }
 
 .timing-summary-strip strong {
+  color: var(--text);
+}
+
+.monitor-split {
+  flex: 0 0 auto;
+}
+
+.monitor-summary-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.monitor-summary-strip span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  padding: 5px 9px;
+  font-weight: 800;
+}
+
+.monitor-summary-strip strong {
+  color: var(--text);
+}
+
+.monitor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 0.42fr);
+  gap: 12px;
+}
+
+.monitor-chart-card,
+.monitor-detail {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.monitor-chart-card {
+  overflow: hidden;
+  padding: 10px;
+}
+
+.monitor-chart-card svg {
+  display: block;
+  width: 100%;
+  min-height: 300px;
+}
+
+.monitor-detail {
+  min-width: 0;
+  padding: 13px;
+}
+
+.monitor-detail h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.monitor-detail p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.monitor-table-wrap {
+  max-height: 315px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.monitor-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.monitor-table-wrap th,
+.monitor-table-wrap td {
+  padding: 8px 9px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.monitor-table-wrap th:first-child,
+.monitor-table-wrap td:first-child,
+.monitor-table-wrap th:nth-child(2),
+.monitor-table-wrap td:nth-child(2) {
+  text-align: left;
+}
+
+.monitor-table-wrap th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f8fafc;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.monitor-footer {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.monitor-footer strong {
   color: var(--text);
 }
 
@@ -1766,6 +1887,7 @@ td small {
   .raw-columns,
   .trace-facts,
   .tracka-layout,
+  .monitor-layout,
   .timing-layout,
   .timing-filters {
     grid-template-columns: 1fr;
@@ -1794,6 +1916,7 @@ td small {
   .compare-panel,
   .inspector-panel,
   .tracka-panel,
+  .monitor-panel,
   .timing-panel,
   .raw-panel,
   .summary-panel,
@@ -1844,5 +1967,14 @@ td small {
   .timing-summary-strip {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .monitor-summary-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .monitor-chart-card svg {
+    min-height: 245px;
   }
 }

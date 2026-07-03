@@ -43,3 +43,10 @@ It descends from H4's temporal shuffle-null motivation, but it was not part of
 the frozen preregistration. Treat it as exploratory: it quantifies whether
 outcome-linked behavior gaps are level-like, timing-like, both, or neither using
 the dashboard heartbeat trace population and trace-clustered bootstrap covariance.
+
+2026-07-03: Added prefix monitorability as a post-hoc predictive analysis. It
+uses nested regularized logistic monitors and prompt-disjoint folds to test
+whether early behavior prefixes predict final success/high-quality outcomes and
+whether temporal bins add value beyond metadata, prefix length, and behavior
+counts. Percentage prefixes are retrospective diagnostics, not deployable online
+intervention budgets.

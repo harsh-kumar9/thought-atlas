@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thought Atlas</title>
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="white"/><path d="M16 3v26M3 16h26M7.5 7.5l17 17M24.5 7.5l-17 17" stroke="%23111827" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="%23149b8f" stroke-width="2"/></svg>' />
+    <link rel="stylesheet" href="styles.css?v=20260703-monitorability" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <button class="icon-button" id="toggleControls" aria-label="Toggle controls">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+        <div class="mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M16 3v26M3 16h26M7.5 7.5l17 17M24.5 7.5l-17 17" /><circle cx="16" cy="16" r="8.5" /></svg>
+        </div>
+        <div>
+          <h1>Thought Atlas</h1>
+          <p>Trajectory explorer for Society of Thought experiments</p>
+        </div>
+      </div>
+      <nav class="tabs" aria-label="Dashboard sections">
+        <button class="tab active" data-scroll="compare">Compare</button>
+        <button class="tab" data-scroll="track-a">Track A</button>
+        <button class="tab" data-scroll="monitorability">Monitorability</button>
+        <button class="tab" data-scroll="timing-level">Timing vs level</button>
+        <button class="tab" data-scroll="raw">Raw traces</button>
+        <button class="tab" data-scroll="overview">Overview</button>
+      </nav>
+      <div class="top-actions">
+        <a class="ghost-link" href="data/manifest.json" title="Dashboard data manifest">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="7" ry="3" /><path d="M5 5v14c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" /></svg>
+          data
+        </a>
+        <a class="icon-button" href="https://github.com/harsh-kumar9/thought-atlas" aria-label="GitHub repository">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.5-4-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4.1-1 4.1-4.4 0-1-.3-1.8-.8-2.5.1-.2.4-1.3-.1-2.5 0 0-.7-.2-2.6 1a9 9 0 0 0-4.6 0c-1.9-1.2-2.6-1-2.6-1-.5 1.2-.2 2.3-.1 2.5A3.6 3.6 0 0 0 7 11.1c0 3.4 2.1 4.2 4.1 4.4-.3.3-.5.7-.5 1.4V21" /></svg>
+        </a>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <aside class="controls" id="controlsPanel">
+        <div class="control-heading">
+          <div>
+            <h2>Comparison</h2>
+            <p>Add one or more model/domain lanes, then choose behaviors.</p>
+          </div>
+          <button class="text-button" id="resetControls">Reset</button>
+        </div>
+
+        <div id="laneControls" class="lane-stack"></div>
+        <section class="control-group lane-toolbar">
+          <button class="secondary-button" id="addLane">Add lane</button>
+        </section>
+
+        <section class="control-group">
+          <div class="control-title"><span>Recipes</span></div>
+          <div class="recipe-grid" role="group" aria-label="Comparison recipes">
+            <button class="mini-button" data-recipe="outcome">Outcome split</button>
+            <button class="mini-button" data-recipe="scale">Scale sweep</button>
+            <button class="mini-button" data-recipe="reasoner">DeepSeek vs Llama</button>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <div class="control-title"><span>Behaviors</span><span id="behaviorCount" class="count-pill"></span></div>
+          <div class="quick-row" role="group" aria-label="Behavior presets">
+            <button class="mini-button" data-preset="conversational">Conversational</button>
+            <button class="mini-button" data-preset="cognitive">Cognitive</button>
+            <button class="mini-button" data-preset="all">All</button>
+          </div>
+          <div id="behaviorFilters" class="checks"></div>
+        </section>
+
+        <section class="control-group">
+          <div class="control-title"><span>Progress</span><strong id="progressPct">43%</strong></div>
+          <div class="scrubber-row">
+            <span>0%</span>
+            <input id="progressSlider" type="range" min="0" max="23" value="10" />
+            <span>100%</span>
+          </div>
+          <div class="segmented view-mode" role="group" aria-label="Temporal view mode">
+            <button class="active" data-view-mode="full">Full</button>
+            <button data-view-mode="reveal">Reveal</button>
+            <button data-view-mode="window">Window</button>
+          </div>
+          <div class="step-row">
+            <button class="icon-text" id="stepBack">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+              Prev
+            </button>
+            <button class="icon-text" id="stepForward">
+              Next
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
+            </button>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <div class="control-title"><span>Raw Trace Lane</span></div>
+          <div id="traceLaneButtons" class="trace-lane-buttons" role="group" aria-label="Raw trace lane"></div>
+        </section>
+      </aside>
+
+      <main class="main-grid">
+        <section class="panel compare-panel" id="compare">
+          <div class="panel-head">
+            <div>
+              <h2>Behavior Trajectories</h2>
+              <p id="comparisonSubtitle">Loading trajectory data...</p>
+            </div>
+            <div class="legend" id="laneLegend">
+              <span><i class="perf-good"></i>Solved / high-quality</span>
+              <span><i class="perf-bad"></i>Failed / low-quality</span>
+              <span><i class="scrub-line"></i>progress</span>
+            </div>
+          </div>
+          <div class="lane-readout" id="laneReadout"></div>
+          <div id="comparisonGrid" class="comparison-grid" aria-live="polite"></div>
+        </section>
+
+        <aside class="panel inspector-panel">
+          <div class="panel-head compact">
+            <div>
+              <h2 id="inspectorTitle">Inspector</h2>
+              <p id="inspectorSubtitle">Select a mini-plot to inspect deltas and examples.</p>
+            </div>
+          </div>
+          <div id="deltaFacts" class="delta-facts"></div>
+          <div id="divergencePanel" class="divergence-panel"></div>
+          <div id="hypothesisList" class="hypothesis-list"></div>
+          <div class="inspector-note" id="annotationNote"></div>
+          <div class="sample-list" id="sampleList"></div>
+        </aside>
+
+        <section class="panel tracka-panel" id="track-a">
+          <div class="panel-head">
+            <div>
+              <h2>Track A Whole-Trace Counts</h2>
+              <p id="trackASubtitle">Loading whole-trace behavior counts...</p>
+            </div>
+            <div class="legend" id="trackALegend"></div>
+          </div>
+          <div class="tracka-layout">
+            <div class="tracka-main">
+              <div class="lane-readout" id="trackAReadout"></div>
+              <div id="trackAGrid" class="tracka-grid" aria-live="polite"></div>
+            </div>
+            <aside class="tracka-detail" id="trackADetail"></aside>
+          </div>
+        </section>
+
+        <section class="panel monitor-panel" id="monitorability">
+          <div class="panel-head">
+            <div>
+              <h2>Prefix Monitorability</h2>
+              <p id="monitorSubtitle">Loading prefix-based logistic monitor analysis...</p>
+            </div>
+            <div class="segmented monitor-split" id="monitorSplitButtons" role="group" aria-label="Monitorability split"></div>
+          </div>
+          <div id="monitorSummary" class="monitor-summary-strip"></div>
+          <div class="monitor-layout">
+            <div class="monitor-chart-card">
+              <svg id="monitorCurve" role="img" aria-label="Prefix monitorability AUROC curves"></svg>
+            </div>
+            <aside class="monitor-detail">
+              <h3>Temporal Value Add</h3>
+              <p id="monitorTakeaway">Select a split to inspect whether temporal behavior bins add predictive value beyond counts.</p>
+              <div class="monitor-table-wrap">
+                <table id="monitorDeltaTable"></table>
+              </div>
+            </aside>
+          </div>
+          <footer class="monitor-footer" id="monitorNotes"></footer>
+        </section>
+
+        <section class="panel timing-panel" id="timing-level">
+          <div class="panel-head">
+            <div>
+              <h2>Timing vs Level</h2>
+              <p id="timingSubtitle">Loading trace-clustered outcome-gap decomposition...</p>
+            </div>
+            <div class="legend" id="timingLegend"></div>
+          </div>
+          <div id="timingFilters" class="timing-filters" aria-label="Timing vs level filters"></div>
+          <div id="timingSummary" class="timing-summary-strip"></div>
+          <div class="timing-layout">
+            <div class="timing-main">
+              <div class="timing-scatter-card">
+                <svg id="timingScatter" role="img" aria-label="Timing versus level scatter plot"></svg>
+              </div>
+              <div class="timing-table-wrap">
+                <table id="timingTable"></table>
+              </div>
+            </div>
+            <aside class="timing-detail" id="timingDetail"></aside>
+          </div>
+          <footer class="timing-footer">
+            <strong>Exploratory limits</strong>
+            <span>Bins are normalized position: informative retrospectively, not computable online while a trace streams (final length unknown).</span>
+            <span>Association, not causation: behaviors may mark difficulty rather than produce outcomes (see data/perf/INTERPRETATION.txt).</span>
+            <span>moral/idea use a median split on judge-rated quality; the good/bad classes there are not solved/failed.</span>
+          </footer>
+        </section>
+
+        <section class="panel raw-panel" id="raw">
+          <div class="panel-head compact">
+            <div>
+              <h2 id="traceTitle">Raw Trace</h2>
+              <p id="traceMeta">Sampled prompts, thinking text, and answer text for the active raw trace lane.</p>
+            </div>
+            <div class="trace-nav">
+              <button class="icon-button" id="prevTrace" aria-label="Previous trace">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+              </button>
+              <button class="icon-button" id="nextTrace" aria-label="Next trace">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
+              </button>
+            </div>
+          </div>
+          <div id="traceFacts" class="trace-facts"></div>
+          <div id="traceAnnotationRail" class="trace-annotation-rail"></div>
+          <div class="raw-columns">
+            <div class="raw-block">
+              <div class="raw-head"><span>Task Prompt</span><button class="copy-btn" data-copy="prompt">Copy</button></div>
+              <pre id="promptText"></pre>
+            </div>
+            <div class="raw-block thinking">
+              <div class="raw-head"><span id="thinkingLabel">Thinking</span><button class="copy-btn" data-copy="thinking">Copy</button></div>
+              <pre id="thinkingText"></pre>
+            </div>
+            <div class="raw-block answer">
+              <div class="raw-head"><span id="answerLabel">Answer</span><button class="copy-btn" data-copy="answer">Copy</button></div>
+              <pre id="answerText"></pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel summary-panel" id="overview">
+          <div class="panel-head compact">
+            <div>
+              <h2>Model × Domain Overview</h2>
+              <p>Completion, generated-token length, success or quality, and behavior density by cell.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="summaryTable"></table>
+          </div>
+        </section>
+
+        <section class="panel distance-panel">
+          <div class="panel-head compact">
+            <div>
+              <h2>Model Distance Matrix</h2>
+              <p>Temporal signature distance; lower means more similar.</p>
+            </div>
+            <select id="distanceKind" aria-label="Distance kind">
+              <option value="shape">Shape</option>
+              <option value="magnitude">Magnitude</option>
+            </select>
+          </div>
+          <div id="distanceMatrix" class="matrix"></div>
+          <div class="matrix-legend"><span>More similar</span><i></i><span>More distant</span></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js?v=20260703-monitorability" defer></script>
+  </body>
+</html>

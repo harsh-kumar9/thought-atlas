@@ -97,9 +97,19 @@
       "family": "conversational"
     }
   ],
+  "data_exports": [
+    "manifest.json",
+    "summary.json",
+    "trackA.json",
+    "heartbeat.json",
+    "timing_level.json",
+    "trace_samples.json",
+    "distance.json"
+  ],
   "notes": [
     "Raw full-fidelity traces remain in data/traces/*.parquet.",
     "Dashboard trace text is sampled and clipped for browser performance.",
-    "Split thinking/answer token counts are estimates; n_new_tokens is the model-reported total generation length."
+    "Split thinking/answer token counts are estimates; n_new_tokens is the model-reported total generation length.",
+    "Timing vs level is exploratory and uses the dashboard heartbeat trace population with trace-clustered bootstrap covariance."
   ]
 }

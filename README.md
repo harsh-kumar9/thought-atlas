@@ -101,6 +101,7 @@ sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
 ```bash
 python -m src.analysis.model_similarity --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet --kind shape
 python -m src.analysis.model_similarity --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet --kind mag
+python -m src.analysis.timing_level --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet --out data/analysis/timing_level.parquet
 python -m src.analysis.export_dashboard --out-dir docs/data
 ```
 
@@ -143,7 +144,9 @@ Open `http://127.0.0.1:8000/`.
 
 The Compare tab explores temporal Track B behavior trajectories. The Track A tab
 uses the same model/domain/outcome lanes for whole-trace behavior count and
-presence comparisons without any temporal cursor.
+presence comparisons without any temporal cursor. The Timing vs level tab is an
+exploratory post-hoc view that asks whether robust outcome gaps are mostly
+overall behavior level, timing heterogeneity, both, or neither.
 
 The dashboard samples raw trace text for browser speed. The full raw prompt,
 thinking, and answer fields remain in `data/traces/*.parquet`.

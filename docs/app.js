@@ -47,6 +47,14 @@ const MODEL_DISPLAY_NAMES = {
   qwen35_27b: "Qwen3.5-27B",
 };
 
+const TIMING_CLASSES = {
+  both: { label: "Both", tone: "both" },
+  level_only: { label: "Level only", tone: "level" },
+  timing_only: { label: "Timing only", tone: "timing" },
+  neither: { label: "Neither", tone: "neither" },
+  insufficient: { label: "Insufficient", tone: "insufficient" },
+};
+
 const LANE_DASHES = ["", "5 4", "2 3", "7 3 2 3", "1 4", "10 4 2 4"];
 
 const FAMILY_META = {
@@ -82,6 +90,13 @@ const state = {
   viewMode: "full",
   traceLane: null,
   traceIndex: 0,
+  timing: {
+    models: new Set(),
+    domains: new Set(),
+    families: new Set(["cognitive", "conversational"]),
+    classes: new Set(Object.keys(TIMING_CLASSES)),
+    selectedKey: null,
+  },
 };
 
 const store = {};
@@ -89,7 +104,7 @@ let activeTooltipTarget = null;
 const $ = (id) => document.getElementById(id);
 
 async function loadData() {
-  const [manifest, summary, heartbeat, traces, distance, trackA] = await Promise.all([
+  const [manifest, summary, heartbeat, traces, distance, trackA, timingLevel] = await Promise.all([
     fetch("data/manifest.json").then((r) => r.json()),
     fetch("data/summary.json").then((r) => r.json()),
     fetch("data/heartbeat.json").then((r) => r.json()),
@@ -98,6 +113,9 @@ async function loadData() {
     fetch("data/trackA.json")
       .then((r) => (r.ok ? r.json() : { cells: [], families: [] }))
       .catch(() => ({ cells: [], families: [] })),
+    fetch("data/timing_level.json")
+      .then((r) => (r.ok ? r.json() : { meta: {}, pairs: [] }))
+      .catch(() => ({ meta: {}, pairs: [] })),
   ]);
 
   Object.assign(store, {
@@ -107,6 +125,8 @@ async function loadData() {
     traces: traces.traces,
     distance,
     trackA,
+    timingLevel,
+    timingIndex: new Map((timingLevel.pairs || []).map((row) => [timingKey(row), row])),
     trackAIndex: new Map((trackA.cells || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.behavior), row])),
     trackAFamilyIndex: new Map((trackA.families || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.family), row])),
     behaviors: manifest.behaviors,
@@ -181,6 +201,11 @@ function initializeState() {
   const conversational = store.behaviors.filter((b) => b.family === "conversational").map((b) => b.key);
   state.behaviors = new Set(conversational.length ? conversational : store.behaviors.map((b) => b.key));
   state.selectedBehavior = [...state.behaviors][0];
+  state.timing.models = new Set(store.models);
+  state.timing.domains = new Set(store.domains);
+  state.timing.families = new Set(["cognitive", "conversational"]);
+  state.timing.classes = new Set(Object.keys(TIMING_CLASSES));
+  state.timing.selectedKey = preferredTimingPair()?.key || null;
   state.bin = Math.round((store.manifest.bins - 1) * 0.43);
   state.viewMode = "full";
   state.traceIndex = 0;
@@ -425,6 +450,35 @@ function bindEvents() {
 
   $("distanceKind").addEventListener("change", renderDistance);
   $("toggleControls").addEventListener("click", () => $("controlsPanel").classList.toggle("open"));
+  if ($("timingFilters")) {
+    $("timingFilters").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-timing-filter]");
+      if (!button) return;
+      toggleTimingFilter(button.dataset.timingFilter, button.dataset.timingValue);
+      renderTimingLevel();
+    });
+  }
+  if ($("timingScatter")) {
+    $("timingScatter").addEventListener("click", (event) => {
+      const target = event.target.closest("[data-timing-key]");
+      if (!target) return;
+      selectTimingPair(target.dataset.timingKey);
+    });
+    $("timingScatter").addEventListener("keydown", (event) => {
+      if (!["Enter", " "].includes(event.key)) return;
+      const target = event.target.closest("[data-timing-key]");
+      if (!target) return;
+      event.preventDefault();
+      selectTimingPair(target.dataset.timingKey);
+    });
+  }
+  if ($("timingTable")) {
+    $("timingTable").addEventListener("click", (event) => {
+      const row = event.target.closest("[data-timing-key]");
+      if (!row) return;
+      selectTimingPair(row.dataset.timingKey);
+    });
+  }
 
   document.querySelectorAll("[data-scroll]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -533,6 +587,7 @@ function hideBehaviorTooltip(target = activeTooltipTarget) {
 function renderAll() {
   renderComparison();
   renderTrackA();
+  renderTimingLevel();
   renderInspector();
   renderTrace();
   renderSummary();
@@ -849,6 +904,336 @@ function renderTrackADetail(behavior) {
       ${trackAHypotheses(behavior, rows, countSpread, presenceSpread).map((prompt) => `<article>${escapeHtml(prompt)}</article>`).join("")}
     </div>
   `;
+}
+
+function renderTimingLevel() {
+  if (!$("timingScatter")) return;
+  const pairs = store.timingLevel?.pairs || [];
+  $("timingSubtitle").textContent = pairs.length
+    ? `${pairs.length} model × domain × behavior pairs · robust trace-clustered tests · exploratory`
+    : "Timing-vs-level data is not available in this dashboard export yet.";
+  renderTimingLegend();
+  renderTimingFilters();
+
+  const filtered = timingFilteredPairs();
+  const selected = ensureTimingSelection(filtered);
+  renderTimingSummary(filtered);
+  drawTimingScatter($("timingScatter"), filtered);
+  renderTimingDetail(selected);
+  renderTimingTable(filtered);
+}
+
+function renderTimingLegend() {
+  const modelItems = store.models
+    .map((model) => `<span><i class="model-dot" style="background:${colorForModel(model)}"></i>${modelLabel(model)}</span>`)
+    .join("");
+  $("timingLegend").innerHTML = `${modelItems}<span><i class="timing-shape circle"></i>Cognitive</span><span><i class="timing-shape diamond"></i>Conversational</span>`;
+}
+
+function renderTimingFilters() {
+  const target = $("timingFilters");
+  if (!target) return;
+  const modelButtons = store.models.map((model) => timingFilterButton("models", model, modelLabel(model), state.timing.models.has(model))).join("");
+  const domainButtons = store.domains.map((domain) => timingFilterButton("domains", domain, titleCase(domain), state.timing.domains.has(domain))).join("");
+  const familyButtons = ["cognitive", "conversational"]
+    .map((family) => timingFilterButton("families", family, FAMILY_META[family]?.short || titleCase(family), state.timing.families.has(family)))
+    .join("");
+  const classButtons = Object.entries(TIMING_CLASSES)
+    .map(([key, meta]) => timingFilterButton("classes", key, meta.label, state.timing.classes.has(key), `class-${meta.tone}`))
+    .join("");
+  target.innerHTML = `
+    <div class="timing-filter-group"><strong>Models</strong><div>${modelButtons}</div></div>
+    <div class="timing-filter-group"><strong>Domains</strong><div>${domainButtons}</div></div>
+    <div class="timing-filter-group"><strong>Family</strong><div>${familyButtons}</div></div>
+    <div class="timing-filter-group"><strong>Class</strong><div>${classButtons}</div></div>
+  `;
+}
+
+function timingFilterButton(kind, value, label, active, extraClass = "") {
+  return `<button class="timing-filter-chip ${active ? "active" : ""} ${extraClass}" data-timing-filter="${kind}" data-timing-value="${escapeAttr(value)}">${escapeHtml(label)}</button>`;
+}
+
+function toggleTimingFilter(kind, value) {
+  const set = state.timing[kind];
+  if (!(set instanceof Set)) return;
+  if (set.has(value)) {
+    if (set.size <= 1) return;
+    set.delete(value);
+  } else {
+    set.add(value);
+  }
+}
+
+function timingFilteredPairs() {
+  return (store.timingLevel?.pairs || []).filter((pair) => {
+    return (
+      state.timing.models.has(pair.gen_model) &&
+      state.timing.domains.has(pair.task_type) &&
+      state.timing.families.has(pair.family) &&
+      state.timing.classes.has(pair.class)
+    );
+  });
+}
+
+function preferredTimingPair(rows = store.timingLevel?.pairs || []) {
+  const tested = rows.filter((row) => row.status === "tested");
+  const priority = { timing_only: 4, both: 3, level_only: 2, neither: 1, insufficient: 0 };
+  const sorted = (tested.length ? tested : rows)
+    .map((row) => ({ row, key: timingKey(row) }))
+    .sort((a, b) => {
+      const pa = priority[a.row.class] || 0;
+      const pb = priority[b.row.class] || 0;
+      return pb - pa || (b.row.timing?.I2_robust || 0) - (a.row.timing?.I2_robust || 0) || Math.abs(b.row.level?.dbar_robust_pp || 0) - Math.abs(a.row.level?.dbar_robust_pp || 0);
+    });
+  return sorted[0] || null;
+}
+
+function ensureTimingSelection(filtered) {
+  const current = state.timing.selectedKey ? store.timingIndex.get(state.timing.selectedKey) : null;
+  if (current && filtered.some((pair) => timingKey(pair) === state.timing.selectedKey)) return current;
+  const next = preferredTimingPair(filtered);
+  state.timing.selectedKey = next?.key || null;
+  return next?.row || null;
+}
+
+function selectTimingPair(key) {
+  state.timing.selectedKey = key;
+  renderTimingLevel();
+}
+
+function renderTimingSummary(rows) {
+  const counts = Object.fromEntries(Object.keys(TIMING_CLASSES).map((key) => [key, 0]));
+  rows.forEach((row) => {
+    counts[row.class] = (counts[row.class] || 0) + 1;
+  });
+  const tested = rows.filter((row) => row.status === "tested").length;
+  $("timingSummary").innerHTML = `
+    <span><strong>${fmt.format(tested)}</strong> pairs tested</span>
+    <span class="class-both">${fmt.format(counts.both || 0)} both</span>
+    <span class="class-level">${fmt.format(counts.level_only || 0)} level-only</span>
+    <span class="class-timing">${fmt.format(counts.timing_only || 0)} timing-only</span>
+    <span>${fmt.format(counts.neither || 0)} neither</span>
+    <span>${fmt.format(counts.insufficient || 0)} insufficient</span>
+  `;
+}
+
+function drawTimingScatter(svg, rows) {
+  const tested = rows.filter((row) => row.status === "tested");
+  const width = 760;
+  const height = 400;
+  const margin = { top: 24, right: 24, bottom: 48, left: 58 };
+  const plotW = width - margin.left - margin.right;
+  const plotH = height - margin.top - margin.bottom;
+  const maxLevel = Math.max(1, ...tested.map((row) => Math.abs(row.level?.dbar_robust_pp || 0))) * 1.08;
+  const x = (value) => margin.left + (Math.max(0, Math.min(maxLevel, value)) / maxLevel) * plotW;
+  const y = (value) => margin.top + plotH - Math.max(0, Math.min(1, value || 0)) * plotH;
+
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.innerHTML = "";
+  svg.appendChild(svgEl("rect", { x: margin.left, y: margin.top, width: plotW, height: plotH, fill: "#fff", stroke: "#dce3eb", "stroke-width": "1" }));
+  [0, 0.25, 0.5, 0.75, 1].forEach((tick) => {
+    const yy = y(tick);
+    svg.appendChild(svgEl("line", { x1: margin.left, x2: width - margin.right, y1: yy, y2: yy, stroke: "#edf2f7", "stroke-width": "1" }));
+    const label = svgEl("text", { x: margin.left - 9, y: yy + 4, "text-anchor": "end", "font-size": "10", fill: "#647084", stroke: "none" });
+    label.textContent = tick.toFixed(2).replace("0.", ".");
+    svg.appendChild(label);
+  });
+  [0, 0.5, 1].forEach((tick) => {
+    const xx = x(maxLevel * tick);
+    svg.appendChild(svgEl("line", { x1: xx, x2: xx, y1: margin.top, y2: height - margin.bottom, stroke: "#f1f5f9", "stroke-width": "1" }));
+    const label = svgEl("text", { x: xx, y: height - 24, "text-anchor": "middle", "font-size": "10", fill: "#647084", stroke: "none" });
+    label.textContent = `${(maxLevel * tick).toFixed(tick ? 1 : 0)}pp`;
+    svg.appendChild(label);
+  });
+
+  drawTimingReference(svg, x(0.5), margin.top, plotH, "counts start to see it", "vertical");
+  drawTimingReference(svg, margin.left, y(0.25), plotW, "timing starts to matter", "horizontal");
+  const xLabel = svgEl("text", { x: margin.left + plotW / 2, y: height - 7, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
+  xLabel.textContent = "Level strength |robust gap|, percentage points";
+  svg.appendChild(xLabel);
+  const yLabel = svgEl("text", { x: 16, y: margin.top + plotH / 2, transform: `rotate(-90 16 ${margin.top + plotH / 2})`, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
+  yLabel.textContent = "Timing heterogeneity, robust I²";
+  svg.appendChild(yLabel);
+
+  if (!tested.length) {
+    const empty = svgEl("text", { x: width / 2, y: height / 2, "text-anchor": "middle", "font-size": "13", fill: "#647084", stroke: "none" });
+    empty.textContent = "No tested pairs match the current filters.";
+    svg.appendChild(empty);
+    return;
+  }
+
+  tested
+    .slice()
+    .sort((a, b) => (a.class === "neither") - (b.class === "neither"))
+    .forEach((row) => {
+      const key = timingKey(row);
+      const xx = x(Math.abs(row.level?.dbar_robust_pp || 0));
+      const yy = y(row.timing?.I2_robust || 0);
+      const color = colorForModel(row.gen_model);
+      const opacity = row.class === "neither" ? 0.38 : 0.9;
+      const selected = key === state.timing.selectedKey;
+      const attrs = {
+        "data-timing-key": key,
+        tabindex: "0",
+        role: "button",
+        "aria-label": timingAriaLabel(row),
+        fill: color,
+        stroke: selected ? "#111827" : "#fff",
+        "stroke-width": selected ? "2.2" : "1.2",
+        opacity,
+      };
+      const point = row.family === "conversational" ? timingDiamond(xx, yy, selected ? 6 : 5, attrs) : svgEl("circle", { ...attrs, cx: xx, cy: yy, r: selected ? "6" : "5" });
+      const title = svgEl("title", {});
+      title.textContent = timingTooltipText(row);
+      point.appendChild(title);
+      svg.appendChild(point);
+    });
+}
+
+function drawTimingReference(svg, x1, y1, length, label, direction) {
+  if (direction === "vertical") {
+    svg.appendChild(svgEl("line", { x1, x2: x1, y1, y2: y1 + length, stroke: "#94a3b8", "stroke-width": "1", "stroke-dasharray": "4 4" }));
+    const text = svgEl("text", { x: x1 + 6, y: y1 + 14, "font-size": "10", fill: "#647084", stroke: "none" });
+    text.textContent = label;
+    svg.appendChild(text);
+  } else {
+    svg.appendChild(svgEl("line", { x1, x2: x1 + length, y1, y2: y1, stroke: "#94a3b8", "stroke-width": "1", "stroke-dasharray": "4 4" }));
+    const text = svgEl("text", { x: x1 + length - 6, y: y1 - 6, "text-anchor": "end", "font-size": "10", fill: "#647084", stroke: "none" });
+    text.textContent = label;
+    svg.appendChild(text);
+  }
+}
+
+function timingDiamond(cx, cy, r, attrs) {
+  return svgEl("path", { ...attrs, d: `M ${cx} ${cy - r} L ${cx + r} ${cy} L ${cx} ${cy + r} L ${cx - r} ${cy} Z` });
+}
+
+function renderTimingDetail(pair) {
+  const target = $("timingDetail");
+  if (!target) return;
+  if (!pair) {
+    target.innerHTML = '<div class="empty-state">Select a tested pair in the scatter or table.</div>';
+    return;
+  }
+  const cls = TIMING_CLASSES[pair.class] || TIMING_CLASSES.neither;
+  target.innerHTML = `
+    <div class="timing-detail-head">
+      <span class="timing-class-pill class-${cls.tone}">${cls.label}</span>
+      <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(pair.behavior))}">${titleCase(pair.behavior)}</h3>
+      <p>${modelLabel(pair.gen_model)} · ${titleCase(pair.task_type)} · ${pair.status === "tested" ? `${pair.bins_used} guarded bins` : "insufficient guarded bins"}</p>
+    </div>
+    <div class="delta-facts timing-facts">
+      <div class="delta-fact"><span>Robust level gap</span><strong>${formatPp(pair.level?.dbar_robust_pp)}</strong><small>positive means enriched in good traces · q=${formatQ(pair.level?.q_robust)}</small></div>
+      <div class="delta-fact"><span>Robust timing I²</span><strong>${formatNumber(pair.timing?.I2_robust, 2)}</strong><small>q=${formatQ(pair.timing?.q_robust)} · Q/df ${formatNumber((pair.timing?.Q_gls || 0) / Math.max(1, pair.timing?.df || 1), 2)}</small></div>
+      <div class="delta-fact"><span>Trace classes</span><strong>${fmt.format(pair.n_traces?.good || 0)} / ${fmt.format(pair.n_traces?.bad || 0)}</strong><small>good vs bad traces</small></div>
+    </div>
+    <div class="timing-detail-chart">
+      <svg id="timingDetailChart" role="img" aria-label="${escapeAttr(timingAriaLabel(pair))}"></svg>
+    </div>
+    <p class="timing-shape-sentence">${escapeHtml(timingShapeSentence(pair))}</p>
+    <div class="timing-stats-table">
+      <table>
+        <thead><tr><th>Statistic</th><th>Naive</th><th>Trace-clustered</th></tr></thead>
+        <tbody>
+          <tr><td>Level z / q</td><td>${formatNumber(pair.level?.z, 2)} · ${formatQ(pair.level?.q)}</td><td>${formatNumber(pair.level?.z_robust, 2)} · ${formatQ(pair.level?.q_robust)}</td></tr>
+          <tr><td>Timing Q / q</td><td>${formatNumber(pair.timing?.Q, 1)} · ${formatQ(pair.timing?.q)}</td><td>${formatNumber(pair.timing?.Q_gls, 1)} · ${formatQ(pair.timing?.q_robust)}</td></tr>
+          <tr><td>I²</td><td>${formatNumber(pair.timing?.I2, 2)}</td><td>${formatNumber(pair.timing?.I2_robust, 2)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+  drawTimingDetailChart($("timingDetailChart"), pair);
+}
+
+function drawTimingDetailChart(svg, pair) {
+  const width = 420;
+  const height = 235;
+  const margin = { top: 18, right: 16, bottom: 34, left: 42 };
+  const plotW = width - margin.left - margin.right;
+  const plotH = height - margin.top - margin.bottom;
+  const values = pair.d_pp || [];
+  const ses = pair.d_se_pp || [];
+  const finite = values.filter((v) => Number.isFinite(v));
+  const bandVals = values.flatMap((v, i) => (Number.isFinite(v) ? [v + 2 * (ses[i] || 0), v - 2 * (ses[i] || 0)] : []));
+  const level = pair.level?.dbar_robust_pp;
+  const maxAbs = Math.max(1, ...finite.map(Math.abs), ...bandVals.map(Math.abs), Math.abs(level || 0)) * 1.12;
+  const x = (bin) => margin.left + (bin / Math.max(1, (store.timingLevel?.meta?.K || 24) - 1)) * plotW;
+  const y = (value) => margin.top + plotH / 2 - (value / maxAbs) * (plotH / 2);
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.innerHTML = "";
+  svg.appendChild(svgEl("rect", { x: margin.left, y: margin.top, width: plotW, height: plotH, fill: "#fff", stroke: "#dce3eb", "stroke-width": "1" }));
+  [-1, 0, 1].forEach((tick) => {
+    const yy = y(maxAbs * tick);
+    svg.appendChild(svgEl("line", { x1: margin.left, x2: width - margin.right, y1: yy, y2: yy, stroke: tick === 0 ? "#111827" : "#edf2f7", "stroke-width": tick === 0 ? "1.2" : "1" }));
+    const label = svgEl("text", { x: margin.left - 7, y: yy + 3, "text-anchor": "end", "font-size": "9.5", fill: "#647084", stroke: "none" });
+    label.textContent = `${Math.round(maxAbs * tick)}pp`;
+    svg.appendChild(label);
+  });
+  const points = values.map((value, bin) => ({ value, bin, se: ses[bin] })).filter((point) => Number.isFinite(point.value));
+  if (points.length) {
+    const upper = points.map((p, i) => `${i ? "L" : "M"} ${x(p.bin).toFixed(2)} ${y(p.value + 2 * (p.se || 0)).toFixed(2)}`).join(" ");
+    const lower = points
+      .slice()
+      .reverse()
+      .map((p) => `L ${x(p.bin).toFixed(2)} ${y(p.value - 2 * (p.se || 0)).toFixed(2)}`)
+      .join(" ");
+    svg.appendChild(svgEl("path", { d: `${upper} ${lower} Z`, fill: alphaColor(colorForModel(pair.gen_model), 0.14), stroke: "none" }));
+    svg.appendChild(svgEl("path", { d: points.map((p, i) => `${i ? "L" : "M"} ${x(p.bin).toFixed(2)} ${y(p.value).toFixed(2)}`).join(" "), fill: "none", stroke: colorForModel(pair.gen_model), "stroke-width": "2.3" }));
+  }
+  if (Number.isFinite(level)) {
+    svg.appendChild(svgEl("line", { x1: margin.left, x2: width - margin.right, y1: y(level), y2: y(level), stroke: "#334155", "stroke-width": "1.4", "stroke-dasharray": "5 4" }));
+  }
+  [0, 0.5, 1].forEach((tick) => {
+    const label = svgEl("text", { x: x(tick * ((store.timingLevel?.meta?.K || 24) - 1)), y: height - 10, "text-anchor": "middle", "font-size": "9.5", fill: "#647084", stroke: "none" });
+    label.textContent = `${Math.round(tick * 100)}%`;
+    svg.appendChild(label);
+  });
+}
+
+function timingShapeSentence(pair) {
+  if (pair.status !== "tested") return "This pair failed the bin guards, so no timing shape was tested.";
+  const thirds = pair.thirds || {};
+  const rows = [
+    ["opening third", thirds.early || 0],
+    ["middle third", thirds.mid || 0],
+    ["closing third", thirds.late || 0],
+  ].sort((a, b) => b[1] - a[1]);
+  const top = rows[0];
+  const direction = (pair.level?.dbar_robust_pp || 0) >= 0 ? "good traces" : "bad traces";
+  return `Timing heterogeneity concentrates in the ${top[0]} (${pct.format(top[1])} of weighted deviation); positive bins indicate behavior enriched in good traces, while the average level gap favors ${direction}.`;
+}
+
+function renderTimingTable(rows) {
+  const sorted = rows
+    .slice()
+    .sort((a, b) => (b.timing?.I2_robust || 0) - (a.timing?.I2_robust || 0) || Math.abs(b.level?.dbar_robust_pp || 0) - Math.abs(a.level?.dbar_robust_pp || 0))
+    .slice(0, 80);
+  let html = "<thead><tr><th>Pair</th><th>Class</th><th>Level</th><th>Timing</th></tr></thead><tbody>";
+  sorted.forEach((row) => {
+    const cls = TIMING_CLASSES[row.class] || TIMING_CLASSES.neither;
+    html += `
+      <tr data-timing-key="${escapeAttr(timingKey(row))}" class="${timingKey(row) === state.timing.selectedKey ? "selected" : ""}" tabindex="0">
+        <td><strong>${modelLabel(row.gen_model)}</strong><small>${titleCase(row.task_type)} · ${titleCase(row.behavior)}</small></td>
+        <td><span class="timing-class-pill class-${cls.tone}">${cls.label}</span></td>
+        <td><strong>${formatPp(row.level?.dbar_robust_pp)}</strong><small>q=${formatQ(row.level?.q_robust)}</small></td>
+        <td><strong>${formatNumber(row.timing?.I2_robust, 2)}</strong><small>q=${formatQ(row.timing?.q_robust)}</small></td>
+      </tr>
+    `;
+  });
+  html += "</tbody>";
+  $("timingTable").innerHTML = sorted.length ? html : '<tbody><tr><td colspan="4">No pairs match the current filters.</td></tr></tbody>';
+}
+
+function timingKey(row) {
+  return `${row.gen_model}|${row.task_type}|${row.behavior}`;
+}
+
+function timingAriaLabel(row) {
+  return `${modelLabel(row.gen_model)} ${titleCase(row.task_type)} ${titleCase(row.behavior)}: ${TIMING_CLASSES[row.class]?.label || row.class}, level ${formatPp(row.level?.dbar_robust_pp)}, timing I squared ${formatNumber(row.timing?.I2_robust, 2)}`;
+}
+
+function timingTooltipText(row) {
+  return `${modelLabel(row.gen_model)} · ${titleCase(row.task_type)} · ${titleCase(row.behavior)}\nlevel ${formatPp(row.level?.dbar_robust_pp)} q=${formatQ(row.level?.q_robust)}\ntiming I² ${formatNumber(row.timing?.I2_robust, 2)} q=${formatQ(row.timing?.q_robust)}\n${TIMING_CLASSES[row.class]?.label || row.class}`;
 }
 
 function renderInspector() {
@@ -1663,6 +2048,23 @@ function titleCase(value) {
 function signedPct(value) {
   const sign = value >= 0 ? "+" : "";
   return `${sign}${(value * 100).toFixed(1)}pp`;
+}
+
+function formatNumber(value, digits = 2) {
+  return Number.isFinite(value) ? Number(value).toFixed(digits) : "-";
+}
+
+function formatQ(value) {
+  if (!Number.isFinite(value)) return "-";
+  if (value === 0) return "<.0001";
+  if (value < 0.0001) return "<.0001";
+  return value.toFixed(4).replace(/^0/, "");
+}
+
+function formatPp(value) {
+  if (!Number.isFinite(value)) return "-";
+  const sign = value > 0 ? "+" : "";
+  return `${sign}${Number(value).toFixed(2)}pp`;
 }
 
 function shortId(id) {

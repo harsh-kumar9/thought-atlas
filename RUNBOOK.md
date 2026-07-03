@@ -165,6 +165,19 @@ python -m src.analysis.model_similarity \
   --kind mag
 ```
 
+Timing vs level decomposition:
+
+```bash
+python -m src.analysis.timing_level \
+  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
+  --traces-glob "data/traces/traces_*.parquet" \
+  --grades data/perf/success_grades.parquet data/perf/code_grades.parquet \
+  --quality data/judge/prod/quality__google_gemma-4-31B-it.parquet \
+  --out data/analysis/timing_level.parquet \
+  --boot 1000 \
+  --seed 0
+```
+
 ## 6. Dashboard Export
 
 ```bash
@@ -172,6 +185,7 @@ python -m src.analysis.export_dashboard \
   --traces-glob "data/traces/traces_*.parquet" \
   --trackA data/judge/prod/trackA_counts__google_gemma-4-31B-it.parquet \
   --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
+  --timing-level data/analysis/timing_level.parquet \
   --grades data/perf/success_grades.parquet data/perf/code_grades.parquet \
   --quality data/judge/prod/quality__google_gemma-4-31B-it.parquet \
   --out-dir docs/data \

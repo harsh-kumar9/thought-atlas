@@ -543,6 +543,7 @@ input[type="range"] {
 .compare-panel,
 .inspector-panel,
 .tracka-panel,
+.timing-panel,
 .raw-panel,
 .summary-panel,
 .distance-panel {
@@ -559,12 +560,14 @@ input[type="range"] {
 
 .raw-panel,
 .tracka-panel,
+.timing-panel,
 .summary-panel,
 .distance-panel {
   grid-column: span 1;
 }
 
-.tracka-panel {
+.tracka-panel,
+.timing-panel {
   grid-column: 1 / -1;
 }
 
@@ -1027,6 +1030,267 @@ input[type="range"] {
 
 .tracka-hypotheses {
   margin-bottom: 0;
+}
+
+.timing-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.timing-filter-group {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+  padding: 9px;
+}
+
+.timing-filter-group strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.timing-filter-group div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.timing-filter-chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.timing-filter-chip.active {
+  border-color: rgba(20, 155, 143, 0.35);
+  background: #e8fbf8;
+  color: #075e55;
+}
+
+.timing-summary-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.timing-summary-strip span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  padding: 5px 9px;
+  font-weight: 800;
+}
+
+.timing-summary-strip strong {
+  color: var(--text);
+}
+
+.timing-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.36fr);
+  gap: 12px;
+}
+
+.timing-main {
+  display: grid;
+  min-width: 0;
+  gap: 12px;
+}
+
+.timing-scatter-card,
+.timing-detail,
+.timing-table-wrap {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.timing-scatter-card {
+  overflow: hidden;
+  padding: 10px;
+}
+
+.timing-scatter-card svg {
+  display: block;
+  width: 100%;
+  min-height: 330px;
+}
+
+.timing-shape {
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--muted);
+  background: transparent;
+}
+
+.timing-shape.circle {
+  border-radius: 999px;
+}
+
+.timing-shape.diamond {
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+}
+
+.timing-detail {
+  min-width: 0;
+  padding: 12px;
+}
+
+.timing-detail-head {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.timing-detail-head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.timing-detail-head p,
+.timing-shape-sentence {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.timing-class-pill {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.class-both,
+.timing-class-pill.class-both,
+.timing-filter-chip.class-both.active {
+  border-color: rgba(20, 155, 143, 0.28);
+  background: #e8fbf8;
+  color: #075e55;
+}
+
+.class-level,
+.timing-class-pill.class-level,
+.timing-filter-chip.class-level.active {
+  border-color: rgba(37, 99, 235, 0.22);
+  background: #eff6ff;
+  color: #174ea6;
+}
+
+.class-timing,
+.timing-class-pill.class-timing,
+.timing-filter-chip.class-timing.active {
+  border-color: rgba(217, 148, 16, 0.25);
+  background: #fff8e6;
+  color: #8a5a00;
+}
+
+.timing-class-pill.class-neither,
+.timing-filter-chip.class-neither.active {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.timing-class-pill.class-insufficient,
+.timing-filter-chip.class-insufficient.active {
+  background: #f8fafc;
+  color: #7a8696;
+}
+
+.timing-facts {
+  margin-bottom: 10px;
+}
+
+.timing-detail-chart {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.timing-detail-chart svg {
+  display: block;
+  width: 100%;
+  min-height: 220px;
+}
+
+.timing-stats-table {
+  overflow: auto;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.timing-stats-table table,
+.timing-table-wrap table {
+  font-size: 11px;
+}
+
+.timing-stats-table th,
+.timing-stats-table td {
+  min-width: 84px;
+  padding: 7px 8px;
+}
+
+.timing-table-wrap {
+  overflow: auto;
+}
+
+.timing-table-wrap table {
+  min-width: 720px;
+}
+
+.timing-table-wrap tr[data-timing-key] {
+  cursor: pointer;
+}
+
+.timing-table-wrap tr.selected td {
+  background: #eff6ff;
+}
+
+.timing-table-wrap td:first-child strong {
+  display: block;
+}
+
+.timing-footer {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.timing-footer strong {
+  color: var(--text);
+  text-transform: uppercase;
 }
 
 .empty-state {
@@ -1501,7 +1765,9 @@ td small {
 
   .raw-columns,
   .trace-facts,
-  .tracka-layout {
+  .tracka-layout,
+  .timing-layout,
+  .timing-filters {
     grid-template-columns: 1fr;
   }
 }
@@ -1528,6 +1794,7 @@ td small {
   .compare-panel,
   .inspector-panel,
   .tracka-panel,
+  .timing-panel,
   .raw-panel,
   .summary-panel,
   .distance-panel {
@@ -1547,6 +1814,7 @@ td small {
   .family-chart-grid,
   .tracka-card-grid,
   .tracka-grid,
+  .timing-filters,
   .trace-annotation-list {
     grid-template-columns: 1fr;
   }
@@ -1567,5 +1835,14 @@ td small {
 
   .mini-chart svg {
     height: 150px;
+  }
+
+  .timing-scatter-card svg {
+    min-height: 260px;
+  }
+
+  .timing-summary-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }

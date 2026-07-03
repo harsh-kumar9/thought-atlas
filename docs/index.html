@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Thought Atlas</title>
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="white"/><path d="M16 3v26M3 16h26M7.5 7.5l17 17M24.5 7.5l-17 17" stroke="%23111827" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="%23149b8f" stroke-width="2"/></svg>' />
-    <link rel="stylesheet" href="styles.css?v=20260701-model-labels" />
+    <link rel="stylesheet" href="styles.css?v=20260702-timing-level" />
   </head>
   <body>
     <header class="topbar">
@@ -24,6 +24,7 @@
       <nav class="tabs" aria-label="Dashboard sections">
         <button class="tab active" data-scroll="compare">Compare</button>
         <button class="tab" data-scroll="track-a">Track A</button>
+        <button class="tab" data-scroll="timing-level">Timing vs level</button>
         <button class="tab" data-scroll="raw">Raw traces</button>
         <button class="tab" data-scroll="overview">Overview</button>
       </nav>
@@ -150,6 +151,35 @@
           </div>
         </section>
 
+        <section class="panel timing-panel" id="timing-level">
+          <div class="panel-head">
+            <div>
+              <h2>Timing vs Level</h2>
+              <p id="timingSubtitle">Loading trace-clustered outcome-gap decomposition...</p>
+            </div>
+            <div class="legend" id="timingLegend"></div>
+          </div>
+          <div id="timingFilters" class="timing-filters" aria-label="Timing vs level filters"></div>
+          <div id="timingSummary" class="timing-summary-strip"></div>
+          <div class="timing-layout">
+            <div class="timing-main">
+              <div class="timing-scatter-card">
+                <svg id="timingScatter" role="img" aria-label="Timing versus level scatter plot"></svg>
+              </div>
+              <div class="timing-table-wrap">
+                <table id="timingTable"></table>
+              </div>
+            </div>
+            <aside class="timing-detail" id="timingDetail"></aside>
+          </div>
+          <footer class="timing-footer">
+            <strong>Exploratory limits</strong>
+            <span>Bins are normalized position: informative retrospectively, not computable online while a trace streams (final length unknown).</span>
+            <span>Association, not causation: behaviors may mark difficulty rather than produce outcomes (see data/perf/INTERPRETATION.txt).</span>
+            <span>moral/idea use a median split on judge-rated quality; the good/bad classes there are not solved/failed.</span>
+          </footer>
+        </section>
+
         <section class="panel raw-panel" id="raw">
           <div class="panel-head compact">
             <div>
@@ -212,6 +242,6 @@
       </main>
     </div>
 
-    <script src="app.js?v=20260701-model-labels" defer></script>
+    <script src="app.js?v=20260702-timing-level" defer></script>
   </body>
 </html>

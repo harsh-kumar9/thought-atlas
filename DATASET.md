@@ -95,6 +95,7 @@ docs/data/manifest.json
 docs/data/summary.json
 docs/data/trackA.json
 docs/data/heartbeat.json
+docs/data/timing_level.json
 docs/data/trace_samples.json
 docs/data/distance.json
 ```

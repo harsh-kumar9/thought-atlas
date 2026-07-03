@@ -35,3 +35,11 @@ By correctness (per domain) · by artifact (think vs response, never lumped) · 
 
 ## Decision gate to SAE phase
 H1–H4 all supported → proceed. Otherwise reframe as "routing weaker than prior work" (still publishable).
+
+## Post-hoc additions
+
+2026-07-02: Added the Timing vs level decomposition after inspecting the data.
+It descends from H4's temporal shuffle-null motivation, but it was not part of
+the frozen preregistration. Treat it as exploratory: it quantifies whether
+outcome-linked behavior gaps are level-like, timing-like, both, or neither using
+the dashboard heartbeat trace population and trace-clustered bootstrap covariance.

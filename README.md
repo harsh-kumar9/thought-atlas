@@ -14,7 +14,7 @@ and a static GitHub Pages dashboard in `docs/`.
 - 5 generation conditions: `Llama-3.1-8B-Instruct`, `DeepSeek-R1-Distill-Llama-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Qwen3.5-27B`
 - 6 domains: `math`, `code`, `gpqa`, `planning`, `moral`, `idea`
 - 13,375 generated traces
-- Track A behavior counts for 13,374 traces
+- Whole-trace behavior counts for 13,374 traces
 - Track B per-sentence labels for 6,004,702 segments
 - Deterministic grades for math/gpqa/planning, sandboxed grades for code, rubric quality for moral/idea
 
@@ -143,13 +143,16 @@ python -m http.server 8000 -d docs
 
 Open `http://127.0.0.1:8000/`.
 
-The Compare tab explores temporal Track B behavior trajectories. The Track A tab
-uses the same model/domain/outcome lanes for whole-trace behavior count and
-presence comparisons without any temporal cursor. The Monitorability tab reports
-prefix-based logistic prediction of final success/high-quality outcomes, including
-prompt-disjoint splits and temporal-vs-count ablations. The Timing vs level tab is
-an exploratory post-hoc view that asks whether robust outcome gaps are mostly
-overall behavior level, timing heterogeneity, both, or neither.
+The dashboard is intentionally an atlas, not an analysis appendix. The Compare tab
+explores temporal behavior trajectories across model/domain/outcome lanes. The
+Behavior Counts tab uses the same lanes for whole-trace count and presence
+comparisons without a temporal cursor. Raw trace and overview tabs expose sampled
+task text, thinking text, answer text, model/domain summaries, and model-distance
+matrices.
+
+Derived analyses such as prefix predictability and timing-vs-level decompositions
+are exported under `data/analysis/` and `docs/data/` so they can be used in the
+paper or downstream notebooks without crowding the public explorer.
 
 The dashboard samples raw trace text for browser speed. The full raw prompt,
 thinking, and answer fields remain in `data/traces/*.parquet`.

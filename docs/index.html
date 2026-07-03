@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Thought Atlas</title>
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="white"/><path d="M16 3v26M3 16h26M7.5 7.5l17 17M24.5 7.5l-17 17" stroke="%23111827" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="%23149b8f" stroke-width="2"/></svg>' />
-    <link rel="stylesheet" href="styles.css?v=20260703-predictability" />
+    <link rel="stylesheet" href="styles.css?v=20260703-atlas" />
   </head>
   <body>
     <header class="topbar">
@@ -23,9 +23,7 @@
       </div>
       <nav class="tabs" aria-label="Dashboard sections">
         <button class="tab active" data-scroll="compare">Compare</button>
-        <button class="tab" data-scroll="track-a">Track A</button>
-        <button class="tab" data-scroll="monitorability">Monitorability</button>
-        <button class="tab" data-scroll="timing-level">Timing vs level</button>
+        <button class="tab" data-scroll="behavior-counts">Behavior counts</button>
         <button class="tab" data-scroll="raw">Raw traces</button>
         <button class="tab" data-scroll="overview">Overview</button>
       </nav>
@@ -135,10 +133,10 @@
           <div class="sample-list" id="sampleList"></div>
         </aside>
 
-        <section class="panel tracka-panel" id="track-a">
+        <section class="panel tracka-panel" id="behavior-counts">
           <div class="panel-head">
             <div>
-              <h2>Track A Whole-Trace Counts</h2>
+              <h2>Whole-Trace Behavior Counts</h2>
               <p id="trackASubtitle">Loading whole-trace behavior counts...</p>
             </div>
             <div class="legend" id="trackALegend"></div>
@@ -150,57 +148,6 @@
             </div>
             <aside class="tracka-detail" id="trackADetail"></aside>
           </div>
-        </section>
-
-        <section class="panel monitor-panel" id="monitorability">
-          <div class="panel-head">
-            <div>
-              <h2>Predictability Over Trace</h2>
-              <p id="monitorSubtitle">Loading outcome predictability over trace prefixes...</p>
-            </div>
-            <div class="segmented monitor-split" id="monitorSplitButtons" role="group" aria-label="Monitorability split"></div>
-          </div>
-          <div id="monitorSummary" class="monitor-summary-strip"></div>
-          <div class="monitor-layout">
-            <div class="monitor-chart-card">
-              <svg id="monitorCurve" role="img" aria-label="Predictability heartbeat over trace prefixes"></svg>
-            </div>
-            <aside class="monitor-detail">
-              <h3>How to Read It</h3>
-              <p id="monitorTakeaway">Each line asks how well the visible prefix can sort final good traces from bad traces. Higher means the outcome is easier to predict.</p>
-              <div id="monitorPulseCards" class="monitor-pulse-cards"></div>
-            </aside>
-          </div>
-          <footer class="monitor-footer" id="monitorNotes"></footer>
-        </section>
-
-        <section class="panel timing-panel" id="timing-level">
-          <div class="panel-head">
-            <div>
-              <h2>Timing vs Level</h2>
-              <p id="timingSubtitle">Loading amount-vs-timing comparisons...</p>
-            </div>
-            <div class="legend" id="timingLegend"></div>
-          </div>
-          <div id="timingFilters" class="timing-filters" aria-label="Timing vs level filters"></div>
-          <div id="timingSummary" class="timing-summary-strip"></div>
-          <div class="timing-layout">
-            <div class="timing-main">
-              <div class="timing-scatter-card">
-                <svg id="timingScatter" role="img" aria-label="Timing versus level scatter plot"></svg>
-              </div>
-              <div class="timing-table-wrap">
-                <table id="timingTable"></table>
-              </div>
-            </div>
-            <aside class="timing-detail" id="timingDetail"></aside>
-          </div>
-          <footer class="timing-footer">
-            <strong>Read gently</strong>
-            <span>Time is normalized from start to finish, so this view is best for retrospective exploration.</span>
-            <span>Behavior gaps are associations: they can mark task difficulty rather than cause the final outcome.</span>
-            <span>Moral and idea tasks use high/low judge-rated quality instead of solved/failed.</span>
-          </footer>
         </section>
 
         <section class="panel raw-panel" id="raw">
@@ -265,6 +212,6 @@
       </main>
     </div>
 
-    <script src="app.js?v=20260703-predictability" defer></script>
+    <script src="app.js?v=20260703-atlas" defer></script>
   </body>
 </html>

@@ -58,7 +58,8 @@ data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet
 data/judge/prod/trackB_isolated__google_gemma-4-31B-it.parquet
 ```
 
-Track A has one row per trace with behavior counts.
+The whole-trace count table has one row per trace with behavior counts. It is
+stored under the legacy `trackA` file names for compatibility with earlier runs.
 
 Track B has one row per segment with:
 
@@ -101,7 +102,11 @@ docs/data/trace_samples.json
 docs/data/distance.json
 ```
 
-`data/analysis/prefix_monitor/` contains the corresponding monitorability CSVs:
+`docs/data/prefix_monitor.json` and `docs/data/timing_level.json` are exported as
+downstream analysis examples. They are not shown in the main atlas dashboard by
+default; the paper can cite them as examples of how to reuse the dataset.
+
+`data/analysis/prefix_monitor/` contains the corresponding predictability CSVs:
 out-of-fold metrics, temporal-vs-baseline deltas, top logistic coefficients, and
 analysis metadata.
 

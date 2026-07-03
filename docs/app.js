@@ -117,7 +117,7 @@ let activeTooltipTarget = null;
 const $ = (id) => document.getElementById(id);
 
 async function loadData() {
-  const [manifest, summary, heartbeat, traces, distance, trackA, timingLevel, prefixMonitor] = await Promise.all([
+  const [manifest, summary, heartbeat, traces, distance, trackA] = await Promise.all([
     fetch("data/manifest.json").then((r) => r.json()),
     fetch("data/summary.json").then((r) => r.json()),
     fetch("data/heartbeat.json").then((r) => r.json()),
@@ -126,12 +126,6 @@ async function loadData() {
     fetch("data/trackA.json")
       .then((r) => (r.ok ? r.json() : { cells: [], families: [] }))
       .catch(() => ({ cells: [], families: [] })),
-    fetch("data/timing_level.json")
-      .then((r) => (r.ok ? r.json() : { meta: {}, pairs: [] }))
-      .catch(() => ({ meta: {}, pairs: [] })),
-    fetch("data/prefix_monitor.json")
-      .then((r) => (r.ok ? r.json() : { meta: {}, metrics: [], deltas: [] }))
-      .catch(() => ({ meta: {}, metrics: [], deltas: [] })),
   ]);
 
   Object.assign(store, {
@@ -141,9 +135,9 @@ async function loadData() {
     traces: traces.traces,
     distance,
     trackA,
-    timingLevel,
-    prefixMonitor,
-    timingIndex: new Map((timingLevel.pairs || []).map((row) => [timingKey(row), row])),
+    timingLevel: { meta: {}, pairs: [] },
+    prefixMonitor: { meta: {}, metrics: [], deltas: [] },
+    timingIndex: new Map(),
     trackAIndex: new Map((trackA.cells || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.behavior), row])),
     trackAFamilyIndex: new Map((trackA.families || []).map((row) => [trackAKey(row.gen_model, row.task_type, row.outcome_group, row.family), row])),
     behaviors: manifest.behaviors,
@@ -631,8 +625,6 @@ function hideBehaviorTooltip(target = activeTooltipTarget) {
 function renderAll() {
   renderComparison();
   renderTrackA();
-  renderMonitorability();
-  renderTimingLevel();
   renderInspector();
   renderTrace();
   renderSummary();
@@ -775,7 +767,7 @@ function renderTrackA() {
   grid.innerHTML = "";
   grid.className = "tracka-grid";
   if (!store.trackA?.cells?.length) {
-    grid.innerHTML = '<div class="empty-state">Track A data is not available in this dashboard export yet.</div>';
+    grid.innerHTML = '<div class="empty-state">Whole-trace count data is not available in this dashboard export yet.</div>';
     $("trackADetail").innerHTML = "";
     return;
   }
@@ -840,7 +832,7 @@ function trackACard(behavior) {
     <div class="mini-chart-head">
       <div>
         <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
-        <small>${familyShortLabel(behavior)} · Track A whole trace</small>
+        <small>${familyShortLabel(behavior)} · whole trace</small>
       </div>
       <span class="delta-pill">${state.lanes.length === 1 ? one.format(countSpread.maxValue) : `spread ${one.format(countSpread.spread)}`}</span>
     </div>
@@ -891,10 +883,10 @@ function renderTrackADetail(behavior) {
   const profileMax = Math.max(0.1, ...domainProfiles.flatMap((profile) => profile.metrics.map((metric) => metric.meanCount || 0)));
 
   target.innerHTML = `
-    <div class="tracka-detail-head">
-      <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
-      <p>Static Track A counts across the full trace. These values ignore cursor position and answer-boundary timing.</p>
-    </div>
+      <div class="tracka-detail-head">
+        <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</h3>
+        <p>Static behavior counts across the full trace. These values ignore cursor position and answer-boundary timing.</p>
+      </div>
     <div class="delta-facts tracka-facts">
       ${rows
         .map((row) => {
@@ -2037,7 +2029,7 @@ function metricSpread(rows, field) {
 }
 
 function trackAHypotheses(behavior, rows, countSpread, presenceSpread) {
-  if (!rows.some((row) => row.nTraces)) return ["No Track A rows match the current lane configuration."];
+  if (!rows.some((row) => row.nTraces)) return ["No whole-trace count rows match the current lane configuration."];
   const prompts = [
     `${laneLabel(countSpread.maxLane?.id)} has the highest whole-trace ${titleCase(behavior)} volume, exceeding ${laneLabel(countSpread.minLane?.id)} by ${one.format(countSpread.spread)} marks per trace.`,
   ];
@@ -2047,7 +2039,7 @@ function trackAHypotheses(behavior, rows, countSpread, presenceSpread) {
     prompts.push("Presence is comparatively stable, so the difference may be intensity among traces that already use the behavior.");
   }
   if (uniqueValues(state.lanes, "model").length > 1 && uniqueValues(state.lanes, "domain").length === 1) {
-    prompts.push(`Model hypothesis: lanes share ${titleCase(state.lanes[0].domain)}; compare Track A volume with the temporal tab to see whether extra behavior is spread throughout the trace or localized.`);
+    prompts.push(`Model hypothesis: lanes share ${titleCase(state.lanes[0].domain)}; compare count volume with the trajectory view to see whether extra behavior is spread throughout the trace or localized.`);
   } else if (uniqueValues(state.lanes, "domain").length > 1 && uniqueValues(state.lanes, "model").length === 1) {
     prompts.push(`Domain hypothesis: ${modelLabel(state.lanes[0].model)} may invoke this behavior more often for some task families even before considering where it occurs.`);
   } else if (uniqueValues(state.lanes, "outcome").length > 1) {

@@ -534,6 +534,7 @@ input[type="range"] {
 
 .panel {
   min-width: 0;
+  scroll-margin-top: 76px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
@@ -1104,7 +1105,17 @@ input[type="range"] {
 }
 
 .monitor-split {
-  flex: 0 0 auto;
+  flex: 1 1 360px;
+  max-width: 560px;
+}
+
+.monitor-panel .panel-head {
+  flex-wrap: wrap;
+}
+
+.monitor-panel .panel-head > div:first-child {
+  flex: 1 1 280px;
+  min-width: 240px;
 }
 
 .monitor-summary-strip {
@@ -1169,43 +1180,52 @@ input[type="range"] {
   line-height: 1.5;
 }
 
-.monitor-table-wrap {
-  max-height: 315px;
-  overflow: auto;
+.monitor-pulse-cards {
+  display: grid;
+  gap: 9px;
+}
+
+.monitor-pulse-cards article {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+  padding: 10px;
 }
 
-.monitor-table-wrap table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 11.5px;
+.monitor-pulse-cards article div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
 }
 
-.monitor-table-wrap th,
-.monitor-table-wrap td {
-  padding: 8px 9px;
-  border-bottom: 1px solid var(--line);
-  text-align: right;
-  white-space: nowrap;
+.monitor-pulse-cards strong {
+  font-size: 14px;
 }
 
-.monitor-table-wrap th:first-child,
-.monitor-table-wrap td:first-child,
-.monitor-table-wrap th:nth-child(2),
-.monitor-table-wrap td:nth-child(2) {
-  text-align: left;
-}
-
-.monitor-table-wrap th {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background: #f8fafc;
-  color: var(--muted);
+.monitor-pulse-cards span {
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #137a3f;
+  padding: 3px 7px;
   font-size: 10px;
+  font-weight: 900;
   text-transform: uppercase;
+}
+
+.monitor-pulse-cards p,
+.monitor-pulse-cards small {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.monitor-pulse-cards p {
+  margin-bottom: 3px;
+  color: var(--text);
 }
 
 .monitor-footer {
@@ -1219,6 +1239,17 @@ input[type="range"] {
 
 .monitor-footer strong {
   color: var(--text);
+}
+
+.timing-detail-note {
+  margin: 10px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--muted);
+  padding: 9px 10px;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .timing-layout {

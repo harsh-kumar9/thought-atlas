@@ -48,20 +48,22 @@ const MODEL_DISPLAY_NAMES = {
 };
 
 const TIMING_CLASSES = {
-  both: { label: "Both", tone: "both" },
-  level_only: { label: "Level only", tone: "level" },
-  timing_only: { label: "Timing only", tone: "timing" },
-  neither: { label: "Neither", tone: "neither" },
-  insufficient: { label: "Insufficient", tone: "insufficient" },
+  both: { label: "Amount + timing", tone: "both" },
+  level_only: { label: "Amount gap", tone: "level" },
+  timing_only: { label: "Timing shape", tone: "timing" },
+  neither: { label: "No clear split", tone: "neither" },
+  insufficient: { label: "Too sparse", tone: "insufficient" },
 };
 
 const MONITOR_FEATURES = {
-  metadata: { label: "Metadata", color: "#64748b", dash: "" },
-  length: { label: "Metadata + length", color: "#0891b2", dash: "4 4" },
-  counts: { label: "Counts", color: "#2563eb", dash: "" },
-  temporal: { label: "Temporal bins", color: "#d97706", dash: "" },
-  time_shuffled: { label: "Time-shuffled", color: "#7c3aed", dash: "6 4" },
+  metadata: { label: "Task only", short: "Task", color: "#64748b", dash: "", description: "model, domain, and task metadata before reading the trace" },
+  length: { label: "+ length", short: "Length", color: "#0891b2", dash: "4 4", description: "task metadata plus how much trace text is visible" },
+  counts: { label: "+ behavior mix", short: "Behavior mix", color: "#2563eb", dash: "", description: "which behaviors have appeared so far, ignoring exact timing" },
+  temporal: { label: "+ behavior timing", short: "Behavior timing", color: "#d97706", dash: "", description: "which behaviors appeared and where they appeared inside the visible prefix" },
+  time_shuffled: { label: "Timing sanity check", short: "Timing check", color: "#7c3aed", dash: "6 4", description: "a timing-control baseline for analysis, hidden from the simple view" },
 };
+
+const MONITOR_VISIBLE_FEATURES = ["metadata", "length", "counts", "temporal"];
 
 const LANE_DASHES = ["", "5 4", "2 3", "7 3 2 3", "1 4", "10 4 2 4"];
 
@@ -160,6 +162,22 @@ async function loadData() {
   renderControls();
   bindEvents();
   renderAll();
+  requestAnimationFrame(() => requestAnimationFrame(scrollToHashTarget));
+}
+
+function scrollToHashTarget() {
+  if (!window.location.hash) return;
+  const id = decodeURIComponent(window.location.hash.slice(1));
+  scrollToPanel(id, "auto");
+}
+
+function scrollToPanel(id, behavior = "smooth") {
+  const target = id ? $(id) : null;
+  if (!target) return;
+  const header = document.querySelector(".topbar");
+  const offset = (header?.getBoundingClientRect().height || 62) + 12;
+  const top = target.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top: Math.max(0, top), behavior });
 }
 
 function ensureDashboardMarkup() {
@@ -510,7 +528,7 @@ function bindEvents() {
     button.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((tab) => tab.classList.remove("active"));
       button.classList.add("active");
-      $(button.dataset.scroll).scrollIntoView({ block: "start" });
+      scrollToPanel(button.dataset.scroll);
     });
   });
 
@@ -939,14 +957,14 @@ function renderMonitorability() {
   const deltas = store.prefixMonitor?.deltas || [];
   const splits = store.prefixMonitor?.meta?.splits || [];
   $("monitorSubtitle").textContent = metrics.length
-    ? `${fmt.format(metrics[0]?.n || 0)} labeled Track B traces · regularized logistic monitors · out-of-fold metrics`
+    ? `${fmt.format(metrics.find((row) => row.split === state.monitor.split)?.n || metrics[0]?.n || 0)} traces · predicting final success/quality from the visible prefix`
     : "Prefix monitorability data is not available in this dashboard export yet.";
   renderMonitorSplitButtons(splits);
   const rows = metrics.filter((row) => row.split === state.monitor.split);
   const deltaRows = deltas.filter((row) => row.split === state.monitor.split);
   renderMonitorSummary(rows, deltaRows);
   drawMonitorCurve($("monitorCurve"), rows);
-  renderMonitorDeltaTable(deltaRows);
+  renderMonitorPulseCards(rows, deltaRows);
   renderMonitorNotes();
 }
 
@@ -965,68 +983,73 @@ function renderMonitorSummary(rows, deltaRows) {
     target.innerHTML = "<span>No monitorability results match the selected split.</span>";
     return;
   }
-  const bestTemporal = rows.filter((row) => row.feature_set === "temporal").slice().sort((a, b) => (b.auroc || 0) - (a.auroc || 0))[0];
-  const bestCounts = rows.filter((row) => row.feature_set === "counts").slice().sort((a, b) => (b.auroc || 0) - (a.auroc || 0))[0];
-  const temporalDeltas = deltaRows.filter((row) => row.feature_set === "temporal" && row.baseline === "counts");
-  const positiveDeltas = temporalDeltas.filter((row) => (row.delta_auroc || 0) > 0).length;
-  const lastDelta = temporalDeltas.slice().sort((a, b) => (a.prefix || 0) - (b.prefix || 0)).at(-1);
+  const visible = monitorVisibleRows(rows);
+  const prefixes = monitorPrefixes(visible);
+  const earliest = prefixes.map((prefix) => bestMonitorRowAtPrefix(visible, prefix)).find((item) => item?.score >= 0.4) || bestMonitorRowAtPrefix(visible, prefixes[0]);
+  const early = bestMonitorRowAtPrefix(visible, prefixes[0]);
+  const full = bestMonitorRowAtPrefix(visible, prefixes.at(-1));
+  const fullTimingDelta = monitorDelta(deltaRows, prefixes.at(-1), "counts");
   target.innerHTML = `
     <span><strong>${monitorSplitLabel(state.monitor.split)}</strong> split</span>
-    <span><strong>${formatNumber(bestTemporal?.auroc, 3)}</strong> best temporal AUROC at ${formatPrefix(bestTemporal?.prefix)}</span>
-    <span><strong>${formatNumber(bestCounts?.auroc, 3)}</strong> best counts AUROC at ${formatPrefix(bestCounts?.prefix)}</span>
-    <span><strong>${formatSignedNumber(lastDelta?.delta_auroc, 3)}</strong> temporal-counts delta at full trace</span>
-    <span><strong>${positiveDeltas}/${temporalDeltas.length}</strong> prefixes favor temporal bins</span>
+    <span><strong>${formatPrefix(earliest?.prefix)}</strong> first useful signal</span>
+    <span><strong>${formatPredictabilityScore(early?.row)}</strong> by ${formatPrefix(early?.prefix)}</span>
+    <span><strong>${MONITOR_FEATURES[full?.row?.feature_set]?.short || "Signal"}</strong> strongest at full trace</span>
+    <span><strong>${formatPredictabilityDeltaFromAuroc(fullTimingDelta?.delta_auroc)}</strong> timing vs behavior mix</span>
   `;
 }
 
 function drawMonitorCurve(svg, rows) {
   const width = 760;
-  const height = 330;
-  const margin = { top: 24, right: 24, bottom: 48, left: 52 };
+  const height = 340;
+  const margin = { top: 34, right: 26, bottom: 50, left: 58 };
   const plotW = width - margin.left - margin.right;
   const plotH = height - margin.top - margin.bottom;
-  const prefixes = [...new Set(rows.map((row) => row.prefix))].sort((a, b) => a - b);
-  const featureSets = Object.keys(MONITOR_FEATURES).filter((feature) => rows.some((row) => row.feature_set === feature));
-  const values = rows.map((row) => row.auroc).filter(Number.isFinite);
-  const ymin = Math.max(0.5, Math.floor((Math.min(...values, 0.7) - 0.03) * 20) / 20);
-  const ymax = Math.min(1, Math.ceil((Math.max(...values, 0.75) + 0.03) * 20) / 20);
-  const x = (prefix) => margin.left + (prefixes.indexOf(prefix) / Math.max(1, prefixes.length - 1)) * plotW;
-  const y = (value) => margin.top + plotH - ((value - ymin) / Math.max(0.001, ymax - ymin)) * plotH;
+  const visible = monitorVisibleRows(rows);
+  const prefixes = monitorPrefixes(visible);
+  const featureSets = MONITOR_VISIBLE_FEATURES.filter((feature) => visible.some((row) => row.feature_set === feature));
+  const values = visible.map(predictabilityScore).filter(Number.isFinite);
+  const ymax = Math.min(1, Math.max(0.6, Math.ceil((Math.max(...values, 0.45) + 0.08) * 10) / 10));
+  const x = (prefix) => margin.left + Number(prefix || 0) * plotW;
+  const y = (value) => margin.top + plotH - (Math.max(0, Math.min(ymax, value || 0)) / ymax) * plotH;
 
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svg.innerHTML = "";
   svg.appendChild(svgEl("rect", { x: margin.left, y: margin.top, width: plotW, height: plotH, fill: "#fff", stroke: "#dce3eb", "stroke-width": "1" }));
-  Array.from({ length: 5 }, (_, i) => ymin + ((ymax - ymin) * i) / 4).forEach((tick) => {
+  svg.appendChild(svgEl("rect", { x: margin.left, y: y(0.4), width: plotW, height: Math.max(0, y(0) - y(0.4)), fill: "#ecfdf5", stroke: "none", opacity: "0.68" }));
+  [0, 0.25, 0.4, ymax].forEach((tick) => {
     const yy = y(tick);
     svg.appendChild(svgEl("line", { x1: margin.left, x2: width - margin.right, y1: yy, y2: yy, stroke: "#edf2f7", "stroke-width": "1" }));
     const label = svgEl("text", { x: margin.left - 8, y: yy + 4, "text-anchor": "end", "font-size": "10", fill: "#647084", stroke: "none" });
-    label.textContent = tick.toFixed(2);
+    label.textContent = tick === 0 ? "chance" : `${Math.round(tick * 100)}%`;
     svg.appendChild(label);
   });
-  prefixes.forEach((prefix) => {
+  [0, ...prefixes].forEach((prefix) => {
     const xx = x(prefix);
     svg.appendChild(svgEl("line", { x1: xx, x2: xx, y1: margin.top, y2: height - margin.bottom, stroke: "#f1f5f9", "stroke-width": "1" }));
     const label = svgEl("text", { x: xx, y: height - 24, "text-anchor": "middle", "font-size": "10", fill: "#647084", stroke: "none" });
     label.textContent = formatPrefix(prefix);
     svg.appendChild(label);
   });
+  const useful = svgEl("text", { x: width - margin.right - 8, y: y(0.4) - 7, "text-anchor": "end", "font-size": "10", fill: "#137a3f", stroke: "none", "font-weight": "800" });
+  useful.textContent = "useful prediction zone";
+  svg.appendChild(useful);
   const xLabel = svgEl("text", { x: margin.left + plotW / 2, y: height - 7, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
-  xLabel.textContent = "Trace prefix";
+  xLabel.textContent = "How much of the trace is visible";
   svg.appendChild(xLabel);
   const yLabel = svgEl("text", { x: 15, y: margin.top + plotH / 2, transform: `rotate(-90 15 ${margin.top + plotH / 2})`, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
-  yLabel.textContent = "Out-of-fold AUROC";
+  yLabel.textContent = "Predictability above chance";
   svg.appendChild(yLabel);
 
   featureSets.forEach((feature) => {
     const meta = MONITOR_FEATURES[feature];
     const points = prefixes.map((prefix) => rows.find((row) => row.prefix === prefix && row.feature_set === feature)).filter(Boolean);
     if (!points.length) return;
-    const path = points.map((row, i) => `${i ? "L" : "M"} ${x(row.prefix).toFixed(2)} ${y(row.auroc).toFixed(2)}`).join(" ");
-    svg.appendChild(svgEl("path", { d: path, fill: "none", stroke: meta.color, "stroke-width": feature === "temporal" ? "2.8" : "2.1", "stroke-dasharray": meta.dash }));
+    const path = points.map((row, i) => `${i ? "L" : "M"} ${x(row.prefix).toFixed(2)} ${y(predictabilityScore(row)).toFixed(2)}`).join(" ");
+    svg.appendChild(svgEl("path", { d: path, fill: "none", stroke: meta.color, "stroke-width": feature === "temporal" ? "3" : "2.2", "stroke-dasharray": meta.dash }));
     points.forEach((row) => {
-      const dot = svgEl("circle", { cx: x(row.prefix), cy: y(row.auroc), r: feature === "temporal" ? "4.5" : "3.5", fill: meta.color, stroke: "#fff", "stroke-width": "1" });
+      const dot = svgEl("circle", { cx: x(row.prefix), cy: y(predictabilityScore(row)), r: feature === "temporal" ? "4.5" : "3.8", fill: meta.color, stroke: "#fff", "stroke-width": "1" });
       const title = svgEl("title", {});
-      title.textContent = `${meta.label} · ${formatPrefix(row.prefix)} · AUROC ${formatNumber(row.auroc, 3)} (${formatNumber(row.auroc_ci_low, 3)}-${formatNumber(row.auroc_ci_high, 3)})`;
+      title.textContent = `${meta.label} · ${formatPrefix(row.prefix)} · ${formatPredictabilityScore(row)} above chance (${meta.description})`;
       dot.appendChild(title);
       svg.appendChild(dot);
     });
@@ -1042,47 +1065,105 @@ function drawMonitorCurve(svg, rows) {
   });
 }
 
-function renderMonitorDeltaTable(rows) {
-  const target = $("monitorDeltaTable");
+function renderMonitorPulseCards(rows, deltaRows) {
+  const target = $("monitorPulseCards");
   if (!target) return;
-  const temporal = rows
-    .filter((row) => row.feature_set === "temporal" && ["counts", "time_shuffled"].includes(row.baseline))
-    .sort((a, b) => a.prefix - b.prefix || a.baseline.localeCompare(b.baseline));
-  if (!temporal.length) {
-    target.innerHTML = "<tbody><tr><td>No temporal ablation deltas available.</td></tr></tbody>";
+  const visible = monitorVisibleRows(rows);
+  const prefixes = monitorPrefixes(visible);
+  if (!prefixes.length) {
+    target.innerHTML = '<div class="empty-state">No predictability results are available.</div>';
     return;
   }
-  const countsRows = temporal.filter((row) => row.baseline === "counts");
-  const nonPositive = countsRows.filter((row) => (row.delta_auroc || 0) <= 0).length;
-  const full = countsRows.find((row) => row.prefix === 1);
-  $("monitorTakeaway").textContent =
-    nonPositive >= Math.max(1, countsRows.length - 1)
-      ? `In this split, temporal bins mostly do not beat behavior counts; full-trace delta is ${formatSignedNumber(full?.delta_auroc, 3)} AUROC.`
-      : `Temporal bins add value at ${countsRows.length - nonPositive} prefix${countsRows.length - nonPositive === 1 ? "" : "es"}; full-trace delta is ${formatSignedNumber(full?.delta_auroc, 3)} AUROC.`;
-  let html = "<thead><tr><th>Prefix</th><th>Baseline</th><th>Δ AUROC</th><th>95% CI</th><th>Δ log loss</th></tr></thead><tbody>";
-  temporal.forEach((row) => {
-    html += `
-      <tr>
-        <td>${formatPrefix(row.prefix)}</td>
-        <td>${row.baseline === "counts" ? "Counts" : "Time-shuffled"}</td>
-        <td><strong>${formatSignedNumber(row.delta_auroc, 3)}</strong></td>
-        <td>${formatNumber(row.delta_auroc_ci_low, 3)} to ${formatNumber(row.delta_auroc_ci_high, 3)}</td>
-        <td>${formatSignedNumber(row.delta_log_loss, 4)}</td>
-      </tr>
-    `;
-  });
-  html += "</tbody>";
-  target.innerHTML = html;
+  const fullPrefix = prefixes.at(-1);
+  const fullTiming = monitorDelta(deltaRows, fullPrefix, "counts");
+  const fullTimingDelta = (fullTiming?.delta_auroc || 0) * 2;
+  const firstUseful = prefixes.map((prefix) => bestMonitorRowAtPrefix(visible, prefix)).find((item) => item?.score >= 0.4);
+  $("monitorTakeaway").textContent = firstUseful
+    ? `The final outcome is already ${predictabilityBand(firstUseful.score).toLowerCase()} by ${formatPrefix(firstUseful.prefix)}. In this export, exact timing ${Math.abs(fullTimingDelta) < 0.015 ? "mostly mirrors the behavior mix" : fullTimingDelta > 0 ? "adds extra signal beyond the behavior mix" : "does not improve on the behavior mix"}.`
+    : "The visible prefixes remain close to chance in this split; use the task/model controls above to form more specific comparisons.";
+  target.innerHTML = prefixes
+    .map((prefix) => {
+      const task = monitorRowAtPrefix(visible, prefix, "metadata");
+      const counts = monitorRowAtPrefix(visible, prefix, "counts");
+      const temporal = monitorRowAtPrefix(visible, prefix, "temporal");
+      const best = bestMonitorRowAtPrefix(visible, prefix);
+      const behaviorGain = predictabilityScore(counts) - predictabilityScore(task);
+      const timingGain = predictabilityScore(temporal) - predictabilityScore(counts);
+      return `
+        <article>
+          <div><strong>${formatPrefix(prefix)}</strong><span>${predictabilityBand(best?.score)}</span></div>
+          <p>Best signal: <b>${MONITOR_FEATURES[best?.row?.feature_set]?.short || "n/a"}</b> at ${formatPredictabilityScore(best?.row)}.</p>
+          <small>Behavior mix ${phraseScoreDelta(behaviorGain)} vs task; timing ${phraseScoreDelta(timingGain)} vs mix.</small>
+        </article>
+      `;
+    })
+    .join("");
 }
 
 function renderMonitorNotes() {
   const target = $("monitorNotes");
   if (!target) return;
-  const notes = store.prefixMonitor?.meta?.notes || [];
   target.innerHTML = `
-    <strong>Interpretation guardrails</strong>
-    ${notes.map((note) => `<span>${escapeHtml(note)}</span>`).join("")}
+    <strong>Read gently</strong>
+    <span>This predicts final outcome from partial behavior traces; it does not prove the behaviors caused success or failure.</span>
+    <span>Percent prefixes are retrospective because final trace length is only known after generation.</span>
+    <span>Moral and idea tasks use a high/low quality split rather than solved/failed.</span>
   `;
+}
+
+function monitorVisibleRows(rows) {
+  return rows.filter((row) => MONITOR_VISIBLE_FEATURES.includes(row.feature_set));
+}
+
+function monitorPrefixes(rows) {
+  return [...new Set(rows.map((row) => row.prefix).filter((prefix) => Number.isFinite(Number(prefix))))].sort((a, b) => a - b);
+}
+
+function monitorRowAtPrefix(rows, prefix, feature) {
+  return rows.find((row) => row.prefix === prefix && row.feature_set === feature) || null;
+}
+
+function bestMonitorRowAtPrefix(rows, prefix) {
+  const row = MONITOR_VISIBLE_FEATURES.map((feature) => monitorRowAtPrefix(rows, prefix, feature))
+    .filter(Boolean)
+    .sort((a, b) => predictabilityScore(b) - predictabilityScore(a))[0];
+  return row ? { row, prefix, score: predictabilityScore(row) } : null;
+}
+
+function monitorDelta(rows, prefix, baseline) {
+  return rows.find((row) => row.feature_set === "temporal" && row.baseline === baseline && row.prefix === prefix) || null;
+}
+
+function predictabilityScore(row) {
+  const auroc = Number(row?.auroc);
+  if (!Number.isFinite(auroc)) return 0;
+  return Math.max(0, Math.min(1, (auroc - 0.5) / 0.5));
+}
+
+function formatPredictabilityScore(row) {
+  return `${Math.round(predictabilityScore(row) * 100)}%`;
+}
+
+function formatPredictabilityDeltaFromAuroc(delta) {
+  if (!Number.isFinite(Number(delta))) return "n/a";
+  const pp = Math.round(Number(delta) * 200);
+  if (Math.abs(pp) < 1) return "~0pp";
+  return `${pp > 0 ? "+" : ""}${pp}pp`;
+}
+
+function phraseScoreDelta(delta) {
+  if (!Number.isFinite(delta)) return "is unavailable";
+  const pp = Math.round(delta * 100);
+  if (Math.abs(pp) <= 1) return "is about the same";
+  return pp > 0 ? `adds ${pp}pp` : `trails by ${Math.abs(pp)}pp`;
+}
+
+function predictabilityBand(score) {
+  if (!Number.isFinite(score)) return "No signal";
+  if (score >= 0.55) return "Strong";
+  if (score >= 0.4) return "Useful";
+  if (score >= 0.25) return "Emerging";
+  return "Weak";
 }
 
 function monitorSplitLabel(split) {
@@ -1099,7 +1180,7 @@ function renderTimingLevel() {
   if (!$("timingScatter")) return;
   const pairs = store.timingLevel?.pairs || [];
   $("timingSubtitle").textContent = pairs.length
-    ? `${pairs.length} model × domain × behavior pairs · robust trace-clustered tests · exploratory`
+    ? `${pairs.length} model × domain × behavior pairs · separates "how much" from "when" in good vs bad traces`
     : "Timing-vs-level data is not available in this dashboard export yet.";
   renderTimingLegend();
   renderTimingFilters();
@@ -1197,12 +1278,12 @@ function renderTimingSummary(rows) {
   });
   const tested = rows.filter((row) => row.status === "tested").length;
   $("timingSummary").innerHTML = `
-    <span><strong>${fmt.format(tested)}</strong> pairs tested</span>
+    <span><strong>${fmt.format(tested)}</strong> behavior comparisons</span>
     <span class="class-both">${fmt.format(counts.both || 0)} both</span>
-    <span class="class-level">${fmt.format(counts.level_only || 0)} level-only</span>
-    <span class="class-timing">${fmt.format(counts.timing_only || 0)} timing-only</span>
-    <span>${fmt.format(counts.neither || 0)} neither</span>
-    <span>${fmt.format(counts.insufficient || 0)} insufficient</span>
+    <span class="class-level">${fmt.format(counts.level_only || 0)} amount gaps</span>
+    <span class="class-timing">${fmt.format(counts.timing_only || 0)} timing shapes</span>
+    <span>${fmt.format(counts.neither || 0)} no clear split</span>
+    <span>${fmt.format(counts.insufficient || 0)} too sparse</span>
   `;
 }
 
@@ -1235,13 +1316,13 @@ function drawTimingScatter(svg, rows) {
     svg.appendChild(label);
   });
 
-  drawTimingReference(svg, x(0.5), margin.top, plotH, "counts start to see it", "vertical");
-  drawTimingReference(svg, margin.left, y(0.25), plotW, "timing starts to matter", "horizontal");
+  drawTimingReference(svg, x(0.5), margin.top, plotH, "amount gap gets visible", "vertical");
+  drawTimingReference(svg, margin.left, y(0.25), plotW, "timing shape changes", "horizontal");
   const xLabel = svgEl("text", { x: margin.left + plotW / 2, y: height - 7, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
-  xLabel.textContent = "Level strength |robust gap|, percentage points";
+  xLabel.textContent = "How different the total amount is";
   svg.appendChild(xLabel);
   const yLabel = svgEl("text", { x: 16, y: margin.top + plotH / 2, transform: `rotate(-90 16 ${margin.top + plotH / 2})`, "text-anchor": "middle", "font-size": "11", fill: "#334155", stroke: "none" });
-  yLabel.textContent = "Timing heterogeneity, robust I²";
+  yLabel.textContent = "How different the timing shape is";
   svg.appendChild(yLabel);
 
   if (!tested.length) {
@@ -1309,27 +1390,18 @@ function renderTimingDetail(pair) {
     <div class="timing-detail-head">
       <span class="timing-class-pill class-${cls.tone}">${cls.label}</span>
       <h3 class="has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(pair.behavior))}">${titleCase(pair.behavior)}</h3>
-      <p>${modelLabel(pair.gen_model)} · ${titleCase(pair.task_type)} · ${pair.status === "tested" ? `${pair.bins_used} guarded bins` : "insufficient guarded bins"}</p>
+      <p>${modelLabel(pair.gen_model)} · ${titleCase(pair.task_type)} · ${pair.status === "tested" ? `${pair.bins_used} time bins compared` : "too few examples for a timing shape"}</p>
     </div>
     <div class="delta-facts timing-facts">
-      <div class="delta-fact"><span>Robust level gap</span><strong>${formatPp(pair.level?.dbar_robust_pp)}</strong><small>positive means enriched in good traces · q=${formatQ(pair.level?.q_robust)}</small></div>
-      <div class="delta-fact"><span>Robust timing I²</span><strong>${formatNumber(pair.timing?.I2_robust, 2)}</strong><small>q=${formatQ(pair.timing?.q_robust)} · Q/df ${formatNumber((pair.timing?.Q_gls || 0) / Math.max(1, pair.timing?.df || 1), 2)}</small></div>
+      <div class="delta-fact"><span>Amount difference</span><strong>${formatPp(pair.level?.dbar_robust_pp)}</strong><small>positive means this behavior is more common in good traces</small></div>
+      <div class="delta-fact"><span>Timing shape</span><strong>${formatNumber(pair.timing?.I2_robust, 2)}</strong><small>higher means the good/bad gap moves around the trace</small></div>
       <div class="delta-fact"><span>Trace classes</span><strong>${fmt.format(pair.n_traces?.good || 0)} / ${fmt.format(pair.n_traces?.bad || 0)}</strong><small>good vs bad traces</small></div>
     </div>
     <div class="timing-detail-chart">
       <svg id="timingDetailChart" role="img" aria-label="${escapeAttr(timingAriaLabel(pair))}"></svg>
     </div>
     <p class="timing-shape-sentence">${escapeHtml(timingShapeSentence(pair))}</p>
-    <div class="timing-stats-table">
-      <table>
-        <thead><tr><th>Statistic</th><th>Naive</th><th>Trace-clustered</th></tr></thead>
-        <tbody>
-          <tr><td>Level z / q</td><td>${formatNumber(pair.level?.z, 2)} · ${formatQ(pair.level?.q)}</td><td>${formatNumber(pair.level?.z_robust, 2)} · ${formatQ(pair.level?.q_robust)}</td></tr>
-          <tr><td>Timing Q / q</td><td>${formatNumber(pair.timing?.Q, 1)} · ${formatQ(pair.timing?.q)}</td><td>${formatNumber(pair.timing?.Q_gls, 1)} · ${formatQ(pair.timing?.q_robust)}</td></tr>
-          <tr><td>I²</td><td>${formatNumber(pair.timing?.I2, 2)}</td><td>${formatNumber(pair.timing?.I2_robust, 2)}</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <p class="timing-detail-note">In the small chart, values above zero mark parts of the trace where the behavior appears more in good traces; values below zero mark parts where it appears more in bad traces.</p>
   `;
   drawTimingDetailChart($("timingDetailChart"), pair);
 }
@@ -1380,7 +1452,7 @@ function drawTimingDetailChart(svg, pair) {
 }
 
 function timingShapeSentence(pair) {
-  if (pair.status !== "tested") return "This pair failed the bin guards, so no timing shape was tested.";
+  if (pair.status !== "tested") return "There are too few examples spread across the trace to compare timing shape for this pair.";
   const thirds = pair.thirds || {};
   const rows = [
     ["opening third", thirds.early || 0],
@@ -1389,7 +1461,7 @@ function timingShapeSentence(pair) {
   ].sort((a, b) => b[1] - a[1]);
   const top = rows[0];
   const direction = (pair.level?.dbar_robust_pp || 0) >= 0 ? "good traces" : "bad traces";
-  return `Timing heterogeneity concentrates in the ${top[0]} (${pct.format(top[1])} of weighted deviation); positive bins indicate behavior enriched in good traces, while the average level gap favors ${direction}.`;
+  return `The shape difference is most visible in the ${top[0]}. Positive sections mean the behavior appears more in good traces; negative sections mean it appears more in bad traces. Overall amount favors ${direction}.`;
 }
 
 function renderTimingTable(rows) {
@@ -1397,15 +1469,15 @@ function renderTimingTable(rows) {
     .slice()
     .sort((a, b) => (b.timing?.I2_robust || 0) - (a.timing?.I2_robust || 0) || Math.abs(b.level?.dbar_robust_pp || 0) - Math.abs(a.level?.dbar_robust_pp || 0))
     .slice(0, 80);
-  let html = "<thead><tr><th>Pair</th><th>Class</th><th>Level</th><th>Timing</th></tr></thead><tbody>";
+  let html = "<thead><tr><th>Behavior</th><th>Pattern</th><th>Amount gap</th><th>Timing shape</th></tr></thead><tbody>";
   sorted.forEach((row) => {
     const cls = TIMING_CLASSES[row.class] || TIMING_CLASSES.neither;
     html += `
       <tr data-timing-key="${escapeAttr(timingKey(row))}" class="${timingKey(row) === state.timing.selectedKey ? "selected" : ""}" tabindex="0">
         <td><strong>${modelLabel(row.gen_model)}</strong><small>${titleCase(row.task_type)} · ${titleCase(row.behavior)}</small></td>
         <td><span class="timing-class-pill class-${cls.tone}">${cls.label}</span></td>
-        <td><strong>${formatPp(row.level?.dbar_robust_pp)}</strong><small>q=${formatQ(row.level?.q_robust)}</small></td>
-        <td><strong>${formatNumber(row.timing?.I2_robust, 2)}</strong><small>q=${formatQ(row.timing?.q_robust)}</small></td>
+        <td><strong>${formatPp(row.level?.dbar_robust_pp)}</strong><small>${amountGapPhrase(row)}</small></td>
+        <td><strong>${formatNumber(row.timing?.I2_robust, 2)}</strong><small>${timingShapePhrase(row)}</small></td>
       </tr>
     `;
   });
@@ -1418,11 +1490,25 @@ function timingKey(row) {
 }
 
 function timingAriaLabel(row) {
-  return `${modelLabel(row.gen_model)} ${titleCase(row.task_type)} ${titleCase(row.behavior)}: ${TIMING_CLASSES[row.class]?.label || row.class}, level ${formatPp(row.level?.dbar_robust_pp)}, timing I squared ${formatNumber(row.timing?.I2_robust, 2)}`;
+  return `${modelLabel(row.gen_model)} ${titleCase(row.task_type)} ${titleCase(row.behavior)}: ${TIMING_CLASSES[row.class]?.label || row.class}, amount gap ${formatPp(row.level?.dbar_robust_pp)}, timing shape ${formatNumber(row.timing?.I2_robust, 2)}`;
 }
 
 function timingTooltipText(row) {
-  return `${modelLabel(row.gen_model)} · ${titleCase(row.task_type)} · ${titleCase(row.behavior)}\nlevel ${formatPp(row.level?.dbar_robust_pp)} q=${formatQ(row.level?.q_robust)}\ntiming I² ${formatNumber(row.timing?.I2_robust, 2)} q=${formatQ(row.timing?.q_robust)}\n${TIMING_CLASSES[row.class]?.label || row.class}`;
+  return `${modelLabel(row.gen_model)} · ${titleCase(row.task_type)} · ${titleCase(row.behavior)}\namount gap ${formatPp(row.level?.dbar_robust_pp)}\ntiming shape ${formatNumber(row.timing?.I2_robust, 2)}\n${TIMING_CLASSES[row.class]?.label || row.class}`;
+}
+
+function amountGapPhrase(row) {
+  const value = row.level?.dbar_robust_pp || 0;
+  if (Math.abs(value) < 0.5) return "similar totals";
+  return value > 0 ? "more in good traces" : "more in bad traces";
+}
+
+function timingShapePhrase(row) {
+  const value = row.timing?.I2_robust || 0;
+  if (value >= 0.5) return "strong shape change";
+  if (value >= 0.25) return "visible shape change";
+  if (value > 0) return "small shape change";
+  return "flat timing";
 }
 
 function renderInspector() {

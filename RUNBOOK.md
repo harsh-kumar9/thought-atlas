@@ -217,6 +217,17 @@ Serve locally:
 python -m http.server 8000 -d docs
 ```
 
+Deploy to GitHub Pages:
+
+```bash
+git push origin main
+```
+
+The repo-owned workflow at `.github/workflows/pages.yml` publishes the static
+`docs/` bundle. In GitHub repo settings, set Pages source to **GitHub Actions**;
+the older implicit "pages build and deployment" job is harder to debug and can
+get stuck failing without exposing useful logs.
+
 ## Operational Notes
 
 - For cross-model temporal claims, keep `model_similarity.py`'s completed-only default.

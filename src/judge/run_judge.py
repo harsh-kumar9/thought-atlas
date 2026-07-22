@@ -276,11 +276,17 @@ def main() -> int:
     # only judge non-empty reasoning text
     traces = traces.filter(pl.col("reasoning_text_for_analysis").is_not_null()
                            & (pl.col("reasoning_text_for_analysis").str.len_chars() > 20))
-    # deterministic shard by row order so replicas cover disjoint, exhaustive trace sets
-    traces = traces.sort("trace_id")
-    if args.num_shards > 1:
-        traces = traces.with_row_index("_ri").filter(
+    # Keep an unsharded copy: Track B's pilot must be selected globally and only
+    # then divided across replicas, otherwise a limit of 100 becomes 100 * GPUs.
+    all_traces = traces.sort("trace_id")
+
+    def _this_shard(df: pl.DataFrame) -> pl.DataFrame:
+        if args.num_shards <= 1:
+            return df
+        return df.with_row_index("_ri").filter(
             pl.col("_ri") % args.num_shards == args.shard).drop("_ri")
+
+    traces = _this_shard(all_traces)
 
     tag = args.judge_model.replace("/", "_")
     sfx = f".shard{args.shard:02d}of{args.num_shards:02d}" if args.num_shards > 1 else ""
@@ -331,13 +337,16 @@ def main() -> int:
     if args.track in ("B", "both"):
         pilot = (args.track_b_limit if args.track_b_limit is not None
                  else getattr(cfg.judge, "track_b_pilot_per_domain", None))
+        track_b_traces = all_traces
         if pilot is not None and int(pilot) > 0:
-            keys = [c for c in ["task_type", "gen_model"] if c in traces.columns]
-            traces = traces.group_by(keys, maintain_order=True).head(int(pilot)) if keys else traces.head(int(pilot))
+            keys = [c for c in ["task_type", "gen_model"] if c in track_b_traces.columns]
+            track_b_traces = (track_b_traces.group_by(keys, maintain_order=True).head(int(pilot))
+                              if keys else track_b_traces.head(int(pilot)))
             print(f"[judge] Track B pilot: at most {int(pilot)} traces per {'/'.join(keys) or 'run'}")
+        track_b_traces = _this_shard(track_b_traces)
         pb = out / f"trackB_full__{tag}{sfx}.parquet"
-        todo = _pending(traces, pb)
-        print(f"[judge] Track B: {todo.height} pending (of {traces.height})")
+        todo = _pending(track_b_traces, pb)
+        print(f"[judge] Track B: {todo.height} pending (of {track_b_traces.height})")
         # Chunk over traces with incremental writes. Rationale: (1) holding all prompts for all
         # 64k-token traces in RAM at once OOM-kills the process; chunking caps peak memory.
         # (2) writing after each chunk means a crash leaves a resumable checkpoint, so _pending
@@ -362,7 +371,7 @@ def main() -> int:
             print(f"[judge] Track B complete -> {pb.name}")
         if cfg.judge.passes.per_sentence_isolated:
             pbi = out / f"trackB_isolated__{tag}{sfx}.parquet"
-            todo_i = _pending(traces, pbi)
+            todo_i = _pending(track_b_traces, pbi)
             if todo_i.height:
                 n_chunks = (todo_i.height + TRACE_CHUNK - 1) // TRACE_CHUNK
                 for ci in range(n_chunks):

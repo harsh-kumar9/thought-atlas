@@ -6,6 +6,7 @@ import argparse, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import polars as pl
+from src.utils.io import resolve_trace_paths
 from omegaconf import OmegaConf
 from src.analysis import aggregate as agg, heartbeat as hb, hmm_regimes as hmr
 
@@ -49,7 +50,7 @@ def main():
     ap.add_argument("--out", default="data/analysis")
     a = ap.parse_args()
     cfg = OmegaConf.load(a.config); out = Path(a.out); (out/"figures").mkdir(parents=True, exist_ok=True)
-    traces = pl.concat([pl.read_parquet(p) for p in sorted(Path().glob(a.traces_glob))], how="diagonal_relaxed")
+    traces = pl.concat([pl.read_parquet(p) for p in resolve_trace_paths(a.traces_glob)], how="diagonal_relaxed")
 
     # Track A aggregate
     trackA = pl.read_parquet(Path(a.judge_dir)/f"trackA_counts__{a.judge_tag}.parquet")

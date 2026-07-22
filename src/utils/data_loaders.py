@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 from typing import Optional
 
@@ -25,12 +26,28 @@ def _hash_norm(text: str) -> str:
     return hashlib.sha256(norm.encode("utf-8")).hexdigest()[:16]
 
 
+def _stable_seed(*parts, base_seed: int = 0) -> int:
+    """Process-independent 32-bit seed derived from stable content.
+
+    Python's built-in ``hash`` is salted per process, so it must never be used for
+    persisted option permutations or dataset sampling.
+    """
+    payload = json.dumps([base_seed, *parts], ensure_ascii=False, sort_keys=True, default=str)
+    return int.from_bytes(hashlib.sha256(payload.encode("utf-8")).digest()[:4], "big")
+
+
+def _filter_dedup(df: pl.DataFrame) -> pl.DataFrame:
+    """Apply the common prompt-length filter and stable prompt de-duplication."""
+    return (df.filter(pl.col("prompt").str.len_chars() <= MAX_PROMPT_CHARS)
+              .with_columns(pl.col("prompt").map_elements(
+                  _hash_norm, return_dtype=pl.Utf8).alias("_hash"))
+              .unique(subset=["_hash"], maintain_order=True)
+              .drop("_hash"))
+
+
 def _filter_and_sample(df: pl.DataFrame, *, n: int, seed: int,
                        strata_col: Optional[str] = None) -> pl.DataFrame:
-    df = df.filter(pl.col("prompt").str.len_chars() <= MAX_PROMPT_CHARS)
-    df = df.with_columns(
-        pl.col("prompt").map_elements(_hash_norm, return_dtype=pl.Utf8).alias("_hash")
-    ).unique(subset=["_hash"], maintain_order=True).drop("_hash")
+    df = _filter_dedup(df)
     if df.height < n:
         import warnings
         warnings.warn(f"Only {df.height} instances after filtering; requested n={n}. "
@@ -47,26 +64,32 @@ def _filter_and_sample(df: pl.DataFrame, *, n: int, seed: int,
         return df.sample(n=n, seed=seed, shuffle=True)
     counts = df_s.group_by(strata_col).len().sort(strata_col)
     total = counts["len"].sum()
-    quotas, allocated = {}, 0
+    # Largest-remainder allocation guarantees exactly n rows. Independently
+    # rounding each stratum can over-allocate and return more than requested.
+    quotas, fractions = {}, []
     for row in counts.iter_rows(named=True):
-        q = min(int(round((row["len"] / total) * n)), row["len"])
+        exact = (row["len"] / total) * n
+        q = min(math.floor(exact), row["len"])
         quotas[row[strata_col]] = q
-        allocated += q
-    remainder = n - allocated
-    if remainder > 0:
-        for st in counts.sort("len", descending=True)[strata_col].to_list():
-            if remainder <= 0:
-                break
-            avail = df_s.filter(pl.col(strata_col) == st).height - quotas[st]
-            if avail > 0:
-                add = min(remainder, avail)
-                quotas[st] += add
-                remainder -= add
+        fractions.append((exact - q, str(row[strata_col]), row[strata_col], row["len"]))
+    remainder = n - sum(quotas.values())
+    for _, _, st, available in sorted(fractions, reverse=True):
+        if remainder <= 0:
+            break
+        if quotas[st] < available:
+            quotas[st] += 1
+            remainder -= 1
+    if remainder:
+        raise RuntimeError(f"could not allocate exact stratified sample: {remainder=} {n=}")
     parts = []
     for st, k in quotas.items():
         if k > 0:
-            parts.append(df_s.filter(pl.col(strata_col) == st).sample(n=k, seed=seed, shuffle=True))
-    return pl.concat(parts).sample(fraction=1.0, seed=seed, shuffle=True)
+            parts.append(df_s.filter(pl.col(strata_col) == st).sample(
+                n=k, seed=_stable_seed("stratum", st, base_seed=seed), shuffle=True))
+    out = pl.concat(parts).sample(fraction=1.0, seed=seed, shuffle=True)
+    if out.height != n:
+        raise RuntimeError(f"stratified sampler returned {out.height} rows; expected {n}")
+    return out
 
 
 # ----------------------------------------------------------------- math
@@ -104,6 +127,17 @@ def load_livecodebench(n=100, seed=42, *, hf_id="livecodebench/code_generation_l
         starter = ex.get("starter_code", "")
         if starter:
             parts += ["", "Starter code:", "```python", starter, "```"]
+        parts += ["", "Return a complete Python 3 solution in one ```python fenced code block."]
+        raw_meta = ex.get("metadata") or {}
+        if isinstance(raw_meta, str):
+            try:
+                raw_meta = json.loads(raw_meta)
+            except Exception:
+                raw_meta = {}
+        fn_name = raw_meta.get("func_name") if isinstance(raw_meta, dict) else None
+        if not fn_name and starter:
+            m = re.search(r"\bdef\s+([A-Za-z_]\w*)\s*\(", starter)
+            fn_name = m.group(1) if m else None
         rows.append({
             "instance_id": f"code:{ex.get('question_id', ex.get('platform','?'))}:{ex.get('question_title','')[:40]}",
             "task_type": "code", "prompt": "\n".join(parts).strip(),
@@ -114,7 +148,8 @@ def load_livecodebench(n=100, seed=42, *, hf_id="livecodebench/code_generation_l
                 # test cases carried for the execution-based perf metric:
                 "public_test_cases": ex.get("public_test_cases"),
                 "private_test_cases": ex.get("private_test_cases"),
-                "fn_name": (ex.get("metadata") or {}).get("func_name") if isinstance(ex.get("metadata"), dict) else None,
+                "fn_name": fn_name,
+                "required_language": "python3",
                 "source_dataset": hf_id, "source_files": version_files,
             }, ensure_ascii=False),
         })
@@ -156,8 +191,8 @@ def load_morebench(n=100, seed=42, *, hf_id="morebench/morebench",
 
 # ----------------------------------------------------------------- MCQ helper (gpqa, acp)
 def _format_mcq(stem: str, options: list[str], correct_idx: int, seed: int,
-                instruction: str) -> tuple[str, str]:
-    """Shuffle options into a stable A/B/C/D order (seeded by instance), return (prompt, correct_letter)."""
+                instruction: str) -> tuple[str, str, list[int]]:
+    """Shuffle options into a stable order; return prompt, correct letter, permutation."""
     import random
     order = list(range(len(options)))
     random.Random(seed).shuffle(order)
@@ -165,7 +200,32 @@ def _format_mcq(stem: str, options: list[str], correct_idx: int, seed: int,
     correct_letter = letters[order.index(correct_idx)]
     lines = [f"{letters[i]}. {options[oi]}" for i, oi in enumerate(order)]
     prompt = f"{stem.strip()}\n\n" + "\n".join(lines) + f"\n\n{instruction}"
-    return prompt, correct_letter
+    return prompt, correct_letter, order
+
+
+def _strip_embedded_mcq_options(question: str, labels: list[str]) -> str:
+    """Remove an A/B/C/D block already embedded at the end of an ACP question.
+
+    ACPBench exposes the choices both inside ``question`` and in the structured
+    ``choices`` field. Keeping both and then shuffling the structured list creates
+    two contradictory letter mappings in one prompt.
+    """
+    if not question or len(labels) < 2:
+        return (question or "").strip()
+    matches = list(re.finditer(r"(?:^|\s)A\.\s", question))
+    for match in reversed(matches):
+        suffix = question[match.start():]
+        cursor = 0
+        valid = True
+        for label in labels:
+            m = re.search(rf"(?:^|\s){re.escape(label)}\.\s", suffix[cursor:])
+            if not m:
+                valid = False
+                break
+            cursor += m.end()
+        if valid:
+            return question[:match.start()].strip()
+    return question.strip()
 
 
 # ----------------------------------------------------------------- planning (ACPBench, pooled)
@@ -198,10 +258,13 @@ def load_acpbench(n=500, seed=42, *, hf_id="ibm/acp_bench",
             if not texts or ans is None or ans not in labels:
                 continue
             correct_idx = labels.index(ans)
-            stem = f"{ex.get('context','')}\n\n{ex.get('question','')}".strip()
+            raw_question = ex.get("question", "")
+            question = _strip_embedded_mcq_options(raw_question, list(labels))
+            stem = f"{ex.get('context','')}\n\n{question}".strip()
             iid = ex.get("id")
-            prompt, correct_letter = _format_mcq(stem, list(texts), correct_idx,
-                                                 seed=hash((cfg, iid)) & 0xFFFFFFFF, instruction=instr)
+            option_seed = _stable_seed("acp", cfg, iid, base_seed=seed)
+            prompt, correct_letter, order = _format_mcq(
+                stem, list(texts), correct_idx, seed=option_seed, instruction=instr)
             rows.append({
                 "instance_id": f"planning:{cfg}:{iid}", "task_type": "planning", "prompt": prompt,
                 "reference_answer": correct_letter, "difficulty_raw": ex.get("group"),
@@ -209,6 +272,9 @@ def load_acpbench(n=500, seed=42, *, hf_id="ibm/acp_bench",
                 "metadata": json.dumps({
                     "acp_config": cfg, "group": ex.get("group"), "n_options": len(texts),
                     "is_mcq": True, "source_dataset": hf_id,
+                    "source_correct_label": ans, "option_seed": option_seed,
+                    "option_permutation": order,
+                    "embedded_option_block_removed": question.strip() != raw_question.strip(),
                 }, ensure_ascii=False),
             })
     return _filter_and_sample(pl.DataFrame(rows), n=n, seed=seed, strata_col="_strata").drop("_strata")
@@ -239,7 +305,9 @@ def load_gpqa(n=500, seed=42, *, hf_id="Idavidrein/gpqa",
                 continue
             opts = [corr] + wrongs  # correct at idx 0 before shuffle
             rid = ex.get("Record ID") or _hash_norm(q)
-            prompt, correct_letter = _format_mcq(q, opts, 0, seed=hash(rid) & 0xFFFFFFFF, instruction=instr)
+            option_seed = _stable_seed("gpqa", rid, base_seed=seed)
+            prompt, correct_letter, order = _format_mcq(
+                q, opts, 0, seed=option_seed, instruction=instr)
             out.append({
                 "instance_id": f"gpqa:{rid}", "task_type": "gpqa", "prompt": prompt,
                 "reference_answer": correct_letter,
@@ -249,22 +317,32 @@ def load_gpqa(n=500, seed=42, *, hf_id="Idavidrein/gpqa",
                     "gpqa_subset": gpqa_subset, "subdomain": ex.get("Subdomain"),
                     "high_level_domain": ex.get("High-level domain"), "is_mcq": True,
                     "writer_difficulty": ex.get("Writer's Difficulty Estimate"),
-                    "source_dataset": hf_id,
+                    "source_dataset": hf_id, "option_seed": option_seed,
+                    "option_permutation": order, "n_options": len(opts),
                 }, ensure_ascii=False),
             })
         return out
 
-    diamond = _rows_from(primary_config, "diamond")
-    seen = {r["_rid"] for r in diamond}
-    need = max(0, n - len(diamond))
-    fill = []
-    if need > 0:
-        for r in _rows_from(fill_config, "extended"):
-            if r["_rid"] not in seen:
-                fill.append(r); seen.add(r["_rid"])
-    df = pl.DataFrame(diamond + fill).drop("_rid")
-    # take all diamond + stratified fill; if pool < n, _filter_and_sample raises (informative)
-    return _filter_and_sample(df, n=min(n, df.height), seed=seed, strata_col="_strata").drop("_strata")
+    diamond_rows = _rows_from(primary_config, "diamond")
+    diamond = _filter_dedup(pl.DataFrame(diamond_rows))
+    if n <= diamond.height:
+        return _filter_and_sample(diamond, n=n, seed=seed, strata_col="_strata").drop(
+            ["_strata", "_rid"])
+
+    seen = set(diamond["_rid"].to_list())
+    fill_rows = []
+    for row in _rows_from(fill_config, "extended"):
+        if row["_rid"] not in seen:
+            fill_rows.append(row)
+            seen.add(row["_rid"])
+    fill = _filter_dedup(pl.DataFrame(fill_rows))
+    need = n - diamond.height
+    sampled_fill = _filter_and_sample(fill, n=need, seed=seed, strata_col="_strata")
+    out = pl.concat([diamond, sampled_fill], how="diagonal_relaxed")
+    out = out.sample(fraction=1.0, seed=seed, shuffle=True)
+    if out.filter(pl.col("metadata").str.contains('"gpqa_subset": "diamond"')).height != diamond.height:
+        raise RuntimeError("GPQA Diamond rows were lost during fill sampling")
+    return out.drop(["_strata", "_rid"])
 
 
 # ----------------------------------------------------------------- abductive (LiveIdeaBench)

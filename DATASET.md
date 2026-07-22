@@ -3,6 +3,14 @@
 The repo keeps the current dataset in `data/`. Parquet files are tracked with Git LFS
 because several trace files exceed GitHub's normal 100 MB file limit.
 
+## Artifact status
+
+The checked-in files listed below are **legacy v1 artifacts**. They are useful for
+provenance and the existing dashboard, but fail `scripts/audit_pipeline.py
+--strict-v2` and are not valid inputs for final performance claims. A corrected run
+is written to `data/v2/` following `RUNBOOK.md`; it should be promoted only after the
+strict audit passes.
+
 ## Raw Task Inputs
 
 ```text
@@ -50,6 +58,18 @@ Important columns:
 - `n_new_tokens`
 - `completed`, `finish_reason`, `failure_mode`
 
+V2 additionally requires:
+
+- `generation_kind`, `generation_version`, `generation_fingerprint`
+- `task_fingerprint`, `task_set_fingerprint`
+- `sampling_seed`, `sampling_params`
+- `decode_temperature`, `decode_top_p`, `decode_top_k`
+- `thinking_style`, `parse_status`, `answer_source`, `close_tag_count`
+
+`trace_id` is a deterministic UUID over model, instance, seed, prompt, and output.
+Canonical trace parquets have adjacent manifests containing a content hash, row
+counts, generation fingerprint, natural key, and source-shard hashes.
+
 ## Behavior Labels
 
 ```text
@@ -71,6 +91,10 @@ Track B has one row per segment with:
 - `context_mode`
 - one binary column per behavior
 
+V2 behavior tables also preserve `kim_parsed`, `gandhi_parsed`, raw judge JSON
+(once per Track B batch), `judge_model`, `score_version`, and truncation flags.
+Invalid judge batches have null labels, not implicit zeros.
+
 ## Performance and Analysis
 
 ```text
@@ -86,6 +110,13 @@ data/analysis/cross_model/model_distance_mag.csv
 
 `success_grades.parquet` covers deterministic domains. `code_grades.parquet` covers
 LiveCodeBench execution. `quality__*.parquet` covers moral and idea rubric scoring.
+
+V2 objective grades preserve the extracted prediction, reference, answer hash,
+parse method/status, and grader version. Unparsed answers have `success=null`.
+V2 code grades distinguish unsupported language and worker/infrastructure failures
+from model failures and use every official test by default. V2 quality rows preserve
+raw axis scores or moral verdicts/weights; signed moral weights are normalized with
+absolute weights so `quality_score` is always within `[0,1]`.
 
 ## Dashboard JSON
 

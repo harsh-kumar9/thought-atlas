@@ -18,6 +18,7 @@ from __future__ import annotations
 import warnings
 import numpy as np
 import polars as pl
+from src.utils.io import resolve_trace_paths
 
 warnings.simplefilter("ignore")
 KIM = ["Question_and_Answering", "Perspective_Shift", "Conflict_of_Perspectives", "Reconciliation"]
@@ -222,5 +223,5 @@ if __name__ == "__main__":
     a = ap.parse_args()
     feats = pl.read_parquet(a.features)
     grades = pl.concat([pl.read_parquet(g) for g in a.grades], how="diagonal_relaxed")
-    tr = pl.concat([pl.read_parquet(p) for p in glob.glob(a.traces_glob)], how="diagonal_relaxed")
+    tr = pl.concat([pl.read_parquet(p) for p in resolve_trace_paths(a.traces_glob)], how="diagonal_relaxed")
     run(feats, grades, tr, a.out_dir)

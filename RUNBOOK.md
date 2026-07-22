@@ -1,237 +1,201 @@
-# Runbook
+# Production runbook (v2 data contract)
 
-Commands assume the repo is on the CSSLab shared filesystem and jobs are submitted
-from `ada` to `vega` or `mira`.
+These commands assume the repository is on the CSSLab shared filesystem and jobs
+are submitted from `ada` to `vega` or `mira`.  V2 writes under `data/v2/`; do not
+mix it with the legacy parquets under `data/tasks`, `data/traces`, and
+`data/judge/prod`.
 
-## Environment
-
-The production runs used the `sote` conda env on Blackwell machines:
+## 1. Update and activate the server environment
 
 ```bash
+cd /ada1/u/harsh/society-task-exp2
+git pull --ff-only origin main
+git status --short
+
 set +u
 eval "$(/ada1/u/harsh/miniconda3/bin/conda shell.bash hook)"
 conda activate sote
 set -u
+
+python -m pip install -r requirements.txt -r requirements-gpu.txt
+python -m pytest tests/ -q
+mkdir -p outputs data/v2/{tasks,traces,perf,judge,analysis}
 ```
 
-`scripts/blackwell.sbatch` sets the important cache and telemetry variables. Keep
-caches off the tiny home quota:
+Do not continue unless the tests pass.  The sbatch wrapper defaults to the same
+`data/v2/{tasks,traces,judge}` directories and retains all worker shards.
+
+## 2. Rebuild and validate task inputs
 
 ```bash
-HF_HOME=/ada1/u/harsh/.cache/huggingface
-VLLM_CACHE_ROOT=/ada1/u/harsh/.cache/vllm
-TRITON_CACHE_DIR=/ada1/u/harsh/.cache/triton
-TORCHINDUCTOR_CACHE_DIR=/ada1/u/harsh/.cache/torchinductor
-XDG_CACHE_HOME=/ada1/u/harsh/.cache
-XDG_CONFIG_HOME=/ada1/u/harsh/.config
-VLLM_USE_FLASHINFER_SAMPLER=0
-VLLM_WORKER_MULTIPROC_METHOD=spawn
+python scripts/02_prepare_tasks.py \
+  --config configs/exp.yaml \
+  --out-dir data/v2/tasks
+
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob '' \
+  --strict-v2
 ```
 
-## 1. Prepare Tasks
+Check `data/v2/tasks/manifest.json` and `data/v2/tasks/setup_notes.md`.  The task
+builder now fails before writing if an MCQ reference is invalid or the ACP prompt
+contains both the source and reshuffled option blocks.  GPQA keeps every available
+Diamond item before filling from Extended.
+
+## 3. Generate traces
+
+Submit one job per configured model key:
 
 ```bash
-python scripts/02_prepare_tasks.py --config configs/exp.yaml
-```
-
-Outputs:
-
-```text
-data/tasks/{math,code,gpqa,planning,moral,idea}.parquet
-data/analysis/setup_notes.md
-```
-
-## 2. Generate Traces
-
-One job per configured model key:
-
-```bash
-sbatch -w mira scripts/blackwell.sbatch generate anchor      # Llama-3.1-8B-Instruct
-sbatch -w mira scripts/blackwell.sbatch generate reasoner    # DeepSeek-R1-Distill-Llama-8B
+sbatch -w mira scripts/blackwell.sbatch generate anchor
+sbatch -w mira scripts/blackwell.sbatch generate reasoner
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_4b
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_9b
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_27b
 ```
 
-Each GPU runs one single-card vLLM replica and writes a shard. The sbatch merges
-shards into:
+Monitor with `squeue -u "$USER"` and inspect both the top-level Slurm log and
+`outputs/<job>_<model>_shard*.log`.  A failed replica now makes the job fail and
+prevents a partial merge.  A successful job creates:
 
 ```text
-data/traces/traces_<model>.parquet
+data/v2/traces/traces_<model>.parquet
+data/v2/traces/traces_<model>.manifest.json
+data/v2/traces/traces_<model>.shardNNofMM.parquet
 ```
 
-Verify every model before judging:
+After all five jobs finish:
 
 ```bash
-python - <<'PY'
-import glob, polars as pl
-for path in sorted(glob.glob("data/traces/traces_*.parquet")):
-    d = pl.read_parquet(path)
-    print(path, "n", d.height, "completed", round(d["completed"].mean(), 3))
-    print(d.group_by("task_type").agg(pl.col("completed").mean().round(3)).sort("task_type"))
-PY
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --json-out data/v2/analysis/post_generation_audit.json \
+  --strict-v2
 ```
 
-## 3. Behavior Judging
+The resolver reads canonical files instead of loading canonical files and their
+retained shards twice.  It rejects incomplete shard-only sets.
 
-Use the same production judge for all generation models.
+## 4. Grade objective tasks
+
+Math, GPQA, and planning are CPU-side and do not execute model code:
 
 ```bash
-sbatch -w vega scripts/blackwell.sbatch judge google/gemma-4-31B-it A
-sbatch -w mira scripts/blackwell.sbatch judge google/gemma-4-31B-it B
+python -m src.perf.grade \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --out data/v2/perf/success_grades.parquet
 ```
 
-Track A is whole-trace behavior counts. Track B is per-sentence full-context labels
-plus the isolated pass when enabled in config.
-
-Sharded runs can be merged with Polars:
+Run code grading only in a disposable, network-isolated compute environment.  The
+grader applies process time/memory/file limits, but those limits are not a security
+boundary.  Do not run generated programs on a login node.
 
 ```bash
-python - <<'PY'
-import glob, polars as pl
-for stem, keys in [
-    ("trackA_counts__google_gemma-4-31B-it", ["trace_id"]),
-    ("trackB_full__google_gemma-4-31B-it", ["trace_id", "seg_idx"]),
-    ("trackB_isolated__google_gemma-4-31B-it", ["trace_id", "seg_idx"]),
-    ("quality__google_gemma-4-31B-it", ["trace_id"]),
-]:
-    files = sorted(glob.glob(f"data/judge/prod/{stem}.shard*.parquet"))
-    if files:
-        pl.concat([pl.read_parquet(f) for f in files], how="diagonal_relaxed").unique(keys).write_parquet(
-            f"data/judge/prod/{stem}.parquet"
-        )
-PY
+srun -w mira --partition=ashton --qos=ashton \
+  --cpus-per-task=16 --mem=32G --time=04:00:00 \
+  python -m src.perf.grade_code_exec \
+    --traces-glob 'data/v2/traces/traces_*.parquet' \
+    --out data/v2/perf/code_grades.parquet \
+    --timeout 8 --cpu-s 10 --max-tests 0
 ```
 
-## 4. Performance Grading
+`--max-tests 0` means the full public+private suite.  A positive cap is only for
+debugging and must not be used for reported pass@1.  Non-Python legacy submissions
+are marked unsupported/ungradeable rather than counted as Python failures; fresh v2
+prompts explicitly require Python 3.
 
-Math, GPQA, and planning:
+Validate deterministic-grade coverage:
 
 ```bash
-python -m src.perf.grade --traces-glob "data/traces/traces_*.parquet" --out data/perf/success_grades.parquet
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --grades-glob 'data/v2/perf/*_grades.parquet' \
+  --strict-v2
 ```
 
-Code execution, only inside a sandboxed compute job:
-
-```bash
-srun -w mira --partition=ashton --qos=ashton --cpus-per-task=16 --mem=32G --time=02:00:00 \
-  python -m src.perf.grade_code_exec --traces-glob "data/traces/traces_*.parquet" \
-  --out data/perf/code_grades.parquet --timeout 8 --cpu-s 10 --max-private 60
-```
-
-Moral and idea rubric quality:
+## 5. Score moral and idea quality
 
 ```bash
 sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
 ```
 
-## 5. Analysis
-
-Aggregate and heartbeat figures:
+The wrapper merges only after every replica succeeds.  The v2 quality table stores
+the raw judge JSON, rubric weights/verdicts, judge model, prompt hash, parse status,
+and score version.  Signed moral weights use a bounded `[0,1]` formula.
 
 ```bash
-python scripts/run_analysis.py --config configs/exp.yaml --judge-tag google_gemma-4-31B-it --judge-dir data/judge/prod
-python scripts/paper_figures.py --config configs/exp.yaml --judge-tag google_gemma-4-31B-it --judge-dir data/judge/prod
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --quality-glob 'data/v2/judge/quality__google_gemma-4-31B-it.parquet' \
+  --strict-v2
 ```
 
-Mechanism analysis:
+## 6. Judge deliberation behavior
+
+Run Track A over all traces:
+
+```bash
+sbatch -w vega scripts/blackwell.sbatch judge google/gemma-4-31B-it A
+```
+
+The config defaults to a Track B pilot of 100 traces per task/model.  Run and
+inspect that pilot first:
+
+```bash
+sbatch -w mira scripts/blackwell.sbatch judge google/gemma-4-31B-it B
+```
+
+If parse coverage, label rates, and truncation rates are acceptable, resume the
+same shard files with the limit disabled.  Already-valid pilot traces are skipped:
+
+```bash
+sbatch -w mira --export=ALL,TRACK_B_LIMIT=0 \
+  scripts/blackwell.sbatch judge google/gemma-4-31B-it B
+```
+
+Then validate the canonical behavior outputs:
+
+```bash
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --judge-glob 'data/v2/judge/track*_counts__google_gemma-4-31B-it.parquet' \
+  --strict-v2
+
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --judge-glob 'data/v2/judge/trackB_*__google_gemma-4-31B-it.parquet' \
+  --strict-v2
+```
+
+Track A and B now use the same reasoning-only text.  Missing or malformed judge
+batches remain null with explicit parse flags; they are retried on resume rather
+than silently becoming all-zero behavior labels.
+
+## 7. Run analysis only after the final audit
+
+Use the v2 paths explicitly:
 
 ```bash
 python -m src.perf.features \
-  --trackA data/judge/prod/trackA_counts__google_gemma-4-31B-it.parquet \
-  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
-  --out data/perf/features.parquet
+  --trackA data/v2/judge/trackA_counts__google_gemma-4-31B-it.parquet \
+  --trackB data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet \
+  --out data/v2/perf/features.parquet
 
 python -m src.perf.mechanism \
-  --features data/perf/features.parquet \
-  --grades data/perf/success_grades.parquet data/perf/code_grades.parquet data/judge/prod/quality__google_gemma-4-31B-it.parquet \
-  --traces-glob "data/traces/traces_*.parquet" \
-  --out-dir data/perf
+  --features data/v2/perf/features.parquet \
+  --grades data/v2/perf/success_grades.parquet \
+           data/v2/perf/code_grades.parquet \
+           data/v2/judge/quality__google_gemma-4-31B-it.parquet \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --out-dir data/v2/perf
 ```
 
-Cross-model temporal similarity:
-
-```bash
-python -m src.analysis.model_similarity \
-  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
-  --traces-glob "data/traces/traces_*.parquet" \
-  --out-dir data/analysis/cross_model \
-  --kind shape
-
-python -m src.analysis.model_similarity \
-  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
-  --traces-glob "data/traces/traces_*.parquet" \
-  --out-dir data/analysis/cross_model \
-  --kind mag
-```
-
-Timing vs level decomposition:
-
-```bash
-python -m src.analysis.timing_level \
-  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
-  --traces-glob "data/traces/traces_*.parquet" \
-  --grades data/perf/success_grades.parquet data/perf/code_grades.parquet \
-  --quality data/judge/prod/quality__google_gemma-4-31B-it.parquet \
-  --out data/analysis/timing_level.parquet \
-  --boot 1000 \
-  --seed 0
-```
-
-Prefix monitorability analysis:
-
-```bash
-python -m src.analysis.prefix_monitor \
-  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
-  --traces-glob "data/traces/traces_*.parquet" \
-  --grades data/perf/success_grades.parquet data/perf/code_grades.parquet \
-  --quality data/judge/prod/quality__google_gemma-4-31B-it.parquet \
-  --out-dir data/analysis/prefix_monitor \
-  --boot 50 \
-  --folds 5 \
-  --seed 0
-```
-
-This fits nested regularized logistic monitors at 25%, 50%, 75%, and 100%
-retrospective prefixes. Treat percentage prefixes as scientific diagnostics; they
-are not online budgets because the final trace length is known only after the run.
-
-## 6. Dashboard Export
-
-```bash
-python -m src.analysis.export_dashboard \
-  --traces-glob "data/traces/traces_*.parquet" \
-  --trackA data/judge/prod/trackA_counts__google_gemma-4-31B-it.parquet \
-  --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet \
-  --prefix-monitor-dir data/analysis/prefix_monitor \
-  --timing-level data/analysis/timing_level.parquet \
-  --grades data/perf/success_grades.parquet data/perf/code_grades.parquet \
-  --quality data/judge/prod/quality__google_gemma-4-31B-it.parquet \
-  --out-dir docs/data \
-  --samples-per-cell 12
-```
-
-Serve locally:
-
-```bash
-python -m http.server 8000 -d docs
-```
-
-Deploy to GitHub Pages:
-
-```bash
-git push origin main
-```
-
-The repo-owned workflow at `.github/workflows/pages.yml` publishes the static
-`docs/` bundle. In GitHub repo settings, set Pages source to **GitHub Actions**;
-the older implicit "pages build and deployment" job is harder to debug and can
-get stuck failing without exposing useful logs.
-
-## Operational Notes
-
-- For cross-model temporal claims, keep `model_similarity.py`'s completed-only default.
-- Truncated traces can masquerade as temporal differences when token budgets differ.
-- Qwen3.5 needs `max_num_batched_tokens >= 4096`; the 27B config also caps `max_num_seqs`.
-- The code grader executes untrusted code. Do not run it on a login node.
-- If a vLLM job crashes, check for orphaned `VLLM::EngineCore` processes before rerunning.
+Do not replace or publish the legacy dataset until v2 passes the strict audit and
+the expected row counts are reviewed.  Keep the manifests with every promoted
+artifact; they record row counts, content hashes, fingerprints, and source shards.

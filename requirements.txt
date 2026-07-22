@@ -1,6 +1,7 @@
 datasets
 huggingface_hub
 matplotlib
+math-verify==0.9.0
 numpy
 omegaconf
 pandas

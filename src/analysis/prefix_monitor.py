@@ -18,6 +18,7 @@ from typing import Any
 
 import numpy as np
 import polars as pl
+from src.utils.io import resolve_trace_paths
 
 
 KIM = [
@@ -46,7 +47,7 @@ FEATURE_LABELS = {
 
 
 def _glob_parquet(pattern: str) -> pl.DataFrame:
-    paths = sorted(glob.glob(pattern))
+    paths = resolve_trace_paths(pattern) if "traces_" in pattern else sorted(glob.glob(pattern))
     if not paths:
         raise FileNotFoundError(f"no parquet files matched {pattern}")
     return pl.concat([pl.read_parquet(p) for p in paths], how="diagonal_relaxed")

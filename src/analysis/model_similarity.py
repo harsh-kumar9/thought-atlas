@@ -23,6 +23,7 @@ import argparse, glob, itertools, json
 from pathlib import Path
 import numpy as np
 import polars as pl
+from src.utils.io import resolve_trace_paths
 
 KIM = ["Question_and_Answering", "Perspective_Shift", "Conflict_of_Perspectives", "Reconciliation"]
 GAN = ["verification", "backtracking", "subgoal"]          # drop backward_chaining (too rare)
@@ -157,7 +158,7 @@ def main():
                     help="use ALL traces (default: completed-only, to avoid budget confound)")
     a = ap.parse_args()
     trackB = pl.read_parquet(a.trackB)
-    tr = pl.concat([pl.read_parquet(p) for p in glob.glob(a.traces_glob)], how="diagonal_relaxed")
+    tr = pl.concat([pl.read_parquet(p) for p in resolve_trace_paths(a.traces_glob)], how="diagonal_relaxed")
     run(trackB, tr, a.out_dir, nbins=a.nbins, kind=a.kind,
         completed_only=not a.include_truncated)
 

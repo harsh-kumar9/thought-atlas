@@ -19,6 +19,7 @@ import re
 from typing import Callable, Optional
 
 from .code_exec import grade_code
+from .answer_grading import grade_math_answer, grade_mcq_answer
 
 
 # ----------------------------- math -----------------------------
@@ -31,55 +32,27 @@ def _norm_math(s: str) -> str:
 
 
 def grade_math(answer_text: str, reference: Optional[str]) -> dict:
-    if not reference:
-        return {"is_correct": None, "perf_score": None, "status": "no_reference"}
-    # Prefer math-verify (sympy equivalence) if installed
-    try:
-        from math_verify import parse, verify
-        gold = parse(reference)
-        pred = parse(answer_text)
-        ok = bool(verify(gold, pred))
-        return {"is_correct": ok, "perf_score": float(ok), "status": "math_verify"}
-    except Exception:
-        # Fallback: last \boxed{} / "answer is X" vs normalized reference
-        boxes = re.findall(r"\\boxed\{([^}]*)\}", answer_text or "")
-        cand = boxes[-1] if boxes else None
-        if cand is None:
-            m = re.search(r"(?:answer\s+is|=)\s*([^\n.]{1,80})\s*$", answer_text or "", re.IGNORECASE)
-            cand = m.group(1) if m else None
-        if cand is None:
-            return {"is_correct": None, "perf_score": None, "status": "parse_fail"}
-        ok = _norm_math(cand) == _norm_math(reference)
-        return {"is_correct": ok, "perf_score": float(ok), "status": "string_fallback"}
+    result = grade_math_answer(answer_text, reference)
+    correct = result["success"]
+    return {"is_correct": None if correct is None else bool(correct),
+            "perf_score": None if correct is None else float(correct),
+            "status": result["status"], "prediction": result["prediction"],
+            "parse_method": result["parse_method"]}
 
 
 # ----------------------------- MCQ (gpqa, planning/acp) -----------------------------
-def grade_mcq(answer_text: str, reference_letter: Optional[str]) -> dict:
+def grade_mcq(answer_text: str, reference_letter: Optional[str], prompt: str = "") -> dict:
     """4-way (or N-way) letter MCQ. reference_letter is the canonical correct letter (A-D),
     set by the loader after seeded option-shuffle. We extract the model's final letter robustly:
     prefer an explicit 'answer: X' / 'final answer X' / boxed/parenthesized letter near the end,
     else the last standalone capital letter A-D in the tail.
     """
-    if not reference_letter:
-        return {"is_correct": None, "perf_score": None, "status": "no_reference"}
-    text = answer_text or ""
-    correct = reference_letter.strip().upper()
-    tail = text[-400:]
-    pick = None
-    # strongest signals first
-    for pat in (r"(?:final\s+answer|answer|choice)\s*(?:is|:)?\s*\(?\*?\*?([A-D])\b",
-                r"\\boxed\{\s*([A-D])\s*\}",
-                r"\b([A-D])\b\s*$"):
-        m = re.findall(pat, tail, re.IGNORECASE)
-        if m:
-            pick = m[-1].upper(); break
-    if pick is None:
-        caps = re.findall(r"\b([A-D])\b", tail)
-        pick = caps[-1].upper() if caps else None
-    if pick is None:
-        return {"is_correct": None, "perf_score": None, "status": "parse_fail"}
-    ok = pick == correct
-    return {"is_correct": ok, "perf_score": float(ok), "status": "ok", "picked": pick}
+    result = grade_mcq_answer(answer_text, reference_letter, prompt)
+    correct = result["success"]
+    return {"is_correct": None if correct is None else bool(correct),
+            "perf_score": None if correct is None else float(correct),
+            "status": result["status"], "picked": result["prediction"],
+            "parse_method": result["parse_method"]}
 
 
 # ----------------------------- moral (rubric, LLM-graded) -----------------------------

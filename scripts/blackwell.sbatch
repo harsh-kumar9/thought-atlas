@@ -88,6 +88,10 @@ set -u
 # env-var override second.
 STAGE="${1:-${STAGE:-help}}"
 MODEL="${2:-${MODEL:-}}"        # for generate: config model key; for judge: the judge model id
+TASKS_DIR="${TASKS_DIR:-data/v2/tasks}"
+TRACES_DIR="${TRACES_DIR:-data/v2/traces}"
+JUDGE_DIR="${JUDGE_DIR:-data/v2/judge}"
+mkdir -p "$TASKS_DIR" "$TRACES_DIR" "$JUDGE_DIR" outputs
 echo "STAGE=$STAGE MODEL=${MODEL:-<none>}"
 case "$STAGE" in
   generate)
@@ -105,34 +109,57 @@ case "$STAGE" in
       CUDA_VISIBLE_DEVICES="${GPUS[$i]}" \
       MASTER_ADDR=127.0.0.1 MASTER_PORT=$((29500 + i * 13)) VLLM_PORT=$((29500 + i * 13 + 1)) \
       python -m src.generate.generate_traces \
-        --config configs/exp.yaml --gen-model "$MODEL" --shard "$i" --num-shards "$NG" \
+        --config configs/exp.yaml --gen-model "$MODEL" --tasks-dir "$TASKS_DIR" \
+        --out-dir "$TRACES_DIR" --shard "$i" --num-shards "$NG" \
         > "outputs/${SLURM_JOB_ID}_${MODEL}_shard${i}.log" 2>&1 &
       pids+=($!)
       sleep 3   # small stagger so the 4 cores don't race on init
     done
     rc=0; for p in "${pids[@]}"; do wait "$p" || rc=1; done
-    # concat shard parquets -> canonical traces_<model>.parquet (downstream also accepts the glob)
-    python -m src.generate.merge_shards --model "$MODEL" --out-dir data/traces || true
-    exit $rc ;;
-  segment)  python -m src.segment.segmenter --in data/traces/traces.parquet --out data/segments/segments.parquet ;;
+    if [ "$rc" -ne 0 ]; then
+      echo "generation failed on at least one replica; refusing to merge incomplete shards" >&2
+      exit "$rc"
+    fi
+    python -m src.generate.merge_shards --model "$MODEL" --out-dir "$TRACES_DIR" --num-shards "$NG"
+    ;;
+  segment)  python -m src.segment.segmenter --traces-glob "$TRACES_DIR/traces_*.parquet" \
+              --text-col reasoning_text_for_analysis --out data/v2/segments/segments.parquet ;;
   judge)
     [ -n "$MODEL" ] || { echo "judge needs a judge-model id: sbatch blackwell.sbatch judge <hf_id> [track]"; exit 2; }
     TRACK="${3:-A}"   # default Track A (cheap); pass B or both for the per-sentence pass
     IFS=',' read -ra GPUS <<< "${CUDA_VISIBLE_DEVICES:-0}"
     NG=${#GPUS[@]}
     echo "judge data-parallel: $NG replicas, model=$MODEL track=$TRACK"
+    JUDGE_LIMIT_ARGS=()
+    if [ -n "${TRACK_B_LIMIT:-}" ]; then
+      JUDGE_LIMIT_ARGS=(--track-b-limit "$TRACK_B_LIMIT")
+    fi
     pids=()
     for i in $(seq 0 $((NG-1))); do
       CUDA_VISIBLE_DEVICES="${GPUS[$i]}" \
       MASTER_ADDR=127.0.0.1 MASTER_PORT=$((29600 + i * 13)) VLLM_PORT=$((29600 + i * 13 + 1)) \
       python -m src.judge.run_judge --config configs/exp.yaml --judge-model "$MODEL" \
-        --track "$TRACK" --traces-glob "data/traces/traces_*.parquet" --out-dir data/judge/prod \
-        --shard "$i" --num-shards "$NG" \
+        --track "$TRACK" --traces-glob "$TRACES_DIR/traces_*.parquet" --out-dir "$JUDGE_DIR" \
+        --shard "$i" --num-shards "$NG" "${JUDGE_LIMIT_ARGS[@]}" \
         > "outputs/${SLURM_JOB_ID}_judge_shard${i}.log" 2>&1 &
       pids+=($!); sleep 3
     done
     rc=0; for p in "${pids[@]}"; do wait "$p" || rc=1; done
-    exit $rc ;;
+    if [ "$rc" -ne 0 ]; then
+      echo "judge failed on at least one replica; refusing to merge incomplete shards" >&2
+      exit "$rc"
+    fi
+    TAG="${MODEL//\//_}"
+    if [ "$TRACK" = "A" ]; then
+      KINDS=(trackA_counts)
+    elif [ "$TRACK" = "B" ]; then
+      KINDS=(trackB_full trackB_isolated)
+    else
+      KINDS=(trackA_counts trackB_full trackB_isolated)
+    fi
+    python -m src.judge.merge_shards --tag "$TAG" --out-dir "$JUDGE_DIR" \
+      --num-shards "$NG" --kinds "${KINDS[@]}"
+    ;;
   quality)
     # moral/idea SUCCESS scoring (rubric quality of the ANSWER ONLY, not reasoning).
     # Separate from `judge` (behavior labels). Same DP fan-out; distinct port base (29700).
@@ -145,13 +172,20 @@ case "$STAGE" in
       CUDA_VISIBLE_DEVICES="${GPUS[$i]}" \
       MASTER_ADDR=127.0.0.1 MASTER_PORT=$((29700 + i * 13)) VLLM_PORT=$((29700 + i * 13 + 1)) \
       python -m src.judge.run_quality --config configs/exp.yaml --judge-model "$MODEL" \
-        --traces-glob "data/traces/traces_*.parquet" --out-dir data/judge/prod \
+        --traces-glob "$TRACES_DIR/traces_*.parquet" --out-dir "$JUDGE_DIR" \
         --shard "$i" --num-shards "$NG" \
         > "outputs/${SLURM_JOB_ID}_quality_shard${i}.log" 2>&1 &
       pids+=($!); sleep 3
     done
     rc=0; for p in "${pids[@]}"; do wait "$p" || rc=1; done
-    exit $rc ;;
+    if [ "$rc" -ne 0 ]; then
+      echo "quality judging failed on at least one replica; refusing to merge incomplete shards" >&2
+      exit "$rc"
+    fi
+    TAG="${MODEL//\//_}"
+    python -m src.judge.merge_shards --tag "$TAG" --out-dir "$JUDGE_DIR" \
+      --num-shards "$NG" --kinds quality
+    ;;
   analyze)
     [ -n "$MODEL" ] || { echo "analyze needs the judge tag: sbatch blackwell.sbatch analyze <judge_tag>"; exit 2; }
     python scripts/run_analysis.py --config configs/exp.yaml --judge-tag "$MODEL" ;;

@@ -67,7 +67,12 @@ def segment_traces_df(
     """
     rows = []
     for r in traces.iter_rows(named=True):
-        segs = segment_text(r.get(text_col) or "")
+        text = r.get(text_col) or ""
+        if (text_col == "reasoning_text_for_analysis" and text and
+                (r.get("generation_kind") == "reasoning" or
+                 (r.get("think_text") and r.get("gen_model") != "anchor"))):
+            text = f"<think>{text}</think>"
+        segs = segment_text(text)
         if len(segs) < min_segments:
             continue
         tid = r[id_col]
@@ -82,16 +87,34 @@ def segment_parquet(in_path: Path, out_path: Path, *, text_col: str = "full_text
     df = pl.read_parquet(in_path)
     seg = segment_traces_df(df, text_col=text_col)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    seg.write_parquet(out_path)
+    tmp = out_path.with_suffix(out_path.suffix + ".tmp")
+    seg.write_parquet(tmp); tmp.replace(out_path)
+    return seg.height
+
+
+def segment_trace_glob(pattern: str, out_path: Path, *, text_col: str) -> int:
+    from src.utils.io import resolve_trace_paths
+    paths = resolve_trace_paths(pattern)
+    if not paths:
+        raise FileNotFoundError(f"no traces matched {pattern}")
+    traces = pl.concat([pl.read_parquet(p) for p in paths], how="diagonal_relaxed")
+    seg = segment_traces_df(traces, text_col=text_col)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out_path.with_suffix(out_path.suffix + ".tmp")
+    seg.write_parquet(tmp); tmp.replace(out_path)
     return seg.height
 
 
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser(description="Segment a traces parquet into sentences (ThinkARM method).")
-    ap.add_argument("--in", dest="in_path", required=True)
+    inputs = ap.add_mutually_exclusive_group(required=True)
+    inputs.add_argument("--in", dest="in_path")
+    inputs.add_argument("--traces-glob")
     ap.add_argument("--out", dest="out_path", required=True)
     ap.add_argument("--text-col", default="full_text")
     a = ap.parse_args()
-    n = segment_parquet(Path(a.in_path), Path(a.out_path), text_col=a.text_col)
+    n = (segment_trace_glob(a.traces_glob, Path(a.out_path), text_col=a.text_col)
+         if a.traces_glob else
+         segment_parquet(Path(a.in_path), Path(a.out_path), text_col=a.text_col))
     print(f"wrote {n} segments -> {a.out_path}")

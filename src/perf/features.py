@@ -22,6 +22,24 @@ GAN = ["verification", "backtracking", "subgoal", "backward_chaining"]
 BEH = GAN + KIM
 
 
+def _validate_labels(df: pl.DataFrame, *, track: str) -> None:
+    flags = {"kim_parsed", "gandhi_parsed"}
+    if not flags.issubset(df.columns):
+        raise ValueError(f"{track} lacks v2 judge parse-validity flags")
+    bad = df.filter(~pl.col("kim_parsed").fill_null(False) |
+                    ~pl.col("gandhi_parsed").fill_null(False)).height
+    if bad:
+        raise ValueError(f"{track} contains {bad} invalid judge rows; resume judging before analysis")
+    if track == "Track B":
+        coverage = df.group_by("trace_id").agg(
+            pl.len().alias("rows"), pl.col("n_segments").first().alias("expected"),
+            pl.col("seg_idx").n_unique().alias("unique_segments"))
+        bad_cov = coverage.filter((pl.col("rows") != pl.col("expected")) |
+                                  (pl.col("unique_segments") != pl.col("expected"))).height
+        if bad_cov:
+            raise ValueError(f"Track B has incomplete segment coverage for {bad_cov} traces")
+
+
 def count_features(trackA: pl.DataFrame) -> pl.DataFrame:
     """Track A counts + total behavior volume + cognitive/conversational split."""
     df = trackA.select(["trace_id"] + [b for b in BEH if b in trackA.columns])
@@ -95,6 +113,8 @@ def trajectory_features(trackB: pl.DataFrame, nbins=10) -> pl.DataFrame:
 
 
 def build_features(trackA, trackB) -> pl.DataFrame:
+    _validate_labels(trackA, track="Track A")
+    _validate_labels(trackB, track="Track B")
     c = count_features(trackA)
     p = positional_features(trackB)
     t = trajectory_features(trackB)
@@ -111,7 +131,8 @@ if __name__ == "__main__":
     A = pl.read_parquet(a.trackA); B = pl.read_parquet(a.trackB)
     f = build_features(A, B)
     from pathlib import Path
-    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
-    f.write_parquet(a.out)
+    out = Path(a.out); out.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out.with_suffix(out.suffix + ".tmp")
+    f.write_parquet(tmp); tmp.replace(out)
     print(f"features: {f.shape} -> {a.out}")
     print("columns:", f.columns)

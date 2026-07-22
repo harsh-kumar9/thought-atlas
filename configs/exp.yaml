@@ -61,11 +61,13 @@ generation:
   dtype: bfloat16
   max_model_len: 65536
   decode:                        # shared decoding across models (don't confound)
+    sampling_policy: shared      # shared | model_recommended; persisted in every trace
     temperature: 0.6
     top_p: 0.95
     top_k: 20
     max_new_tokens_reasoning: 65536
     max_new_tokens_anchor: 4096
+  work_batch_size: 64            # atomic checkpoint cadence per GPU replica
   gpu_memory_utilization: 0.80
   max_num_batched_tokens: 4096
   # failure handling: keep first-attempt, characterize post-hoc (exp1 lesson; no retries)

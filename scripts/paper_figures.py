@@ -13,10 +13,12 @@ Run on the cluster (needs traces for task_type/gen_model):
       --judge-dir data/judge/prod --traces-glob "data/traces/traces_*.parquet"
 """
 from __future__ import annotations
-import argparse, glob, json
+import argparse, glob, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import numpy as np
 import polars as pl
+from src.utils.io import resolve_trace_paths
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -54,7 +56,7 @@ def load(judge_dir, tag, traces_glob):
     jd = Path(judge_dir)
     a = pl.read_parquet(jd / f"trackA_counts__{tag}.parquet")
     bf = pl.read_parquet(jd / f"trackB_full__{tag}.parquet")
-    tr = pl.concat([pl.read_parquet(p) for p in glob.glob(traces_glob)], how="diagonal_relaxed") \
+    tr = pl.concat([pl.read_parquet(p) for p in resolve_trace_paths(traces_glob)], how="diagonal_relaxed") \
            .select(["trace_id", "task_type", "gen_model"])
     return a.join(tr, on="trace_id", how="left"), bf.join(tr, on="trace_id", how="left")
 

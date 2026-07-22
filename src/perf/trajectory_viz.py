@@ -19,6 +19,7 @@ import argparse, glob
 from pathlib import Path
 import numpy as np
 import polars as pl
+from src.utils.io import resolve_trace_paths
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -170,7 +171,7 @@ def main():
         pl.col("success").drop_nulls().first().alias("success"),
         pl.col("quality_score").drop_nulls().first().alias("quality_score"),
         pl.col("task_type").drop_nulls().first().alias("task_type")])
-    tr = pl.concat([pl.read_parquet(p) for p in glob.glob(a.traces_glob)], how="diagonal_relaxed")
+    tr = pl.concat([pl.read_parquet(p) for p in resolve_trace_paths(a.traces_glob)], how="diagonal_relaxed")
     make_family_figure(trackB, grades, tr, GAN, "Cognitive", f"{a.out_dir}/traj_success_cognitive")
     make_family_figure(trackB, grades, tr, KIM, "Conversational", f"{a.out_dir}/traj_success_conversational")
 

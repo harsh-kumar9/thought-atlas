@@ -113,7 +113,8 @@ def make_sampling(*, temperature: float = 0.0, max_tokens: int = 1024,
 
 
 def chat_batch(llm, tokenizer, prompts: list[str], sampling, *,
-               system: Optional[str] = None, max_input_tokens: Optional[int] = None) -> list[str]:
+               system: Optional[str] = None, max_input_tokens: Optional[int] = None,
+               return_truncation: bool = False):
     """Render chat prompts with the model's template and run a batched generate.
 
     Passes enable_thinking=False where the template supports it: a thinking judge under guided
@@ -125,7 +126,7 @@ def chat_batch(llm, tokenizer, prompts: list[str], sampling, *,
     tokenizes denser than chars/3.5), so as a last guard we token-truncate any rendered prompt that
     still exceeds the window — one over-budget prompt must not abort the whole (expensive) batch.
     """
-    rendered = []
+    rendered, truncated = [], []
     for p in prompts:
         msgs = ([{"role": "system", "content": system}] if system else []) + \
                [{"role": "user", "content": p}]
@@ -135,6 +136,7 @@ def chat_batch(llm, tokenizer, prompts: list[str], sampling, *,
         except TypeError:
             r = tokenizer.apply_chat_template(
                 msgs, tokenize=False, add_generation_prompt=True)
+        was_truncated = False
         if max_input_tokens is not None:
             ids = tokenizer(r, add_special_tokens=False)["input_ids"]
             if len(ids) > max_input_tokens:
@@ -142,14 +144,19 @@ def chat_batch(llm, tokenizer, prompts: list[str], sampling, *,
                 head = ids[: max_input_tokens // 4]
                 tail = ids[-(max_input_tokens - len(head)):]
                 r = tokenizer.decode(head) + "\n...[prompt truncated to fit context]...\n" + tokenizer.decode(tail)
+                was_truncated = True
         rendered.append(r)
+        truncated.append(was_truncated)
     outs = llm.generate(rendered, sampling)
     # vLLM preserves input order
-    return [o.outputs[0].text for o in outs]
+    texts = [o.outputs[0].text for o in outs]
+    return (texts, truncated) if return_truncation else texts
 
 
-def safe_json(text: str) -> Optional[dict]:
+def safe_json(text: str | None) -> Optional[dict]:
     """Guided decoding should already guarantee valid JSON; this is the belt-and-suspenders."""
+    if not isinstance(text, str) or not text.strip():
+        return None
     try:
         return json.loads(text)
     except Exception:

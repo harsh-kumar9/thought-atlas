@@ -16,10 +16,13 @@ from __future__ import annotations
 
 import argparse
 import glob
+import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import numpy as np
 import polars as pl
+from src.utils.io import resolve_trace_paths
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -59,7 +62,7 @@ def main() -> int:
     cfg = OmegaConf.load(args.config)
     jg = args.judge_glob or f"data/judge/prod/trackA_counts__{args.judge_tag}*.parquet"
     a = pl.concat([pl.read_parquet(s) for s in glob.glob(jg)], how="diagonal_relaxed").unique("trace_id")
-    tr = pl.concat([pl.read_parquet(f) for f in glob.glob(args.traces_glob)], how="diagonal_relaxed")
+    tr = pl.concat([pl.read_parquet(f) for f in resolve_trace_paths(args.traces_glob)], how="diagonal_relaxed")
 
     sel = ["trace_id", "task_type", "gen_model"]
     df = a.join(tr.select(sel), on="trace_id", how="left")

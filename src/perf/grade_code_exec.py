@@ -18,12 +18,17 @@ private_test_cases (base64 -> zlib -> pickle -> JSON str).
 
 Usage (cluster compute job, NOT login node):
   python -m src.perf.grade_code_exec --traces-glob "data/traces/traces_*.parquet" \
-      --out data/perf/code_grades.parquet --workers 16 --timeout 8
+      --out data/perf/code_grades.parquet --timeout 8
 """
 from __future__ import annotations
-import argparse, ast, base64, json, multiprocessing as mp, pickle, re, resource, sys, zlib
+import argparse, ast, base64, hashlib, json, multiprocessing as mp, pickle, re, resource, sys, zlib
 from pathlib import Path
 import polars as pl
+
+from src.utils.io import resolve_trace_paths
+
+
+CODE_GRADE_VERSION = "code-exec-v2"
 
 
 # ---------- test-case decoding ----------
@@ -51,22 +56,60 @@ def decode_tests(meta: dict):
 
 
 # ---------- code extraction from a free-text answer ----------
-def extract_code(answer: str, starter: str = "") -> str | None:
-    """Pull the submission. Prefer the LAST ```python fenced block; else a class Solution / def region."""
+def extract_submission(answer: str) -> tuple[str | None, str | None]:
+    """Return ``(code, language)`` without pretending non-Python code is Python.
+
+    Older generations were not constrained to a language, so C++/Java fences are
+    common.  This runner intentionally supports Python only; other languages are
+    recorded as unsupported rather than scored as wrong answers.
+    """
     if not answer:
-        return None
-    blocks = re.findall(r"```(?:python|py)?\s*\n(.*?)```", answer, flags=re.S | re.I)
+        return None, None
+    blocks = re.findall(r"```\s*([\w+#.-]*)\s*\n(.*?)```", answer, flags=re.S | re.I)
     if blocks:
-        # last substantive block (skip tiny ones that are just imports/examples)
-        for b in reversed(blocks):
+        for lang, b in reversed(blocks):
             if "def " in b or "class " in b or len(b.strip()) > 40:
-                return b.strip()
-        return blocks[-1].strip()
+                raw = (lang or "").lower()
+                language = ({"py": "python", "python3": "python", "c++": "cpp",
+                             "cc": "cpp", "cxx": "cpp"}.get(raw, raw) or _infer_language(b))
+                return b.strip(), language
+        lang, b = blocks[-1]
+        return b.strip(), (lang.lower() or _infer_language(b))
     # no fence: grab from the first class/def to the end of the answer
-    m = re.search(r"(?:^|\n)(class\s+Solution\b|def\s+\w+\s*\()", answer)
+    m = re.search(
+        r"(?:^|\n)(?:\s*)(#include\s*<|using\s+namespace\s+std|public\s+class\b|"
+        r"import\s+java\.|class\s+Solution\b|def\s+\w+\s*\(|int\s+main\s*\()", answer)
     if m:
-        return answer[m.start():].strip()
-    return None
+        code = answer[m.start():].strip()
+        return code, _infer_language(code)
+    return None, None
+
+
+def _infer_language(code: str) -> str:
+    if re.search(r"#include\s*<|using\s+namespace\s+std", code):
+        return "cpp"
+    if re.search(r"import\s+java\.|public\s+class|public\s+static\s+void\s+main", code):
+        return "java"
+    if re.search(r"\bpublic:|\bvector\s*<|\bint\s+main\s*\(", code):
+        return "cpp"
+    return "python"
+
+
+def extract_code(answer: str, starter: str = "") -> str | None:
+    """Backward-compatible code-only extraction helper."""
+    return extract_submission(answer)[0]
+
+
+def derive_fn_name(meta: dict) -> str | None:
+    if meta.get("fn_name"):
+        return str(meta["fn_name"])
+    starter = str(meta.get("starter_code") or "")
+    methods = re.findall(r"^\s{1,8}def\s+([A-Za-z_]\w*)\s*\(", starter, flags=re.M)
+    public = [m for m in methods if not m.startswith("_")]
+    if public:
+        return public[0]
+    funcs = re.findall(r"^def\s+([A-Za-z_]\w*)\s*\(", starter, flags=re.M)
+    return funcs[0] if funcs else None
 
 
 # ---------- the sandboxed worker (runs in a child process) ----------
@@ -86,6 +129,26 @@ def _limit_resources(mem_mb: int, cpu_s: int):
         pass
 
 
+def _parse_literal(value):
+    if not isinstance(value, str):
+        return value
+    for parser in (json.loads, ast.literal_eval):
+        try:
+            return parser(value)
+        except Exception:
+            pass
+    return value.strip()
+
+
+def _value_equal(got, expected) -> bool:
+    exp = _parse_literal(expected)
+    if isinstance(got, float) and isinstance(exp, (int, float)):
+        return abs(got - float(exp)) <= 1e-6 * max(1.0, abs(float(exp)))
+    if isinstance(got, tuple) and isinstance(exp, list):
+        got = list(got)
+    return got == exp
+
+
 def _run_one(code: str, tests: list, fn_name, mem_mb, cpu_s, q):
     """Queue variant (kept for compatibility)."""
     class _P:
@@ -96,9 +159,11 @@ def _run_one(code: str, tests: list, fn_name, mem_mb, cpu_s, q):
 def _run_one_pipe(code: str, tests: list, fn_name, mem_mb, cpu_s, conn):
     """Executed in child process. Sends (passed:int, total:int, err:str) over the connection.
     Mode decided ONCE per problem: functional (Solution class, call method) vs stdin (script + stdin)."""
-    _limit_resources(mem_mb, cpu_s)
     import io, contextlib
     passed = 0; total = len(tests); err = ""
+    # RLIMIT_CPU applies to the whole child, not one test.  Budget the complete
+    # suite while retaining the parent hard-wall cap.
+    _limit_resources(mem_mb, min(max(cpu_s, cpu_s * max(1, total)), 180))
 
     # decide mode from the test cases (LiveCodeBench tags each) + code shape
     ttypes = {tc.get("testtype") for tc in tests}
@@ -108,7 +173,15 @@ def _run_one_pipe(code: str, tests: list, fn_name, mem_mb, cpu_s, conn):
         is_functional = "class Solution" in code
 
     if is_functional:
-        ns: dict = {}
+        # LiveCodeBench starter annotations commonly use these names without imports.
+        import bisect, collections, functools, heapq, itertools, math, typing
+        ns: dict = {name: getattr(typing, name) for name in dir(typing)}
+        ns.update({"collections": collections, "functools": functools, "heapq": heapq,
+                   "itertools": itertools, "math": math, "bisect": bisect,
+                   "deque": collections.deque, "Counter": collections.Counter,
+                   "defaultdict": collections.defaultdict, "heappush": heapq.heappush,
+                   "heappop": heapq.heappop, "bisect_left": bisect.bisect_left,
+                   "bisect_right": bisect.bisect_right})
         try:
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
                 exec(code, ns)
@@ -119,24 +192,27 @@ def _run_one_pipe(code: str, tests: list, fn_name, mem_mb, cpu_s, conn):
         sol_cls = ns.get("Solution")
         method = fn_name
         if sol_cls is not None and method is None:
-            cand = [m for m in dir(sol_cls) if not m.startswith("_")]
-            method = cand[0] if cand else None
+            try: conn.send((0, total, "missing_fn_name"))
+            except Exception: pass
+            return
+        import signal
+        def _alarm(signum, frame):
+            raise TimeoutError("per-test timeout")
         for tc in tests:
             inp = tc.get("input", ""); exp = str(tc.get("output", "")).strip()
             try:
-                args = [ast.literal_eval(x) for x in str(inp).split("\n") if x.strip()]
+                signal.signal(signal.SIGALRM, _alarm); signal.alarm(max(1, int(cpu_s)))
+                args = [_parse_literal(x) for x in str(inp).split("\n") if x.strip()]
                 with contextlib.redirect_stdout(io.StringIO()):
                     if sol_cls is not None and method:
                         got = getattr(sol_cls(), method)(*args)
                     else:
                         got = ns.get(fn_name or "solve", lambda *a: None)(*args)
-                ok = str(got).strip() == exp
-                # some functional outputs are lists/bools; try literal compare too
-                if not ok:
-                    try: ok = ast.literal_eval(str(got)) == ast.literal_eval(exp)
-                    except Exception: pass
+                signal.alarm(0)
+                ok = _value_equal(got, exp)
                 passed += int(ok)
             except Exception as e:
+                signal.alarm(0)
                 err = f"{type(e).__name__}: {str(e)[:60]}"; continue
     else:
         # stdin mode: re-exec code as __main__ with stdin piped, per test. No top-level pre-exec.
@@ -176,8 +252,12 @@ def grade_submission(code, tests, fn_name, timeout, mem_mb, cpu_s):
     Uses fork (pure-CPU grading, no GPU) for speed + no re-import. Pipe for result (no Queue deadlock).
     Parent wall-clock scales with test count (child enforces per-test budget) so many-test
     submissions aren't killed just for having many tests."""
-    if not code or not tests:
-        return {"success": 0, "passed": 0, "total": len(tests or []), "err": "no_code_or_tests"}
+    if not code:
+        return {"success": None, "passed": 0, "total": len(tests or []),
+                "err": "no_code", "gradeable": False}
+    if not tests:
+        return {"success": None, "passed": 0, "total": 0,
+                "err": "no_tests", "gradeable": False}
     ctx = mp.get_context("fork")
     parent_conn, child_conn = ctx.Pipe(duplex=False)
 
@@ -193,15 +273,17 @@ def grade_submission(code, tests, fn_name, timeout, mem_mb, cpu_s):
         p.terminate(); p.join(0.5)
         if p.is_alive():
             p.kill(); p.join(0.5)
-        return {"success": 0, "passed": 0, "total": len(tests), "err": "timeout"}
+        return {"success": 0, "passed": 0, "total": len(tests),
+                "err": "timeout", "gradeable": True}
     if parent_conn.poll():
         try:
             passed, total, err = parent_conn.recv()
             return {"success": int(passed == total and total > 0), "passed": passed,
-                    "total": total, "err": err}
+                    "total": total, "err": err, "gradeable": True}
         except Exception:
             pass
-    return {"success": 0, "passed": 0, "total": len(tests), "err": "no_result"}
+    return {"success": None, "passed": 0, "total": len(tests),
+            "err": f"worker_no_result_exit_{p.exitcode}", "gradeable": False}
 
 
 def main() -> int:
@@ -211,10 +293,14 @@ def main() -> int:
     ap.add_argument("--timeout", type=int, default=8, help="wall-clock seconds per submission")
     ap.add_argument("--mem-mb", type=int, default=2048)
     ap.add_argument("--cpu-s", type=int, default=10)
-    ap.add_argument("--max-private", type=int, default=60, help="cap private tests/problem for speed")
+    ap.add_argument("--max-tests", type=int, default=0,
+                    help="optional test cap for debugging only; 0 grades the full official suite")
     args = ap.parse_args()
 
-    tr = pl.concat([pl.read_parquet(p) for p in sorted(Path().glob(args.traces_glob))],
+    paths = resolve_trace_paths(args.traces_glob)
+    if not paths:
+        raise SystemExit(f"no traces matched {args.traces_glob}")
+    tr = pl.concat([pl.read_parquet(p) for p in paths],
                    how="diagonal_relaxed").filter(pl.col("task_type") == "code")
     out = Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
     done = set()
@@ -232,31 +318,45 @@ def main() -> int:
         except Exception:
             meta = {}
         tests = decode_tests(meta)
-        if args.max_private and len(tests) > args.max_private:
-            tests = tests[:args.max_private]                       # cap for runtime; pass@1 still strict
-        code = extract_code(r.get("answer_text") or "", meta.get("starter_code") or "")
-        res = grade_submission(code, tests, meta.get("fn_name"),
-                               args.timeout, args.mem_mb, args.cpu_s)
+        if args.max_tests and len(tests) > args.max_tests:
+            tests = tests[:args.max_tests]
+        answer = r.get("answer_text") or ""
+        code, language = extract_submission(answer)
+        fn_name = derive_fn_name(meta)
+        if code and language != "python":
+            res = {"success": None, "passed": 0, "total": len(tests),
+                   "err": f"unsupported_language:{language}", "gradeable": False}
+        else:
+            res = grade_submission(code, tests, fn_name,
+                                   args.timeout, args.mem_mb, args.cpu_s)
         rows.append({"trace_id": tid, "task_type": "code", "success": res["success"],
                      "parsed": code is not None, "completed": (r.get("finish_reason") == "stop"),
                      "difficulty_raw": r.get("difficulty_raw"),
                      "tests_passed": res["passed"], "tests_total": res["total"],
-                     "exec_err": res["err"], "gradeable": True, "grade_method": "execution"})
+                     "exec_err": res["err"], "gradeable": res["gradeable"],
+                     "language": language, "target_fn": fn_name,
+                     "grader_version": CODE_GRADE_VERSION,
+                     "answer_sha256": hashlib.sha256(answer.encode()).hexdigest(),
+                     "grade_method": "python_execution_full_suite"})
         if (k + 1) % 25 == 0:
             print(f"  {k+1}/{n} graded")
     res_df = pl.DataFrame(rows)
     if out.exists() and res_df.height:
         res_df = pl.concat([pl.read_parquet(out), res_df], how="diagonal_relaxed").unique("trace_id", keep="last")
     if res_df.height:
-        res_df.write_parquet(out)
+        tmp = out.with_suffix(out.suffix + ".tmp")
+        res_df.write_parquet(tmp); tmp.replace(out)
     # report
     g = pl.read_parquet(out) if out.exists() else res_df
     j = g.join(tr.select(["trace_id", "gen_model"]), on="trace_id", how="left")
     print(f"\ncode grades -> {out} ({g.height} traces)")
-    for m in ["reasoner", "anchor"]:
+    for m in sorted(j["gen_model"].drop_nulls().unique().to_list()):
         s = j.filter(pl.col("gen_model") == m)
         if s.height:
-            print(f"  {m:9s} pass@1={s['success'].mean():.3f} | code-extracted={s['parsed'].mean():.0%} "
+            gs = s.filter(pl.col("gradeable"))
+            pass1 = gs["success"].mean() if gs.height else float("nan")
+            print(f"  {m:9s} pass@1_gradeable={pass1:.3f} | gradeable={gs.height/s.height:.0%} "
+                  f"| code-extracted={s['parsed'].mean():.0%} "
                   f"| timeouts={100*(s['exec_err']=='timeout').mean():.0f}% (n={s.height})")
     return 0
 

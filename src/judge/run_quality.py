@@ -16,13 +16,17 @@ Usage (cluster, sharded like run_judge):
       --judge-model <NON-GEMMA-INSTRUCT-MODEL> --shard 0 --num-shards 4
 """
 from __future__ import annotations
-import argparse, ast, json, sys
+import argparse, ast, hashlib, json, sys
 from pathlib import Path
 import polars as pl
 from omegaconf import OmegaConf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from src.judge.vllm_engine import EngineConfig, build_llm, make_sampling, chat_batch, safe_json  # noqa
+from src.utils.io import resolve_trace_paths  # noqa
+
+
+QUALITY_SCORE_VERSION = "quality-v2-signed-rubric"
 
 
 # ---------- rubric parsing ----------
@@ -32,16 +36,22 @@ def parse_rubric(task_type: str, instance_metadata: str):
         md = json.loads(instance_metadata) if isinstance(instance_metadata, str) else instance_metadata
     except Exception:
         return None
-    if task_type == "idea":
-        return {"kind": "axes", "axes": md.get("rubric", ["originality", "feasibility"])}
-    if task_type == "moral":
-        raw = md.get("rubric")
-        if not raw:
-            return None
-        crits = ast.literal_eval(raw) if isinstance(raw, str) else raw   # repr-string, not JSON
-        items = [{"title": c["title"], "weight": int(c.get("weight", 1)),
-                  "dim": c.get("annotations", {}).get("rubric_dimension", "")} for c in crits]
-        return {"kind": "checklist", "items": items}
+    try:
+        if task_type == "idea":
+            axes = md.get("rubric", ["originality", "feasibility"])
+            axes = [str(a.get("name", a.get("title", "")) if isinstance(a, dict) else a) for a in axes]
+            axes = [a for a in axes if a]
+            return {"kind": "axes", "axes": axes or ["originality", "feasibility"]}
+        if task_type == "moral":
+            raw = md.get("rubric")
+            if not raw:
+                return None
+            crits = ast.literal_eval(raw) if isinstance(raw, str) else raw
+            items = [{"title": c["title"], "weight": int(c.get("weight", 1)),
+                      "dim": c.get("annotations", {}).get("rubric_dimension", "")} for c in crits]
+            return {"kind": "checklist", "items": items}
+    except (ValueError, TypeError, SyntaxError, KeyError):
+        return None
     return None
 
 
@@ -91,66 +101,133 @@ Respond ONLY with a JSON object {{"verdicts": [v1, v2, ...]}} with exactly {n} i
 one per criterion in the order listed. No other text."""
 
 
+def _clip_tokens(tok, text: str, limit: int) -> tuple[str, bool]:
+    ids = tok(text, add_special_tokens=False)["input_ids"]
+    if len(ids) <= limit:
+        return text, False
+    if limit <= 0:
+        return "", True
+    head_n = limit // 2
+    clipped = tok.decode(ids[:head_n]) + "\n...[content truncated]...\n" + tok.decode(ids[-(limit-head_n):])
+    return clipped, True
+
+
 def build_jobs(traces: pl.DataFrame, tok, max_in: int):
     """Return (prompts, sampling, meta) for all moral+idea traces. Answer-only scoring."""
     prompts, sampling, meta = [], [], []
     for r in traces.iter_rows(named=True):
         d = r["task_type"]; tid = r["trace_id"]
         answer = (r.get("answer_text") or "").strip()
+        answer_sha256 = hashlib.sha256(answer.encode()).hexdigest()
         if not answer:
-            meta.append({"trace_id": tid, "task_type": d, "skip": True}); prompts.append(None)
+            meta.append({"trace_id": tid, "task_type": d, "skip": True,
+                         "skip_reason": "blank_answer",
+                         "answer_sha256": answer_sha256}); prompts.append(None)
             sampling.append(None); continue
         rub = parse_rubric(d, r.get("instance_metadata"))
         if rub is None:
-            meta.append({"trace_id": tid, "task_type": d, "skip": True}); prompts.append(None)
+            meta.append({"trace_id": tid, "task_type": d, "skip": True,
+                         "skip_reason": "invalid_rubric",
+                         "answer_sha256": answer_sha256}); prompts.append(None)
             sampling.append(None); continue
         if d == "idea":
             axes = rub["axes"]
-            p = IDEA_PROMPT.format(keyword=json.loads(r["instance_metadata"]).get("keyword", ""),
-                                   axes_desc="\n".join(f"- {a}" for a in axes), answer=answer[:6000])
             samp = make_sampling(temperature=0, max_tokens=64, json_schema=idea_schema(axes))
+            keyword = json.loads(r["instance_metadata"]).get("keyword", "")
+            skeleton = IDEA_PROMPT.format(keyword=keyword,
+                                          axes_desc="\n".join(f"- {a}" for a in axes), answer="")
+            overhead = len(tok(skeleton, add_special_tokens=False)["input_ids"])
+            answer, content_truncated = _clip_tokens(
+                tok, answer, max(0, max_in - samp.max_tokens - overhead - 128))
+            p = IDEA_PROMPT.format(keyword=keyword,
+                                   axes_desc="\n".join(f"- {a}" for a in axes), answer=answer)
             meta.append({"trace_id": tid, "task_type": d, "skip": False, "kind": "axes", "axes": axes})
         else:  # moral
             items = rub["items"]; n = len(items)
             crit_txt = "\n".join(f"{i+1}. [{it['dim']}] {it['title']} (weight {it['weight']})"
                                  for i, it in enumerate(items))
-            problem = (r.get("prompt") or "")[:6000]
-            p = MORAL_PROMPT.format(problem=problem, answer=answer[:8000], criteria=crit_txt, n=n)
             samp = make_sampling(temperature=0, max_tokens=4 * n + 64, json_schema=moral_schema(n))
+            problem = r.get("prompt") or ""
+            # Keep every rubric criterion. Allocate at most a quarter of the
+            # remaining context to the dilemma and the rest to the response.
+            skeleton = MORAL_PROMPT.format(problem="", answer="", criteria=crit_txt, n=n)
+            overhead = len(tok(skeleton, add_special_tokens=False)["input_ids"])
+            available = max(0, max_in - samp.max_tokens - overhead - 128)
+            problem, problem_truncated = _clip_tokens(tok, problem, available // 4)
+            used_problem = len(tok(problem, add_special_tokens=False)["input_ids"])
+            answer, answer_truncated = _clip_tokens(tok, answer, max(0, available - used_problem))
+            content_truncated = problem_truncated or answer_truncated
+            p = MORAL_PROMPT.format(problem=problem, answer=answer, criteria=crit_txt, n=n)
             meta.append({"trace_id": tid, "task_type": d, "skip": False, "kind": "checklist",
                          "weights": [it["weight"] for it in items]})
         # guard prompt length
         ids = tok(p, add_special_tokens=False)["input_ids"]
+        was_truncated = content_truncated
         if len(ids) > max_in - samp.max_tokens - 32:
-            p = tok.decode(ids[:max_in - samp.max_tokens - 32])
+            keep = max_in - samp.max_tokens - 32
+            head = ids[:keep // 2]; tail = ids[-(keep - len(head)):]
+            p = tok.decode(head) + "\n...[prompt truncated]...\n" + tok.decode(tail)
+            was_truncated = True
+        meta[-1]["answer_sha256"] = answer_sha256
+        meta[-1]["prompt_truncated"] = was_truncated
+        meta[-1]["judge_prompt_sha256"] = hashlib.sha256(p.encode()).hexdigest()
         prompts.append(p); sampling.append(samp)
     return prompts, sampling, meta
 
 
-def score(outputs, meta):
+def moral_weighted_score(verdicts: list, weights: list) -> float | None:
+    """Score signed criteria on [0,1].
+
+    A positive-weight criterion contributes when satisfied; a negative-weight
+    (undesirable) criterion contributes when *not* satisfied.  Absolute weights form
+    the denominator, so a rubric can never produce a negative or >1 score.
+    """
+    if len(verdicts) != len(weights) or not weights:
+        return None
+    if not all(isinstance(v, (int, float)) and 0 <= v <= 2 for v in verdicts):
+        return None
+    den = sum(abs(float(w)) for w in weights)
+    if not den:
+        return None
+    num = sum(abs(float(w)) * ((float(v) / 2) if w >= 0 else (1 - float(v) / 2))
+              for v, w in zip(verdicts, weights))
+    return num / den
+
+
+def score(outputs, meta, judge_model: str = ""):
     rows = []
     for out, m in zip(outputs, meta):
         if m.get("skip"):
             rows.append({"trace_id": m["trace_id"], "task_type": m["task_type"],
-                         "quality_score": None, "parsed": False}); continue
+                         "quality_score": None, "parsed": False,
+                         "grade_status": m.get("skip_reason", "skipped"),
+                         "score_version": QUALITY_SCORE_VERSION,
+                         "judge_model": judge_model,
+                         "answer_sha256": m.get("answer_sha256")}); continue
         j = safe_json(out) or {}
         if m["kind"] == "axes":
-            vals = [j.get(a) for a in m["axes"] if isinstance(j.get(a), (int, float))]
-            q = (sum(vals) / len(vals) / 10.0) if vals else None
+            vals = [j.get(a) for a in m["axes"]]
+            valid = len(vals) == len(m["axes"]) and all(
+                isinstance(v, (int, float)) and 1 <= v <= 10 for v in vals)
+            q = (sum(vals) / len(vals) / 10.0) if valid else None
             rows.append({"trace_id": m["trace_id"], "task_type": m["task_type"],
                          "quality_score": q, "parsed": q is not None,
+                         "grade_status": "ok" if q is not None else "invalid_judge_output",
                          **{f"axis_{a}": j.get(a) for a in m["axes"]}})
-        else:  # checklist: weighted coverage, verdict/2 * weight
+        else:
             v = j.get("verdicts", []); w = m["weights"]
-            if v and len(v) == len(w):
-                num = sum((vi / 2.0) * wi for vi, wi in zip(v, w)); den = sum(w)
-                q = num / den if den else None
-            else:
-                q = None
+            q = moral_weighted_score(v, w) if isinstance(v, list) else None
             rows.append({"trace_id": m["trace_id"], "task_type": m["task_type"],
                          "quality_score": q, "parsed": q is not None,
-                         "n_criteria": len(w)})
-    return pl.DataFrame(rows)
+                         "grade_status": "ok" if q is not None else "invalid_judge_output",
+                         "n_criteria": len(w), "verdicts_json": json.dumps(v),
+                         "weights_json": json.dumps(w)})
+        rows[-1].update({"score_version": QUALITY_SCORE_VERSION,
+                         "judge_model": judge_model, "judge_output": out,
+                         "judge_prompt_sha256": m.get("judge_prompt_sha256"),
+                         "answer_sha256": m.get("answer_sha256"),
+                         "prompt_truncated": m.get("prompt_truncated", False)})
+    return pl.from_dicts(rows, infer_schema_length=None)
 
 
 def main() -> int:
@@ -165,7 +242,10 @@ def main() -> int:
     args = ap.parse_args()
     cfg = OmegaConf.load(args.config)
     out = Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
-    traces = pl.concat([pl.read_parquet(p) for p in sorted(Path().glob(args.traces_glob))],
+    paths = resolve_trace_paths(args.traces_glob)
+    if not paths:
+        raise SystemExit(f"no traces matched {args.traces_glob}")
+    traces = pl.concat([pl.read_parquet(p) for p in paths],
                        how="diagonal_relaxed")
     traces = traces.filter(pl.col("task_type").is_in(["moral", "idea"])).sort("trace_id")
     if args.num_shards > 1:
@@ -176,7 +256,16 @@ def main() -> int:
     sfx = f".shard{args.shard:02d}of{args.num_shards:02d}" if args.num_shards > 1 else ""
     pq = out / f"quality__{tag}{sfx}.parquet"
     if pq.exists():
-        done = set(pl.read_parquet(pq)["trace_id"].to_list())
+        previous = pl.read_parquet(pq)
+        terminal = ["blank_answer", "invalid_rubric"]
+        if {"parsed", "grade_status", "score_version", "judge_model"}.issubset(previous.columns):
+            compatible = ((pl.col("score_version") == QUALITY_SCORE_VERSION) &
+                          (pl.col("judge_model") == args.judge_model))
+            done = set(previous.filter(compatible &
+                                       (pl.col("parsed") | pl.col("grade_status").is_in(terminal)))
+                       ["trace_id"].to_list())
+        else:
+            done = set()
         traces = traces.filter(~pl.col("trace_id").is_in(list(done)))
     print(f"[quality] shard {args.shard}/{args.num_shards}: {traces.height} traces; model={args.judge_model}")
     if traces.height == 0:
@@ -192,26 +281,29 @@ def main() -> int:
 
     max_in = int(getattr(cfg.judge, "max_model_len", 40960))
     prompts, sampling, meta = build_jobs(traces, tok, max_in)
-    # group by max_tokens so guided-decoding batches are homogeneous
+    # Schema and sampling must both be homogeneous within a guided-decoding batch.
     from collections import defaultdict
     groups = defaultdict(list)
     for i, s in enumerate(sampling):
         if s is not None:
-            groups[s.max_tokens].append(i)
+            schema_key = ((meta[i].get("kind"), tuple(meta[i].get("axes", [])),
+                           len(meta[i].get("weights", []))), s.max_tokens)
+            groups[schema_key].append(i)
     outputs = [None] * len(prompts)
-    for mt, idxs in groups.items():
+    for schema_key, idxs in groups.items():
         gp = [prompts[i] for i in idxs]; gs = sampling[idxs[0]]
-        try:
-            outs = chat_batch(llm, tok, gp, gs)
-            for j, i in enumerate(idxs):
-                outputs[i] = outs[j]
-        except Exception as e:
-            print(f"[quality] WARN group mt={mt} ({len(idxs)}) failed: {type(e).__name__}: {str(e)[:120]}")
+        clamp = max_in - int(gs.max_tokens) - 32
+        outs, truncs = chat_batch(llm, tok, gp, gs, max_input_tokens=clamp,
+                                  return_truncation=True)
+        for j, i in enumerate(idxs):
+            outputs[i] = outs[j]
+            meta[i]["prompt_truncated"] = bool(meta[i].get("prompt_truncated") or truncs[j])
 
-    res = score(outputs, meta)
+    res = score(outputs, meta, args.judge_model)
     if pq.exists():
         res = pl.concat([pl.read_parquet(pq), res], how="diagonal_relaxed").unique("trace_id", keep="last")
-    res.write_parquet(pq)
+    tmp = pq.with_suffix(pq.suffix + ".tmp")
+    res.write_parquet(tmp); tmp.replace(pq)
     ok = res.filter(pl.col("parsed"))
     print(f"[quality] {res.height} scored ({ok.height} parsed) -> {pq.name}")
     for d in ["moral", "idea"]:

@@ -19,6 +19,7 @@ from src.analysis.prefix_monitor import rows_from_csv as prefix_rows_from_csv
 from src.analysis.prefix_monitor import write_dashboard_json as write_prefix_monitor_json
 from src.analysis.timing_level import rows_from_parquet, write_dashboard_json as write_timing_level_json
 from src.segment.thinkarm_vendored import process_response_to_sentences
+from src.utils.io import resolve_trace_paths
 
 
 KIM = [
@@ -59,7 +60,7 @@ def _read_many(paths: list[str], *, required: bool = True) -> pl.DataFrame:
 
 
 def _glob_parquet(pattern: str) -> pl.DataFrame:
-    paths = sorted(glob.glob(pattern))
+    paths = resolve_trace_paths(pattern) if "traces_" in pattern else sorted(glob.glob(pattern))
     if not paths:
         raise FileNotFoundError(f"no parquet files matched {pattern}")
     return pl.concat([pl.read_parquet(p) for p in paths], how="diagonal_relaxed")

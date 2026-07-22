@@ -19,6 +19,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -30,23 +31,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from src.judge.vllm_engine import EngineConfig, build_llm, make_sampling, chat_batch, safe_json  # noqa
 from src.judge import schemas as S  # noqa
 from src.segment.segmenter import segment_text  # noqa
+from src.utils.io import resolve_trace_paths  # noqa
+
+
+BEHAVIOR_SCORE_VERSION = "behavior-v2"
 
 
 def _load_prompt(p):
     return Path(p).read_text()
 
 
-def _truncate_to_tokens(tok, text: str, max_tokens: int) -> str:
+def _truncate_to_tokens(tok, text: str, max_tokens: int) -> tuple[str, bool]:
     """Keep a trace within the judge's budget. Whole-trace counting tolerates middle-truncation;
     we keep head+tail (where opening framing and conclusions/verification live) over the middle."""
     if not text:
-        return ""
+        return "", False
     ids = tok(text, add_special_tokens=False)["input_ids"]
     if len(ids) <= max_tokens:
-        return text
+        return text, False
     head = ids[: max_tokens // 2]
     tail = ids[-(max_tokens - len(head)):]
-    return (tok.decode(head) + "\n...[trace truncated for judge context]...\n" + tok.decode(tail))
+    return (tok.decode(head) + "\n...[trace truncated for judge context]...\n" + tok.decode(tail)), True
 
 
 def run_track_A(llm, tok, traces: pl.DataFrame, cfg) -> pl.DataFrame:
@@ -54,8 +59,9 @@ def run_track_A(llm, tok, traces: pl.DataFrame, cfg) -> pl.DataFrame:
     gan_t = _load_prompt(cfg.judge.prompts.gandhi_whole)
     # Budget: judge ctx minus prompt template (~1k) minus output (256) minus margin.
     budget = int(getattr(cfg.judge, "max_model_len", 32768)) - 2048
-    texts = [_truncate_to_tokens(tok, t or "", budget)
-             for t in traces["reasoning_text_for_analysis"].to_list()]
+    prepared = [_truncate_to_tokens(tok, t or "", budget)
+                for t in traces["reasoning_text_for_analysis"].to_list()]
+    texts = [x[0] for x in prepared]
     ids = traces["trace_id"].to_list()
 
     kim_prompts = [kim_t.format(chain_of_thought=t) for t in texts]
@@ -63,18 +69,29 @@ def run_track_A(llm, tok, traces: pl.DataFrame, cfg) -> pl.DataFrame:
     samp_kim = make_sampling(temperature=0, max_tokens=256, json_schema=S.KIM_WHOLE_SCHEMA)
     samp_gan = make_sampling(temperature=0, max_tokens=256, json_schema=S.GANDHI_WHOLE_SCHEMA)
 
-    kim_out = chat_batch(llm, tok, kim_prompts, samp_kim)
-    gan_out = chat_batch(llm, tok, gan_prompts, samp_gan)
+    hard_budget = int(getattr(cfg.judge, "max_model_len", 32768)) - 256 - 32
+    kim_out, kim_hard_trunc = chat_batch(llm, tok, kim_prompts, samp_kim,
+                                         max_input_tokens=hard_budget, return_truncation=True)
+    gan_out, gan_hard_trunc = chat_batch(llm, tok, gan_prompts, samp_gan,
+                                         max_input_tokens=hard_budget, return_truncation=True)
 
     rows = []
-    for tid, ko, go in zip(ids, kim_out, gan_out):
-        kj = safe_json(ko) or {}
-        gj = safe_json(go) or {}
-        row = {"trace_id": tid}
+    for tid, ko, go, (_, truncated), kp, gp, kt, gt in zip(
+            ids, kim_out, gan_out, prepared, kim_prompts, gan_prompts,
+            kim_hard_trunc, gan_hard_trunc):
+        kj = safe_json(ko)
+        gj = safe_json(go)
+        row = {"trace_id": tid, "kim_parsed": kj is not None,
+               "gandhi_parsed": gj is not None,
+               "judge_input_truncated": bool(truncated or kt or gt),
+               "kim_judge_output": ko, "gandhi_judge_output": go,
+               "kim_prompt_sha256": hashlib.sha256(kp.encode()).hexdigest(),
+               "gandhi_prompt_sha256": hashlib.sha256(gp.encode()).hexdigest(),
+               "score_version": BEHAVIOR_SCORE_VERSION}
         for b in S.KIM_BEHAVIORS:
-            row[b] = int(kj.get(b, 0) or 0)
+            row[b] = int(kj.get(b, 0) or 0) if kj is not None else None
         for b in S.GANDHI_BEHAVIORS:
-            row[b] = int(gj.get(b, 0) or 0)
+            row[b] = int(gj.get(b, 0) or 0) if gj is not None else None
         rows.append(row)
     return pl.DataFrame(rows)
 
@@ -82,6 +99,32 @@ def run_track_A(llm, tok, traces: pl.DataFrame, cfg) -> pl.DataFrame:
 def _batched(seq, k):
     for i in range(0, len(seq), k):
         yield i, seq[i:i + k]
+
+
+def _parse_sentence_batch(output: str | None, batch_n: int, allowed: set[str]) -> dict | None:
+    """Require a complete, unique 1-based index mapping for a judge batch."""
+    parsed = safe_json(output)
+    items = parsed.get("sentences") if isinstance(parsed, dict) else None
+    if not isinstance(items, list) or len(items) != batch_n:
+        return None
+    normalized = {}
+    for item in items:
+        try:
+            idx = int(item["index"]); behaviors = list(item.get("behaviors", []))
+        except (KeyError, TypeError, ValueError):
+            return None
+        if idx in normalized or idx not in range(1, batch_n + 1) or not set(behaviors) <= allowed:
+            return None
+        normalized[idx] = behaviors
+    return normalized if set(normalized) == set(range(1, batch_n + 1)) else None
+
+
+def _analysis_segment_text(row: dict) -> str:
+    """Preserve section identity while limiting Track B to Track A's text scope."""
+    text = row.get("reasoning_text_for_analysis") or ""
+    is_thought_scope = (row.get("generation_kind") == "reasoning" or
+                        (row.get("think_text") and row.get("gen_model") != "anchor"))
+    return f"<think>{text}</think>" if text and is_thought_scope else text
 
 
 def run_track_B(llm, tok, traces: pl.DataFrame, cfg, *, isolated: bool) -> pl.DataFrame:
@@ -102,15 +145,17 @@ def run_track_B(llm, tok, traces: pl.DataFrame, cfg, *, isolated: bool) -> pl.Da
     prompts = []
     sampling = []
     # Budget for the rolling prior context so the full prompt fits the judge window.
-    # prompt = problem(<=4000 chars) + previous_context + batch + template boilerplate + JSON room.
+    # prompt = task problem (loader-capped at 16k chars) + prior context + batch + template/JSON.
     # Reserve headroom; keep the RECENT tail of prior context (most relevant to current sentences).
     judge_window = int(getattr(cfg.judge, "max_model_len", 65536))
     # leave ~6k tokens for problem+batch+template+output; budget the rest for prior context (chars~tok*3.5)
     prev_char_budget = max(4000, (judge_window - 6000) * 3)
     for r in traces.iter_rows(named=True):
         tid = r["trace_id"]
-        problem = (r.get("prompt") or "")[:4000]
-        segs = segment_text(r.get("full_text") or r.get("reasoning_text_for_analysis") or "")
+        problem = r.get("prompt") or ""
+        # Track A and Track B must see the same analysis scope.  Using full_text here
+        # previously leaked final-answer prose into B while A saw reasoning only.
+        segs = segment_text(_analysis_segment_text(r))
         if not segs:
             continue
         sentences = [s["sentence"] for s in segs]
@@ -132,7 +177,7 @@ def run_track_B(llm, tok, traces: pl.DataFrame, cfg, *, isolated: bool) -> pl.Da
                     indexed_input=idx_input, n_sentences=len(batch)))
                 sampling.append(make_sampling(temperature=0, max_tokens=64 * len(batch) + 128,
                                               json_schema=schema))
-                jobs.append((tid, start, key))
+                jobs.append((tid, start, key, len(batch), len(prev) >= prev_char_budget))
 
     if not prompts:
         return pl.DataFrame()
@@ -142,33 +187,44 @@ def run_track_B(llm, tok, traces: pl.DataFrame, cfg, *, isolated: bool) -> pl.Da
     print(f"[trackB] {len(prompts)} judge calls across {len(sent_cache)} traces "
           f"({'isolated' if isolated else 'full-context'}) — batching")
     outputs = [None] * len(prompts)
+    hard_truncated = [False] * len(prompts)
     # group indices by (key, max_tokens) so each chat_batch call is homogeneous in sampling params
     from collections import defaultdict
     groups = defaultdict(list)
-    for i, (tid, start, key) in enumerate(jobs):
+    for i, (tid, start, key, batch_n, context_truncated) in enumerate(jobs):
         groups[(key, sampling[i].max_tokens)].append(i)
     for (key, mt), idxs in groups.items():
         gp = [prompts[i] for i in idxs]
         gs = sampling[idxs[0]]            # identical within group
         # hard input clamp: judge window minus this group's output reservation, minus a small margin
         clamp = judge_window - int(gs.max_tokens) - 256
-        outs = chat_batch(llm, tok, gp, gs, max_input_tokens=clamp)
+        outs, truncs = chat_batch(llm, tok, gp, gs, max_input_tokens=clamp,
+                                  return_truncation=True)
         for j, i in enumerate(idxs):
             outputs[i] = outs[j]
+            hard_truncated[i] = truncs[j]
 
     # ---- Phase 3: scatter parsed labels back to per-sentence slots ----
-    labels = {tid: {i: {"kim": [], "gandhi": []} for i in range(len(s))}
+    labels = {tid: {i: {"kim": None, "gandhi": None,
+                        "kim_parsed": False, "gandhi_parsed": False,
+                        "kim_judge_output": None, "gandhi_judge_output": None,
+                        "kim_prompt_sha256": None, "gandhi_prompt_sha256": None,
+                        "context_truncated": False} for i in range(len(s))}
               for tid, s in sent_cache.items()}
-    for i, (tid, start, key) in enumerate(jobs):
-        parsed = safe_json(outputs[i]) or {"sentences": []}
-        for item in parsed.get("sentences", []):
-            try:
-                local = int(item["index"]) - 1
-            except Exception:
-                continue
+    allowed = {"kim": set(S.KIM_BEHAVIORS), "gandhi": set(S.GANDHI_BEHAVIORS)}
+    for i, (tid, start, key, batch_n, context_truncated) in enumerate(jobs):
+        normalized = _parse_sentence_batch(outputs[i], batch_n, allowed[key])
+        valid = normalized is not None
+        for local in range(batch_n):
             gi = start + local
-            if 0 <= gi < len(sent_cache[tid]):
-                labels[tid][gi][key] = list(item.get("behaviors", []))
+            labels[tid][gi][f"{key}_parsed"] = valid
+            # Store one raw payload per sentence batch (on its first row) rather
+            # than duplicating the same JSON up to 20 times.
+            labels[tid][gi][f"{key}_judge_output"] = outputs[i] if local == 0 else None
+            labels[tid][gi][f"{key}_prompt_sha256"] = hashlib.sha256(prompts[i].encode()).hexdigest()
+            labels[tid][gi]["context_truncated"] |= (context_truncated or hard_truncated[i])
+            if valid:
+                labels[tid][gi][key] = normalized[local + 1]
 
     # ---- Phase 4: emit per-sentence rows (unchanged schema) ----
     out_rows = []
@@ -178,10 +234,20 @@ def run_track_B(llm, tok, traces: pl.DataFrame, cfg, *, isolated: bool) -> pl.Da
             row = {"trace_id": tid, "seg_idx": i, "n_segments": n,
                    "norm_pos": (i / (n - 1)) if n > 1 else 0.0,
                    "section_type": s["section_type"], "context_mode": "isolated" if isolated else "full"}
+            row["kim_parsed"] = labels[tid][i]["kim_parsed"]
+            row["gandhi_parsed"] = labels[tid][i]["gandhi_parsed"]
+            row["judge_context_truncated"] = labels[tid][i]["context_truncated"]
+            row["score_version"] = BEHAVIOR_SCORE_VERSION
+            row["kim_judge_output"] = labels[tid][i]["kim_judge_output"]
+            row["gandhi_judge_output"] = labels[tid][i]["gandhi_judge_output"]
+            row["kim_prompt_sha256"] = labels[tid][i]["kim_prompt_sha256"]
+            row["gandhi_prompt_sha256"] = labels[tid][i]["gandhi_prompt_sha256"]
             for b in S.KIM_BEHAVIORS:
-                row[b] = int(b in labels[tid][i]["kim"])
+                lab = labels[tid][i]["kim"]
+                row[b] = int(b in lab) if lab is not None else None
             for b in S.GANDHI_BEHAVIORS:
-                row[b] = int(b in labels[tid][i]["gandhi"])
+                lab = labels[tid][i]["gandhi"]
+                row[b] = int(b in lab) if lab is not None else None
             out_rows.append(row)
     return pl.DataFrame(out_rows) if out_rows else pl.DataFrame()
 
@@ -196,11 +262,16 @@ def main() -> int:
     ap.add_argument("--quantization", default=None)  # e.g. fp8; validate vs bf16 first
     ap.add_argument("--shard", type=int, default=0, help="this replica's index")
     ap.add_argument("--num-shards", type=int, default=1, help="total replicas (one per GPU)")
+    ap.add_argument("--track-b-limit", type=int, default=None,
+                    help="override pilot traces per task/model; 0 means full Track B")
     args = ap.parse_args()
 
     cfg = OmegaConf.load(args.config)
     out = Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
-    traces = pl.concat([pl.read_parquet(p) for p in sorted(Path().glob(args.traces_glob))],
+    paths = resolve_trace_paths(args.traces_glob)
+    if not paths:
+        raise SystemExit(f"no traces matched {args.traces_glob}")
+    traces = pl.concat([pl.read_parquet(p) for p in paths],
                        how="diagonal_relaxed")
     # only judge non-empty reasoning text
     traces = traces.filter(pl.col("reasoning_text_for_analysis").is_not_null()
@@ -218,7 +289,19 @@ def main() -> int:
     def _pending(df, path):
         if not path.exists():
             return df
-        done = set(pl.read_parquet(path)["trace_id"].to_list())
+        previous = pl.read_parquet(path)
+        if {"kim_parsed", "gandhi_parsed", "score_version", "judge_model"}.issubset(previous.columns):
+            previous = previous.filter((pl.col("score_version") == BEHAVIOR_SCORE_VERSION) &
+                                       (pl.col("judge_model") == args.judge_model))
+            valid = (previous.group_by("trace_id").agg(
+                pl.col("kim_parsed").all().alias("kim_ok"),
+                pl.col("gandhi_parsed").all().alias("gandhi_ok"))
+                .filter(pl.col("kim_ok") & pl.col("gandhi_ok")))
+            done = set(valid["trace_id"].to_list())
+        else:
+            # Legacy outputs silently converted parse failures to zero and cannot
+            # be resumed under the v2 contract.
+            done = set()
         return df.filter(~pl.col("trace_id").is_in(list(done)))
 
     print(f"[judge] shard {args.shard}/{args.num_shards}: {traces.height} traces; model={args.judge_model}")
@@ -234,17 +317,24 @@ def main() -> int:
     from transformers import AutoTokenizer
     tok = AutoTokenizer.from_pretrained(args.judge_model, trust_remote_code=True)
 
-    if args.track in ("A", "both"):
+    if args.track in ("A", "both") and bool(getattr(cfg.judge.passes, "aggregate", True)):
         pa = out / f"trackA_counts__{tag}{sfx}.parquet"
         todo = _pending(traces, pa)
         print(f"[judge] Track A: {todo.height} pending (of {traces.height})")
         if todo.height:
             a = run_track_A(llm, tok, todo, cfg)
+            a = a.with_columns(pl.lit(args.judge_model).alias("judge_model"))
             if pa.exists():
                 a = pl.concat([pl.read_parquet(pa), a], how="diagonal_relaxed").unique("trace_id", keep="last")
-            a.write_parquet(pa)
+            tmp = pa.with_suffix(pa.suffix + ".tmp"); a.write_parquet(tmp); tmp.replace(pa)
             print(f"[judge] Track A -> {a.height} traces -> {pa.name}")
     if args.track in ("B", "both"):
+        pilot = (args.track_b_limit if args.track_b_limit is not None
+                 else getattr(cfg.judge, "track_b_pilot_per_domain", None))
+        if pilot is not None and int(pilot) > 0:
+            keys = [c for c in ["task_type", "gen_model"] if c in traces.columns]
+            traces = traces.group_by(keys, maintain_order=True).head(int(pilot)) if keys else traces.head(int(pilot))
+            print(f"[judge] Track B pilot: at most {int(pilot)} traces per {'/'.join(keys) or 'run'}")
         pb = out / f"trackB_full__{tag}{sfx}.parquet"
         todo = _pending(traces, pb)
         print(f"[judge] Track B: {todo.height} pending (of {traces.height})")
@@ -262,10 +352,11 @@ def main() -> int:
                 bf = run_track_B(llm, tok, chunk, cfg, isolated=False)
                 if bf.height == 0:
                     continue
+                bf = bf.with_columns(pl.lit(args.judge_model).alias("judge_model"))
                 if pb.exists():
                     bf = pl.concat([pl.read_parquet(pb), bf], how="diagonal_relaxed").unique(
                         ["trace_id", "seg_idx"], keep="last")
-                bf.write_parquet(pb)
+                tmp = pb.with_suffix(pb.suffix + ".tmp"); bf.write_parquet(tmp); tmp.replace(pb)
                 print(f"[judge] Track B chunk {ci+1}/{n_chunks}: "
                       f"+{chunk.height} traces -> {pb.name} ({bf.height} total labels)", flush=True)
             print(f"[judge] Track B complete -> {pb.name}")
@@ -281,10 +372,11 @@ def main() -> int:
                     bi = run_track_B(llm, tok, chunk, cfg, isolated=True)
                     if bi.height == 0:
                         continue
+                    bi = bi.with_columns(pl.lit(args.judge_model).alias("judge_model"))
                     if pbi.exists():
                         bi = pl.concat([pl.read_parquet(pbi), bi], how="diagonal_relaxed").unique(
                             ["trace_id", "seg_idx"], keep="last")
-                    bi.write_parquet(pbi)
+                    tmp = pbi.with_suffix(pbi.suffix + ".tmp"); bi.write_parquet(tmp); tmp.replace(pbi)
                     print(f"[judge] Track B isolated chunk {ci+1}/{n_chunks}: "
                           f"+{chunk.height} traces -> {pbi.name}", flush=True)
     return 0

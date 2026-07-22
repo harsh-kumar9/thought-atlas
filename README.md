@@ -11,6 +11,15 @@ and a static GitHub Pages dashboard in `docs/`.
 
 ## Current Dataset
 
+> **Legacy artifact warning (July 2026):** the checked-in parquets predate the v2
+> generation/grading contract and must not be used for final accuracy or quality
+> claims. The audit finds duplicated ACP choice mappings, only 182/198 GPQA Diamond
+> rows, 176 blank stored answers (including recoverable stopped outputs), 126
+> multi-close reasoning outputs, unversioned parse failures scored as zero, 56 moral
+> quality scores outside `[0,1]`, and missing quality coverage for three Qwen models.
+> The code is fixed; rebuild under `data/v2/` using [RUNBOOK.md](RUNBOOK.md). The
+> legacy files remain only for provenance and dashboard continuity.
+
 - 5 generation conditions: `Llama-3.1-8B-Instruct`, `DeepSeek-R1-Distill-Llama-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Qwen3.5-27B`
 - 6 domains: `math`, `code`, `gpqa`, `planning`, `moral`, `idea`
 - 13,375 generated traces
@@ -72,7 +81,7 @@ On the cluster, prefer the existing `sote` conda env instead of rebuilding local
 1. Prepare task parquets:
 
 ```bash
-python scripts/02_prepare_tasks.py --config configs/exp.yaml
+python scripts/02_prepare_tasks.py --config configs/exp.yaml --out-dir data/v2/tasks
 ```
 
 2. Generate traces, one job per model:
@@ -91,8 +100,8 @@ sbatch -w mira scripts/blackwell.sbatch judge google/gemma-4-31B-it B
 4. Grade performance:
 
 ```bash
-python -m src.perf.grade --traces-glob "data/traces/traces_*.parquet" --out data/perf/success_grades.parquet
-python -m src.perf.grade_code_exec --traces-glob "data/traces/traces_*.parquet" --out data/perf/code_grades.parquet
+python -m src.perf.grade --traces-glob "data/v2/traces/traces_*.parquet" --out data/v2/perf/success_grades.parquet
+python -m src.perf.grade_code_exec --traces-glob "data/v2/traces/traces_*.parquet" --out data/v2/perf/code_grades.parquet --max-tests 0
 sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
 ```
 

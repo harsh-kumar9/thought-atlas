@@ -124,6 +124,32 @@ case "$STAGE" in
     ;;
   segment)  python -m src.segment.segmenter --traces-glob "$TRACES_DIR/traces_*.parquet" \
               --text-col reasoning_text_for_analysis --out data/v2/segments/segments.parquet ;;
+  extract)
+    # Reference-blind final-answer extraction for every task. The LLM identifies
+    # the submitted answer; deterministic graders still decide correctness.
+    [ -n "$MODEL" ] || { echo "extract needs an extractor model id: sbatch blackwell.sbatch extract <hf_id>"; exit 2; }
+    IFS=',' read -ra GPUS <<< "${CUDA_VISIBLE_DEVICES:-0}"
+    NG=${#GPUS[@]}
+    echo "answer-extraction data-parallel: $NG replicas, model=$MODEL"
+    pids=()
+    for i in $(seq 0 $((NG-1))); do
+      CUDA_VISIBLE_DEVICES="${GPUS[$i]}" \
+      MASTER_ADDR=127.0.0.1 MASTER_PORT=$((29800 + i * 13)) VLLM_PORT=$((29800 + i * 13 + 1)) \
+      python -m src.judge.run_answer_extraction --config configs/exp.yaml \
+        --judge-model "$MODEL" --traces-glob "$TRACES_DIR/traces_*.parquet" \
+        --out-dir "$JUDGE_DIR" --shard "$i" --num-shards "$NG" \
+        > "outputs/${SLURM_JOB_ID}_extract_shard${i}.log" 2>&1 &
+      pids+=($!); sleep 3
+    done
+    rc=0; for p in "${pids[@]}"; do wait "$p" || rc=1; done
+    if [ "$rc" -ne 0 ]; then
+      echo "answer extraction failed on at least one replica; refusing to merge incomplete shards" >&2
+      exit "$rc"
+    fi
+    TAG="${MODEL//\//_}"
+    python -m src.judge.merge_shards --tag "$TAG" --out-dir "$JUDGE_DIR" \
+      --num-shards "$NG" --kinds answer_extractions
+    ;;
   judge)
     [ -n "$MODEL" ] || { echo "judge needs a judge-model id: sbatch blackwell.sbatch judge <hf_id> [track]"; exit 2; }
     TRACK="${3:-A}"   # default Track A (cheap); pass B or both for the per-sentence pass
@@ -164,6 +190,12 @@ case "$STAGE" in
     # moral/idea SUCCESS scoring (rubric quality of the ANSWER ONLY, not reasoning).
     # Separate from `judge` (behavior labels). Same DP fan-out; distinct port base (29700).
     [ -n "$MODEL" ] || { echo "quality needs a judge-model id: sbatch blackwell.sbatch quality <hf_id>"; exit 2; }
+    TAG="${MODEL//\//_}"
+    EXTRACTIONS="${ANSWER_EXTRACTIONS:-$JUDGE_DIR/answer_extractions__${TAG}.parquet}"
+    [ -f "$EXTRACTIONS" ] || {
+      echo "missing $EXTRACTIONS; run the extract stage first or set ANSWER_EXTRACTIONS" >&2
+      exit 2
+    }
     IFS=',' read -ra GPUS <<< "${CUDA_VISIBLE_DEVICES:-0}"
     NG=${#GPUS[@]}
     echo "quality data-parallel: $NG replicas, model=$MODEL (moral+idea, answer-only)"
@@ -173,6 +205,7 @@ case "$STAGE" in
       MASTER_ADDR=127.0.0.1 MASTER_PORT=$((29700 + i * 13)) VLLM_PORT=$((29700 + i * 13 + 1)) \
       python -m src.judge.run_quality --config configs/exp.yaml --judge-model "$MODEL" \
         --traces-glob "$TRACES_DIR/traces_*.parquet" --out-dir "$JUDGE_DIR" \
+        --extractions "$EXTRACTIONS" \
         --shard "$i" --num-shards "$NG" \
         > "outputs/${SLURM_JOB_ID}_quality_shard${i}.log" 2>&1 &
       pids+=($!); sleep 3
@@ -182,12 +215,11 @@ case "$STAGE" in
       echo "quality judging failed on at least one replica; refusing to merge incomplete shards" >&2
       exit "$rc"
     fi
-    TAG="${MODEL//\//_}"
     python -m src.judge.merge_shards --tag "$TAG" --out-dir "$JUDGE_DIR" \
       --num-shards "$NG" --kinds quality
     ;;
   analyze)
     [ -n "$MODEL" ] || { echo "analyze needs the judge tag: sbatch blackwell.sbatch analyze <judge_tag>"; exit 2; }
     python scripts/run_analysis.py --config configs/exp.yaml --judge-tag "$MODEL" ;;
-  *) echo "usage: sbatch blackwell.sbatch {generate <model>|segment|judge <id> [A|B|both]|quality <id>|analyze <tag>} (got '$STAGE')"; exit 2 ;;
+  *) echo "usage: sbatch blackwell.sbatch {generate <model>|segment|extract <id>|judge <id> [A|B|both]|quality <id>|analyze <tag>} (got '$STAGE')"; exit 2 ;;
 esac

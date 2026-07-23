@@ -95,7 +95,9 @@ def make_sampling(*, temperature: float = 0.0, max_tokens: int = 1024,
     import inspect
     allowed = set(inspect.signature(SamplingParams).parameters) | set(getattr(SamplingParams, "__init__", object).__code__.co_varnames if hasattr(getattr(SamplingParams, "__init__", object), "__code__") else [])
     for k, v in extra.items():
-        if k in allowed or k in {"presence_penalty", "frequency_penalty", "repetition_penalty", "min_p"}:
+        if k in allowed or k in {
+                "presence_penalty", "frequency_penalty", "repetition_penalty",
+                "min_p", "skip_special_tokens"}:
             base[k] = v
     if json_schema is None:
         return SamplingParams(**base)

@@ -38,7 +38,10 @@ def parse_generation_detailed(generation_text: str, kind: str, *,
     if close_count == 0:
         thought = text.replace("<think>", " ").strip()
         if finish_reason == "stop" and thought:
-            return {"think_text": thought, "answer_text": thought,
+            # This may be a direct answer or a response whose special delimiter
+            # was lost. Preserve it for grading, but do not contaminate
+            # reasoning-only analyses with unseparated answer prose.
+            return {"think_text": None, "answer_text": thought,
                     "parse_status": "direct_answer_no_close",
                     "answer_source": "full_generation_fallback", "close_tag_count": 0}
         return {"think_text": thought, "answer_text": "",

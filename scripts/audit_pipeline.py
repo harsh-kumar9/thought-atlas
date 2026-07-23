@@ -17,6 +17,9 @@ from pathlib import Path
 import polars as pl
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.utils.answer_extractions import (ANSWER_EXTRACTION_VERSION,
+                                          extraction_input_sha256, select_answer,
+                                          text_sha256)
 from src.utils.io import resolve_trace_paths
 from src.utils.parse import parse_generation_detailed
 
@@ -117,9 +120,11 @@ def audit_traces(pattern: str | None) -> tuple[dict, list[str], pl.DataFrame]:
         report["duplicate_natural_keys"] = dup
         if dup: issues.append(f"traces: {dup} duplicate natural keys")
     version_ok = "generation_version" in df.columns and set(
-        df["generation_version"].drop_nulls().unique().to_list()) == {"generation-v2"}
-    report["generation_v2"] = version_ok
-    if not version_ok: issues.append("traces: generation-v2 provenance columns missing")
+        df["generation_version"].drop_nulls().unique().to_list()) == {
+            "generation-v3-special-tokens"}
+    report["generation_v3_special_tokens"] = version_ok
+    if not version_ok:
+        issues.append("traces: generation-v3 special-token provenance missing")
     manifests_ok = True
     for path in paths:
         if re.search(r"\.shard\d+of\d+\.parquet$", path.name):
@@ -141,7 +146,8 @@ def audit_traces(pattern: str | None) -> tuple[dict, list[str], pl.DataFrame]:
             manifests_ok = False
             issues.append(f"traces: missing or invalid manifest for {path.name}")
     report["manifests_valid"] = manifests_ok
-    blank, recoverable, multi = 0, 0, 0
+    blank, recoverable, multi, contaminated_fallback = 0, 0, 0, 0
+    bad_special_token_capture = 0
     statuses = Counter()
     for row in df.iter_rows(named=True):
         answer = (row.get("answer_text") or "").strip()
@@ -154,10 +160,134 @@ def audit_traces(pattern: str | None) -> tuple[dict, list[str], pl.DataFrame]:
         recoverable += int(not answer and bool(parsed["answer_text"]))
         multi += int(parsed["close_tag_count"] > 1)
         statuses[parsed["parse_status"]] += 1
+        contaminated_fallback += int(
+            kind == "reasoning" and
+            parsed["parse_status"] not in {"single_close", "multiple_close_last_suffix"} and
+            bool((row.get("reasoning_text_for_analysis") or "").strip())
+        )
+        try:
+            sampling_params = json.loads(row.get("sampling_params") or "{}")
+            bad_special_token_capture += int(
+                kind == "reasoning" and
+                sampling_params.get("skip_special_tokens") is not False)
+        except Exception:
+            bad_special_token_capture += int(kind == "reasoning")
     report.update({"blank_stored_answers": blank, "legacy_blank_answers_recoverable": recoverable,
-                   "multiple_close_outputs": multi, "reparse_statuses": dict(statuses)})
+                   "multiple_close_outputs": multi, "reparse_statuses": dict(statuses),
+                   "boundary_invalid_rows_contaminating_reasoning": contaminated_fallback,
+                   "reasoning_rows_without_special_token_capture": bad_special_token_capture})
     if recoverable: issues.append(f"traces: {recoverable} blank stored answers are parser-recoverable")
+    if contaminated_fallback:
+        issues.append(
+            f"traces: {contaminated_fallback} unseparated responses entered reasoning analysis")
+    if bad_special_token_capture:
+        issues.append(
+            f"traces: {bad_special_token_capture} reasoning rows did not preserve special tokens")
     return report, issues, df
+
+
+def audit_extractions(pattern: str | None, traces: pl.DataFrame) -> tuple[dict, list[str]]:
+    if not pattern:
+        return {}, []
+    paths = sorted(glob.glob(pattern))
+    frame = _load(paths)
+    issues = []
+    report = {"files": paths, "rows": frame.height}
+    if frame.height == 0:
+        return report, [f"no answer extractions matched {pattern}"]
+    report["manifests_valid"], manifest_issues = _artifact_manifests(paths)
+    issues.extend(f"answer extraction: {item}" for item in manifest_issues)
+    required = {
+        "trace_id", "validated", "validation_status", "extraction_status",
+        "extracted_answer", "extracted_answer_sha256", "source_response_sha256",
+        "extraction_input_sha256",
+        "score_version", "judge_model", "extraction_method",
+    }
+    missing_columns = sorted(required - set(frame.columns))
+    report["missing_columns"] = missing_columns
+    if missing_columns:
+        issues.append(f"answer extraction: missing columns {missing_columns}")
+        return report, issues
+    duplicates = frame.height - frame["trace_id"].n_unique()
+    report["duplicate_trace_ids"] = duplicates
+    if duplicates:
+        issues.append(f"answer extraction: {duplicates} duplicate trace IDs")
+    versions = set(frame["score_version"].drop_nulls().unique().to_list())
+    report["score_versions"] = sorted(versions)
+    if versions != {ANSWER_EXTRACTION_VERSION}:
+        issues.append(f"answer extraction: unexpected score versions {sorted(versions)}")
+    invalid = frame.filter(~pl.col("validated").fill_null(False)).height
+    report["invalid_rows"] = invalid
+    report["extraction_methods"] = {
+        str(row["extraction_method"]): int(row["len"])
+        for row in frame.group_by("extraction_method").len().to_dicts()
+    }
+    if invalid:
+        issues.append(f"answer extraction: {invalid} invalid rows require retry")
+    if "prompt_truncated" in frame.columns:
+        truncated = frame.filter(pl.col("prompt_truncated").fill_null(False)).height
+        report["prompt_truncated"] = truncated
+        if truncated:
+            issues.append(f"answer extraction: {truncated} prompts were truncated")
+    expected = set(traces["trace_id"].to_list()) if traces.height else set()
+    found = set(frame["trace_id"].to_list())
+    missing = len(expected - found)
+    extra = len(found - expected)
+    report.update({"missing_trace_rows": missing, "unknown_trace_rows": extra})
+    if missing:
+        issues.append(f"answer extraction: {missing} traces missing")
+    if extra:
+        issues.append(f"answer extraction: {extra} rows do not match a trace")
+    if traces.height:
+        trace_hashes = {
+            str(row["trace_id"]): text_sha256(str(row.get("full_text") or ""))
+            for row in traces.iter_rows(named=True)
+        }
+        stale = sum(
+            1 for row in frame.iter_rows(named=True)
+            if row.get("source_response_sha256") != trace_hashes.get(str(row["trace_id"]))
+        )
+        report["stale_response_hashes"] = stale
+        if stale:
+            issues.append(f"answer extraction: {stale} rows hash different trace text")
+        input_hashes = {
+            str(row["trace_id"]): extraction_input_sha256(row)
+            for row in traces.iter_rows(named=True)
+        }
+        stale_inputs = sum(
+            1 for row in frame.iter_rows(named=True)
+            if row.get("extraction_input_sha256") != input_hashes.get(str(row["trace_id"]))
+        )
+        report["stale_extraction_input_hashes"] = stale_inputs
+        if stale_inputs:
+            issues.append(
+                f"answer extraction: {stale_inputs} rows hash different extraction inputs")
+        extraction_index = {
+            str(row["trace_id"]): row for row in frame.iter_rows(named=True)
+        }
+        contract_rejections = 0
+        for trace in traces.iter_rows(named=True):
+            extraction = extraction_index.get(str(trace["trace_id"]))
+            if (extraction and extraction.get("extraction_status") == "ok" and
+                    not select_answer(trace, extraction_index)["used"]):
+                contract_rejections += 1
+        report["consumer_contract_rejections"] = contract_rejections
+        if contract_rejections:
+            issues.append(
+                f"answer extraction: {contract_rejections} ok rows fail consumer validation")
+    bad_answer_hash = sum(
+        1 for row in frame.iter_rows(named=True)
+        if row.get("extracted_answer_sha256") != text_sha256(
+            str(row.get("extracted_answer") or ""))
+    )
+    report["bad_extracted_answer_hashes"] = bad_answer_hash
+    if bad_answer_hash:
+        issues.append(f"answer extraction: {bad_answer_hash} extracted-answer hash mismatches")
+    forbidden = sorted({"reference_answer", "success", "quality_score"} & set(frame.columns))
+    report["forbidden_leakage_columns"] = forbidden
+    if forbidden:
+        issues.append(f"answer extraction: forbidden scoring columns present {forbidden}")
+    return report, issues
 
 
 def audit_grades(pattern: str | None, traces: pl.DataFrame) -> tuple[dict, list[str]]:
@@ -184,7 +314,7 @@ def audit_grades(pattern: str | None, traces: pl.DataFrame) -> tuple[dict, list[
     if code_ids:
         code_rows = grades.filter(
             (pl.col("task_type") == "code") &
-            pl.col("grader_version").fill_null("").str.starts_with("code-exec-v2")
+            pl.col("grader_version").fill_null("").str.starts_with("code-exec-v3")
         ) if "grader_version" in grades.columns else pl.DataFrame()
         code_covered = set(code_rows["trace_id"].to_list()) if code_rows.height else set()
         code_missing = len(code_ids - code_covered)
@@ -192,6 +322,11 @@ def audit_grades(pattern: str | None, traces: pl.DataFrame) -> tuple[dict, list[
         report["code_ungradeable"] = (code_rows.filter(~pl.col("gradeable").fill_null(False)).height
                                        if code_rows.height and "gradeable" in code_rows.columns else 0)
         if code_missing: issues.append(f"grades: {code_missing} code traces missing execution grades")
+    if "extraction_agreement" in grades.columns:
+        compared = grades.filter(pl.col("extraction_agreement").is_not_null())
+        disagreements = compared.filter(~pl.col("extraction_agreement")).height
+        report["extractor_comparisons"] = compared.height
+        report["extractor_disagreements"] = disagreements
     return report, issues
 
 
@@ -273,6 +408,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tasks-dir", default="data/tasks")
     ap.add_argument("--traces-glob", default="data/traces/traces_*.parquet")
+    ap.add_argument("--extractions-glob", default=None)
     ap.add_argument("--grades-glob", default=None)
     ap.add_argument("--quality-glob", default=None)
     ap.add_argument("--judge-glob", default=None)
@@ -281,12 +417,14 @@ def main() -> int:
     a = ap.parse_args()
     tasks, ti = audit_tasks(Path(a.tasks_dir))
     traces, tri, trace_df = audit_traces(a.traces_glob)
+    extractions, ei = audit_extractions(a.extractions_glob, trace_df)
     grades, gi = audit_grades(a.grades_glob, trace_df)
     quality, qi = audit_quality(a.quality_glob, trace_df)
     judge, ji = audit_judge(a.judge_glob, trace_df)
-    issues = ti + tri + gi + qi + ji
+    issues = ti + tri + ei + gi + qi + ji
     result = {"tasks": tasks, "traces": traces, "grades": grades,
-              "quality": quality, "judge": judge, "issues": issues, "ok": not issues}
+              "answer_extractions": extractions, "quality": quality,
+              "judge": judge, "issues": issues, "ok": not issues}
     rendered = json.dumps(result, indent=2, default=str)
     print(rendered)
     if a.json_out:

@@ -90,22 +90,39 @@ python scripts/02_prepare_tasks.py --config configs/exp.yaml --out-dir data/v2/t
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_9b
 ```
 
-3. Judge behaviors:
+3. Extract final answers without exposing references:
+
+```bash
+sbatch -w vega scripts/blackwell.sbatch extract google/gemma-4-31B-it
+```
+
+4. Grade performance:
+
+```bash
+python -m src.perf.grade \
+  --traces-glob "data/v2/traces/traces_*.parquet" \
+  --extractions data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
+  --out data/v2/perf/success_grades.parquet
+python -m src.perf.grade_code_exec \
+  --traces-glob "data/v2/traces/traces_*.parquet" \
+  --extractions data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
+  --out data/v2/perf/code_grades.parquet --max-tests 0
+sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
+```
+
+The extraction model sees the original task and response but never the reference
+answer or rubric. Its evidence must match the raw response verbatim. Objective
+correctness remains symbolic/exact/execution-based, and code is selected as an
+unchanged source block rather than rewritten by the extractor.
+
+5. Judge behaviors:
 
 ```bash
 sbatch -w vega scripts/blackwell.sbatch judge google/gemma-4-31B-it A
 sbatch -w mira scripts/blackwell.sbatch judge google/gemma-4-31B-it B
 ```
 
-4. Grade performance:
-
-```bash
-python -m src.perf.grade --traces-glob "data/v2/traces/traces_*.parquet" --out data/v2/perf/success_grades.parquet
-python -m src.perf.grade_code_exec --traces-glob "data/v2/traces/traces_*.parquet" --out data/v2/perf/code_grades.parquet --max-tests 0
-sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
-```
-
-5. Analyze and export dashboard data:
+6. Analyze and export dashboard data:
 
 ```bash
 python -m src.analysis.model_similarity --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet --kind shape

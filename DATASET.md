@@ -58,13 +58,18 @@ Important columns:
 - `n_new_tokens`
 - `completed`, `finish_reason`, `failure_mode`
 
-V2 additionally requires:
+The corrected generation contract additionally requires:
 
 - `generation_kind`, `generation_version`, `generation_fingerprint`
 - `task_fingerprint`, `task_set_fingerprint`
 - `sampling_seed`, `sampling_params`
 - `decode_temperature`, `decode_top_p`, `decode_top_k`
 - `thinking_style`, `parse_status`, `answer_source`, `close_tag_count`
+
+Generation v3 records `skip_special_tokens=false` in `sampling_params` so
+tokenizer-registered reasoning delimiters survive capture. A stopped reasoning
+response with no close tag remains available for answer extraction but is excluded
+from `reasoning_text_for_analysis`.
 
 `trace_id` is a deterministic UUID over model, instance, seed, prompt, and output.
 Canonical trace parquets have adjacent manifests containing a content hash, row
@@ -98,6 +103,7 @@ Invalid judge batches have null labels, not implicit zeros.
 ## Performance and Analysis
 
 ```text
+data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet
 data/perf/success_grades.parquet
 data/perf/code_grades.parquet
 data/judge/prod/quality__google_gemma-4-31B-it.parquet
@@ -111,8 +117,15 @@ data/analysis/cross_model/model_distance_mag.csv
 `success_grades.parquet` covers deterministic domains. `code_grades.parquet` covers
 LiveCodeBench execution. `quality__*.parquet` covers moral and idea rubric scoring.
 
+`answer_extractions__*.parquet` is a reference-blind normalization layer covering
+every trace. It stores the selected answer/span/block, verbatim evidence, validation
+status, model and prompt versions, exact source/output hashes, and raw guided-JSON.
+It does not contain reference answers or correctness labels.
+
 V2 objective grades preserve the extracted prediction, reference, answer hash,
 parse method/status, and grader version. Unparsed answers have `success=null`.
+Incomplete length-truncated generations are explicitly ungradeable with
+`success=null`; tentative values from unfinished reasoning are not scored.
 V2 code grades distinguish unsupported language and worker/infrastructure failures
 from model failures and use every official test by default. V2 quality rows preserve
 raw axis scores or moral verdicts/weights; signed moral weights are normalized with

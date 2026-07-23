@@ -50,7 +50,7 @@ def build_work(tasks_dir: Path, task_filter, seeds) -> list[dict]:
     return work
 
 
-GENERATION_VERSION = "generation-v2"
+GENERATION_VERSION = "generation-v3-special-tokens"
 
 
 def _json_hash(value) -> str:
@@ -142,6 +142,7 @@ def main() -> int:
         "thinking_style": style,
         "sampling_policy": policy,
         "sampling": base_sampling,
+        "skip_special_tokens": False,
         "max_new_tokens": max_new,
         "max_model_len": int(gen.max_model_len),
         "dtype": str(gen.dtype),
@@ -219,8 +220,11 @@ def main() -> int:
             if output_budget <= 0:
                 raise ValueError(f"prompt exceeds model context for {w['instance_id']}: {input_tokens}")
             rendered.append(rendered_prompt)
+            # Think delimiters are part of the data contract. vLLM otherwise
+            # strips tokenizer-registered special tokens before we can separate
+            # reasoning from the final answer.
             sampling.append(make_sampling(**base_sampling, max_tokens=output_budget,
-                                          seed=int(w["seed"])))
+                                          seed=int(w["seed"]), skip_special_tokens=False))
 
         t0 = time.time()
         outs = llm.generate(rendered, sampling)
@@ -237,9 +241,16 @@ def main() -> int:
                                      has_answer=bool(answer_text))
             rtext = reasoning_text_for_analysis(analysis_source=gm.analysis_source,
                                                 think_text=think_text, answer_text=answer_text)
+            if (gm.kind == "reasoning" and
+                    parsed["parse_status"] not in {
+                        "single_close", "multiple_close_last_suffix"}):
+                # Answer extraction may still recover these rows, but temporal
+                # reasoning analyses require an observed, clean boundary.
+                rtext = None
             failure_mode = classify_failure_mode(
                 text=gen_text, completed=completed, finish_reason=finish)
             sampling_payload = {**base_sampling, "max_tokens": int(sp.max_tokens),
+                                "skip_special_tokens": False,
                                 "seed": int(w["seed"])}
             rows.append({
                 "trace_id": _trace_id(args.gen_model, w["instance_id"], w["seed"],

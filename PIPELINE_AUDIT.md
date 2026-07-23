@@ -27,6 +27,34 @@ final-answer candidates, uses `math-verify` plus normalized comparison, selects 
 latest explicit MCQ conclusion, and records unparsed results as null. Every grade
 stores prediction, reference, method/status, version, and answer hash.
 
+## Follow-up hardening
+
+A second adversarial review found two remaining objective-grading errors and one
+capture error:
+
+- math grading searched every extracted number and could mark a response correct
+  when an earlier echoed problem value matched the reference despite a different
+  boxed final answer;
+- a weak trailing MCQ letter could override an earlier explicit final answer; and
+- vLLM's default `skip_special_tokens=true` could remove reasoning delimiters before
+  parsing, making the answer blank or mixing answer prose into reasoning analysis.
+
+Generation v3 preserves special tokens and excludes unseparated fallback responses
+from reasoning-only analysis. Objective v3 grades only the strongest math candidate,
+prevents terminal MCQ recaps from overriding explicit conclusions, and recognizes
+hedged final-answer language. Length-truncated generations are ungradeable/null
+across objective, code, and subjective scoring rather than being promoted from an
+unfinished reasoning fragment.
+
+The production pipeline also has a reference-blind answer-extraction stage over
+every task. It receives the task and raw response but never the reference, rubric,
+or success label. Guided JSON outputs are accepted only with verbatim evidence,
+exact source/input hashes, and task-specific validation. Code is selected as an
+unchanged source block; moral/idea answers are exact response spans. Deterministic
+symbolic, exact-letter, execution, and rubric graders still determine correctness
+or quality. Extraction shards are resumable, fingerprinted, coverage-validated,
+and merged only when complete and disjoint.
+
 ## Other defects found
 
 - All 500 legacy ACP planning prompts included the source option mapping and a

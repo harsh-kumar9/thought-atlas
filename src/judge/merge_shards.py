@@ -10,7 +10,8 @@ from pathlib import Path
 import polars as pl
 
 
-KINDS = ("trackA_counts", "trackB_full", "trackB_isolated", "quality")
+KINDS = ("trackA_counts", "trackB_full", "trackB_isolated", "quality",
+         "answer_extractions")
 
 
 def _sha(path: Path) -> str:
@@ -54,13 +55,31 @@ def merge_judge_kind(kind: str, tag: str, out_dir: Path, num_shards: int) -> Pat
     for column in ("score_version", "judge_model"):
         if column not in df.columns or len(df[column].drop_nulls().unique()) != 1:
             raise ValueError(f"{kind}: expected one non-null {column} across all shards")
+    artifact_fingerprint = None
+    if kind == "answer_extractions":
+        column = "extraction_fingerprint"
+        if column not in df.columns or len(df[column].drop_nulls().unique()) != 1:
+            raise ValueError(
+                f"{kind}: expected one non-null {column} across all shards")
+        artifact_fingerprint = df[column].drop_nulls().unique().item()
     out = out_dir / f"{kind}__{tag}.parquet"
+    if kind == "answer_extractions" and out.exists() and all(
+            out != path for _, _, path in entries):
+        existing = pl.read_parquet(out)
+        existing_fingerprints = (
+            existing["extraction_fingerprint"].drop_nulls().unique().to_list()
+            if "extraction_fingerprint" in existing.columns else [])
+        if existing_fingerprints != [artifact_fingerprint]:
+            raise ValueError(
+                f"{out} has a different extraction fingerprint; use a fresh output directory")
     tmp = out.with_suffix(out.suffix + ".tmp")
     df.sort(key).write_parquet(tmp); tmp.replace(out)
     manifest = {"schema_version": 2, "kind": kind, "judge_tag": tag,
                 "rows": df.height, "sha256": _sha(out), "key": key,
                 "source_shards": [{"index": i, "file": p.name, "sha256": _sha(p)}
                                   for i, _, p in sorted(entries)]}
+    if artifact_fingerprint is not None:
+        manifest["artifact_fingerprint"] = artifact_fingerprint
     mp = out.with_suffix(".manifest.json"); mt = mp.with_suffix(mp.suffix + ".tmp")
     mt.write_text(json.dumps(manifest, indent=2) + "\n"); mt.replace(mp)
     return out

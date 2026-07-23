@@ -72,6 +72,13 @@ generation:
   max_num_batched_tokens: 4096
   # failure handling: keep first-attempt, characterize post-hoc (exp1 lesson; no retries)
 
+# Reference-blind normalization pass over every trace. This identifies the final
+# submitted answer but never sees the reference and never decides correctness.
+answer_extraction:
+  max_model_len: 65536
+  max_tokens: 768
+  work_batch_size: 128
+
 # ---------------- Tasks (6 domains; reasoning-mode axis) ----------------
 # Performance: mechanical for math/code/planning/gpqa; judge-scored for moral/idea.
 # N is uneven by design (GPQA Diamond is small + pedigreed); fine for the between-domain GLMM.

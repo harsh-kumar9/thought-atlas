@@ -10,7 +10,7 @@ import re
 from typing import Optional
 
 
-GRADE_VERSION = "objective-v2"
+GRADE_VERSION = "objective-v3-extraction-aware"
 
 
 def _balanced_boxed(text: str) -> list[str]:
@@ -119,6 +119,16 @@ def _candidate_equal(prediction: str, reference: str) -> bool:
         return False
 
 
+def math_answers_equivalent(left: Optional[str], right: Optional[str]) -> bool:
+    """Compare two extracted answers without access to a benchmark reference."""
+    if not left or not right:
+        return False
+    if _candidate_equal(left, right):
+        return True
+    verified, _, _ = _math_verify(left, right)
+    return verified is True
+
+
 def _math_verify(answer_text: str, reference: str) -> tuple[Optional[bool], bool, str]:
     try:
         from math_verify import parse, verify
@@ -141,14 +151,21 @@ def grade_math_answer(answer_text: str, reference: Optional[str]) -> dict:
                 "parse_method": None, "status": "no_reference"}
 
     candidates = extract_math_candidates(answer_text)
-    for prediction, method in candidates:
-        if _candidate_equal(prediction, reference):
-            return {"prediction": prediction, "parsed": True, "success": 1,
-                    "parse_method": method, "status": "exact_normalized"}
-
-    verified, mv_parsed, mv_status = _math_verify(answer_text or "", reference)
+    # Candidate order is a finality ranking, not a bag of possible answers. Once
+    # a strong candidate was extracted, an earlier/weaker number must never
+    # rescue it by happening to equal the reference.
     prediction = candidates[0][0] if candidates else None
-    method = candidates[0][1] if candidates else ("math_verify" if mv_parsed else None)
+    method = candidates[0][1] if candidates else None
+    if prediction is not None and _candidate_equal(prediction, reference):
+        return {"prediction": prediction, "parsed": True, "success": 1,
+                "parse_method": method, "status": "exact_normalized"}
+
+    # Run symbolic verification on the selected final candidate. Only let
+    # math-verify inspect the whole response when no focused candidate exists.
+    verify_text = prediction if prediction is not None else (answer_text or "")
+    verified, mv_parsed, mv_status = _math_verify(verify_text, reference)
+    if method is None and mv_parsed:
+        method = "math_verify"
     parsed = bool(candidates) or mv_parsed
     if verified is True:
         return {"prediction": prediction, "parsed": True, "success": 1,
@@ -162,7 +179,8 @@ def grade_math_answer(answer_text: str, reference: Optional[str]) -> dict:
 
 _MCQ_EXPLICIT = re.compile(
     r"(?i)\b(?:final\s+answer|correct\s+answer|answer|choice)\s*"
-    r"(?:is\s*)?(?::|=)?\s*(?:option\s*)?(?:\\boxed\{\s*)?"
+    r"(?:(?:is|must\s+be|should\s+be|would\s+be)\s*)?(?::|=)?\s*"
+    r"(?:option\s*)?(?:\\boxed\{\s*)?"
     r"(?:\*\*)?\(?([A-E])\b")
 _MCQ_BOXED = re.compile(r"(?i)\\boxed\{\s*([A-E])\s*\}")
 _MCQ_TEXT_BOXED = re.compile(r"(?i)\\boxed\{\s*\\text\{\s*([A-E])\s*\}\s*\}")
@@ -185,18 +203,22 @@ def _norm_text(value: str) -> str:
 
 def extract_choice(answer_text: str, prompt: str = "") -> tuple[Optional[str], Optional[str]]:
     text = answer_text or ""
-    hits: list[tuple[int, int, str, str]] = []
+    strong_hits: list[tuple[int, int, str, str]] = []
+    terminal_hits: list[tuple[int, int, str, str]] = []
     for match in _MCQ_EXPLICIT.finditer(text):
-        hits.append((match.start(), 3, match.group(1).upper(), "explicit_final_marker"))
+        strong_hits.append((match.start(), 3, match.group(1).upper(), "explicit_final_marker"))
     for match in _MCQ_BOXED.finditer(text):
-        hits.append((match.start(), 2, match.group(1).upper(), "boxed_letter"))
+        strong_hits.append((match.start(), 2, match.group(1).upper(), "boxed_letter"))
     for match in _MCQ_TEXT_BOXED.finditer(text):
-        hits.append((match.start(), 2, match.group(1).upper(), "boxed_text_letter"))
+        strong_hits.append((match.start(), 2, match.group(1).upper(), "boxed_text_letter"))
     for match in _MCQ_CONCLUSION.finditer(text):
-        hits.append((match.start(), 2, match.group(1).upper(), "conclusion_marker"))
+        strong_hits.append((match.start(), 2, match.group(1).upper(), "conclusion_marker"))
     for match in _MCQ_TERMINAL.finditer(text[-1200:]):
-        hits.append((len(text) - min(len(text), 1200) + match.start(), 1,
-                     match.group(1).upper(), "terminal_letter"))
+        terminal_hits.append((len(text) - min(len(text), 1200) + match.start(), 1,
+                              match.group(1).upper(), "terminal_letter"))
+    # A bare trailing letter is useful only in the absence of an explicit
+    # conclusion. It must not override "Final answer: B" in an option recap.
+    hits = strong_hits or terminal_hits
     if hits:
         _, _, letter, method = max(hits, key=lambda item: (item[0], item[1]))
         return letter, method

@@ -23,6 +23,7 @@ from omegaconf import OmegaConf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from src.judge.vllm_engine import EngineConfig, build_llm, make_sampling, chat_batch, safe_json  # noqa
+from src.utils.answer_extractions import load_extraction_index, select_answer  # noqa
 from src.utils.io import resolve_trace_paths  # noqa
 
 
@@ -101,6 +102,19 @@ Respond ONLY with a JSON object {{"verdicts": [v1, v2, ...]}} with exactly {n} i
 one per criterion in the order listed. No other text."""
 
 
+def _quality_input_sha256(row: dict, answer: str) -> str:
+    payload = json.dumps({
+        "task_type": row.get("task_type"),
+        "prompt": row.get("prompt"),
+        "instance_metadata": row.get("instance_metadata"),
+        "answer": answer.strip(),
+        "completed": row.get("completed"),
+        "finish_reason": row.get("finish_reason"),
+        "score_version": QUALITY_SCORE_VERSION,
+    }, sort_keys=True, ensure_ascii=False, separators=(",", ":"), default=str)
+    return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def _clip_tokens(tok, text: str, limit: int) -> tuple[str, bool]:
     ids = tok(text, add_special_tokens=False)["input_ids"]
     if len(ids) <= limit:
@@ -117,18 +131,40 @@ def build_jobs(traces: pl.DataFrame, tok, max_in: int):
     prompts, sampling, meta = [], [], []
     for r in traces.iter_rows(named=True):
         d = r["task_type"]; tid = r["trace_id"]
-        answer = (r.get("answer_text") or "").strip()
+        answer = (r.get("effective_answer_text") or r.get("answer_text") or "").strip()
         answer_sha256 = hashlib.sha256(answer.encode()).hexdigest()
+        quality_input_sha256 = _quality_input_sha256(r, answer)
+        extraction_meta = {
+            "extraction_used": bool(r.get("extraction_used")),
+            "extraction_selection_status": r.get("extraction_selection_status"),
+            "extractor_status": r.get("extractor_status"),
+            "extractor_confidence": r.get("extractor_confidence"),
+            "extractor_model": r.get("extractor_model"),
+        }
+        completed = r.get("completed")
+        if completed is None:
+            completed = r.get("finish_reason") == "stop"
+        if not completed:
+            meta.append({"trace_id": tid, "task_type": d, "skip": True,
+                         "skip_reason": "incomplete_generation",
+                         "answer_sha256": answer_sha256,
+                         "quality_input_sha256": quality_input_sha256,
+                         **extraction_meta}); prompts.append(None)
+            sampling.append(None); continue
         if not answer:
             meta.append({"trace_id": tid, "task_type": d, "skip": True,
                          "skip_reason": "blank_answer",
-                         "answer_sha256": answer_sha256}); prompts.append(None)
+                         "answer_sha256": answer_sha256,
+                         "quality_input_sha256": quality_input_sha256,
+                         **extraction_meta}); prompts.append(None)
             sampling.append(None); continue
         rub = parse_rubric(d, r.get("instance_metadata"))
         if rub is None:
             meta.append({"trace_id": tid, "task_type": d, "skip": True,
                          "skip_reason": "invalid_rubric",
-                         "answer_sha256": answer_sha256}); prompts.append(None)
+                         "answer_sha256": answer_sha256,
+                         "quality_input_sha256": quality_input_sha256,
+                         **extraction_meta}); prompts.append(None)
             sampling.append(None); continue
         if d == "idea":
             axes = rub["axes"]
@@ -141,7 +177,8 @@ def build_jobs(traces: pl.DataFrame, tok, max_in: int):
                 tok, answer, max(0, max_in - samp.max_tokens - overhead - 128))
             p = IDEA_PROMPT.format(keyword=keyword,
                                    axes_desc="\n".join(f"- {a}" for a in axes), answer=answer)
-            meta.append({"trace_id": tid, "task_type": d, "skip": False, "kind": "axes", "axes": axes})
+            meta.append({"trace_id": tid, "task_type": d, "skip": False,
+                         "kind": "axes", "axes": axes, **extraction_meta})
         else:  # moral
             items = rub["items"]; n = len(items)
             crit_txt = "\n".join(f"{i+1}. [{it['dim']}] {it['title']} (weight {it['weight']})"
@@ -159,7 +196,7 @@ def build_jobs(traces: pl.DataFrame, tok, max_in: int):
             content_truncated = problem_truncated or answer_truncated
             p = MORAL_PROMPT.format(problem=problem, answer=answer, criteria=crit_txt, n=n)
             meta.append({"trace_id": tid, "task_type": d, "skip": False, "kind": "checklist",
-                         "weights": [it["weight"] for it in items]})
+                         "weights": [it["weight"] for it in items], **extraction_meta})
         # guard prompt length
         ids = tok(p, add_special_tokens=False)["input_ids"]
         was_truncated = content_truncated
@@ -169,6 +206,7 @@ def build_jobs(traces: pl.DataFrame, tok, max_in: int):
             p = tok.decode(head) + "\n...[prompt truncated]...\n" + tok.decode(tail)
             was_truncated = True
         meta[-1]["answer_sha256"] = answer_sha256
+        meta[-1]["quality_input_sha256"] = quality_input_sha256
         meta[-1]["prompt_truncated"] = was_truncated
         meta[-1]["judge_prompt_sha256"] = hashlib.sha256(p.encode()).hexdigest()
         prompts.append(p); sampling.append(samp)
@@ -203,7 +241,13 @@ def score(outputs, meta, judge_model: str = ""):
                          "grade_status": m.get("skip_reason", "skipped"),
                          "score_version": QUALITY_SCORE_VERSION,
                          "judge_model": judge_model,
-                         "answer_sha256": m.get("answer_sha256")}); continue
+                         "answer_sha256": m.get("answer_sha256"),
+                         "quality_input_sha256": m.get("quality_input_sha256"),
+                         "extraction_used": m.get("extraction_used", False),
+                         "extraction_selection_status": m.get("extraction_selection_status"),
+                         "extractor_status": m.get("extractor_status"),
+                         "extractor_confidence": m.get("extractor_confidence"),
+                         "extractor_model": m.get("extractor_model")}); continue
         j = safe_json(out) or {}
         if m["kind"] == "axes":
             vals = [j.get(a) for a in m["axes"]]
@@ -226,7 +270,13 @@ def score(outputs, meta, judge_model: str = ""):
                          "judge_model": judge_model, "judge_output": out,
                          "judge_prompt_sha256": m.get("judge_prompt_sha256"),
                          "answer_sha256": m.get("answer_sha256"),
-                         "prompt_truncated": m.get("prompt_truncated", False)})
+                         "quality_input_sha256": m.get("quality_input_sha256"),
+                         "prompt_truncated": m.get("prompt_truncated", False),
+                         "extraction_used": m.get("extraction_used", False),
+                         "extraction_selection_status": m.get("extraction_selection_status"),
+                         "extractor_status": m.get("extractor_status"),
+                         "extractor_confidence": m.get("extractor_confidence"),
+                         "extractor_model": m.get("extractor_model")})
     return pl.from_dicts(rows, infer_schema_length=None)
 
 
@@ -235,6 +285,8 @@ def main() -> int:
     ap.add_argument("--config", default="configs/exp.yaml")
     ap.add_argument("--judge-model", required=True)
     ap.add_argument("--traces-glob", default="data/traces/traces_*.parquet")
+    ap.add_argument("--extractions", default=None,
+                    help="canonical answer_extractions__*.parquet")
     ap.add_argument("--out-dir", default="data/judge/prod")
     ap.add_argument("--quantization", default=None)
     ap.add_argument("--shard", type=int, default=0)
@@ -251,19 +303,42 @@ def main() -> int:
     if args.num_shards > 1:
         traces = traces.with_row_index("_ri").filter(
             pl.col("_ri") % args.num_shards == args.shard).drop("_ri")
+    extraction_index = load_extraction_index(args.extractions)
+    selected_rows = []
+    for row in traces.iter_rows(named=True):
+        selected = select_answer(row, extraction_index)
+        selected_rows.append({
+            **row,
+            "effective_answer_text": selected["answer"],
+            "extraction_used": selected["used"],
+            "extraction_selection_status": selected["selection_status"],
+            "extractor_status": selected["extractor_status"],
+            "extractor_confidence": selected["extractor_confidence"],
+            "extractor_model": selected["extractor_model"],
+        })
+    traces = pl.from_dicts(selected_rows, infer_schema_length=None) if selected_rows else traces
 
     tag = args.judge_model.replace("/", "_")
     sfx = f".shard{args.shard:02d}of{args.num_shards:02d}" if args.num_shards > 1 else ""
     pq = out / f"quality__{tag}{sfx}.parquet"
     if pq.exists():
         previous = pl.read_parquet(pq)
-        terminal = ["blank_answer", "invalid_rubric"]
-        if {"parsed", "grade_status", "score_version", "judge_model"}.issubset(previous.columns):
-            compatible = ((pl.col("score_version") == QUALITY_SCORE_VERSION) &
-                          (pl.col("judge_model") == args.judge_model))
-            done = set(previous.filter(compatible &
-                                       (pl.col("parsed") | pl.col("grade_status").is_in(terminal)))
-                       ["trace_id"].to_list())
+        terminal = ["blank_answer", "invalid_rubric", "incomplete_generation"]
+        if {"parsed", "grade_status", "score_version", "judge_model",
+                "answer_sha256", "quality_input_sha256"}.issubset(previous.columns):
+            current_hashes = {
+                str(row["trace_id"]): _quality_input_sha256(
+                    row, str(row.get("effective_answer_text") or ""))
+                for row in traces.iter_rows(named=True)
+            }
+            done = {
+                str(row["trace_id"]) for row in previous.iter_rows(named=True)
+                if (row.get("score_version") == QUALITY_SCORE_VERSION and
+                    row.get("judge_model") == args.judge_model and
+                    row.get("quality_input_sha256") == current_hashes.get(
+                        str(row["trace_id"])) and
+                    (bool(row.get("parsed")) or row.get("grade_status") in terminal))
+            }
         else:
             done = set()
         traces = traces.filter(~pl.col("trace_id").is_in(list(done)))

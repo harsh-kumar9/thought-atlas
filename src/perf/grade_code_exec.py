@@ -25,10 +25,11 @@ import argparse, ast, base64, hashlib, json, multiprocessing as mp, pickle, re, 
 from pathlib import Path
 import polars as pl
 
+from src.utils.answer_extractions import load_extraction_index, select_answer
 from src.utils.io import resolve_trace_paths
 
 
-CODE_GRADE_VERSION = "code-exec-v2"
+CODE_GRADE_VERSION = "code-exec-v3-extraction-aware"
 
 
 # ---------- test-case decoding ----------
@@ -289,6 +290,8 @@ def grade_submission(code, tests, fn_name, timeout, mem_mb, cpu_s):
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--traces-glob", default="data/traces/traces_*.parquet")
+    ap.add_argument("--extractions", default=None,
+                    help="canonical answer_extractions__*.parquet; code is selected verbatim")
     ap.add_argument("--out", default="data/perf/code_grades.parquet")
     ap.add_argument("--timeout", type=int, default=8, help="wall-clock seconds per submission")
     ap.add_argument("--mem-mb", type=int, default=2048)
@@ -303,15 +306,33 @@ def main() -> int:
     tr = pl.concat([pl.read_parquet(p) for p in paths],
                    how="diagonal_relaxed").filter(pl.col("task_type") == "code")
     out = Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
-    done = set()
-    if out.exists():
-        done = set(pl.read_parquet(out)["trace_id"].to_list())
+    extraction_index = load_extraction_index(args.extractions)
+    existing = pl.read_parquet(out) if out.exists() else None
+    existing_by_id = ({
+        str(row["trace_id"]): row for row in existing.iter_rows(named=True)
+    } if existing is not None else {})
 
     rows = []
     n = tr.height
     for k, r in enumerate(tr.iter_rows(named=True)):
         tid = r["trace_id"]
-        if tid in done:
+        selected = select_answer(r, extraction_index)
+        graded_answer = selected["answer"]
+        graded_hash = hashlib.sha256(graded_answer.encode()).hexdigest()
+        grade_input_hash = hashlib.sha256(json.dumps({
+            "graded_answer_sha256": graded_hash,
+            "instance_metadata": r.get("instance_metadata"),
+            "completed": r.get("completed"),
+            "finish_reason": r.get("finish_reason"),
+            "max_tests": args.max_tests,
+            "timeout": args.timeout,
+            "mem_mb": args.mem_mb,
+            "cpu_s": args.cpu_s,
+            "grader_version": CODE_GRADE_VERSION,
+        }, sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()
+        old = existing_by_id.get(str(tid))
+        if (old and old.get("grader_version") == CODE_GRADE_VERSION and
+                old.get("code_grade_input_sha256") == grade_input_hash):
             continue
         try:
             meta = json.loads(r["instance_metadata"])
@@ -321,28 +342,48 @@ def main() -> int:
         if args.max_tests and len(tests) > args.max_tests:
             tests = tests[:args.max_tests]
         answer = r.get("answer_text") or ""
-        code, language = extract_submission(answer)
+        completed = r.get("completed")
+        if completed is None:
+            completed = r.get("finish_reason") == "stop"
+        if not completed:
+            code, language = None, None
+        elif selected["used"]:
+            code = graded_answer.strip()
+            language = selected.get("selected_code_language") or _infer_language(code)
+        else:
+            code, language = extract_submission(answer)
         fn_name = derive_fn_name(meta)
-        if code and language != "python":
+        if not completed:
+            res = {"success": None, "passed": 0, "total": len(tests),
+                   "err": "incomplete_generation", "gradeable": False}
+        elif code and language != "python":
             res = {"success": None, "passed": 0, "total": len(tests),
                    "err": f"unsupported_language:{language}", "gradeable": False}
         else:
             res = grade_submission(code, tests, fn_name,
                                    args.timeout, args.mem_mb, args.cpu_s)
         rows.append({"trace_id": tid, "task_type": "code", "success": res["success"],
-                     "parsed": code is not None, "completed": (r.get("finish_reason") == "stop"),
+                     "parsed": code is not None, "completed": bool(completed),
                      "difficulty_raw": r.get("difficulty_raw"),
                      "tests_passed": res["passed"], "tests_total": res["total"],
                      "exec_err": res["err"], "gradeable": res["gradeable"],
                      "language": language, "target_fn": fn_name,
                      "grader_version": CODE_GRADE_VERSION,
                      "answer_sha256": hashlib.sha256(answer.encode()).hexdigest(),
+                     "graded_answer_sha256": graded_hash,
+                     "code_grade_input_sha256": grade_input_hash,
+                     "extraction_used": selected["used"],
+                     "extraction_selection_status": selected["selection_status"],
+                     "extractor_status": selected["extractor_status"],
+                     "extractor_confidence": selected["extractor_confidence"],
+                     "extractor_model": selected["extractor_model"],
                      "grade_method": "python_execution_full_suite"})
         if (k + 1) % 25 == 0:
             print(f"  {k+1}/{n} graded")
     res_df = pl.DataFrame(rows)
-    if out.exists() and res_df.height:
-        res_df = pl.concat([pl.read_parquet(out), res_df], how="diagonal_relaxed").unique("trace_id", keep="last")
+    if existing is not None and res_df.height:
+        res_df = pl.concat([existing, res_df], how="diagonal_relaxed").unique(
+            "trace_id", keep="last")
     if res_df.height:
         tmp = out.with_suffix(out.suffix + ".tmp")
         res_df.write_parquet(tmp); tmp.replace(out)

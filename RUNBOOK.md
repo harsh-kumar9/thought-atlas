@@ -1,4 +1,4 @@
-# Production runbook (v2 data contract)
+# Production runbook (v3 generation and extraction contract)
 
 These commands assume the repository is on the CSSLab shared filesystem and jobs
 are submitted from `ada` to `vega` or `mira`.  V2 writes under `data/v2/`; do not
@@ -78,13 +78,48 @@ python scripts/audit_pipeline.py \
 The resolver reads canonical files instead of loading canonical files and their
 retained shards twice.  It rejects incomplete shard-only sets.
 
-## 4. Grade objective tasks
+## 4. Extract submitted answers
+
+Run the reference-blind extractor over every trace before any performance grader:
+
+```bash
+sbatch -w vega scripts/blackwell.sbatch extract google/gemma-4-31B-it
+```
+
+The wrapper launches one replica per GPU and merges only a complete, disjoint shard
+set. The extractor never receives `reference_answer`, rubric verdicts, or success
+labels. Every usable output is tied to the exact `full_text` hash and either:
+
+- returns a compact math/MCQ answer with verbatim evidence;
+- selects an exact code block without rewriting it; or
+- identifies a verbatim final-response span for moral/idea.
+
+Validate coverage and evidence contracts:
+
+```bash
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --extractions-glob \
+    'data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet' \
+  --strict-v2
+```
+
+Do not grade until all extraction rows validate. Invalid rows are not cached as
+complete, so resubmitting the same command retries them. If an LLM response violates
+the evidence contract but the reference-free deterministic parser can recover an
+answer, the artifact records `extraction_method=deterministic_fallback` rather than
+silently discarding the row.
+
+## 5. Grade objective tasks
 
 Math, GPQA, and planning are CPU-side and do not execute model code:
 
 ```bash
 python -m src.perf.grade \
   --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --extractions \
+    data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
   --out data/v2/perf/success_grades.parquet
 ```
 
@@ -97,6 +132,8 @@ srun -w mira --partition=ashton --qos=ashton \
   --cpus-per-task=16 --mem=32G --time=04:00:00 \
   python -m src.perf.grade_code_exec \
     --traces-glob 'data/v2/traces/traces_*.parquet' \
+    --extractions \
+      data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
     --out data/v2/perf/code_grades.parquet \
     --timeout 8 --cpu-s 10 --max-tests 0
 ```
@@ -112,17 +149,20 @@ Validate deterministic-grade coverage:
 python scripts/audit_pipeline.py \
   --tasks-dir data/v2/tasks \
   --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --extractions-glob \
+    'data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet' \
   --grades-glob 'data/v2/perf/*_grades.parquet' \
   --strict-v2
 ```
 
-## 5. Score moral and idea quality
+## 6. Score moral and idea quality
 
 ```bash
 sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
 ```
 
-The wrapper merges only after every replica succeeds.  The v2 quality table stores
+The wrapper requires the canonical extraction artifact and merges only after every
+replica succeeds. The v2 quality table stores
 the raw judge JSON, rubric weights/verdicts, judge model, prompt hash, parse status,
 and score version.  Signed moral weights use a bounded `[0,1]` formula.
 
@@ -134,7 +174,7 @@ python scripts/audit_pipeline.py \
   --strict-v2
 ```
 
-## 6. Judge deliberation behavior
+## 7. Judge deliberation behavior
 
 Run Track A over all traces:
 
@@ -177,7 +217,7 @@ Track A and B now use the same reasoning-only text.  Missing or malformed judge
 batches remain null with explicit parse flags; they are retried on resume rather
 than silently becoming all-zero behavior labels.
 
-## 7. Run analysis only after the final audit
+## 8. Run analysis only after the final audit
 
 Use the v2 paths explicitly:
 

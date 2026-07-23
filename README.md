@@ -11,7 +11,7 @@ and a static GitHub Pages dashboard in `docs/`.
 
 ## Current Dataset
 
-> **Legacy artifact warning (July 2026):** the checked-in parquets predate the v2
+> **Legacy artifact warning (July 2026):** the checked-in parquets predate the v3
 > generation/grading contract and must not be used for final accuracy or quality
 > claims. The audit finds duplicated ACP choice mappings, only 182/198 GPQA Diamond
 > rows, 176 blank stored answers (including recoverable stopped outputs), 126
@@ -103,10 +103,12 @@ python -m src.perf.grade \
   --traces-glob "data/v2/traces/traces_*.parquet" \
   --extractions data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
   --out data/v2/perf/success_grades.parquet
-python -m src.perf.grade_code_exec \
-  --traces-glob "data/v2/traces/traces_*.parquet" \
-  --extractions data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
-  --out data/v2/perf/code_grades.parquet --max-tests 0
+srun -w mira --partition=ashton --qos=ashton \
+  --cpus-per-task=16 --mem=32G --time=04:00:00 \
+  python -m src.perf.grade_code_exec \
+    --traces-glob "data/v2/traces/traces_*.parquet" \
+    --extractions data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
+    --out data/v2/perf/code_grades.parquet --max-tests 0
 sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
 ```
 
@@ -114,6 +116,97 @@ The extraction model sees the original task and response but never the reference
 answer or rubric. Its evidence must match the raw response verbatim. Objective
 correctness remains symbolic/exact/execution-based, and code is selected as an
 unchanged source block rather than rewritten by the extractor.
+
+### Re-run scoring without re-running generation
+
+You do not need to generate the model responses again when the canonical files in
+`data/v2/traces/` already pass the v3 audit. You may also score the models whose
+traces are ready while other generation jobs are still running. For the final
+combined dataset, run the commands again after every intended model trace is
+present so the broad trace glob covers all models.
+
+First check that the stored traces use the current
+`generation-v3-special-tokens` contract:
+
+```bash
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --strict-v2
+```
+
+If the audit passes and the canonical answer-extraction parquet already exists,
+validate it and skip directly to the graders:
+
+```bash
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --extractions-glob \
+    'data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet' \
+  --strict-v2
+```
+
+If that extraction file is missing, stale, or incomplete, re-run only extraction
+and wait for the Slurm job to finish. The stage is resumable and skips rows whose
+trace hash, extractor, and extraction version still match:
+
+```bash
+sbatch -w vega scripts/blackwell.sbatch extract google/gemma-4-31B-it
+```
+
+Then re-run objective scoring. Keep the broad trace glob when writing the canonical
+`success_grades.parquet`: this grader atomically replaces that file, so using a
+single-model glob there would remove the other models from the output.
+
+```bash
+python -m src.perf.grade \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --extractions \
+    data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
+  --out data/v2/perf/success_grades.parquet
+```
+
+Code scoring is also resumable, but generated code must not be executed on the
+login node. It does not require a GPU; use `srun` for an isolated compute
+allocation:
+
+```bash
+srun -w mira --partition=ashton --qos=ashton \
+  --cpus-per-task=16 --mem=32G --time=04:00:00 \
+  python -m src.perf.grade_code_exec \
+    --traces-glob 'data/v2/traces/traces_*.parquet' \
+    --extractions \
+      data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet \
+    --out data/v2/perf/code_grades.parquet \
+    --timeout 8 --cpu-s 10 --max-tests 0
+```
+
+Moral and idea quality use the answer-only LLM judge and can likewise be resumed:
+
+```bash
+sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
+```
+
+Behavior judging (`judge A`/`judge B`) is independent of performance scoring and
+does not need to be re-run merely because answer extraction or performance grades
+were refreshed. After all scoring jobs finish, verify exact coverage:
+
+```bash
+python scripts/audit_pipeline.py \
+  --tasks-dir data/v2/tasks \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --extractions-glob \
+    'data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet' \
+  --grades-glob 'data/v2/perf/*_grades.parquet' \
+  --quality-glob 'data/v2/judge/quality__google_gemma-4-31B-it.parquet' \
+  --strict-v2
+```
+
+The checked-in legacy traces cannot be converted into production-valid v3 traces by
+re-scoring. Their missing reasoning delimiters were discarded during generation,
+so direct re-scoring is useful only for diagnostics; regenerate those traces before
+making final accuracy or quality claims.
 
 5. Judge behaviors:
 

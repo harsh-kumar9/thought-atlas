@@ -11,7 +11,7 @@ failure_mode label. Stage task parquets to local NVMe before iterating.
 
 Usage:
     python -m src.generate.generate_traces --config configs/exp.yaml \
-        --gen-model reasoner --tasks math code gpqa planning moral idea
+        --gen-model reasoner --tasks math code gpqa planning security safety moral idea
 
     reasoner = DeepSeek-R1-Distill-Llama-8B; anchor = Llama-3.1-8B-Instruct.
 """

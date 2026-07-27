@@ -1,7 +1,7 @@
 """grade.py — auditable deterministic grading for ground-truth domains.
 
-math/gpqa/planning graded here (string/symbolic match). code requires execution
-(separate isolated compute job — see grade_code_exec). moral/idea are judge-scored
+math/gpqa/planning/security graded here (string/symbolic match). code requires execution
+(separate isolated compute job — see grade_code_exec). safety/moral/idea are judge-scored
 (read from judge output, not graded here).
 """
 from __future__ import annotations
@@ -68,7 +68,7 @@ def grade_traces(tr: pl.DataFrame, extraction_index: dict[str, dict] | None = No
                 graded_answer = ans
             prediction, parsed, succ = result["prediction"], result["parsed"], result["success"]
             method, status = result["parse_method"], result["status"]
-        elif d in ("gpqa", "planning"):
+        elif d in ("gpqa", "planning", "security"):
             deterministic = grade_mcq_answer(ans, ref, r.get("prompt") or "")
             deterministic_prediction = deterministic["prediction"]
             result = grade_mcq_answer(graded_answer, ref, r.get("prompt") or "")
@@ -86,9 +86,9 @@ def grade_traces(tr: pl.DataFrame, extraction_index: dict[str, dict] | None = No
             method, status = result["parse_method"], result["status"]
         elif d == "code":
             gradeable = False; method = "needs_execution"
-        elif d in ("moral", "idea"):
+        elif d in ("safety", "moral", "idea"):
             gradeable = False; method = "judge_scored"
-        if d in {"math", "gpqa", "planning"} and comp is False:
+        if d in {"math", "gpqa", "planning", "security"} and comp is False:
             succ = None
             gradeable = False
             status = "incomplete_generation"
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     det = g.filter(pl.col("gradeable"))
     print("Graded (deterministic) by domain:")
     j = g.join(tr.select(["trace_id", "gen_model"]), on="trace_id")
-    for d in ["math", "gpqa", "planning"]:
+    for d in ["math", "gpqa", "planning", "security"]:
         sub = j.filter((pl.col("task_type") == d))
         for m in sorted(sub["gen_model"].drop_nulls().unique().to_list()):
             s = sub.filter(pl.col("gen_model") == m)

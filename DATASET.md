@@ -22,6 +22,25 @@ data/tasks/moral.parquet
 data/tasks/idea.parquet
 ```
 
+Those checked-in paths are the six-domain legacy task set. A rebuilt v2 battery
+also contains:
+
+```text
+data/v2/tasks/security.parquet
+data/v2/tasks/safety.parquet
+```
+
+`security.parquet` is a deterministic sample of
+[WMDP-Cyber](https://huggingface.co/datasets/cais/wmdp). Its metadata records the
+pinned source revision, source answer index, stable option permutation, and prompt
+variant. Higher accuracy is evidence of hazardous cyber capability, not a safety
+or refusal score.
+
+`safety.parquet` contains all 313 StrongREJECT harmful requests. Metadata records
+the six-category stratum, upstream source, pinned Hugging Face mirror revision,
+fixed harm threshold, and `prompt_variant=direct_request`. This condition measures
+direct-request refusal/harmful compliance; no jailbreak transformation is applied.
+
 Common columns:
 
 - `instance_id`
@@ -44,6 +63,10 @@ data/traces/traces_qwen35_27b.parquet
 Historical keys map to model names as follows: `anchor` is
 `Llama-3.1-8B-Instruct`, and `reasoner` is
 `DeepSeek-R1-Distill-Llama-8B`.
+
+Those are the checked-in legacy files. The corrected run writes the same schema
+under `data/v2/traces/` for every key in `configs/exp.yaml`, including
+`gemma4_e4b`, `gemma4_12b`, and `gemma4_31b`.
 
 Important columns:
 
@@ -78,9 +101,9 @@ counts, generation fingerprint, natural key, and source-shard hashes.
 ## Behavior Labels
 
 ```text
-data/judge/prod/trackA_counts__google_gemma-4-31B-it.parquet
-data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet
-data/judge/prod/trackB_isolated__google_gemma-4-31B-it.parquet
+data/v2/judge/trackA_counts__google_gemma-4-31B-it.parquet
+data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet
+data/v2/judge/trackB_isolated__google_gemma-4-31B-it.parquet
 ```
 
 The whole-trace count table has one row per trace with behavior counts. It is
@@ -104,18 +127,19 @@ Invalid judge batches have null labels, not implicit zeros.
 
 ```text
 data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet
-data/perf/success_grades.parquet
-data/perf/code_grades.parquet
-data/judge/prod/quality__google_gemma-4-31B-it.parquet
-data/perf/features.parquet
-data/perf/mechanism_coefs.csv
-data/perf/mechanism_model_fit.csv
-data/analysis/cross_model/model_distance_shape.csv
-data/analysis/cross_model/model_distance_mag.csv
+data/v2/perf/success_grades.parquet
+data/v2/perf/code_grades.parquet
+data/v2/judge/quality__google_gemma-4-31B-it.parquet
+data/v2/perf/features.parquet
+data/v2/perf/mechanism_coefs.csv
+data/v2/perf/mechanism_model_fit.csv
+data/v2/analysis/cross_model/model_distance_shape.csv
+data/v2/analysis/cross_model/model_distance_mag.csv
 ```
 
-`success_grades.parquet` covers deterministic domains. `code_grades.parquet` covers
-LiveCodeBench execution. `quality__*.parquet` covers moral and idea rubric scoring.
+`success_grades.parquet` covers deterministic domains, including v2 `security`.
+`code_grades.parquet` covers LiveCodeBench execution. `quality__*.parquet` covers
+safety, moral, and idea answer-only rubric scoring with the same production judge.
 
 `answer_extractions__*.parquet` is a reference-blind normalization layer covering
 every trace. It stores the selected answer/span/block, verbatim evidence, validation
@@ -131,6 +155,19 @@ from model failures and use every official test by default. V2 quality rows pres
 raw axis scores or moral verdicts/weights; signed moral weights are normalized with
 absolute weights so `quality_score` is always within `[0,1]`.
 
+StrongREJECT rows additionally contain:
+
+- `refusal`
+- `convincingness`, `specificity`
+- `safety_harm_score` (`0` safer/refusal, `1` maximally useful harmful response)
+- `safety_score = 1 - safety_harm_score`
+- `high_harmful_compliance`, using the configured 0.5 threshold
+- `harm_threshold`
+
+For compatibility, `quality_score` equals `safety_score` on safety rows, preserving
+the repository-wide higher-is-better convention. Safety analyses should use
+`safety_harm_score` or `high_harmful_compliance` explicitly.
+
 ## Dashboard JSON
 
 `docs/data/` is generated from the parquets:
@@ -141,21 +178,35 @@ docs/data/summary.json
 docs/data/trackA.json
 docs/data/heartbeat.json
 docs/data/prefix_monitor.json
+docs/data/safety_prefix_monitor.json
 docs/data/timing_level.json
 docs/data/trace_samples.json
 docs/data/distance.json
 ```
 
+Aggregate `security` and `safety` results are exported normally, but their raw
+prompt/reasoning samples are omitted from `trace_samples.json` by default. Full
+traces remain in the research parquets; reviewed private exports can opt in with
+`--include-sensitive-trace-samples`.
+
 `docs/data/prefix_monitor.json` and `docs/data/timing_level.json` are exported as
 downstream analysis examples. They are not shown in the main atlas dashboard by
 default; the paper can cite them as examples of how to reuse the dataset.
 
-`data/analysis/prefix_monitor/` contains the corresponding predictability CSVs:
+`data/v2/analysis/prefix_monitor/` contains the corresponding predictability CSVs:
 out-of-fold metrics, temporal-vs-baseline deltas, top logistic coefficients, and
 analysis metadata.
+
+`data/v2/analysis/safety_prefix_monitor/` uses the same machinery with
+`--outcome-mode safety_violation`. It reports the fixed-threshold StrongREJECT
+endpoint, AUPRC, AUROC, recall at 5% FPR, calibration metrics, and temporal-feature
+deltas.
 
 Regenerate it with:
 
 ```bash
 python -m src.analysis.export_dashboard --out-dir docs/data --samples-per-cell 12
 ```
+
+That short command uses the legacy default paths. Use the explicit `data/v2/`
+command in `RUNBOOK.md` when exporting the safety/security battery.

@@ -5,7 +5,8 @@ vs FAILED, each with a bootstrap 95% CI band. Where the bands separate, the *tim
 behavior distinguishes outcome — a positional mechanism the regression coefficients can't show.
 
 Cognitive (Gandhi) and conversational (Kim) families are drawn as SEPARATE figures (different
-taxonomies, different scales). Binary-outcome domains (math/gpqa/planning/code) use success/fail;
+taxonomies, different scales). Binary-outcome domains (math/gpqa/planning/security/code) use
+success/fail; StrongREJECT uses safe/high-harmful-compliance at the fixed threshold;
 continuous-quality domains (moral/idea) split at the median quality (top half vs bottom half).
 
 Usage:
@@ -29,8 +30,12 @@ GAN = ["verification", "backtracking", "subgoal"]    # drop backward_chaining (t
 FULL = {"verification": "Answer Verification", "backtracking": "Backtracking", "subgoal": "Subgoal Setting",
         "Question_and_Answering": "Question & Answering", "Perspective_Shift": "Perspective Shift",
         "Conflict_of_Perspectives": "Conflict of Perspectives", "Reconciliation": "Reconciliation"}
-DOM_ORDER = ["math", "code", "gpqa", "planning", "moral", "idea"]
-DOM_LABEL = {"math": "Math", "code": "Code", "gpqa": "GPQA", "planning": "Planning", "moral": "Moral", "idea": "Idea"}
+DOM_ORDER = [
+    "math", "code", "gpqa", "planning", "security", "safety", "moral", "idea",
+]
+DOM_LABEL = {"math": "Math", "code": "Code", "gpqa": "GPQA", "planning": "Planning",
+             "security": "Security", "safety": "Safety", "moral": "Moral",
+             "idea": "Idea"}
 SUCC_C = "#1b7837"; FAIL_C = "#c0392b"     # green=success, red=failure (colorblind-distinguishable by linestyle too)
 
 
@@ -63,6 +68,17 @@ def _outcome_split(df):
     if "success" in df.columns and df["success"].drop_nulls().len() >= 30:
         m = dict(zip(df["trace_id"].to_list(), df["success"].to_list()))
         return lambda t: (None if m.get(t) is None else ("success" if m[t] == 1 else "fail")), "outcome (solved vs failed)"
+    if ("high_harmful_compliance" in df.columns and
+            df["high_harmful_compliance"].drop_nulls().len() >= 30):
+        m = dict(zip(
+            df["trace_id"].to_list(),
+            df["high_harmful_compliance"].to_list()))
+        return (
+            lambda t: (
+                None if m.get(t) is None else
+                ("fail" if m[t] else "success")),
+            "safety (safe vs high harmful compliance)",
+        )
     if "quality_score" in df.columns and df["quality_score"].drop_nulls().len() >= 30:
         med = df["quality_score"].median()
         m = dict(zip(df["trace_id"].to_list(), df["quality_score"].to_list()))
@@ -97,6 +113,10 @@ def make_family_figure(trackB, grades, traces_meta, behaviors, family_name, out_
     for di, dom in enumerate(doms):
         gd = g.filter(pl.col("task_type") == dom) if "task_type" in g.columns else g
         split_fn, _ = _outcome_split(gd)
+        positive_label = "safe" if dom == "safety" else "solved/high"
+        negative_label = (
+            "high harmful compliance"
+            if dom == "safety" else "failed/low")
         bd = b.filter(pl.col("task_type") == dom)
         # group sentences by trace once
         per_trace = {}
@@ -120,8 +140,10 @@ def make_family_figure(trackB, grades, traces_meta, behaviors, family_name, out_
                         continue
                     val = sub[beh].to_numpy().astype(float)
                     (succ_tr if lab == "success" else fail_tr).append((pos, val))
-                for grp, color, ls, lab in [(succ_tr, SUCC_C, "-", "solved/high"),
-                                            (fail_tr, FAIL_C, "--", "failed/low")]:
+                for grp, color, ls, lab in [
+                    (succ_tr, SUCC_C, "-", positive_label),
+                    (fail_tr, FAIL_C, "--", negative_label),
+                ]:
                     r = _profile_ci(grp, beh, nbins=nbins)
                     if r is None:
                         continue
@@ -139,8 +161,8 @@ def make_family_figure(trackB, grades, traces_meta, behaviors, family_name, out_
                 ax.set_xlabel("% through trace", fontsize=7)
     # one legend
     from matplotlib.lines import Line2D
-    handles = [Line2D([0], [0], color=SUCC_C, lw=2, label="solved / high-quality"),
-               Line2D([0], [0], color=FAIL_C, lw=2, ls="--", label="failed / low-quality"),
+    handles = [Line2D([0], [0], color=SUCC_C, lw=2, label="solved / safe / high-quality"),
+               Line2D([0], [0], color=FAIL_C, lw=2, ls="--", label="failed / harmful / low-quality"),
                Line2D([0], [0], color="#999", lw=5, alpha=0.3, label="think→answer boundary (IQR)")]
     fig.legend(handles=handles, loc="upper center", ncol=3, fontsize=9.5, frameon=False, bbox_to_anchor=(0.5, 1.0))
     fig.suptitle(f"Deliberation trajectories by outcome — {family_name} behaviors\n"
@@ -167,9 +189,15 @@ def main():
     for c in ("success", "quality_score"):
         if c not in grades.columns:
             grades = grades.with_columns(pl.lit(None).cast(pl.Float64).alias(c))
+    if "high_harmful_compliance" not in grades.columns:
+        grades = grades.with_columns(
+            pl.lit(None).cast(pl.Boolean).alias(
+                "high_harmful_compliance"))
     grades = grades.group_by("trace_id").agg([
         pl.col("success").drop_nulls().first().alias("success"),
         pl.col("quality_score").drop_nulls().first().alias("quality_score"),
+        pl.col("high_harmful_compliance").drop_nulls().first().alias(
+            "high_harmful_compliance"),
         pl.col("task_type").drop_nulls().first().alias("task_type")])
     tr = pl.concat([pl.read_parquet(p) for p in resolve_trace_paths(a.traces_glob)], how="diagonal_relaxed")
     make_family_figure(trackB, grades, tr, GAN, "Cognitive", f"{a.out_dir}/traj_success_cognitive")

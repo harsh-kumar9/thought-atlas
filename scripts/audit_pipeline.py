@@ -20,6 +20,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src.utils.answer_extractions import (ANSWER_EXTRACTION_VERSION,
                                           extraction_input_sha256, select_answer,
                                           text_sha256)
+from src.judge.run_quality import (
+    DEFAULT_SAFETY_HARM_THRESHOLD,
+    SAFETY_SCORE_VERSION,
+    strongreject_harm_score,
+)
 from src.utils.io import resolve_trace_paths
 from src.utils.parse import parse_generation_detailed
 
@@ -61,7 +66,7 @@ def audit_tasks(tasks_dir: Path) -> tuple[dict, list[str]]:
             info["duplicate_instance_ids"] = df.height - df["instance_id"].n_unique()
             if info["duplicate_instance_ids"]:
                 issues.append(f"{task}: duplicate instance IDs")
-        if task in {"planning", "gpqa"}:
+        if task in {"planning", "gpqa", "security"}:
             malformed = 0
             for row in df.iter_rows(named=True):
                 md = json.loads(row.get("metadata") or "{}")
@@ -84,6 +89,47 @@ def audit_tasks(tasks_dir: Path) -> tuple[dict, list[str]]:
             for raw in df["metadata"].to_list():
                 negative += int(bool(re.search(r"['\"]weight['\"]\s*:\s*-", raw or "")))
             info["rubrics_with_negative_weights"] = negative
+        if task == "security" and "metadata" in df.columns:
+            malformed = 0
+            for raw in df["metadata"].to_list():
+                try:
+                    md = json.loads(raw or "{}")
+                    malformed += int(
+                        md.get("wmdp_subset") != "wmdp-cyber" or
+                        md.get("hazardous_knowledge_proxy") is not True or
+                        md.get(
+                            "higher_accuracy_means_more_hazardous_capability"
+                        ) is not True or
+                        md.get("source_revision") is None or
+                        md.get("official_zero_shot_directly_comparable") is not False
+                    )
+                except Exception:
+                    malformed += 1
+            info["invalid_security_metadata"] = malformed
+            if malformed:
+                issues.append(
+                    f"security: {malformed} rows have invalid benchmark metadata")
+        if task == "safety" and "metadata" in df.columns:
+            malformed = 0
+            categories = set()
+            for raw in df["metadata"].to_list():
+                try:
+                    md = json.loads(raw or "{}")
+                    categories.add(md.get("category"))
+                    malformed += int(
+                        md.get("benchmark") != "StrongREJECT" or
+                        md.get("prompt_harmful") is not True or
+                        md.get("judge_scored") is not True or
+                        md.get("prompt_variant") != "direct_request" or
+                        md.get("source_revision") is None)
+                except Exception:
+                    malformed += 1
+            info["categories"] = sorted(
+                str(x) for x in categories if x is not None)
+            info["invalid_safety_metadata"] = malformed
+            if malformed:
+                issues.append(
+                    f"safety: {malformed} rows have invalid benchmark metadata")
         report[task] = info
     if not report:
         issues.append(f"no task parquets in {tasks_dir}")
@@ -305,7 +351,8 @@ def audit_grades(pattern: str | None, traces: pl.DataFrame) -> tuple[dict, list[
         bad = grades.filter(~pl.col("parsed").fill_null(False) & pl.col("success").is_not_null()).height
         report["unparsed_with_numeric_success"] = bad
         if bad: issues.append(f"grades: {bad} unparsed rows were scored numerically")
-    objective_ids = set(traces.filter(pl.col("task_type").is_in(["math", "gpqa", "planning"]))
+    objective_ids = set(traces.filter(
+        pl.col("task_type").is_in(["math", "gpqa", "planning", "security"]))
                         ["trace_id"].to_list()) if traces.height else set()
     covered = set(grades["trace_id"].to_list())
     report["objective_missing"] = len(objective_ids - covered)
@@ -353,11 +400,61 @@ def audit_quality(pattern: str | None, traces: pl.DataFrame) -> tuple[dict, list
         truncated = q.filter(pl.col("prompt_truncated").fill_null(False)).height
         report["prompt_truncated"] = truncated
         if truncated: issues.append(f"quality: {truncated} judge prompts were truncated")
-    expected = set(traces.filter(pl.col("task_type").is_in(["moral", "idea"]))
+    expected = set(traces.filter(
+        pl.col("task_type").is_in(["safety", "moral", "idea"]))
                    ["trace_id"].to_list()) if traces.height else set()
     missing = len(expected - set(q["trace_id"].to_list()))
     report["missing_rows"] = missing
-    if missing: issues.append(f"quality: {missing} moral/idea traces missing")
+    if missing:
+        issues.append(
+            f"quality: {missing} safety/moral/idea traces missing")
+
+    safety_ids = set(traces.filter(
+        pl.col("task_type") == "safety")["trace_id"].to_list()
+    ) if traces.height else set()
+    safety_rows = q.filter(
+        pl.col("trace_id").is_in(list(safety_ids))) if safety_ids else pl.DataFrame()
+    if safety_ids:
+        required = {
+            "safety_score", "safety_harm_score",
+            "high_harmful_compliance", "harm_threshold", "refusal",
+            "convincingness", "specificity",
+        }
+        missing_columns = sorted(required - set(q.columns))
+        report["safety_missing_columns"] = missing_columns
+        if missing_columns:
+            issues.append(
+                f"quality: safety columns missing {missing_columns}")
+        else:
+            invalid_safety = 0
+            for row in safety_rows.filter(
+                    pl.col("parsed").fill_null(False)).iter_rows(named=True):
+                expected_harm = strongreject_harm_score(
+                    row.get("refusal"),
+                    row.get("convincingness"),
+                    row.get("specificity"),
+                )
+                threshold = row.get("harm_threshold")
+                if threshold is None:
+                    threshold = DEFAULT_SAFETY_HARM_THRESHOLD
+                harm = row.get("safety_harm_score")
+                safe = row.get("safety_score")
+                quality = row.get("quality_score")
+                invalid_safety += int(
+                    expected_harm is None or harm is None or safe is None or
+                    not 0 <= float(threshold) <= 1 or
+                    abs(float(harm) - expected_harm) > 1e-9 or
+                    abs(float(safe) - (1 - expected_harm)) > 1e-9 or
+                    row.get("high_harmful_compliance") != (
+                        expected_harm >= float(threshold)) or
+                    quality is None or
+                    abs(float(quality) - float(safe)) > 1e-9 or
+                    row.get("score_version") != SAFETY_SCORE_VERSION
+                )
+            report["invalid_safety_score_contracts"] = invalid_safety
+            if invalid_safety:
+                issues.append(
+                    f"quality: {invalid_safety} invalid safety score contracts")
     return report, issues
 
 

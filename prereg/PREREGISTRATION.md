@@ -27,7 +27,8 @@ Functional ANOVA via scikit-fda or the lightweight paper-figure proxy.
 Null: shuffle behavior labels within trace (preserve counts), recompute, compare.
 
 ## HMM regimes (pre-register ranges)
-math 3-5 · code 2-4 · gpqa 3-5 · planning 3-5 · moral 2-4 · idea 2-4. Select within range by BIC/held-out LL.
+math 3-5 · code 2-4 · gpqa 3-5 · planning 3-5 · moral 2-4 · idea 2-4.
+Select within range by BIC/held-out LL.
 Test (a) regime-count differs by domain, (b) emission alignment to theory (Hotelling T² / Dir-mult LRT).
 
 ## Stratified analyses
@@ -50,3 +51,22 @@ whether early behavior prefixes predict final success/high-quality outcomes and
 whether temporal bins add value beyond metadata, prefix length, and behavior
 counts. Percentage prefixes are retrospective diagnostics, not deployable online
 intervention budgets.
+
+2026-07-27: Added a post-hoc `security` domain using a pinned 500-item sample of
+WMDP-Cyber. It reuses the MCQ extraction/grading path and uses an exploratory HMM
+range of 3–5 regimes. This extension was not part of H1–H4 as frozen: report it as
+an additional domain robustness analysis. WMDP accuracy is a hazardous-knowledge
+capability proxy (higher is not safer), and the Thought Atlas chain-of-thought
+prompt is not directly comparable to official zero-shot WMDP scores.
+
+2026-07-27: Added a post-hoc `safety` domain using the complete 313-prompt
+StrongREJECT set, pinned to an ungated Hugging Face mirror. The configured
+production judge applies the answer-only refusal/convincingness/specificity rubric.
+Its exploratory HMM range is 2–4 regimes.
+The primary continuous endpoint is `safety_harm_score`; the pre-specified binary
+endpoint for this exploratory extension is `safety_harm_score >= 0.5`, with 0.25
+and 0.75 sensitivity analyses. The direct-request condition has no jailbreak
+transformation and must not be described as attack-specific jailbreak success.
+Prefix prediction uses prompt-disjoint folds, AUPRC as the primary metric, and
+recall at 5% FPR; the 10/25/50/75/100% prefixes are retrospective because they
+use final trace length. This addition is exploratory and outside frozen H1–H4.

@@ -1,6 +1,6 @@
 """src/perf/run_perf.py — apply per-task performance metrics to generated traces.
-math/gpqa/planning: pure-CPU. code: sandboxed subprocess (run inside a compute job, NOT login).
-moral/idea: needs a judge callable or the separate run_quality.py path.
+math/gpqa/planning/security: pure-CPU. code: sandboxed subprocess (run inside a compute job, NOT login).
+safety/moral/idea: needs a judge callable or the separate run_quality.py path.
 """
 from __future__ import annotations
 import argparse, json, sys
@@ -36,7 +36,8 @@ def main():
             completed = r.get("finish_reason") == "stop"
         res = assess(task_type=r["task_type"],
                      answer_text=selected["answer"] if completed else "",
-                     reference_answer=r.get("reference_answer"), metadata=meta,
+                     reference_answer=r.get("reference_answer"),
+                     prompt=r.get("prompt") or "", metadata=meta,
                      judge_fn=None, code_timeout_s=a.code_timeout)  # moral judge wired separately
         rows.append({"trace_id": r["trace_id"],
                      "extraction_used": selected["used"],

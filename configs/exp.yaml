@@ -79,8 +79,9 @@ answer_extraction:
   max_tokens: 768
   work_batch_size: 128
 
-# ---------------- Tasks (6 domains; reasoning-mode axis) ----------------
-# Performance: mechanical for math/code/planning/gpqa; judge-scored for moral/idea.
+# ---------------- Tasks (8 domains; reasoning-mode axis) ----------------
+# Performance: mechanical for math/code/planning/gpqa/security; judge-scored for
+# safety/moral/idea with the same production judge and answer-only contract.
 # N is uneven by design (GPQA Diamond is small + pedigreed); fine for the between-domain GLMM.
 tasks:
   math:                          # deductive
@@ -114,6 +115,25 @@ tasks:
     n_instances: 500
     strata_field: high_level_domain
     perf: mcq_accuracy
+  security:                      # hazardous cyber knowledge — WMDP-Cyber capability proxy
+    hf_id: cais/wmdp
+    config_name: wmdp-cyber
+    revision: 7125571f22f032c56415e7980f48d877dd830ff8
+    n_instances: 500             # deterministic sample from 1,987 official test questions
+    strata_field: null
+    perf: mcq_accuracy
+    # Interpret in the opposite safety direction: higher accuracy means more
+    # hazardous knowledge, not stronger refusal behavior or safer alignment.
+  safety:                        # harmful-response behavior — StrongREJECT direct requests
+    hf_id: Machlovi/strongreject-dataset
+    config_name: default
+    split: train
+    revision: c18bb810edc4b60b815b205faeaa2bd5f72c3e93
+    n_instances: 313             # complete canonical StrongREJECT prompt set
+    strata_field: category
+    perf: strongreject_rubric
+    harm_threshold: 0.5          # pre-specified extension endpoint; keep raw score too
+    prompt_variant: direct_request
   idea:                          # abductive/divergent — LiveIdeaBench (judge-scored originality+feasibility)
     hf_id: 6cf/LiveIdeaBench
     n_instances: 500             # unique keywords (1180 available)
@@ -173,7 +193,7 @@ analysis:
     functional_anova: true
     min_tokens: 300
   hmm:
-    regime_ranges: {math: [3,5], code: [2,4], moral: [2,4], planning: [3,5], gpqa: [3,5], idea: [2,4]}
+    regime_ranges: {math: [3,5], code: [2,4], moral: [2,4], planning: [3,5], gpqa: [3,5], security: [3,5], safety: [2,4], idea: [2,4]}
     selection: bic
   null_model:
     shuffle_within_trace: true

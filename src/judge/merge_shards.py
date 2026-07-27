@@ -9,6 +9,8 @@ from pathlib import Path
 
 import polars as pl
 
+from src.judge.run_quality import score_version_for
+
 
 KINDS = ("trackA_counts", "trackB_full", "trackB_isolated", "quality",
          "answer_extractions")
@@ -52,9 +54,35 @@ def merge_judge_kind(kind: str, tag: str, out_dir: Path, num_shards: int) -> Pat
         raise ValueError(f"{kind}: missing merge key {key}")
     if df.select(pl.struct(key).is_duplicated().any()).item():
         raise ValueError(f"{kind}: overlapping shard rows for {key}")
-    for column in ("score_version", "judge_model"):
-        if column not in df.columns or len(df[column].drop_nulls().unique()) != 1:
-            raise ValueError(f"{kind}: expected one non-null {column} across all shards")
+    if ("score_version" not in df.columns or
+            df["score_version"].null_count() or not len(
+                df["score_version"].unique())):
+        raise ValueError(f"{kind}: expected non-null score_version values")
+    # The answer-only `quality` artifact contains independent, versioned
+    # rubrics (moral/idea quality and StrongREJECT safety). Other artifact kinds
+    # still require one homogeneous contract.
+    score_versions = sorted(
+        df["score_version"].drop_nulls().unique().to_list())
+    if kind != "quality" and len(score_versions) != 1:
+        raise ValueError(
+            f"{kind}: expected one score_version, found {score_versions}")
+    if kind == "quality":
+        if "task_type" not in df.columns:
+            raise ValueError("quality: missing task_type for rubric validation")
+        mismatches = [
+            (str(row["task_type"]), str(row["score_version"]))
+            for row in df.select(
+                ["task_type", "score_version"]).iter_rows(named=True)
+            if row["score_version"] != score_version_for(
+                str(row["task_type"] or ""))
+        ]
+        if mismatches:
+            raise ValueError(
+                f"quality: score_version/task_type mismatches {mismatches[:5]}")
+    if ("judge_model" not in df.columns or df["judge_model"].null_count() or
+            len(df["judge_model"].unique()) != 1):
+        raise ValueError(
+            f"{kind}: expected one non-null judge_model across all shards")
     artifact_fingerprint = None
     if kind == "answer_extractions":
         column = "extraction_fingerprint"
@@ -76,6 +104,7 @@ def merge_judge_kind(kind: str, tag: str, out_dir: Path, num_shards: int) -> Pat
     df.sort(key).write_parquet(tmp); tmp.replace(out)
     manifest = {"schema_version": 2, "kind": kind, "judge_tag": tag,
                 "rows": df.height, "sha256": _sha(out), "key": key,
+                "score_versions": score_versions,
                 "source_shards": [{"index": i, "file": p.name, "sha256": _sha(p)}
                                   for i, _, p in sorted(entries)]}
     if artifact_fingerprint is not None:

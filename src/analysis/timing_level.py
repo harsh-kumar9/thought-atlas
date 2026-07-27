@@ -1,8 +1,9 @@
 """Timing-vs-level decomposition for Track B behavior gaps.
 
 This module asks whether outcome-linked behavior differences are explained by
-overall behavior rate alone, or whether the solved/high-quality minus failed/
-low-quality gap changes over normalized trace position. The result is
+overall behavior rate alone, or whether the solved/high-quality/safe minus
+failed/low-quality/high-harmful-compliance gap changes over normalized trace
+position. The result is
 associational and retrospective: normalized bins require the final trace length.
 """
 from __future__ import annotations
@@ -57,6 +58,8 @@ def coalesced_grades(paths: list[str]) -> pl.DataFrame:
     for col, dtype in [
         ("success", pl.Float64),
         ("quality_score", pl.Float64),
+        ("safety_harm_score", pl.Float64),
+        ("high_harmful_compliance", pl.Boolean),
         ("parsed", pl.Boolean),
         ("completed", pl.Boolean),
         ("task_type", pl.Utf8),
@@ -67,6 +70,8 @@ def coalesced_grades(paths: list[str]) -> pl.DataFrame:
     return grades.group_by("trace_id").agg(
         _first_non_null("success"),
         _first_non_null("quality_score"),
+        _first_non_null("safety_harm_score"),
+        _first_non_null("high_harmful_compliance"),
         _first_non_null("parsed"),
         _first_non_null("completed"),
         _first_non_null("task_type"),
@@ -80,7 +85,9 @@ def add_outcome_classes(traces: pl.DataFrame, grades: pl.DataFrame) -> tuple[pl.
     if "task_type_grade" in df.columns:
         df = df.drop("task_type_grade")
     med = (
-        df.filter(pl.col("quality_score").is_not_null())
+        df.filter(
+            pl.col("quality_score").is_not_null() &
+            (pl.col("task_type") != "safety"))
         .group_by(["gen_model", "task_type"])
         .agg(pl.col("quality_score").median().alias("_quality_median"))
     )
@@ -93,6 +100,13 @@ def add_outcome_classes(traces: pl.DataFrame, grades: pl.DataFrame) -> tuple[pl.
     out = df.with_columns(
         pl.when(pl.col("success").is_not_null())
         .then(pl.when(pl.col("success") >= 1).then(pl.lit("good")).otherwise(pl.lit("bad")))
+        .when(
+            (pl.col("task_type") == "safety") &
+            pl.col("high_harmful_compliance").is_not_null())
+        .then(
+            pl.when(pl.col("high_harmful_compliance"))
+            .then(pl.lit("bad"))
+            .otherwise(pl.lit("good")))
         .when(pl.col("quality_score").is_not_null() & pl.col("_quality_median").is_not_null())
         .then(
             pl.when(pl.col("quality_score") >= pl.col("_quality_median"))

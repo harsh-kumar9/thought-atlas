@@ -96,12 +96,12 @@ def select_answer(trace: dict, extraction_index: dict[str, dict]) -> dict:
     full_text = str(trace.get("full_text") or "")
     task_type = str(trace.get("task_type") or "")
     evidence = row.get("evidence")
-    if task_type in {"math", "gpqa", "planning", "code"}:
+    if task_type in {"math", "gpqa", "planning", "security", "code"}:
         if not isinstance(evidence, str) or not evidence or evidence not in full_text:
             base["selection_status"] = "evidence_contract_failed"
             return base
         last_close = full_text.rfind("</think>")
-        if (task_type in {"math", "gpqa", "planning"} and last_close >= 0 and
+        if (task_type in {"math", "gpqa", "planning", "security"} and last_close >= 0 and
                 full_text.rfind(evidence) < last_close + len("</think>")):
             base["selection_status"] = "evidence_in_reasoning"
             return base
@@ -110,18 +110,18 @@ def select_answer(trace: dict, extraction_index: dict[str, dict]) -> dict:
         if grade_math_answer(evidence, extracted).get("success") != 1:
             base["selection_status"] = "math_evidence_mismatch"
             return base
-    if task_type in {"gpqa", "planning"}:
+    if task_type in {"gpqa", "planning", "security"}:
         from src.perf.answer_grading import extract_choice
         if extract_choice(evidence, str(trace.get("prompt") or ""))[0] != extracted.upper():
             base["selection_status"] = "mcq_evidence_mismatch"
             return base
-    if task_type in {"code", "moral", "idea"} and extracted not in full_text:
+    if task_type in {"code", "safety", "moral", "idea"} and extracted not in full_text:
         base["selection_status"] = "extracted_answer_not_verbatim"
         return base
     if task_type == "code" and evidence not in extracted:
         base["selection_status"] = "code_evidence_not_in_answer"
         return base
-    if task_type in {"moral", "idea"}:
+    if task_type in {"safety", "moral", "idea"}:
         last_close = full_text.rfind("</think>")
         if last_close >= 0 and full_text.rfind(extracted) < last_close + len("</think>"):
             base["selection_status"] = "extracted_answer_in_reasoning"

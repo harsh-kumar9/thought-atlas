@@ -2,7 +2,9 @@
 
 This file records the current public-facing design decisions for the cleaned repo.
 Older exploratory probes and stale five-domain notes were removed from the shareable
-surface; the working six-domain experiment is the source of truth.
+surface. The checked-in legacy artifacts contain six domains; the corrected v2
+configuration is an eight-domain battery with post-hoc security and safety
+extensions.
 
 ## Scope
 
@@ -12,6 +14,8 @@ Domains:
 - `code`: LiveCodeBench code generation lite, 2025 window
 - `gpqa`: GPQA Diamond topped up with Extended
 - `planning`: ACPBench MCQ competencies
+- `security`: WMDP-Cyber hazardous-knowledge MCQs
+- `safety`: StrongREJECT direct harmful requests
 - `moral`: MoReBench
 - `idea`: LiveIdeaBench keyword-conditioned idea generation
 
@@ -19,6 +23,7 @@ Generation conditions:
 
 - `anchor`: non-reasoning Llama-3.1-8B-Instruct control
 - `reasoner`: DeepSeek-R1-Distill-Llama-8B
+- `gemma4_e4b`, `gemma4_12b`, `gemma4_31b`: Gemma 4 scale ladder
 - `qwen35_4b`, `qwen35_9b`, `qwen35_27b`: Qwen3.5 scale ladder
 
 The main extension question is whether deliberation heartbeat shape is stable across
@@ -62,12 +67,25 @@ delimiter or thinking-enable behavior differs from the existing styles.
 
 - math: symbolic/string answer match
 - gpqa/planning: MCQ letter extraction
+- security: WMDP-Cyber MCQ accuracy (hazardous-capability proxy; higher is not safer)
+- safety: answer-only StrongREJECT harmful-compliance rubric; fixed threshold at 0.5
 - code: sandboxed LiveCodeBench execution
 - moral: rubric checklist quality score
 - idea: originality and feasibility score
 
 Mechanism analysis is per-domain. Do not pool domains for behavior-to-success claims;
 the sign and meaning of behavior features differs by task family.
+
+The security and safety domains were added after the original preregistration.
+The security chain-of-thought
+prompt and deterministic option reshuffle fit the heartbeat study, but make its raw
+accuracy non-comparable to official zero-shot WMDP results. Safety uses the
+original StrongREJECT requests without a jailbreak transformation and the existing
+answer-only production judge. It therefore measures direct harmful compliance,
+not attack-specific jailbreak success. Full rationale and candidate benchmarks
+are in `SAFETY_SECURITY.md`. Because behavior labels and the safety endpoint use
+different prompts to the same judge family, strong claims require a
+stratified human audit for correlated judge error.
 
 ## Dashboard
 
@@ -77,3 +95,5 @@ in parquet under `data/`.
 
 Dashboard trace text is sampled and clipped for browser performance. Full prompt,
 thinking, and answer text remains available in the raw trace parquets.
+Raw `security` and `safety` samples are excluded from public dashboard exports by
+default.

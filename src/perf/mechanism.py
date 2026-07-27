@@ -7,7 +7,8 @@ Per domain (never pooled — the reasoning effect REVERSES across domains, pooli
   success ~ behavior_features + difficulty
 3 nested feature sets: counts -> +positional -> +trajectory (does timing/shape add predictive power?).
 
-Outcome: binary (math/gpqa/planning/code) -> logistic; continuous quality (moral/idea) -> OLS.
+Outcome: binary (math/gpqa/planning/security/code and StrongREJECT high-harm
+compliance) -> logistic; continuous quality (moral/idea) -> OLS.
 Conditioned on parsed & completed (extraction/truncation failures are not reasoning failures).
 
 Outputs:
@@ -37,7 +38,7 @@ def _difficulty_numeric(df: pl.DataFrame, domain: str) -> pl.DataFrame:
         m = {"easy": 0.0, "medium": 1.0, "hard": 2.0}
         d = df["difficulty_raw"].cast(pl.Utf8).str.to_lowercase().replace(m, default=None).cast(pl.Float64, strict=False)
     else:
-        # gpqa/planning/moral/idea: difficulty_raw is categorical (subject/competency/theory).
+        # gpqa/planning/security/safety/moral/idea: categorical when present.
         # Use a per-category mean-success baseline as the difficulty proxy (computed by caller).
         return df.with_columns(pl.lit(None).cast(pl.Float64).alias("difficulty_num"))
     return df.with_columns(d.alias("difficulty_num"))
@@ -150,12 +151,20 @@ def run(features: pl.DataFrame, grades: pl.DataFrame, traces_meta: pl.DataFrame,
     # Grade files may overlap (e.g. success_grades lists moral/idea with null success, quality file
     # supplies their score) -> duplicate trace_ids. Coalesce to ONE row/trace, merging outcomes:
     # prefer a non-null `success`; else use `quality_score`. Collapse metadata by first-non-null.
-    if "quality_score" not in grades.columns:
-        grades = grades.with_columns(pl.lit(None).cast(pl.Float64).alias("quality_score"))
-    if "success" not in grades.columns:
-        grades = grades.with_columns(pl.lit(None).cast(pl.Float64).alias("success"))
+    for col, dtype in [
+        ("quality_score", pl.Float64),
+        ("success", pl.Float64),
+        ("safety_harm_score", pl.Float64),
+        ("high_harmful_compliance", pl.Boolean),
+    ]:
+        if col not in grades.columns:
+            grades = grades.with_columns(pl.lit(None).cast(dtype).alias(col))
     agg_exprs = [pl.col("success").drop_nulls().first().alias("success"),
-                 pl.col("quality_score").drop_nulls().first().alias("quality_score")]
+                 pl.col("quality_score").drop_nulls().first().alias("quality_score"),
+                 pl.col("safety_harm_score").drop_nulls().first().alias(
+                     "safety_harm_score"),
+                 pl.col("high_harmful_compliance").drop_nulls().first().alias(
+                     "high_harmful_compliance")]
     for c in ("parsed", "completed", "difficulty_raw", "task_type"):
         if c in grades.columns:
             agg_exprs.append(pl.col(c).drop_nulls().first().alias(c))
@@ -174,17 +183,25 @@ def run(features: pl.DataFrame, grades: pl.DataFrame, traces_meta: pl.DataFrame,
         df = df.filter(pl.col("completed").fill_null(True))
 
     all_coef, all_fit = [], []
-    for domain in ["math", "gpqa", "planning", "code", "moral", "idea"]:
+    for domain in [
+        "math", "gpqa", "planning", "security", "safety", "code",
+        "moral", "idea",
+    ]:
         sub = df.filter(pl.col("task_type") == domain)
         if sub.height < 30:
             print(f"  {domain}: skip (n={sub.height})"); continue
         # pick the outcome column that actually has values for THIS domain
         outcome = None
-        for cand in ("success", "quality_score"):
+        candidates = (
+            ("high_harmful_compliance", "safety_harm_score")
+            if domain == "safety" else ("success", "quality_score"))
+        for cand in candidates:
             if cand in sub.columns and sub[cand].drop_nulls().len() >= 30:
                 outcome = cand; break
         if outcome is None:
-            print(f"  {domain}: no usable outcome column (success/quality_score all null)"); continue
+            print(
+                f"  {domain}: no usable outcome column "
+                f"({candidates} all null)"); continue
         # keep only rows with a non-null outcome
         sub = sub.filter(pl.col(outcome).is_not_null())
         c, f = fit_domain(sub, domain, outcome)

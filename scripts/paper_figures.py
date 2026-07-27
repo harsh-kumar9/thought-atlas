@@ -32,12 +32,18 @@ FULL = {"verification": "Answer Verification", "backtracking": "Backtracking",
         "Question_and_Answering": "Question & Answering", "Perspective_Shift": "Perspective Shift",
         "Conflict_of_Perspectives": "Conflict of Perspectives", "Reconciliation": "Reconciliation"}
 # domain display + a deliberate order: checkable/formal -> open-ended
-DOM_ORDER = ["math", "code", "gpqa", "planning", "moral", "idea"]
+DOM_ORDER = [
+    "math", "code", "gpqa", "planning", "security", "safety", "moral", "idea",
+]
 DOM_LABEL = {"math": "Math", "code": "Code", "gpqa": "GPQA", "planning": "Planning",
-             "moral": "Moral", "idea": "Idea"}
+             "security": "Security", "safety": "Safety", "moral": "Moral",
+             "idea": "Idea"}
 # colorblind-safe domain palette (Okabe-Ito)
-DOM_COLOR = {"math": "#0072B2", "code": "#E69F00", "gpqa": "#009E73", "planning": "#CC79A7",
-             "moral": "#D55E00", "idea": "#56B4E9"}
+DOM_COLOR = {
+    "math": "#0072B2", "code": "#E69F00", "gpqa": "#009E73",
+    "planning": "#CC79A7", "security": "#000000", "safety": "#F0E442",
+    "moral": "#D55E00", "idea": "#56B4E9",
+}
 ACCENT = "#1b6ca8"; GREY = "#bcbcbc"
 
 plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False,

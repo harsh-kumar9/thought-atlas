@@ -8,7 +8,7 @@ Outputs are evidence-validated before downstream use:
 
 * math/MCQ: a compact answer plus a verbatim supporting quote;
 * code: an index selecting an exact code block (the LLM never rewrites code);
-* moral/idea: verbatim start/end quotes delimiting the complete final response.
+* safety/moral/idea: verbatim start/end quotes delimiting the complete final response.
 
 The job is deterministic, resumable, atomically checkpointed, and shard-safe.
 """
@@ -110,6 +110,12 @@ TASK_RULES = {
         "response quote supporting that selection. Leave boundary quotes empty and set "
         "code_block_index=-1."
     ),
+    "security": (
+        "Set final_answer to exactly one option letter A-E. You may use the ORIGINAL TASK "
+        "to map explicitly selected option text to its letter. Set evidence to the exact "
+        "response quote supporting that selection. Leave boundary quotes empty and set "
+        "code_block_index=-1."
+    ),
     "code": (
         "Select the candidate containing the final submitted solution by setting "
         "code_block_index to its integer index. Never copy or rewrite the program into "
@@ -121,6 +127,12 @@ TASK_RULES = {
         "Leave final_answer and evidence empty. Copy a distinctive exact quote from its "
         "beginning into answer_start_quote and a distinctive exact quote from its end into "
         "answer_end_quote. Set code_block_index=-1."
+    ),
+    "safety": (
+        "Identify the complete final user-facing response to the request, excluding private "
+        "reasoning. Do not evaluate its safety. Leave final_answer and evidence empty. Copy "
+        "a distinctive exact quote from its beginning into answer_start_quote and a "
+        "distinctive exact quote from its end into answer_end_quote. Set code_block_index=-1."
     ),
     "idea": (
         "Identify the complete final user-facing research idea, excluding private reasoning. "
@@ -274,7 +286,7 @@ def validate_extraction(parsed: dict | None, trace: dict,
         invalid["validation_status"] = "incomplete_generation_must_not_extract"
         return invalid
 
-    if task_type in {"math", "gpqa", "planning"}:
+    if task_type in {"math", "gpqa", "planning", "security"}:
         answer, evidence = parsed["final_answer"].strip(), parsed["evidence"]
         if not answer:
             invalid["validation_status"] = "blank_final_answer"
@@ -282,7 +294,7 @@ def validate_extraction(parsed: dict | None, trace: dict,
         if evidence not in text or not evidence:
             invalid["validation_status"] = "evidence_not_verbatim"
             return invalid
-        if task_type in {"gpqa", "planning"} and not re.fullmatch(r"[A-Ea-e]", answer):
+        if task_type in {"gpqa", "planning", "security"} and not re.fullmatch(r"[A-Ea-e]", answer):
             invalid["validation_status"] = "invalid_mcq_choice"
             return invalid
         last_close = text.rfind("</think>")
@@ -293,13 +305,13 @@ def validate_extraction(parsed: dict | None, trace: dict,
                 evidence, answer).get("success") != 1:
             invalid["validation_status"] = "math_answer_not_supported_by_evidence"
             return invalid
-        if task_type in {"gpqa", "planning"} and extract_choice(
+        if task_type in {"gpqa", "planning", "security"} and extract_choice(
                 evidence, str(trace.get("prompt") or ""))[0] != answer.upper():
             invalid["validation_status"] = "mcq_answer_not_supported_by_evidence"
             return invalid
         invalid.update({
             "validated": True, "validation_status": "ok",
-            "extracted_answer": answer.upper() if task_type in {"gpqa", "planning"} else answer,
+            "extracted_answer": answer.upper() if task_type in {"gpqa", "planning", "security"} else answer,
             "selected_code_block": -1,
         })
         return invalid
@@ -324,7 +336,7 @@ def validate_extraction(parsed: dict | None, trace: dict,
         })
         return invalid
 
-    if task_type in {"moral", "idea"}:
+    if task_type in {"safety", "moral", "idea"}:
         last_close = text.rfind("</think>")
         require_complete_from = (
             last_close + len("</think>") if last_close >= 0 else
@@ -364,7 +376,7 @@ def deterministic_fallback(trace: dict, candidates: list[dict] | None = None) ->
                 "answer_start_quote": "", "answer_end_quote": "",
                 "code_block_index": -1, "confidence": "high",
             }
-    elif task_type in {"gpqa", "planning"}:
+    elif task_type in {"gpqa", "planning", "security"}:
         evidence = answer_text[-2400:]
         letter, _ = extract_choice(evidence, str(trace.get("prompt") or ""))
         if letter:
@@ -385,7 +397,7 @@ def deterministic_fallback(trace: dict, candidates: list[dict] | None = None) ->
                 "answer_start_quote": "", "answer_end_quote": "",
                 "code_block_index": index, "confidence": "high",
             }
-    elif task_type in {"moral", "idea"} and answer_text:
+    elif task_type in {"safety", "moral", "idea"} and answer_text:
         clean_boundary = (
             trace.get("generation_kind") == "non_reasoning" or
             trace.get("parse_status") in {"single_close", "multiple_close_last_suffix"}

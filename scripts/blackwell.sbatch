@@ -187,7 +187,7 @@ case "$STAGE" in
       --num-shards "$NG" --kinds "${KINDS[@]}"
     ;;
   quality)
-    # moral/idea SUCCESS scoring (rubric quality of the ANSWER ONLY, not reasoning).
+    # safety/moral/idea outcome scoring (ANSWER ONLY, never private reasoning).
     # Separate from `judge` (behavior labels). Same DP fan-out; distinct port base (29700).
     [ -n "$MODEL" ] || { echo "quality needs a judge-model id: sbatch blackwell.sbatch quality <hf_id>"; exit 2; }
     TAG="${MODEL//\//_}"
@@ -198,7 +198,7 @@ case "$STAGE" in
     }
     IFS=',' read -ra GPUS <<< "${CUDA_VISIBLE_DEVICES:-0}"
     NG=${#GPUS[@]}
-    echo "quality data-parallel: $NG replicas, model=$MODEL (moral+idea, answer-only)"
+    echo "quality data-parallel: $NG replicas, model=$MODEL (safety+moral+idea, answer-only)"
     pids=()
     for i in $(seq 0 $((NG-1))); do
       CUDA_VISIBLE_DEVICES="${GPUS[$i]}" \
@@ -220,6 +220,8 @@ case "$STAGE" in
     ;;
   analyze)
     [ -n "$MODEL" ] || { echo "analyze needs the judge tag: sbatch blackwell.sbatch analyze <judge_tag>"; exit 2; }
-    python scripts/run_analysis.py --config configs/exp.yaml --judge-tag "$MODEL" ;;
+    python scripts/run_analysis.py --config configs/exp.yaml --judge-tag "$MODEL" \
+      --judge-dir "$JUDGE_DIR" --traces-glob "$TRACES_DIR/traces_*.parquet" \
+      --out data/v2/analysis ;;
   *) echo "usage: sbatch blackwell.sbatch {generate <model>|segment|extract <id>|judge <id> [A|B|both]|quality <id>|analyze <tag>} (got '$STAGE')"; exit 2 ;;
 esac

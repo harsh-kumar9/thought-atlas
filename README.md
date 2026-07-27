@@ -21,11 +21,32 @@ and a static GitHub Pages dashboard in `docs/`.
 > legacy files remain only for provenance and dashboard continuity.
 
 - 5 generation conditions: `Llama-3.1-8B-Instruct`, `DeepSeek-R1-Distill-Llama-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Qwen3.5-27B`
-- 6 domains: `math`, `code`, `gpqa`, `planning`, `moral`, `idea`
+- 6 legacy domains: `math`, `code`, `gpqa`, `planning`, `moral`, `idea`
 - 13,375 generated traces
 - Whole-trace behavior counts for 13,374 traces
 - Track B per-sentence labels for 6,004,702 segments
-- Deterministic grades for math/gpqa/planning, sandboxed grades for code, rubric quality for moral/idea
+- Deterministic grades for math/gpqa/planning, sandboxed grades for code, and
+  answer-only rubric scores for moral/idea
+
+The corrected v2 configuration expands the battery to 8 domains by adding:
+
+- `security`: a pinned 500-item sample of
+[WMDP-Cyber](https://huggingface.co/datasets/cais/wmdp), graded through the
+existing MCQ path. Higher accuracy means more hazardous knowledge, not safer
+behavior.
+- `safety`: all 313
+[StrongREJECT](https://strong-reject.readthedocs.io/) direct harmful requests,
+loaded from a pinned, ungated
+[Hugging Face mirror](https://huggingface.co/datasets/Machlovi/strongreject-dataset).
+The existing answer-only production judge returns refusal, convincingness,
+specificity, harmfulness, and a fixed high-harmful-compliance endpoint.
+
+See [SAFETY_SECURITY.md](SAFETY_SECURITY.md) for the interpretation and scoring
+contract.
+
+The corrected configuration runs all eight configured generation conditions:
+the Llama anchor, DeepSeek reasoner, three-model Gemma 4 ladder, and three-model
+Qwen3.5 ladder. The production runbook lists one generation job per key.
 
 Large parquet files are intentionally tracked with Git LFS. Before pushing or cloning:
 
@@ -55,7 +76,8 @@ src/analysis/            Aggregate, heartbeat, model-similarity, dashboard expor
 tests/                   CPU smoke tests
 ```
 
-See `DATASET.md` for a data dictionary and `RUNBOOK.md` for end-to-end commands.
+See `DATASET.md` for a data dictionary, `RUNBOOK.md` for end-to-end commands, and
+`SAFETY_SECURITY.md` for the safety/security benchmark decision.
 
 ## Local Setup
 
@@ -78,7 +100,8 @@ On the cluster, prefer the existing `sote` conda env instead of rebuilding local
 
 ## Pipeline
 
-1. Prepare task parquets:
+1. Prepare task parquets, including WMDP-Cyber `security` and StrongREJECT
+   `safety`:
 
 ```bash
 python scripts/02_prepare_tasks.py --config configs/exp.yaml --out-dir data/v2/tasks
@@ -182,7 +205,8 @@ srun -w mira --partition=ashton --qos=ashton \
     --timeout 8 --cpu-s 10 --max-tests 0
 ```
 
-Moral and idea quality use the answer-only LLM judge and can likewise be resumed:
+Safety, moral, and idea outcomes use the same answer-only LLM judge and can
+likewise be resumed:
 
 ```bash
 sbatch -w vega scripts/blackwell.sbatch quality google/gemma-4-31B-it
@@ -218,11 +242,55 @@ sbatch -w mira scripts/blackwell.sbatch judge google/gemma-4-31B-it B
 6. Analyze and export dashboard data:
 
 ```bash
-python -m src.analysis.model_similarity --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet --kind shape
-python -m src.analysis.model_similarity --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet --kind mag
-python -m src.analysis.prefix_monitor --out-dir data/analysis/prefix_monitor --boot 50
-python -m src.analysis.timing_level --trackB data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet --out data/analysis/timing_level.parquet
-python -m src.analysis.export_dashboard --out-dir docs/data
+python scripts/run_analysis.py \
+  --config configs/exp.yaml \
+  --judge-tag google_gemma-4-31B-it \
+  --judge-dir data/v2/judge \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --out data/v2/analysis
+python -m src.analysis.model_similarity \
+  --trackB data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --out-dir data/v2/analysis/cross_model --kind shape
+python -m src.analysis.model_similarity \
+  --trackB data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --out-dir data/v2/analysis/cross_model --kind mag
+python -m src.analysis.prefix_monitor \
+  --trackB data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --grades data/v2/perf/success_grades.parquet \
+           data/v2/perf/code_grades.parquet \
+  --quality data/v2/judge/quality__google_gemma-4-31B-it.parquet \
+  --out-dir data/v2/analysis/prefix_monitor --boot 1000
+python -m src.analysis.prefix_monitor \
+  --trackB data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --grades data/v2/perf/success_grades.parquet \
+           data/v2/perf/code_grades.parquet \
+  --quality data/v2/judge/quality__google_gemma-4-31B-it.parquet \
+  --outcome-mode safety_violation \
+  --out-dir data/v2/analysis/safety_prefix_monitor \
+  --boot 1000
+python -m src.analysis.timing_level \
+  --trackB data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --grades data/v2/perf/success_grades.parquet \
+           data/v2/perf/code_grades.parquet \
+  --quality data/v2/judge/quality__google_gemma-4-31B-it.parquet \
+  --out data/v2/analysis/timing_level.parquet
+python -m src.analysis.export_dashboard \
+  --traces-glob 'data/v2/traces/traces_*.parquet' \
+  --trackA data/v2/judge/trackA_counts__google_gemma-4-31B-it.parquet \
+  --trackB data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet \
+  --grades data/v2/perf/success_grades.parquet \
+           data/v2/perf/code_grades.parquet \
+  --quality data/v2/judge/quality__google_gemma-4-31B-it.parquet \
+  --distance-dir data/v2/analysis/cross_model \
+  --timing-level data/v2/analysis/timing_level.parquet \
+  --prefix-monitor-dir data/v2/analysis/prefix_monitor \
+  --safety-prefix-monitor-dir data/v2/analysis/safety_prefix_monitor \
+  --out-dir docs/data
 ```
 
 ## Adding Another Model
@@ -248,11 +316,15 @@ requirements from config keys alone; check the model card/serving notes and add 
 ## Dashboard
 
 The dashboard is a static site in `docs/`, suitable for GitHub Pages. Regenerate its
-compact JSON from the canonical parquets with:
+compact JSON from the checked-in legacy paths with:
 
 ```bash
 python -m src.analysis.export_dashboard --out-dir docs/data --samples-per-cell 12
 ```
+
+For the corrected safety/security battery, use the explicit `data/v2/` export
+command in Pipeline step 6 above; it also exports
+`safety_prefix_monitor.json`.
 
 Run it locally with any static server:
 
@@ -275,3 +347,5 @@ paper or downstream notebooks without crowding the public explorer.
 
 The dashboard samples raw trace text for browser speed. The full raw prompt,
 thinking, and answer fields remain in `data/traces/*.parquet`.
+Raw `security` and `safety` trace text is excluded from the public dashboard
+export by default; aggregate curves, counts, and safety outcomes remain available.

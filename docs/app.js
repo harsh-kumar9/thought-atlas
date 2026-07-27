@@ -15,17 +15,21 @@ const LABELS = {
   conversational: "Conversational",
   solved: "Solved",
   failed: "Failed",
+  safe_response: "Safe response",
+  harmful_compliance: "High harmful compliance",
   high_quality: "High quality",
   low_quality: "Low quality",
   unknown: "Unknown",
 };
 
 const OUTCOME_GROUPS = {
-  all: { label: "All traces", outcomes: ["solved", "failed", "high_quality", "low_quality", "unknown"] },
-  positive: { label: "Solved / high-quality", outcomes: ["solved", "high_quality"] },
-  negative: { label: "Failed / low-quality", outcomes: ["failed", "low_quality"] },
+  all: { label: "All traces", outcomes: ["solved", "failed", "safe_response", "harmful_compliance", "high_quality", "low_quality", "unknown"] },
+  positive: { label: "Solved / safe / high-quality", outcomes: ["solved", "safe_response", "high_quality"] },
+  negative: { label: "Failed / harmful / low-quality", outcomes: ["failed", "harmful_compliance", "low_quality"] },
   solved: { label: "Solved only", outcomes: ["solved"] },
   failed: { label: "Failed only", outcomes: ["failed"] },
+  safe_response: { label: "Safe response only", outcomes: ["safe_response"] },
+  harmful_compliance: { label: "Harmful compliance only", outcomes: ["harmful_compliance"] },
   high_quality: { label: "High-quality only", outcomes: ["high_quality"] },
   low_quality: { label: "Low-quality only", outcomes: ["low_quality"] },
   unknown: { label: "Unknown outcome", outcomes: ["unknown"] },
@@ -210,8 +214,8 @@ function ensureDashboardMarkup() {
   if (legend && !$("laneLegend")) {
     legend.id = "laneLegend";
     legend.innerHTML = `
-      <span><i class="perf-good"></i>Solved / high-quality</span>
-      <span><i class="perf-bad"></i>Failed / low-quality</span>
+      <span><i class="perf-good"></i>Solved / safe / high-quality</span>
+      <span><i class="perf-bad"></i>Failed / harmful / low-quality</span>
       <span><i class="scrub-line"></i>progress</span>
     `;
   }
@@ -1099,7 +1103,7 @@ function renderMonitorNotes() {
     <strong>Read gently</strong>
     <span>This predicts final outcome from partial behavior traces; it does not prove the behaviors caused success or failure.</span>
     <span>Percent prefixes are retrospective because final trace length is only known after generation.</span>
-    <span>Moral and idea tasks use a high/low quality split rather than solved/failed.</span>
+    <span>Safety uses a fixed safe/high-harm endpoint; moral and idea tasks use a high/low quality split.</span>
   `;
 }
 
@@ -1916,8 +1920,8 @@ function alphaColor(hex, alpha) {
 }
 
 function outcomeTone(outcomeKey) {
-  if (["positive", "solved", "high_quality"].includes(outcomeKey)) return "good";
-  if (["negative", "failed", "low_quality"].includes(outcomeKey)) return "bad";
+  if (["positive", "solved", "safe_response", "high_quality"].includes(outcomeKey)) return "good";
+  if (["negative", "failed", "harmful_compliance", "low_quality"].includes(outcomeKey)) return "bad";
   if (outcomeKey === "unknown") return "unknown";
   return "mixed";
 }

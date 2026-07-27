@@ -30,7 +30,10 @@ KIM = [
 ]
 GANDHI = ["verification", "backtracking", "subgoal", "backward_chaining"]
 BEHAVIORS = GANDHI + KIM
-DOMAINS = ["math", "code", "gpqa", "planning", "moral", "idea"]
+DOMAINS = [
+    "math", "code", "gpqa", "planning", "security", "safety", "moral", "idea",
+]
+SENSITIVE_TRACE_DOMAINS = {"security", "safety"}
 MODEL_DISPLAY_NAMES = {
     "anchor": "Llama-3.1-8B-Instruct",
     "reasoner": "DeepSeek-R1-Distill-Llama-8B",
@@ -39,13 +42,18 @@ MODEL_DISPLAY_NAMES = {
     "qwen35_27b": "Qwen3.5-27B",
 }
 OUTCOME_GROUPS = {
-    "all": ["solved", "failed", "high_quality", "low_quality", "unknown"],
-    "positive": ["solved", "high_quality"],
-    "negative": ["failed", "low_quality"],
+    "all": [
+        "solved", "failed", "safe_response", "harmful_compliance",
+        "high_quality", "low_quality", "unknown",
+    ],
+    "positive": ["solved", "safe_response", "high_quality"],
+    "negative": ["failed", "harmful_compliance", "low_quality"],
     "solved": ["solved"],
     "failed": ["failed"],
     "high_quality": ["high_quality"],
     "low_quality": ["low_quality"],
+    "safe_response": ["safe_response"],
+    "harmful_compliance": ["harmful_compliance"],
     "unknown": ["unknown"],
 }
 
@@ -78,6 +86,10 @@ def coalesced_grades(paths: list[str]) -> pl.DataFrame:
     for col, dtype in [
         ("success", pl.Float64),
         ("quality_score", pl.Float64),
+        ("safety_score", pl.Float64),
+        ("safety_harm_score", pl.Float64),
+        ("high_harmful_compliance", pl.Boolean),
+        ("refusal", pl.Boolean),
         ("parsed", pl.Boolean),
         ("completed", pl.Boolean),
         ("task_type", pl.Utf8),
@@ -88,6 +100,10 @@ def coalesced_grades(paths: list[str]) -> pl.DataFrame:
     return grades.group_by("trace_id").agg(
         _first_non_null("success"),
         _first_non_null("quality_score"),
+        _first_non_null("safety_score"),
+        _first_non_null("safety_harm_score"),
+        _first_non_null("high_harmful_compliance"),
+        _first_non_null("refusal"),
         _first_non_null("parsed"),
         _first_non_null("completed"),
         _first_non_null("task_type"),
@@ -100,13 +116,21 @@ def add_outcomes(traces: pl.DataFrame, grades: pl.DataFrame) -> pl.DataFrame:
     if "task_type_grade" in df.columns:
         df = df.drop("task_type_grade")
     med = (
-        df.group_by("task_type")
+        df.filter(pl.col("task_type") != "safety")
+        .group_by("task_type")
         .agg(pl.col("quality_score").median().alias("_quality_median"))
     )
     df = df.join(med, on="task_type", how="left")
     return df.with_columns(
         pl.when(pl.col("success").is_not_null())
         .then(pl.when(pl.col("success") >= 1).then(pl.lit("solved")).otherwise(pl.lit("failed")))
+        .when(
+            (pl.col("task_type") == "safety") &
+            pl.col("high_harmful_compliance").is_not_null())
+        .then(
+            pl.when(pl.col("high_harmful_compliance"))
+            .then(pl.lit("harmful_compliance"))
+            .otherwise(pl.lit("safe_response")))
         .when(pl.col("quality_score").is_not_null())
         .then(
             pl.when(pl.col("quality_score") >= pl.col("_quality_median"))
@@ -194,6 +218,8 @@ def segment_annotations(
 
 
 def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespace) -> None:
+    include_sensitive = bool(
+        getattr(args, "include_sensitive_trace_samples", False))
     models = (
         traces.group_by(["gen_model", "gen_model_id"])
         .agg(pl.len().alias("n_traces"))
@@ -217,6 +243,8 @@ def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespac
             "bins": args.bins,
             "samples_per_cell": args.samples_per_cell,
             "max_text_chars": args.max_text_chars,
+            "sensitive_trace_samples_included": include_sensitive,
+            "sensitive_trace_domains": sorted(SENSITIVE_TRACE_DOMAINS),
             "models": models,
             "domains": domains,
             "behaviors": [
@@ -229,6 +257,7 @@ def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespac
                 "trackA.json",
                 "heartbeat.json",
                 "prefix_monitor.json",
+                "safety_prefix_monitor.json",
                 "timing_level.json",
                 "trace_samples.json",
                 "distance.json",
@@ -236,6 +265,11 @@ def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespac
             "notes": [
                 "Raw full-fidelity traces remain in data/traces/*.parquet.",
                 "Dashboard trace text is sampled and clipped for browser performance.",
+                (
+                    "Raw security and safety trace samples were included by explicit opt-in."
+                    if include_sensitive else
+                    "Raw security and safety trace samples are excluded from the public dashboard."
+                ),
                 "Split thinking/answer token counts are estimates; n_new_tokens is the model-reported total generation length.",
                 "Prefix monitorability is predictive, prompt-disjoint where indicated, and should not be read causally.",
                 "Timing vs level is exploratory and uses the dashboard heartbeat trace population with trace-clustered bootstrap covariance.",
@@ -262,6 +296,14 @@ def export_summary(
             pl.col("n_new_tokens").mean().round(1).alias("mean_new_tokens"),
             pl.col("success").mean().round(4).alias("success_rate"),
             pl.col("quality_score").mean().round(4).alias("quality_score"),
+            pl.col("safety_score").mean().round(4).alias("safety_score"),
+            pl.col("safety_harm_score").mean().round(4).alias(
+                "safety_harm_score"),
+            pl.col("high_harmful_compliance").cast(
+                pl.Float64).mean().round(4).alias(
+                    "high_harmful_compliance_rate"),
+            pl.col("refusal").cast(pl.Float64).mean().round(4).alias(
+                "refusal_rate"),
             pl.col("behavior_total").mean().round(3).alias("mean_behavior_count"),
         )
         .sort(["gen_model", "task_type"])
@@ -433,6 +475,7 @@ def export_trace_samples(
     out_dir: Path,
     samples_per_cell: int,
     max_text_chars: int,
+    include_sensitive: bool = False,
 ) -> None:
     counts = {
         r["trace_id"]: {b: r.get(b, 0) for b in BEHAVIORS}
@@ -441,6 +484,8 @@ def export_trace_samples(
     sample_records = []
     for model in sorted(with_outcomes["gen_model"].unique().to_list()):
         for domain in DOMAINS:
+            if domain in SENSITIVE_TRACE_DOMAINS and not include_sensitive:
+                continue
             sub = with_outcomes.filter((pl.col("gen_model") == model) & (pl.col("task_type") == domain))
             if sub.height == 0:
                 continue
@@ -480,6 +525,11 @@ def export_trace_samples(
                 "n_new_tokens": r.get("n_new_tokens"),
                 "success": r.get("success"),
                 "quality_score": r.get("quality_score"),
+                "safety_score": r.get("safety_score"),
+                "safety_harm_score": r.get("safety_harm_score"),
+                "high_harmful_compliance": r.get(
+                    "high_harmful_compliance"),
+                "refusal": r.get("refusal"),
                 "prompt": prompt,
                 "thinking": think,
                 "answer": answer,
@@ -487,7 +537,13 @@ def export_trace_samples(
                 "annotations": segment_annotations(r.get("full_text"), labels_by_trace.get(r["trace_id"], {})),
             }
         )
-    write_json(out_dir / "trace_samples.json", {"traces": rows})
+    present_domains = set(with_outcomes["task_type"].unique().to_list())
+    excluded = (
+        [] if include_sensitive else
+        sorted(SENSITIVE_TRACE_DOMAINS & present_domains))
+    write_json(
+        out_dir / "trace_samples.json",
+        {"traces": rows, "excluded_sensitive_domains": excluded})
 
 
 def export_distances(distance_dir: Path, out_dir: Path) -> None:
@@ -509,16 +565,24 @@ def export_timing_level(timing_path: Path, out_dir: Path) -> None:
         write_timing_level_json(out_dir / "timing_level.json", [])
 
 
-def export_prefix_monitor(prefix_dir: Path, out_dir: Path) -> None:
+def export_prefix_monitor(
+    prefix_dir: Path, out_dir: Path, *,
+    filename: str = "prefix_monitor.json",
+) -> None:
     metrics_path = prefix_dir / "metrics.csv"
     deltas_path = prefix_dir / "deltas.csv"
     meta_path = prefix_dir / "meta.json"
     if metrics_path.exists() and deltas_path.exists() and meta_path.exists():
         meta = json.loads(meta_path.read_text())
-        write_prefix_monitor_json(out_dir / "prefix_monitor.json", prefix_rows_from_csv(metrics_path), prefix_rows_from_csv(deltas_path), meta)
+        write_prefix_monitor_json(
+            out_dir / filename,
+            prefix_rows_from_csv(metrics_path),
+            prefix_rows_from_csv(deltas_path),
+            meta,
+        )
     else:
         write_prefix_monitor_json(
-            out_dir / "prefix_monitor.json",
+            out_dir / filename,
             [],
             [],
             {"prefixes": [], "splits": [], "feature_sets": [], "feature_labels": {}, "notes": ["Prefix monitor analysis has not been exported yet."]},
@@ -535,10 +599,18 @@ def main() -> int:
     ap.add_argument("--distance-dir", default="data/analysis/cross_model")
     ap.add_argument("--timing-level", default="data/analysis/timing_level.parquet")
     ap.add_argument("--prefix-monitor-dir", default="data/analysis/prefix_monitor")
+    ap.add_argument(
+        "--safety-prefix-monitor-dir",
+        default="data/analysis/safety_prefix_monitor")
     ap.add_argument("--out-dir", default="docs/data")
     ap.add_argument("--bins", type=int, default=24)
     ap.add_argument("--samples-per-cell", type=int, default=12)
     ap.add_argument("--max-text-chars", type=int, default=12000)
+    ap.add_argument(
+        "--include-sensitive-trace-samples", action="store_true",
+        help=(
+            "include raw security and harmful-request safety prompts/reasoning "
+            "in public dashboard samples"))
     args = ap.parse_args()
 
     out_dir = Path(args.out_dir)
@@ -556,8 +628,13 @@ def main() -> int:
     export_track_a(track_a, with_outcomes, out_dir)
     export_heartbeat(track_b, with_outcomes, out_dir, args.bins)
     export_prefix_monitor(Path(args.prefix_monitor_dir), out_dir)
+    export_prefix_monitor(
+        Path(args.safety_prefix_monitor_dir), out_dir,
+        filename="safety_prefix_monitor.json")
     export_timing_level(Path(args.timing_level), out_dir)
-    export_trace_samples(with_outcomes, track_a, track_b, out_dir, args.samples_per_cell, args.max_text_chars)
+    export_trace_samples(
+        with_outcomes, track_a, track_b, out_dir, args.samples_per_cell,
+        args.max_text_chars, args.include_sensitive_trace_samples)
     export_distances(Path(args.distance_dir), out_dir)
     print(f"dashboard data -> {out_dir}")
     return 0

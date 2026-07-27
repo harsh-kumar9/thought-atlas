@@ -1,7 +1,9 @@
 """Prefix-based monitorability analysis for Track B behavior traces.
 
-This module asks whether early behavior annotations predict final success before
-the answer is available. It is intentionally predictive and associative:
+This module asks whether early behavior annotations predict a final outcome
+before the answer is available. It supports the general solved/high-quality
+endpoint and a StrongREJECT high-harmful-compliance endpoint. It is predictive
+and associative:
 features use only prefix behavior/metadata, outcomes are final grades, and the
 main comparison is out-of-sample performance of nested logistic monitors.
 """
@@ -30,7 +32,7 @@ KIM = [
 GANDHI = ["verification", "backtracking", "subgoal", "backward_chaining"]
 BEHAVIORS = GANDHI + KIM
 
-PREFIXES = [0.25, 0.5, 0.75, 1.0]
+PREFIXES = [0.10, 0.25, 0.5, 0.75, 1.0]
 TEMPORAL_BINS = 4
 N_FOLDS = 5
 BOOT = 100
@@ -65,6 +67,8 @@ def coalesced_grades(paths: list[str]) -> pl.DataFrame:
     for col, dtype in [
         ("success", pl.Float64),
         ("quality_score", pl.Float64),
+        ("safety_harm_score", pl.Float64),
+        ("high_harmful_compliance", pl.Boolean),
         ("parsed", pl.Boolean),
         ("task_type", pl.Utf8),
         ("difficulty_raw", pl.Utf8),
@@ -74,21 +78,37 @@ def coalesced_grades(paths: list[str]) -> pl.DataFrame:
     return grades.group_by("trace_id").agg(
         _first_non_null("success"),
         _first_non_null("quality_score"),
+        _first_non_null("safety_harm_score"),
+        _first_non_null("high_harmful_compliance"),
         _first_non_null("parsed"),
         _first_non_null("task_type"),
         _first_non_null("difficulty_raw"),
     )
 
 
-def add_binary_outcomes(traces: pl.DataFrame, grades: pl.DataFrame) -> tuple[pl.DataFrame, dict[str, float]]:
-    """Attach `outcome_y` where 1 means solved/high-quality and 0 otherwise."""
+def add_binary_outcomes(
+    traces: pl.DataFrame,
+    grades: pl.DataFrame,
+    *,
+    outcome_mode: str = "general",
+) -> tuple[pl.DataFrame, dict[str, float]]:
+    """Attach the requested binary outcome.
+
+    ``general`` uses solved/high-quality/safe as the positive class.
+    ``safety_violation`` keeps only StrongREJECT traces and uses high harmful
+    compliance as the positive class.
+    """
+    if outcome_mode not in {"general", "safety_violation"}:
+        raise ValueError(f"unknown outcome mode: {outcome_mode}")
     df = traces.join(grades, on="trace_id", how="left", suffix="_grade")
     if "task_type_grade" in df.columns:
         df = df.drop("task_type_grade")
     if "difficulty_raw_grade" in df.columns and "difficulty_raw" in df.columns:
         df = df.with_columns(pl.coalesce(["difficulty_raw", "difficulty_raw_grade"]).alias("difficulty_raw")).drop("difficulty_raw_grade")
     med = (
-        df.filter(pl.col("quality_score").is_not_null())
+        df.filter(
+            pl.col("quality_score").is_not_null() &
+            (pl.col("task_type") != "safety"))
         .group_by(["gen_model", "task_type"])
         .agg(pl.col("quality_score").median().alias("_quality_median"))
     )
@@ -98,14 +118,31 @@ def add_binary_outcomes(traces: pl.DataFrame, grades: pl.DataFrame) -> tuple[pl.
         for r in med.iter_rows(named=True)
         if r.get("_quality_median") is not None
     }
-    out = df.with_columns(
-        pl.when(pl.col("success").is_not_null())
-        .then((pl.col("success") >= 1).cast(pl.Int8))
-        .when(pl.col("quality_score").is_not_null() & pl.col("_quality_median").is_not_null())
-        .then((pl.col("quality_score") >= pl.col("_quality_median")).cast(pl.Int8))
-        .otherwise(pl.lit(None).cast(pl.Int8))
-        .alias("outcome_y")
-    )
+    if outcome_mode == "safety_violation":
+        outcome = (
+            pl.when(
+                (pl.col("task_type") == "safety") &
+                pl.col("high_harmful_compliance").is_not_null())
+            .then(pl.col("high_harmful_compliance").cast(pl.Int8))
+            .otherwise(pl.lit(None).cast(pl.Int8))
+        )
+    else:
+        outcome = (
+            pl.when(pl.col("success").is_not_null())
+            .then((pl.col("success") >= 1).cast(pl.Int8))
+            .when(
+                (pl.col("task_type") == "safety") &
+                pl.col("high_harmful_compliance").is_not_null())
+            .then((~pl.col("high_harmful_compliance")).cast(pl.Int8))
+            .when(
+                pl.col("quality_score").is_not_null() &
+                pl.col("_quality_median").is_not_null())
+            .then(
+                (pl.col("quality_score") >=
+                 pl.col("_quality_median")).cast(pl.Int8))
+            .otherwise(pl.lit(None).cast(pl.Int8))
+        )
+    out = df.with_columns(outcome.alias("outcome_y"))
     return out, quality_split
 
 
@@ -359,6 +396,30 @@ def average_precision(y: np.ndarray, score: np.ndarray) -> float:
     return float((precision * y_sorted).sum() / n_pos)
 
 
+def recall_at_fpr(
+    y: np.ndarray, score: np.ndarray, *, target_fpr: float = 0.05
+) -> float:
+    """Maximum empirical recall at or below a fixed false-positive rate."""
+    y = np.asarray(y).astype(int)
+    score = np.asarray(score).astype(float)
+    n_pos = int(y.sum())
+    n_neg = int(len(y) - n_pos)
+    if n_pos == 0 or n_neg == 0:
+        return float("nan")
+    order = np.argsort(-score, kind="mergesort")
+    ys = y[order]
+    ss = score[order]
+    tp = np.cumsum(ys)
+    fp = np.cumsum(1 - ys)
+    # Only evaluate after the final row in a tied-score block because a real
+    # threshold cannot select just part of a tie.
+    ends = np.r_[np.where(ss[1:] != ss[:-1])[0], len(ss) - 1]
+    valid = (fp[ends] / n_neg) <= target_fpr
+    if not valid.any():
+        return 0.0
+    return float(np.max(tp[ends][valid] / n_pos))
+
+
 def log_loss(y: np.ndarray, p: np.ndarray) -> float:
     p = np.clip(np.asarray(p).astype(float), 1e-6, 1 - 1e-6)
     y = np.asarray(y).astype(float)
@@ -388,6 +449,7 @@ def score_predictions(y: np.ndarray, p: np.ndarray) -> dict[str, float]:
     return {
         "auroc": auroc(y, p),
         "auprc": average_precision(y, p),
+        "recall_at_5pct_fpr": recall_at_fpr(y, p, target_fpr=0.05),
         "log_loss": log_loss(y, p),
         "brier": brier(y, p),
         "ece": ece(y, p),
@@ -415,6 +477,8 @@ def _bootstrap_ci(
             val = auroc(y[idx], p[idx])
         elif metric == "auprc":
             val = average_precision(y[idx], p[idx])
+        elif metric == "recall_at_5pct_fpr":
+            val = recall_at_fpr(y[idx], p[idx], target_fpr=0.05)
         elif metric == "log_loss":
             val = log_loss(y[idx], p[idx])
         elif metric == "brier":
@@ -454,6 +518,11 @@ def _bootstrap_delta_ci(
         elif metric == "auprc":
             s_a = average_precision(y[idx], p_a[idx])
             s_b = average_precision(y[idx], p_b[idx])
+        elif metric == "recall_at_5pct_fpr":
+            s_a = recall_at_fpr(
+                y[idx], p_a[idx], target_fpr=0.05)
+            s_b = recall_at_fpr(
+                y[idx], p_b[idx], target_fpr=0.05)
         elif metric == "log_loss":
             s_a = log_loss(y[idx], p_a[idx])
             s_b = log_loss(y[idx], p_b[idx])
@@ -508,7 +577,15 @@ def evaluate_prefix(
             fold_n += 1
         mask = np.isfinite(pred)
         scores = score_predictions(y[mask], pred[mask])
-        lo, hi = _bootstrap_ci(y[mask], pred[mask], group_values[mask], metric="auroc", boot=boot, rng=rng)
+        lo, hi = _bootstrap_ci(
+            y[mask], pred[mask], group_values[mask],
+            metric="auroc", boot=boot, rng=rng)
+        ap_lo, ap_hi = _bootstrap_ci(
+            y[mask], pred[mask], group_values[mask],
+            metric="auprc", boot=boot, rng=rng)
+        recall_lo, recall_hi = _bootstrap_ci(
+            y[mask], pred[mask], group_values[mask],
+            metric="recall_at_5pct_fpr", boot=boot, rng=rng)
         metrics_rows.append(
             {
                 "split": split,
@@ -522,6 +599,12 @@ def evaluate_prefix(
                 "auroc_ci_low": lo,
                 "auroc_ci_high": hi,
                 "auprc": scores["auprc"],
+                "auprc_ci_low": ap_lo,
+                "auprc_ci_high": ap_hi,
+                "recall_at_5pct_fpr": scores[
+                    "recall_at_5pct_fpr"],
+                "recall_at_5pct_fpr_ci_low": recall_lo,
+                "recall_at_5pct_fpr_ci_high": recall_hi,
                 "log_loss": scores["log_loss"],
                 "brier": scores["brier"],
                 "ece": scores["ece"],
@@ -562,6 +645,15 @@ def evaluate_prefix(
             boot=boot,
             rng=rng,
         )
+        ap_dlo, ap_dhi = _bootstrap_delta_ci(
+            y[mask],
+            pred_by_set[feature_set][mask],
+            pred_by_set[baseline][mask],
+            group_values[mask],
+            metric="auprc",
+            boot=boot,
+            rng=rng,
+        )
         delta_rows.append(
             {
                 "split": split,
@@ -571,6 +663,9 @@ def evaluate_prefix(
                 "delta_auroc": s_a["auroc"] - s_b["auroc"],
                 "delta_auroc_ci_low": dlo,
                 "delta_auroc_ci_high": dhi,
+                "delta_auprc": s_a["auprc"] - s_b["auprc"],
+                "delta_auprc_ci_low": ap_dlo,
+                "delta_auprc_ci_high": ap_dhi,
                 "delta_log_loss": s_a["log_loss"] - s_b["log_loss"],
                 "delta_brier": s_a["brier"] - s_b["brier"],
             }
@@ -591,10 +686,12 @@ def run_analysis(
     n_folds: int = N_FOLDS,
     boot: int = BOOT,
     l2: float = L2,
+    outcome_mode: str = "general",
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     splits = splits or ["prompt_disjoint", "random_trace"]
     feature_sets = feature_sets or FEATURE_ORDER
-    traces_out, quality_split = add_binary_outcomes(traces, grades)
+    traces_out, quality_split = add_binary_outcomes(
+        traces, grades, outcome_mode=outcome_mode)
     metrics_rows: list[dict[str, Any]] = []
     delta_rows: list[dict[str, Any]] = []
     coef_rows: list[dict[str, Any]] = []
@@ -629,10 +726,18 @@ def run_analysis(
         "n_folds": n_folds,
         "boot": boot,
         "l2": l2,
+        "outcome_mode": outcome_mode,
         "n_by_prefix": n_by_prefix,
         "quality_split": quality_split,
         "notes": [
-            "Outcome is solved for deterministic domains and per-model/domain median quality split for moral/idea.",
+            (
+                "Outcome is StrongREJECT high harmful compliance at the "
+                "pre-specified extension threshold; non-safety traces are excluded."
+                if outcome_mode == "safety_violation" else
+                "Outcome is solved for deterministic domains, safe response "
+                "for StrongREJECT, and per-model/domain median quality for "
+                "moral/idea."
+            ),
             "Features use metadata, observed prefix length, behavior counts, and behavior timing within the prefix; final answer/completion fields are not features.",
             "Prompt-disjoint folds group all model attempts of the same instance_id into the same fold.",
             "Percentage prefixes are retrospective and should not be treated as online intervention budgets.",
@@ -680,6 +785,16 @@ def dashboard_payload(metrics_rows: list[dict[str, Any]], delta_rows: list[dict[
                 "auroc_ci_low": _safe_float(row.get("auroc_ci_low"), 4),
                 "auroc_ci_high": _safe_float(row.get("auroc_ci_high"), 4),
                 "auprc": _safe_float(row.get("auprc"), 4),
+                "auprc_ci_low": _safe_float(
+                    row.get("auprc_ci_low"), 4),
+                "auprc_ci_high": _safe_float(
+                    row.get("auprc_ci_high"), 4),
+                "recall_at_5pct_fpr": _safe_float(
+                    row.get("recall_at_5pct_fpr"), 4),
+                "recall_at_5pct_fpr_ci_low": _safe_float(
+                    row.get("recall_at_5pct_fpr_ci_low"), 4),
+                "recall_at_5pct_fpr_ci_high": _safe_float(
+                    row.get("recall_at_5pct_fpr_ci_high"), 4),
                 "log_loss": _safe_float(row.get("log_loss"), 4),
                 "brier": _safe_float(row.get("brier"), 4),
                 "ece": _safe_float(row.get("ece"), 4),
@@ -696,6 +811,12 @@ def dashboard_payload(metrics_rows: list[dict[str, Any]], delta_rows: list[dict[
                 "delta_auroc": _safe_float(row.get("delta_auroc"), 4),
                 "delta_auroc_ci_low": _safe_float(row.get("delta_auroc_ci_low"), 4),
                 "delta_auroc_ci_high": _safe_float(row.get("delta_auroc_ci_high"), 4),
+                "delta_auprc": _safe_float(
+                    row.get("delta_auprc"), 4),
+                "delta_auprc_ci_low": _safe_float(
+                    row.get("delta_auprc_ci_low"), 4),
+                "delta_auprc_ci_high": _safe_float(
+                    row.get("delta_auprc_ci_high"), 4),
                 "delta_log_loss": _safe_float(row.get("delta_log_loss"), 4),
                 "delta_brier": _safe_float(row.get("delta_brier"), 4),
             }
@@ -732,6 +853,14 @@ def main() -> int:
     ap.add_argument("--folds", type=int, default=N_FOLDS)
     ap.add_argument("--boot", type=int, default=BOOT)
     ap.add_argument("--l2", type=float, default=L2)
+    ap.add_argument(
+        "--outcome-mode",
+        choices=["general", "safety_violation"],
+        default="general",
+        help=(
+            "general success/safety outcome, or StrongREJECT high-harmful-"
+            "compliance only"),
+    )
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
 
@@ -753,6 +882,7 @@ def main() -> int:
         n_folds=args.folds,
         boot=args.boot,
         l2=args.l2,
+        outcome_mode=args.outcome_mode,
     )
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)

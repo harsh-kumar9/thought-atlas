@@ -28,7 +28,9 @@ from src.utils.io import resolve_trace_paths
 KIM = ["Question_and_Answering", "Perspective_Shift", "Conflict_of_Perspectives", "Reconciliation"]
 GAN = ["verification", "backtracking", "subgoal"]          # drop backward_chaining (too rare)
 BEH = GAN + KIM
-DOMAINS = ["math", "code", "gpqa", "planning", "moral", "idea"]
+DOMAINS = [
+    "math", "code", "gpqa", "planning", "security", "safety", "moral", "idea",
+]
 
 
 def heartbeat_tensor(trackB: pl.DataFrame, model: str, nbins=12, min_traces=20):

@@ -29,7 +29,7 @@ def _validate_task(name: str, df: pl.DataFrame) -> None:
             md = json.loads(row["metadata"])
         except Exception as exc:
             raise ValueError(f"{name}/{row['instance_id']}: invalid metadata JSON") from exc
-        if name in {"planning", "gpqa"}:
+        if name in {"planning", "gpqa", "security"}:
             options = re.findall(r"(?m)^\s*([A-E])\.\s+.+$", row["prompt"])
             n_options = int(md.get("n_options", 4))
             final_labels = options[-n_options:]
@@ -79,6 +79,18 @@ def main():
             kw.update(hf_id=tc.hf_id, configs=tuple(tc.acp_configs))
         elif t == "gpqa":
             kw.update(hf_id=tc.hf_id, primary_config=tc.primary_config, fill_config=tc.fill_config)
+        elif t == "security":
+            kw.update(hf_id=tc.hf_id, config_name=tc.config_name,
+                      revision=getattr(tc, "revision", None))
+        elif t == "safety":
+            kw.update(
+                hf_id=tc.hf_id,
+                config_name=tc.config_name,
+                split=getattr(tc, "split", "train"),
+                revision=getattr(tc, "revision", None),
+                harm_threshold=float(getattr(tc, "harm_threshold", 0.5)),
+                prompt_variant=str(getattr(tc, "prompt_variant", "direct_request")),
+            )
         else:
             kw.update(hf_id=tc.hf_id)
         t0 = time.time(); df = loader(**kw); dt = time.time() - t0
@@ -87,7 +99,11 @@ def main():
             raise ValueError(f"{t}: expected {int(tc.n_instances)} rows, loader returned {df.height}")
         built[t] = df
         sb = df.group_by("difficulty_raw").len().sort("difficulty_raw").to_dicts() if "difficulty_raw" in df.columns else []
-        notes.append(f"## {t}\n- HF: {tc.hf_id}\n- N: {df.height}\n- strata: {sb}\n- load: {dt:.1f}s\n")
+        revision = getattr(tc, "revision", None)
+        revision_note = f"- revision: {revision}\n" if revision else ""
+        notes.append(
+            f"## {t}\n- HF: {tc.hf_id}\n{revision_note}- N: {df.height}\n"
+            f"- strata: {sb}\n- load: {dt:.1f}s\n")
         print(f"[prep] validated {t}: {df.height} rows ({dt:.1f}s)")
     manifest = {"task_build_version": TASK_BUILD_VERSION,
                 "config_sha256": hashlib.sha256(Path(a.config).read_bytes()).hexdigest(),

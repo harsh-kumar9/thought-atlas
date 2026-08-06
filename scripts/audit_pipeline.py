@@ -181,7 +181,7 @@ def audit_traces(pattern: str | None) -> tuple[dict, list[str], pl.DataFrame]:
         try:
             manifest = json.loads(mp.read_text())
             summary = pl.scan_parquet(path).select(
-                pl.len().alias("rows"), pl.col("generation_fingerprint").drop_nulls().unique().alias("fps")
+                pl.len().alias("rows"), pl.col("generation_fingerprint").drop_nulls().unique().implode().alias("fps")
             ).collect()
             fps = summary["fps"][0].to_list()
             if (manifest.get("schema_version") != 2 or manifest.get("rows") != summary["rows"][0] or

@@ -46,7 +46,7 @@ EXTRACTION_SCHEMA = {
         "evidence": {"type": "string"},
         "answer_start_quote": {"type": "string"},
         "answer_end_quote": {"type": "string"},
-        "code_block_index": {"type": "integer", "minimum": -1},
+        "code_block_index": {"type": "integer"},
         "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
     },
     "required": [

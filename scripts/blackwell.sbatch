@@ -16,7 +16,7 @@
 #SBATCH --gres=gpu:4                  # 4 = one NUMA island, no manual pinning needed
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=256G
-#SBATCH --time=24:00:00               # REQUIRED on this partition
+#SBATCH --time=48:00:00               # REQUIRED on this partition
 #SBATCH --requeue                     # PreemptMode=REQUEUE -> make the job resumable
 #SBATCH --output=outputs/%x_%j.log
 #SBATCH --error=outputs/%x_%j.err

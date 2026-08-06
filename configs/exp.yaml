@@ -75,7 +75,9 @@ generation:
 # Reference-blind normalization pass over every trace. This identifies the final
 # submitted answer but never sees the reference and never decides correctness.
 answer_extraction:
-  max_model_len: 65536
+  # Gemma tokenizes some long cross-family responses above 64K; 101,920 is the
+  # measured no-clipping window with room for the 768-token structured output.
+  max_model_len: 101920
   max_tokens: 768
   work_batch_size: 128
 

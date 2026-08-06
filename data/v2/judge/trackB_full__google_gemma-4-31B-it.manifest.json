@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "kind": "trackB_full",
+  "judge_tag": "google_gemma-4-31B-it",
+  "rows": 4635520,
+  "sha256": "7bfdc18de054b6cc78a3ec46852cc3df6795d4c3c4f54d3006040c3c1ae864d5",
+  "key": [
+    "trace_id",
+    "seg_idx"
+  ],
+  "score_versions": [
+    "behavior-v2"
+  ],
+  "source_shards": [
+    {
+      "index": 0,
+      "file": "trackB_full__google_gemma-4-31B-it.shard00of04.parquet",
+      "sha256": "926e033af490661b042a0782fb8d4a971810f6479627f7b6d2b5d74a91eba763"
+    },
+    {
+      "index": 1,
+      "file": "trackB_full__google_gemma-4-31B-it.shard01of04.parquet",
+      "sha256": "9b6e1ab20e298223dca272b0257373c673010b9ac0468cd76f2069f1193ea031"
+    },
+    {
+      "index": 2,
+      "file": "trackB_full__google_gemma-4-31B-it.shard02of04.parquet",
+      "sha256": "f585b9839808a7b710d88299b16bcf56dbb26ab6e0f1ca85ea733cf99072e731"
+    },
+    {
+      "index": 3,
+      "file": "trackB_full__google_gemma-4-31B-it.shard03of04.parquet",
+      "sha256": "95e7f09c43a147769189ffa97a5caa711f6b0e547912fdf99be9b086fb62247c"
+    }
+  ]
+}

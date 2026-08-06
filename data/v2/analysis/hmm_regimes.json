@@ -1,0 +1,34 @@
+{
+  "planning": {
+    "task_type": "planning",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  },
+  "idea": {
+    "task_type": "idea",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  },
+  "math": {
+    "task_type": "math",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  },
+  "security": {
+    "task_type": "security",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  },
+  "code": {
+    "task_type": "code",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  },
+  "moral": {
+    "task_type": "moral",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  },
+  "gpqa": {
+    "task_type": "gpqa",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  },
+  "safety": {
+    "task_type": "safety",
+    "error": "hmmlearn unavailable: No module named 'hmmlearn'"
+  }
+}

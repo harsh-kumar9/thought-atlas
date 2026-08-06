@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "kind": "trackB_isolated",
+  "judge_tag": "google_gemma-4-31B-it",
+  "rows": 4635520,
+  "sha256": "f697b46c0863d34f138d05cbfc59952c61e4898348972dc4bc69f08189c62457",
+  "key": [
+    "trace_id",
+    "seg_idx"
+  ],
+  "score_versions": [
+    "behavior-v2"
+  ],
+  "source_shards": [
+    {
+      "index": 0,
+      "file": "trackB_isolated__google_gemma-4-31B-it.shard00of04.parquet",
+      "sha256": "a9aeda549daa594ebc216525db4e16e4046799f0b8633462b669058958f08e48"
+    },
+    {
+      "index": 1,
+      "file": "trackB_isolated__google_gemma-4-31B-it.shard01of04.parquet",
+      "sha256": "3539494328b5ce19897595dd562be1f69cea8b0f29cfd4afeaaf5740572543f8"
+    },
+    {
+      "index": 2,
+      "file": "trackB_isolated__google_gemma-4-31B-it.shard02of04.parquet",
+      "sha256": "07464393cb35efe50bae95c42062bd62b0be5be454f7f651e42566aaf2dbd207"
+    },
+    {
+      "index": 3,
+      "file": "trackB_isolated__google_gemma-4-31B-it.shard03of04.parquet",
+      "sha256": "1ff62ec724bd1f0668606728fb1391331f0006676f04ec64f1541f0d8b526267"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "task_build_version": "tasks-v2",
+  "config_sha256": "150ad097975e8720296a2fadce85c0d0513fd9e7c5105c3f58a2619c1f28d747",
+  "seed": 42,
+  "tasks": {
+    "math": {
+      "rows": 500,
+      "sha256": "b92745cf8530961fd404c79970e794dafa186ffc2b3ca35dadf0f8b58a4cfff8"
+    },
+    "code": {
+      "rows": 175,
+      "sha256": "a53b45775d9cd31ef32354d5f1e6fafb2d319d81524e6b1bc7271c7d9cb30ac0"
+    },
+    "moral": {
+      "rows": 500,
+      "sha256": "ad7bd7723acb2cab7debb27c0cd067d49202e28126d3de2d1a197c4ccae24e28"
+    },
+    "planning": {
+      "rows": 500,
+      "sha256": "c0dfa41fb0bbec54716646574889673a563ef6bfa83cc866311c6bb9dfb1076b"
+    },
+    "gpqa": {
+      "rows": 500,
+      "sha256": "fe3fc8f835ec92b3bbc5c46657951e5c49dc08f18902ba8b3a2b2998ffb4113f"
+    },
+    "security": {
+      "rows": 500,
+      "sha256": "5b0604222b4cb0f06235faadc54f0986dbca133882da69681fbe4669a3b6c929"
+    },
+    "safety": {
+      "rows": 313,
+      "sha256": "f2366f14408f94ae9bb54ac86698d2bf071e31f63d56d52afdca55ac318aea3b"
+    },
+    "idea": {
+      "rows": 500,
+      "sha256": "3025887c8a8c2de3c96dd8c84a75d6c8cb7e46601e5b6070098eeef6413a1bfb"
+    }
+  }
+}

@@ -75,9 +75,7 @@ generation:
 # Reference-blind normalization pass over every trace. This identifies the final
 # submitted answer but never sees the reference and never decides correctness.
 answer_extraction:
-  # Gemma tokenizes some long cross-family responses above 64K; 101,920 is the
-  # measured no-clipping window with room for the 768-token structured output.
-  max_model_len: 101920
+  max_model_len: 65536
   max_tokens: 768
   work_batch_size: 128
 
@@ -151,12 +149,8 @@ segmentation:
 # ---------------- Judge ----------------
 judge:
   backend: vllm
-  max_model_len: 65536            # judge supports 262144; traces cap at 32K so a full-context prompt
-                                  # (problem + all prior sentences + batch + output) maxes ~35K. 64K
-                                  # holds every trace untruncated with headroom; the guard never fires.
-                                  # NOT set to 262144: KV-cache scales with this, crushing batch
-                                  # concurrency / risking alloc-fail next to 31B weights. 64K is the
-                                  # smallest value that guarantees zero truncation here.
+  max_model_len: 101920           # empirically validated ceiling for the long full-context judge
+                                  # prompts; larger windows exhausted KV-cache memory on Blackwell.
   max_num_seqs: 256               # cap batch concurrency; hybrid-Mamba judges (Qwen3.6) limit Mamba cache blocks
   candidates_config: configs/judges/candidates.yaml
   production_model: google/gemma-4-31B-it   # single judge for v1; add cross-family IRR as robustness later

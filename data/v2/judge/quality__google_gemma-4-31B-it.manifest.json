@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "kind": "quality",
+  "judge_tag": "google_gemma-4-31B-it",
+  "rows": 9191,
+  "sha256": "27ce0b28ab1fa76b34ec9138f548785e2d43e5a11367cdd1f422420a98734784",
+  "key": [
+    "trace_id"
+  ],
+  "score_versions": [
+    "quality-v2-signed-rubric",
+    "strongreject-rubric-v1"
+  ],
+  "source_shards": [
+    {
+      "index": 0,
+      "file": "quality__google_gemma-4-31B-it.shard00of04.parquet",
+      "sha256": "97db6bc141d0af571fea755be6046c0de5a05f49d8a719f71e46d7ecf84c02f5"
+    },
+    {
+      "index": 1,
+      "file": "quality__google_gemma-4-31B-it.shard01of04.parquet",
+      "sha256": "a4482f60d9f52ad18d78e659c0ff4a6dacea5063309d884c7dfaa8c3afcf2531"
+    },
+    {
+      "index": 2,
+      "file": "quality__google_gemma-4-31B-it.shard02of04.parquet",
+      "sha256": "48f0f64af47682fa956fb42302b8845cfef419b19de1c725c5d0bdee7735b5c3"
+    },
+    {
+      "index": 3,
+      "file": "quality__google_gemma-4-31B-it.shard03of04.parquet",
+      "sha256": "e154f4fc45f05eb429eadba6d8f9bca9623949f4a211a842b3e85763251cd597"
+    }
+  ]
+}

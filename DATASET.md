@@ -5,11 +5,21 @@ because several trace files exceed GitHub's normal 100 MB file limit.
 
 ## Artifact status
 
-The checked-in files listed below are **legacy v1 artifacts**. They are useful for
-provenance and the existing dashboard, but fail `scripts/audit_pipeline.py
---strict-v2` and are not valid inputs for final performance claims. A corrected run
-is written to `data/v2/` following `RUNBOOK.md`; it should be promoted only after the
-strict audit passes.
+The files under the unversioned `data/` paths listed below are **legacy v1
+artifacts**. They remain useful for provenance, but fail
+`scripts/audit_pipeline.py --strict-v2` and are not valid inputs for final
+performance claims. The August 2026 dashboard and research snapshot use the
+corrected `data/v2/` run.
+
+The v2 release preserves its audit reports under `data/v2/analysis/`. Task, trace,
+manifest, coverage, Track A, grading, and quality contracts pass. The accepted
+release exceptions are 13 invalid answer extractions out of 24,416 traces, 1,622
+extractor prompts clipped to the configured 65,536-token OOM-safe window, and 673
+unparsed Track B rows out of 9,271,040 labels. Accepted extraction rows still pass
+the evidence-validation contract; dashboard aggregation excludes unparsed judge
+rows and retains null outcomes rather than imputing them. See
+`audit_scoring.json`, `audit_track_a.json`, and `audit_track_b.json` for exact
+machine-readable results.
 
 ## Raw Task Inputs
 

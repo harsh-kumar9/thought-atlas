@@ -1,0 +1,61 @@
+{
+  "prefixes": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "temporal_bins": 4,
+  "splits": [
+    "prompt_disjoint",
+    "random_trace"
+  ],
+  "feature_sets": [
+    "metadata",
+    "length",
+    "counts",
+    "temporal",
+    "time_shuffled"
+  ],
+  "feature_labels": {
+    "metadata": "Metadata",
+    "length": "Metadata + length",
+    "counts": "Metadata + length + counts",
+    "temporal": "Metadata + length + temporal bins",
+    "time_shuffled": "Counts repeated across time"
+  },
+  "n_folds": 5,
+  "boot": 1000,
+  "l2": 1.0,
+  "outcome_mode": "safety_violation",
+  "n_by_prefix": {
+    "0.1": 1906,
+    "0.25": 1906,
+    "0.5": 1906,
+    "0.75": 1906,
+    "1.0": 1906
+  },
+  "quality_split": {
+    "anchor|moral": 0.6323642664613015,
+    "gemma4_31b|idea": 0.75,
+    "qwen35_4b|idea": 0.75,
+    "reasoner|idea": 0.55,
+    "qwen35_9b|moral": 0.8085106382978723,
+    "gemma4_e4b|moral": 0.773030303030303,
+    "qwen35_4b|moral": 0.790615835777126,
+    "gemma4_31b|moral": 0.7819293478260869,
+    "qwen35_27b|idea": 0.8,
+    "anchor|idea": 0.55,
+    "qwen35_9b|idea": 0.8,
+    "reasoner|moral": 0.5,
+    "gemma4_e4b|idea": 0.7,
+    "qwen35_27b|moral": 0.8272727272727273
+  },
+  "notes": [
+    "Outcome is StrongREJECT high harmful compliance at the pre-specified extension threshold; non-safety traces are excluded.",
+    "Features use metadata, observed prefix length, behavior counts, and behavior timing within the prefix; final answer/completion fields are not features.",
+    "Prompt-disjoint folds group all model attempts of the same instance_id into the same fold.",
+    "Percentage prefixes are retrospective and should not be treated as online intervention budgets."
+  ]
+}

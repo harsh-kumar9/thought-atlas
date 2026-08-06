@@ -1,0 +1,22 @@
+model_a,model_b,overall_dist,cognitive_dist,conversational_dist,vs_noise_floor,top_divergences
+qwen35_9b,qwen35_4b,0.0426,0.0345,0.0487,0.58,Perspective_Shift|code=0.1859; Perspective_Shift|math=0.1701; backtracking|security=0.1683; subgoal|moral=0.1572; Question_and_Answering|code=0.1541
+qwen35_9b,anchor,0.3338,0.3312,0.3355,4.56,Conflict_of_Perspectives|code=0.8242; subgoal|code=0.8222; Question_and_Answering|gpqa=0.7674; subgoal|idea=0.745; backtracking|gpqa=0.7394
+qwen35_9b,gemma4_e4b,0.2753,0.2393,0.3024,3.76,Perspective_Shift|idea=0.7533; verification|idea=0.737; Perspective_Shift|code=0.6969; Conflict_of_Perspectives|idea=0.6928; Conflict_of_Perspectives|security=0.6848
+qwen35_9b,reasoner,0.2728,0.2118,0.3186,3.73,backtracking|code=0.7587; verification|idea=0.7299; subgoal|code=0.7207; Conflict_of_Perspectives|idea=0.7134; Question_and_Answering|idea=0.6674
+qwen35_9b,qwen35_27b,0.0477,0.0366,0.056,0.65,Perspective_Shift|security=0.2524; Reconciliation|code=0.1905; Perspective_Shift|math=0.1609; Conflict_of_Perspectives|planning=0.1483; Perspective_Shift|code=0.136
+qwen35_9b,gemma4_31b,0.2245,0.2361,0.2159,3.07,subgoal|safety=0.7854; verification|idea=0.772; Perspective_Shift|math=0.6672; subgoal|moral=0.5999; Question_and_Answering|safety=0.5986
+qwen35_4b,anchor,0.3424,0.3463,0.3399,4.68,subgoal|code=0.8591; Conflict_of_Perspectives|code=0.7741; backtracking|security=0.7677; Question_and_Answering|gpqa=0.7661; subgoal|idea=0.7556
+qwen35_4b,gemma4_e4b,0.2836,0.2463,0.3115,3.88,Perspective_Shift|security=0.8134; Conflict_of_Perspectives|security=0.7756; verification|idea=0.761; backtracking|security=0.7525; Conflict_of_Perspectives|planning=0.6461
+qwen35_4b,reasoner,0.2794,0.22,0.3239,3.82,verification|idea=0.7732; subgoal|code=0.7461; Perspective_Shift|security=0.7308; Question_and_Answering|gpqa=0.7032; Question_and_Answering|idea=0.6512
+qwen35_4b,qwen35_27b,0.0701,0.0564,0.0803,0.96,Perspective_Shift|security=0.4131; backtracking|security=0.3891; Perspective_Shift|code=0.3831; Conflict_of_Perspectives|planning=0.2339; Question_and_Answering|idea=0.2222
+qwen35_4b,gemma4_31b,0.2284,0.254,0.2092,3.12,subgoal|safety=0.8302; verification|idea=0.7801; Perspective_Shift|math=0.6059; Question_and_Answering|safety=0.5849; subgoal|moral=0.5788
+anchor,gemma4_e4b,0.3055,0.2435,0.3455,4.18,subgoal|code=0.7973; Conflict_of_Perspectives|safety=0.7271; Question_and_Answering|math=0.7091; Perspective_Shift|code=0.6874; Question_and_Answering|gpqa=0.6629
+anchor,reasoner,0.2378,0.217,0.2513,3.25,subgoal|idea=0.7473; Question_and_Answering|gpqa=0.568; Question_and_Answering|security=0.5399; Conflict_of_Perspectives|code=0.5261; Conflict_of_Perspectives|idea=0.5243
+anchor,qwen35_27b,0.3147,0.3242,0.3086,4.3,subgoal|code=0.8612; Question_and_Answering|gpqa=0.7714; subgoal|idea=0.7307; Conflict_of_Perspectives|code=0.6756; backtracking|gpqa=0.6312
+anchor,gemma4_31b,0.3676,0.4124,0.3387,5.02,subgoal|moral=0.8634; subgoal|safety=0.8192; backtracking|planning=0.7736; subgoal|idea=0.764; Reconciliation|idea=0.725
+gemma4_e4b,reasoner,0.2311,0.1662,0.2797,3.16,Question_and_Answering|safety=0.7172; Question_and_Answering|security=0.696; Perspective_Shift|code=0.6911; Conflict_of_Perspectives|safety=0.6507; Question_and_Answering|gpqa=0.648
+gemma4_e4b,qwen35_27b,0.2436,0.2139,0.2659,3.33,Perspective_Shift|idea=0.7402; verification|idea=0.7232; Conflict_of_Perspectives|idea=0.6833; Perspective_Shift|code=0.6694; backtracking|code=0.5702
+gemma4_e4b,gemma4_31b,0.2439,0.2716,0.2231,3.33,subgoal|moral=0.8923; Conflict_of_Perspectives|security=0.8148; subgoal|safety=0.7708; Question_and_Answering|safety=0.6275; backtracking|planning=0.6092
+reasoner,qwen35_27b,0.2403,0.1931,0.2757,3.28,subgoal|code=0.7577; verification|idea=0.726; Conflict_of_Perspectives|idea=0.6634; Perspective_Shift|code=0.6535; Question_and_Answering|security=0.6496
+reasoner,gemma4_31b,0.2526,0.2389,0.2629,3.45,Question_and_Answering|idea=0.9226; Question_and_Answering|code=0.8805; Question_and_Answering|gpqa=0.7851; subgoal|moral=0.756; Question_and_Answering|security=0.7543
+qwen35_27b,gemma4_31b,0.2156,0.2158,0.2154,2.95,subgoal|safety=0.7648; verification|idea=0.761; Question_and_Answering|safety=0.6339; Perspective_Shift|code=0.5994; Conflict_of_Perspectives|idea=0.5598

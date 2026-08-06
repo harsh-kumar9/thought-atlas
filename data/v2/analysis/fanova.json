@@ -1,0 +1,42 @@
+{
+  "Question_and_Answering": {
+    "behavior": "Question_and_Answering",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  },
+  "Perspective_Shift": {
+    "behavior": "Perspective_Shift",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  },
+  "Conflict_of_Perspectives": {
+    "behavior": "Conflict_of_Perspectives",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  },
+  "Reconciliation": {
+    "behavior": "Reconciliation",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  },
+  "verification": {
+    "behavior": "verification",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  },
+  "backtracking": {
+    "behavior": "backtracking",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  },
+  "subgoal": {
+    "behavior": "subgoal",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  },
+  "backward_chaining": {
+    "behavior": "backward_chaining",
+    "error": "No module named 'skfda'",
+    "note": "pip install scikit-fda; or fit functional ANOVA in R::fda"
+  }
+}

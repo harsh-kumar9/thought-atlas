@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "canonical": "traces_qwen35_4b.parquet",
+  "sha256": "3e8ad7286d29f1817e52aadf7e202b67e04de5f7cc732ef72ad832e70fb741d4",
+  "rows": 3488,
+  "generation_fingerprint": "9ce63981d70d1b85241652c14e0860dfd6a11b640081af82db2fb2489d607189",
+  "natural_key": [
+    "gen_model",
+    "instance_id",
+    "seed"
+  ],
+  "counts": [
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "code",
+      "len": 175
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "gpqa",
+      "len": 500
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "idea",
+      "len": 500
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "math",
+      "len": 500
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "moral",
+      "len": 500
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "planning",
+      "len": 500
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "safety",
+      "len": 313
+    },
+    {
+      "gen_model": "qwen35_4b",
+      "task_type": "security",
+      "len": 500
+    }
+  ],
+  "source_shards": [
+    {
+      "index": 0,
+      "file": "traces_qwen35_4b.shard00of04.parquet",
+      "sha256": "51905d182e021864a12e7fabe9b804c2d0a37a7e94c00f3ecdf9c89d4d28094b"
+    },
+    {
+      "index": 1,
+      "file": "traces_qwen35_4b.shard01of04.parquet",
+      "sha256": "8163c1280c2a3c372b2789c3a16bfe5f21d4c741624fd61fd35527c6cd111591"
+    },
+    {
+      "index": 2,
+      "file": "traces_qwen35_4b.shard02of04.parquet",
+      "sha256": "2e0fb292a82786cec232490a3093c896c3d363b4bd06ab01b4b4300549faa5b4"
+    },
+    {
+      "index": 3,
+      "file": "traces_qwen35_4b.shard03of04.parquet",
+      "sha256": "9e40ea04551764d955ebbab0ddf85340fc5fd55a8075bda6c554e10bbc71783c"
+    }
+  ]
+}

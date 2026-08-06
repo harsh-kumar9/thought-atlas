@@ -1,0 +1,84 @@
+{
+  "tasks": {
+    "code": {
+      "rows": 175,
+      "duplicate_instance_ids": 0
+    },
+    "gpqa": {
+      "rows": 500,
+      "duplicate_instance_ids": 0,
+      "malformed_or_duplicate_option_blocks": 0,
+      "diamond_rows": 198
+    },
+    "idea": {
+      "rows": 500,
+      "duplicate_instance_ids": 0
+    },
+    "math": {
+      "rows": 500,
+      "duplicate_instance_ids": 0
+    },
+    "moral": {
+      "rows": 500,
+      "duplicate_instance_ids": 0,
+      "rubrics_with_negative_weights": 359
+    },
+    "planning": {
+      "rows": 500,
+      "duplicate_instance_ids": 0,
+      "malformed_or_duplicate_option_blocks": 0
+    },
+    "safety": {
+      "rows": 313,
+      "duplicate_instance_ids": 0,
+      "categories": [
+        "Disinformation and deception",
+        "Hate, harassment and discrimination",
+        "Illegal goods and services",
+        "Non-violent crimes",
+        "Sexual content",
+        "Violence"
+      ],
+      "invalid_safety_metadata": 0
+    },
+    "security": {
+      "rows": 500,
+      "duplicate_instance_ids": 0,
+      "malformed_or_duplicate_option_blocks": 0,
+      "invalid_security_metadata": 0
+    }
+  },
+  "traces": {
+    "files": [
+      "data/v2/traces/traces_anchor.parquet",
+      "data/v2/traces/traces_gemma4_31b.parquet",
+      "data/v2/traces/traces_gemma4_e4b.parquet",
+      "data/v2/traces/traces_qwen35_27b.parquet",
+      "data/v2/traces/traces_qwen35_4b.parquet",
+      "data/v2/traces/traces_qwen35_9b.parquet",
+      "data/v2/traces/traces_reasoner.parquet"
+    ],
+    "rows": 24416,
+    "duplicate_natural_keys": 0,
+    "generation_v3_special_tokens": true,
+    "manifests_valid": true,
+    "blank_stored_answers": 2030,
+    "legacy_blank_answers_recoverable": 0,
+    "multiple_close_outputs": 85,
+    "reparse_statuses": {
+      "non_reasoning": 3488,
+      "single_close": 18541,
+      "missing_close_truncated": 2030,
+      "direct_answer_no_close": 272,
+      "multiple_close_last_suffix": 85
+    },
+    "boundary_invalid_rows_contaminating_reasoning": 0,
+    "reasoning_rows_without_special_token_capture": 0
+  },
+  "grades": {},
+  "answer_extractions": {},
+  "quality": {},
+  "judge": {},
+  "issues": [],
+  "ok": true
+}

@@ -3,205 +3,407 @@
     {
       "model_a": "qwen35_9b",
       "model_b": "qwen35_4b",
-      "overall_dist": 0.0224,
-      "cognitive_dist": 0.0188,
-      "conversational_dist": 0.0252,
-      "vs_noise_floor": 0.44,
-      "top_divergences": "subgoal|code=0.1036; Reconciliation|planning=0.0846; Reconciliation|code=0.0565; Perspective_Shift|planning=0.0475; Conflict_of_Perspectives|planning=0.0458"
+      "overall_dist": 0.0426,
+      "cognitive_dist": 0.0345,
+      "conversational_dist": 0.0487,
+      "vs_noise_floor": 0.58,
+      "top_divergences": "Perspective_Shift|code=0.1859; Perspective_Shift|math=0.1701; backtracking|security=0.1683; subgoal|moral=0.1572; Question_and_Answering|code=0.1541"
+    },
+    {
+      "model_a": "qwen35_9b",
+      "model_b": "anchor",
+      "overall_dist": 0.3338,
+      "cognitive_dist": 0.3312,
+      "conversational_dist": 0.3355,
+      "vs_noise_floor": 4.56,
+      "top_divergences": "Conflict_of_Perspectives|code=0.8242; subgoal|code=0.8222; Question_and_Answering|gpqa=0.7674; subgoal|idea=0.745; backtracking|gpqa=0.7394"
+    },
+    {
+      "model_a": "qwen35_9b",
+      "model_b": "gemma4_e4b",
+      "overall_dist": 0.2753,
+      "cognitive_dist": 0.2393,
+      "conversational_dist": 0.3024,
+      "vs_noise_floor": 3.76,
+      "top_divergences": "Perspective_Shift|idea=0.7533; verification|idea=0.737; Perspective_Shift|code=0.6969; Conflict_of_Perspectives|idea=0.6928; Conflict_of_Perspectives|security=0.6848"
     },
     {
       "model_a": "qwen35_9b",
       "model_b": "reasoner",
-      "overall_dist": 0.2137,
-      "cognitive_dist": 0.1916,
-      "conversational_dist": 0.2302,
-      "vs_noise_floor": 4.21,
-      "top_divergences": "Conflict_of_Perspectives|planning=0.7804; verification|idea=0.6214; subgoal|code=0.4828; subgoal|moral=0.4623; Reconciliation|planning=0.437"
+      "overall_dist": 0.2728,
+      "cognitive_dist": 0.2118,
+      "conversational_dist": 0.3186,
+      "vs_noise_floor": 3.73,
+      "top_divergences": "backtracking|code=0.7587; verification|idea=0.7299; subgoal|code=0.7207; Conflict_of_Perspectives|idea=0.7134; Question_and_Answering|idea=0.6674"
     },
     {
       "model_a": "qwen35_9b",
       "model_b": "qwen35_27b",
-      "overall_dist": 0.0308,
-      "cognitive_dist": 0.0225,
-      "conversational_dist": 0.037,
-      "vs_noise_floor": 0.61,
-      "top_divergences": "Conflict_of_Perspectives|planning=0.3551; Reconciliation|planning=0.0896; Question_and_Answering|idea=0.0884; Perspective_Shift|code=0.0746; verification|code=0.0636"
+      "overall_dist": 0.0477,
+      "cognitive_dist": 0.0366,
+      "conversational_dist": 0.056,
+      "vs_noise_floor": 0.65,
+      "top_divergences": "Perspective_Shift|security=0.2524; Reconciliation|code=0.1905; Perspective_Shift|math=0.1609; Conflict_of_Perspectives|planning=0.1483; Perspective_Shift|code=0.136"
     },
     {
       "model_a": "qwen35_9b",
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.2245,
+      "cognitive_dist": 0.2361,
+      "conversational_dist": 0.2159,
+      "vs_noise_floor": 3.07,
+      "top_divergences": "subgoal|safety=0.7854; verification|idea=0.772; Perspective_Shift|math=0.6672; subgoal|moral=0.5999; Question_and_Answering|safety=0.5986"
+    },
+    {
+      "model_a": "qwen35_4b",
       "model_b": "anchor",
-      "overall_dist": 0.4004,
-      "cognitive_dist": 0.3828,
-      "conversational_dist": 0.4135,
-      "vs_noise_floor": 7.88,
-      "top_divergences": "Question_and_Answering|gpqa=0.9459; Conflict_of_Perspectives|planning=0.8951; verification|idea=0.8208; backtracking|planning=0.8177; backtracking|gpqa=0.7519"
+      "overall_dist": 0.3424,
+      "cognitive_dist": 0.3463,
+      "conversational_dist": 0.3399,
+      "vs_noise_floor": 4.68,
+      "top_divergences": "subgoal|code=0.8591; Conflict_of_Perspectives|code=0.7741; backtracking|security=0.7677; Question_and_Answering|gpqa=0.7661; subgoal|idea=0.7556"
+    },
+    {
+      "model_a": "qwen35_4b",
+      "model_b": "gemma4_e4b",
+      "overall_dist": 0.2836,
+      "cognitive_dist": 0.2463,
+      "conversational_dist": 0.3115,
+      "vs_noise_floor": 3.88,
+      "top_divergences": "Perspective_Shift|security=0.8134; Conflict_of_Perspectives|security=0.7756; verification|idea=0.761; backtracking|security=0.7525; Conflict_of_Perspectives|planning=0.6461"
     },
     {
       "model_a": "qwen35_4b",
       "model_b": "reasoner",
-      "overall_dist": 0.2204,
-      "cognitive_dist": 0.2013,
-      "conversational_dist": 0.2347,
-      "vs_noise_floor": 4.34,
-      "top_divergences": "Conflict_of_Perspectives|planning=0.6994; verification|idea=0.6163; subgoal|code=0.518; Perspective_Shift|gpqa=0.4881; subgoal|moral=0.4654"
+      "overall_dist": 0.2794,
+      "cognitive_dist": 0.22,
+      "conversational_dist": 0.3239,
+      "vs_noise_floor": 3.82,
+      "top_divergences": "verification|idea=0.7732; subgoal|code=0.7461; Perspective_Shift|security=0.7308; Question_and_Answering|gpqa=0.7032; Question_and_Answering|idea=0.6512"
     },
     {
       "model_a": "qwen35_4b",
       "model_b": "qwen35_27b",
-      "overall_dist": 0.0471,
-      "cognitive_dist": 0.0309,
-      "conversational_dist": 0.0593,
-      "vs_noise_floor": 0.93,
-      "top_divergences": "Conflict_of_Perspectives|planning=0.2997; Reconciliation|planning=0.2216; Question_and_Answering|idea=0.1957; subgoal|code=0.134; Perspective_Shift|planning=0.1249"
+      "overall_dist": 0.0701,
+      "cognitive_dist": 0.0564,
+      "conversational_dist": 0.0803,
+      "vs_noise_floor": 0.96,
+      "top_divergences": "Perspective_Shift|security=0.4131; backtracking|security=0.3891; Perspective_Shift|code=0.3831; Conflict_of_Perspectives|planning=0.2339; Question_and_Answering|idea=0.2222"
     },
     {
       "model_a": "qwen35_4b",
-      "model_b": "anchor",
-      "overall_dist": 0.4134,
-      "cognitive_dist": 0.4066,
-      "conversational_dist": 0.4184,
-      "vs_noise_floor": 8.14,
-      "top_divergences": "Conflict_of_Perspectives|planning=0.9427; Question_and_Answering|gpqa=0.9272; backtracking|planning=0.8586; verification|idea=0.8221; Reconciliation|code=0.8215"
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.2284,
+      "cognitive_dist": 0.254,
+      "conversational_dist": 0.2092,
+      "vs_noise_floor": 3.12,
+      "top_divergences": "subgoal|safety=0.8302; verification|idea=0.7801; Perspective_Shift|math=0.6059; Question_and_Answering|safety=0.5849; subgoal|moral=0.5788"
+    },
+    {
+      "model_a": "anchor",
+      "model_b": "gemma4_e4b",
+      "overall_dist": 0.3055,
+      "cognitive_dist": 0.2435,
+      "conversational_dist": 0.3455,
+      "vs_noise_floor": 4.18,
+      "top_divergences": "subgoal|code=0.7973; Conflict_of_Perspectives|safety=0.7271; Question_and_Answering|math=0.7091; Perspective_Shift|code=0.6874; Question_and_Answering|gpqa=0.6629"
+    },
+    {
+      "model_a": "anchor",
+      "model_b": "reasoner",
+      "overall_dist": 0.2378,
+      "cognitive_dist": 0.217,
+      "conversational_dist": 0.2513,
+      "vs_noise_floor": 3.25,
+      "top_divergences": "subgoal|idea=0.7473; Question_and_Answering|gpqa=0.568; Question_and_Answering|security=0.5399; Conflict_of_Perspectives|code=0.5261; Conflict_of_Perspectives|idea=0.5243"
+    },
+    {
+      "model_a": "anchor",
+      "model_b": "qwen35_27b",
+      "overall_dist": 0.3147,
+      "cognitive_dist": 0.3242,
+      "conversational_dist": 0.3086,
+      "vs_noise_floor": 4.3,
+      "top_divergences": "subgoal|code=0.8612; Question_and_Answering|gpqa=0.7714; subgoal|idea=0.7307; Conflict_of_Perspectives|code=0.6756; backtracking|gpqa=0.6312"
+    },
+    {
+      "model_a": "anchor",
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.3676,
+      "cognitive_dist": 0.4124,
+      "conversational_dist": 0.3387,
+      "vs_noise_floor": 5.02,
+      "top_divergences": "subgoal|moral=0.8634; subgoal|safety=0.8192; backtracking|planning=0.7736; subgoal|idea=0.764; Reconciliation|idea=0.725"
+    },
+    {
+      "model_a": "gemma4_e4b",
+      "model_b": "reasoner",
+      "overall_dist": 0.2311,
+      "cognitive_dist": 0.1662,
+      "conversational_dist": 0.2797,
+      "vs_noise_floor": 3.16,
+      "top_divergences": "Question_and_Answering|safety=0.7172; Question_and_Answering|security=0.696; Perspective_Shift|code=0.6911; Conflict_of_Perspectives|safety=0.6507; Question_and_Answering|gpqa=0.648"
+    },
+    {
+      "model_a": "gemma4_e4b",
+      "model_b": "qwen35_27b",
+      "overall_dist": 0.2436,
+      "cognitive_dist": 0.2139,
+      "conversational_dist": 0.2659,
+      "vs_noise_floor": 3.33,
+      "top_divergences": "Perspective_Shift|idea=0.7402; verification|idea=0.7232; Conflict_of_Perspectives|idea=0.6833; Perspective_Shift|code=0.6694; backtracking|code=0.5702"
+    },
+    {
+      "model_a": "gemma4_e4b",
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.2439,
+      "cognitive_dist": 0.2716,
+      "conversational_dist": 0.2231,
+      "vs_noise_floor": 3.33,
+      "top_divergences": "subgoal|moral=0.8923; Conflict_of_Perspectives|security=0.8148; subgoal|safety=0.7708; Question_and_Answering|safety=0.6275; backtracking|planning=0.6092"
     },
     {
       "model_a": "reasoner",
       "model_b": "qwen35_27b",
-      "overall_dist": 0.1934,
-      "cognitive_dist": 0.1751,
-      "conversational_dist": 0.2071,
-      "vs_noise_floor": 3.81,
-      "top_divergences": "verification|idea=0.4969; subgoal|code=0.4277; subgoal|moral=0.407; Conflict_of_Perspectives|idea=0.4023; Question_and_Answering|idea=0.3527"
+      "overall_dist": 0.2403,
+      "cognitive_dist": 0.1931,
+      "conversational_dist": 0.2757,
+      "vs_noise_floor": 3.28,
+      "top_divergences": "subgoal|code=0.7577; verification|idea=0.726; Conflict_of_Perspectives|idea=0.6634; Perspective_Shift|code=0.6535; Question_and_Answering|security=0.6496"
     },
     {
       "model_a": "reasoner",
-      "model_b": "anchor",
-      "overall_dist": 0.2916,
-      "cognitive_dist": 0.324,
-      "conversational_dist": 0.2677,
-      "vs_noise_floor": 5.74,
-      "top_divergences": "Reconciliation|code=0.7645; subgoal|code=0.6715; subgoal|idea=0.6314; verification|moral=0.6044; Question_and_Answering|gpqa=0.6025"
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.2526,
+      "cognitive_dist": 0.2389,
+      "conversational_dist": 0.2629,
+      "vs_noise_floor": 3.45,
+      "top_divergences": "Question_and_Answering|idea=0.9226; Question_and_Answering|code=0.8805; Question_and_Answering|gpqa=0.7851; subgoal|moral=0.756; Question_and_Answering|security=0.7543"
     },
     {
       "model_a": "qwen35_27b",
-      "model_b": "anchor",
-      "overall_dist": 0.3994,
-      "cognitive_dist": 0.3932,
-      "conversational_dist": 0.404,
-      "vs_noise_floor": 7.86,
-      "top_divergences": "Question_and_Answering|gpqa=0.9537; Perspective_Shift|code=0.7806; Reconciliation|code=0.7716; backtracking|planning=0.7621; verification|idea=0.7252"
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.2156,
+      "cognitive_dist": 0.2158,
+      "conversational_dist": 0.2154,
+      "vs_noise_floor": 2.95,
+      "top_divergences": "subgoal|safety=0.7648; verification|idea=0.761; Question_and_Answering|safety=0.6339; Perspective_Shift|code=0.5994; Conflict_of_Perspectives|idea=0.5598"
     }
   ],
   "magnitude": [
     {
-      "model_a": "qwen35_27b",
+      "model_a": "reasoner",
+      "model_b": "qwen35_27b",
+      "overall_dist": 0.2402,
+      "cognitive_dist": 0.2138,
+      "conversational_dist": 0.26,
+      "vs_noise_floor": 1.38,
+      "top_divergences": "Reconciliation|moral=0.677; Reconciliation|safety=0.6216; Question_and_Answering|safety=0.6012; Question_and_Answering|security=0.5038; Question_and_Answering|idea=0.4982"
+    },
+    {
+      "model_a": "reasoner",
       "model_b": "qwen35_4b",
-      "overall_dist": 0.1007,
-      "cognitive_dist": 0.1235,
-      "conversational_dist": 0.0836,
-      "vs_noise_floor": 0.7,
-      "top_divergences": "backtracking|moral=0.3803; verification|moral=0.2948; Question_and_Answering|idea=0.2705; subgoal|planning=0.1995; verification|idea=0.1558"
+      "overall_dist": 0.2507,
+      "cognitive_dist": 0.2325,
+      "conversational_dist": 0.2644,
+      "vs_noise_floor": 1.44,
+      "top_divergences": "Reconciliation|moral=0.7008; Reconciliation|safety=0.5783; Question_and_Answering|safety=0.5364; verification|idea=0.5122; subgoal|code=0.5108"
     },
     {
-      "model_a": "qwen35_27b",
+      "model_a": "reasoner",
+      "model_b": "gemma4_e4b",
+      "overall_dist": 0.4096,
+      "cognitive_dist": 0.3941,
+      "conversational_dist": 0.4212,
+      "vs_noise_floor": 2.35,
+      "top_divergences": "Conflict_of_Perspectives|safety=1.2885; Question_and_Answering|safety=1.1307; backtracking|safety=1.0695; verification|safety=1.0425; backtracking|moral=1.0244"
+    },
+    {
+      "model_a": "reasoner",
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.33,
+      "cognitive_dist": 0.3468,
+      "conversational_dist": 0.3174,
+      "vs_noise_floor": 1.89,
+      "top_divergences": "Question_and_Answering|idea=1.2392; backtracking|safety=0.9085; Reconciliation|idea=0.8158; backtracking|idea=0.7401; backtracking|moral=0.7293"
+    },
+    {
+      "model_a": "reasoner",
       "model_b": "anchor",
-      "overall_dist": 0.764,
-      "cognitive_dist": 0.791,
-      "conversational_dist": 0.744,
-      "vs_noise_floor": 5.32,
-      "top_divergences": "verification|moral=1.9851; backtracking|moral=1.9277; Question_and_Answering|gpqa=1.8301; Question_and_Answering|math=1.6604; Question_and_Answering|planning=1.2761"
-    },
-    {
-      "model_a": "qwen35_27b",
-      "model_b": "reasoner",
-      "overall_dist": 0.2566,
-      "cognitive_dist": 0.2682,
-      "conversational_dist": 0.2479,
-      "vs_noise_floor": 1.79,
-      "top_divergences": "backtracking|moral=0.768; verification|moral=0.6681; Question_and_Answering|idea=0.55; Reconciliation|moral=0.5428; verification|idea=0.4851"
-    },
-    {
-      "model_a": "qwen35_27b",
-      "model_b": "qwen35_9b",
-      "overall_dist": 0.0793,
-      "cognitive_dist": 0.0999,
-      "conversational_dist": 0.0638,
-      "vs_noise_floor": 0.55,
-      "top_divergences": "backtracking|moral=0.2383; verification|moral=0.2003; backtracking|code=0.1982; Question_and_Answering|idea=0.1851; subgoal|planning=0.1573"
-    },
-    {
-      "model_a": "qwen35_4b",
-      "model_b": "anchor",
-      "overall_dist": 0.7611,
-      "cognitive_dist": 0.7884,
-      "conversational_dist": 0.741,
-      "vs_noise_floor": 5.3,
-      "top_divergences": "verification|moral=1.9795; backtracking|moral=1.8562; Question_and_Answering|gpqa=1.7832; Question_and_Answering|math=1.648; verification|idea=1.4077"
-    },
-    {
-      "model_a": "qwen35_4b",
-      "model_b": "reasoner",
-      "overall_dist": 0.2438,
-      "cognitive_dist": 0.2468,
-      "conversational_dist": 0.2416,
-      "vs_noise_floor": 1.7,
-      "top_divergences": "backtracking|moral=0.6983; Reconciliation|moral=0.5836; verification|idea=0.5443; verification|moral=0.4813; Conflict_of_Perspectives|idea=0.4285"
-    },
-    {
-      "model_a": "qwen35_4b",
-      "model_b": "qwen35_9b",
-      "overall_dist": 0.0558,
-      "cognitive_dist": 0.0667,
-      "conversational_dist": 0.0477,
-      "vs_noise_floor": 0.39,
-      "top_divergences": "verification|moral=0.1782; backtracking|moral=0.163; Question_and_Answering|idea=0.1092; Reconciliation|idea=0.0975; verification|idea=0.0896"
-    },
-    {
-      "model_a": "anchor",
-      "model_b": "reasoner",
-      "overall_dist": 0.6878,
-      "cognitive_dist": 0.7194,
-      "conversational_dist": 0.6643,
-      "vs_noise_floor": 4.78,
-      "top_divergences": "verification|moral=1.928; Question_and_Answering|gpqa=1.7378; Question_and_Answering|math=1.5887; backtracking|moral=1.5765; Reconciliation|code=1.2391"
-    },
-    {
-      "model_a": "anchor",
-      "model_b": "qwen35_9b",
-      "overall_dist": 0.7573,
-      "cognitive_dist": 0.7788,
-      "conversational_dist": 0.7414,
-      "vs_noise_floor": 5.27,
-      "top_divergences": "verification|moral=1.9888; backtracking|moral=1.8761; Question_and_Answering|gpqa=1.7931; Question_and_Answering|math=1.6742; verification|idea=1.3567"
+      "overall_dist": 0.719,
+      "cognitive_dist": 0.7196,
+      "conversational_dist": 0.7187,
+      "vs_noise_floor": 4.12,
+      "top_divergences": "verification|moral=1.8216; Question_and_Answering|safety=1.79; backtracking|moral=1.7322; Question_and_Answering|math=1.594; Question_and_Answering|gpqa=1.5783"
     },
     {
       "model_a": "reasoner",
       "model_b": "qwen35_9b",
-      "overall_dist": 0.2495,
-      "cognitive_dist": 0.2544,
-      "conversational_dist": 0.2458,
-      "vs_noise_floor": 1.74,
-      "top_divergences": "backtracking|moral=0.758; Reconciliation|moral=0.5908; verification|moral=0.5883; verification|idea=0.512; Conflict_of_Perspectives|idea=0.4701"
+      "overall_dist": 0.2441,
+      "cognitive_dist": 0.2149,
+      "conversational_dist": 0.2659,
+      "vs_noise_floor": 1.4,
+      "top_divergences": "Reconciliation|moral=0.7125; Reconciliation|safety=0.625; Question_and_Answering|safety=0.5463; Question_and_Answering|idea=0.479; backtracking|moral=0.4782"
+    },
+    {
+      "model_a": "qwen35_27b",
+      "model_b": "qwen35_4b",
+      "overall_dist": 0.1051,
+      "cognitive_dist": 0.1334,
+      "conversational_dist": 0.0839,
+      "vs_noise_floor": 0.6,
+      "top_divergences": "verification|moral=0.3132; backtracking|safety=0.292; backtracking|moral=0.2861; backtracking|security=0.2437; subgoal|code=0.1977"
+    },
+    {
+      "model_a": "qwen35_27b",
+      "model_b": "gemma4_e4b",
+      "overall_dist": 0.4316,
+      "cognitive_dist": 0.4511,
+      "conversational_dist": 0.4169,
+      "vs_noise_floor": 2.47,
+      "top_divergences": "backtracking|safety=1.2406; Conflict_of_Perspectives|safety=1.1694; backtracking|moral=1.0927; Reconciliation|safety=1.0175; verification|safety=0.9963"
+    },
+    {
+      "model_a": "qwen35_27b",
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.3162,
+      "cognitive_dist": 0.3473,
+      "conversational_dist": 0.2928,
+      "vs_noise_floor": 1.81,
+      "top_divergences": "backtracking|safety=0.9933; Question_and_Answering|safety=0.943; Conflict_of_Perspectives|idea=0.9132; Question_and_Answering|idea=0.8448; verification|idea=0.7986"
+    },
+    {
+      "model_a": "qwen35_27b",
+      "model_b": "anchor",
+      "overall_dist": 0.7771,
+      "cognitive_dist": 0.7822,
+      "conversational_dist": 0.7738,
+      "vs_noise_floor": 4.45,
+      "top_divergences": "Question_and_Answering|safety=1.8073; backtracking|moral=1.7572; verification|moral=1.7176; Question_and_Answering|math=1.7055; Question_and_Answering|gpqa=1.5795"
+    },
+    {
+      "model_a": "qwen35_27b",
+      "model_b": "qwen35_9b",
+      "overall_dist": 0.0868,
+      "cognitive_dist": 0.1049,
+      "conversational_dist": 0.0733,
+      "vs_noise_floor": 0.5,
+      "top_divergences": "backtracking|moral=0.2407; verification|moral=0.2156; backtracking|safety=0.2074; Question_and_Answering|safety=0.1817; backtracking|planning=0.1752"
+    },
+    {
+      "model_a": "qwen35_4b",
+      "model_b": "gemma4_e4b",
+      "overall_dist": 0.4511,
+      "cognitive_dist": 0.4747,
+      "conversational_dist": 0.4333,
+      "vs_noise_floor": 2.58,
+      "top_divergences": "backtracking|safety=1.3659; backtracking|moral=1.242; Conflict_of_Perspectives|safety=1.194; Reconciliation|safety=1.0568; verification|safety=1.0421"
+    },
+    {
+      "model_a": "qwen35_4b",
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.3411,
+      "cognitive_dist": 0.3946,
+      "conversational_dist": 0.3009,
+      "vs_noise_floor": 1.95,
+      "top_divergences": "backtracking|safety=1.1725; backtracking|moral=0.9376; Question_and_Answering|idea=0.9044; Question_and_Answering|safety=0.8782; Conflict_of_Perspectives|idea=0.876"
+    },
+    {
+      "model_a": "qwen35_4b",
+      "model_b": "anchor",
+      "overall_dist": 0.786,
+      "cognitive_dist": 0.7898,
+      "conversational_dist": 0.7836,
+      "vs_noise_floor": 4.5,
+      "top_divergences": "Question_and_Answering|safety=1.8109; backtracking|moral=1.7593; verification|moral=1.749; Question_and_Answering|math=1.6983; Question_and_Answering|gpqa=1.5615"
+    },
+    {
+      "model_a": "qwen35_4b",
+      "model_b": "qwen35_9b",
+      "overall_dist": 0.0732,
+      "cognitive_dist": 0.0886,
+      "conversational_dist": 0.0616,
+      "vs_noise_floor": 0.42,
+      "top_divergences": "subgoal|code=0.2278; backtracking|security=0.169; Question_and_Answering|safety=0.1638; verification|safety=0.1364; backtracking|code=0.1358"
+    },
+    {
+      "model_a": "gemma4_e4b",
+      "model_b": "gemma4_31b",
+      "overall_dist": 0.4043,
+      "cognitive_dist": 0.417,
+      "conversational_dist": 0.3947,
+      "vs_noise_floor": 2.32,
+      "top_divergences": "Question_and_Answering|safety=1.3594; backtracking|idea=1.0843; Conflict_of_Perspectives|safety=1.0732; Reconciliation|safety=0.9388; Question_and_Answering|idea=0.8533"
+    },
+    {
+      "model_a": "gemma4_e4b",
+      "model_b": "anchor",
+      "overall_dist": 0.7447,
+      "cognitive_dist": 0.6731,
+      "conversational_dist": 0.791,
+      "vs_noise_floor": 4.27,
+      "top_divergences": "Question_and_Answering|safety=2.0; backtracking|moral=1.9735; Conflict_of_Perspectives|safety=1.9062; Question_and_Answering|math=1.8467; verification|moral=1.7807"
+    },
+    {
+      "model_a": "gemma4_e4b",
+      "model_b": "qwen35_9b",
+      "overall_dist": 0.44,
+      "cognitive_dist": 0.4544,
+      "conversational_dist": 0.4292,
+      "vs_noise_floor": 2.52,
+      "top_divergences": "backtracking|safety=1.3603; backtracking|moral=1.2211; Conflict_of_Perspectives|safety=1.1541; Reconciliation|safety=1.0543; verification|safety=1.0212"
+    },
+    {
+      "model_a": "gemma4_31b",
+      "model_b": "anchor",
+      "overall_dist": 0.8016,
+      "cognitive_dist": 0.8229,
+      "conversational_dist": 0.7879,
+      "vs_noise_floor": 4.59,
+      "top_divergences": "backtracking|moral=1.8416; Question_and_Answering|math=1.775; Question_and_Answering|safety=1.6558; verification|moral=1.577; Question_and_Answering|gpqa=1.5344"
+    },
+    {
+      "model_a": "gemma4_31b",
+      "model_b": "qwen35_9b",
+      "overall_dist": 0.3282,
+      "cognitive_dist": 0.3634,
+      "conversational_dist": 0.3018,
+      "vs_noise_floor": 1.88,
+      "top_divergences": "backtracking|safety=1.1592; backtracking|moral=0.9167; Conflict_of_Perspectives|idea=0.9028; Question_and_Answering|safety=0.888; Question_and_Answering|idea=0.8512"
+    },
+    {
+      "model_a": "anchor",
+      "model_b": "qwen35_9b",
+      "overall_dist": 0.7759,
+      "cognitive_dist": 0.7697,
+      "conversational_dist": 0.7799,
+      "vs_noise_floor": 4.44,
+      "top_divergences": "Question_and_Answering|safety=1.7941; backtracking|moral=1.7568; verification|moral=1.7391; Question_and_Answering|math=1.7079; Question_and_Answering|gpqa=1.5653"
     }
   ],
   "noise": {
     "shape": {
-      "noise_floor": 0.05080079334267629,
+      "noise_floor": 0.07316944048143183,
       "per_model_floor": {
-        "qwen35_9b": 0.03174942312964471,
-        "qwen35_4b": 0.028769676984720945,
-        "reasoner": 0.028986072600402875,
-        "qwen35_27b": 0.0318930263353774,
-        "anchor": 0.1326057676632355
+        "qwen35_9b": 0.07481172098427315,
+        "qwen35_4b": 0.06954159695633823,
+        "anchor": 0.14011634027195793,
+        "gemma4_e4b": 0.054182749778438954,
+        "reasoner": 0.05622014942230204,
+        "qwen35_27b": 0.05013029222349115,
+        "gemma4_31b": 0.0671832337332214
       }
     },
     "magnitude": {
-      "noise_floor": 0.14373792628989537,
+      "noise_floor": 0.17457926121399958,
       "per_model_floor": {
-        "qwen35_27b": 0.06945920330991011,
-        "qwen35_4b": 0.056585950063694525,
-        "anchor": 0.44022672741635954,
-        "reasoner": 0.09571391372667071,
-        "qwen35_9b": 0.05670383693284201
+        "reasoner": 0.11599767685677144,
+        "qwen35_27b": 0.08851955286172696,
+        "qwen35_4b": 0.09269946474279789,
+        "gemma4_e4b": 0.20342546706724499,
+        "gemma4_31b": 0.1524861927927998,
+        "anchor": 0.4840148525008521,
+        "qwen35_9b": 0.08491162167580397
       }
     }
   }

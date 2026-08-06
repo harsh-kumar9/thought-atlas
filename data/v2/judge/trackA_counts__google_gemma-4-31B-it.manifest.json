@@ -1,0 +1,35 @@
+{
+  "schema_version": 2,
+  "kind": "trackA_counts",
+  "judge_tag": "google_gemma-4-31B-it",
+  "rows": 22111,
+  "sha256": "36c51f7ace7a3bec2464975b0f211be147d2a6d1d6f3dc9fb3dcd4a9f5f99877",
+  "key": [
+    "trace_id"
+  ],
+  "score_versions": [
+    "behavior-v2"
+  ],
+  "source_shards": [
+    {
+      "index": 0,
+      "file": "trackA_counts__google_gemma-4-31B-it.shard00of04.parquet",
+      "sha256": "bf2bfb0724290391693ed2a0f1044a59b54acec9aca4318f7bb91bbf057e229c"
+    },
+    {
+      "index": 1,
+      "file": "trackA_counts__google_gemma-4-31B-it.shard01of04.parquet",
+      "sha256": "820b7fd453c305e729046e3f1f7f0a0d82506351687a8539b6ef6ac81083b708"
+    },
+    {
+      "index": 2,
+      "file": "trackA_counts__google_gemma-4-31B-it.shard02of04.parquet",
+      "sha256": "5bae5d4680c13961d5e20fcb6960b0955586d968aa15a1d25b6c05fc61b6c293"
+    },
+    {
+      "index": 3,
+      "file": "trackA_counts__google_gemma-4-31B-it.shard03of04.parquet",
+      "sha256": "1a1b3e8e585a04c0e00663e16176c4451a002068c931e99a95f782437af498e6"
+    }
+  ]
+}

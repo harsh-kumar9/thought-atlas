@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "kind": "answer_extractions",
+  "judge_tag": "google_gemma-4-31B-it",
+  "rows": 24416,
+  "sha256": "45cf37a424ff17e7fae636635bd50e57962302cf87d4b90d11fb7ebdcdcc65be",
+  "key": [
+    "trace_id"
+  ],
+  "score_versions": [
+    "answer-extraction-v1"
+  ],
+  "source_shards": [
+    {
+      "index": 0,
+      "file": "answer_extractions__google_gemma-4-31B-it.shard00of04.parquet",
+      "sha256": "4d6eae67475c3e2186c5e4f148ad3428ff65bec98a87190794e8f507a73d9d35"
+    },
+    {
+      "index": 1,
+      "file": "answer_extractions__google_gemma-4-31B-it.shard01of04.parquet",
+      "sha256": "b51da6acc7b00dc8c12d14902cb8065d81205c048885735f3609ebbe47f03933"
+    },
+    {
+      "index": 2,
+      "file": "answer_extractions__google_gemma-4-31B-it.shard02of04.parquet",
+      "sha256": "a18189fe18cf1e3d0f2f686c61c2eadaf2795fce2e16abd5d63e2544d496dade"
+    },
+    {
+      "index": 3,
+      "file": "answer_extractions__google_gemma-4-31B-it.shard03of04.parquet",
+      "sha256": "459d54f7869c15d96bc405d51da2143862ea70b461166e1cdd903158558901a6"
+    }
+  ],
+  "artifact_fingerprint": "44f8d24b27f3fddb3c0ced182a10dea8fc337ddd38f84e9d2a8db3d73a495791"
+}

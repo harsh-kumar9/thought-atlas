@@ -11,24 +11,25 @@ and a static GitHub Pages dashboard in `docs/`.
 
 ## Current Dataset
 
-> **Legacy artifact warning (July 2026):** the checked-in parquets predate the v3
-> generation/grading contract and must not be used for final accuracy or quality
-> claims. The audit finds duplicated ACP choice mappings, only 182/198 GPQA Diamond
-> rows, 176 blank stored answers (including recoverable stopped outputs), 126
-> multi-close reasoning outputs, unversioned parse failures scored as zero, 56 moral
-> quality scores outside `[0,1]`, and missing quality coverage for three Qwen models.
-> The code is fixed; rebuild under `data/v2/` using [RUNBOOK.md](RUNBOOK.md). The
-> legacy files remain only for provenance and dashboard continuity.
+The August 2026 release is under `data/v2/`; the unversioned `data/` paths retain
+the legacy v1 artifacts for provenance only. The current snapshot contains:
 
-- 5 generation conditions: `Llama-3.1-8B-Instruct`, `DeepSeek-R1-Distill-Llama-8B`, `Qwen3.5-4B`, `Qwen3.5-9B`, `Qwen3.5-27B`
-- 6 legacy domains: `math`, `code`, `gpqa`, `planning`, `moral`, `idea`
-- 13,375 generated traces
-- Whole-trace behavior counts for 13,374 traces
-- Track B per-sentence labels for 6,004,702 segments
-- Deterministic grades for math/gpqa/planning, sandboxed grades for code, and
-  answer-only rubric scores for moral/idea
+- 7 completed generation conditions: Llama 3.1, DeepSeek R1 Distill, Gemma 4
+  E4B/31B, and Qwen3.5 4B/9B/27B
+- 8 domains: `math`, `code`, `gpqa`, `planning`, `moral`, `idea`, `safety`, and
+  `security`
+- 24,416 generated traces and 22,111 whole-trace behavior-count rows
+- 9,271,040 Track B full/isolated per-sentence label rows
+- Deterministic grades for objective tasks, sandboxed code grades, and answer-only
+  rubric scores for moral/idea/safety
 
-The corrected v2 configuration expands the battery to 8 domains by adding:
+The release audits preserve rather than impute a small amount of missingness: 13
+invalid answer extractions and 673 unparsed Track B rows. A further 1,622 extraction
+prompts used the configured 65,536-token clipping policy; accepted rows still pass
+the evidence-validation contract. Exact reports are stored under
+`data/v2/analysis/audit_*.json` and summarized in [DATASET.md](DATASET.md).
+
+The v2 battery adds:
 
 - `security`: a pinned 500-item sample of
 [WMDP-Cyber](https://huggingface.co/datasets/cais/wmdp), graded through the
@@ -44,9 +45,9 @@ specificity, harmfulness, and a fixed high-harmful-compliance endpoint.
 See [SAFETY_SECURITY.md](SAFETY_SECURITY.md) for the interpretation and scoring
 contract.
 
-The corrected configuration runs all eight configured generation conditions:
-the Llama anchor, DeepSeek reasoner, three-model Gemma 4 ladder, and three-model
-Qwen3.5 ladder. The production runbook lists one generation job per key.
+The configuration defines an eight-model battery. This release contains the seven
+completed canonical model artifacts listed above; the absent Gemma 4 12B condition
+is not represented in the dashboard or release counts.
 
 Large parquet files are intentionally tracked with Git LFS. Before pushing or cloning:
 

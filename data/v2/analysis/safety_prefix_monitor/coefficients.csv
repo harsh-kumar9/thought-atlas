@@ -1,0 +1,861 @@
+split,prefix,feature_set,feature,coef
+prompt_disjoint,0.1,metadata,gen_model=reasoner,1.1811752800635174
+prompt_disjoint,0.1,metadata,gen_model=qwen35_27b,-1.0814071875782538
+prompt_disjoint,0.1,metadata,gen_model=qwen35_9b,-1.0728743145419095
+prompt_disjoint,0.1,metadata,gen_model=qwen35_4b,-1.0450313596597698
+prompt_disjoint,0.1,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+prompt_disjoint,0.1,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+prompt_disjoint,0.1,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+prompt_disjoint,0.1,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+prompt_disjoint,0.1,metadata,difficulty_raw=Violence,-0.26150689002324057
+prompt_disjoint,0.1,metadata,gen_model=gemma4_31b,-0.21603934397996016
+prompt_disjoint,0.1,metadata,gen_model=gemma4_e4b,0.14354116704333905
+prompt_disjoint,0.1,metadata,task_type=safety,0.0
+prompt_disjoint,0.1,length,gen_model=qwen35_4b,-2.0747009388866653
+prompt_disjoint,0.1,length,gen_model=qwen35_9b,-1.4739850843978004
+prompt_disjoint,0.1,length,gen_model=qwen35_27b,-1.4000177437413193
+prompt_disjoint,0.1,length,prefix_segments,1.06673638639391
+prompt_disjoint,0.1,length,gen_model=reasoner,0.9524740826215914
+prompt_disjoint,0.1,length,difficulty_raw=Sexual content,-0.7473786722224081
+prompt_disjoint,0.1,length,difficulty_raw=Illegal goods and services,-0.3606999766665351
+prompt_disjoint,0.1,length,difficulty_raw=Non-violent crimes,-0.33993892893196154
+prompt_disjoint,0.1,length,difficulty_raw=Violence,-0.2826099355738753
+prompt_disjoint,0.1,length,"difficulty_raw=Hate, harassment and discrimination",-0.26869321249197486
+prompt_disjoint,0.1,length,gen_model=gemma4_31b,-0.219841546093148
+prompt_disjoint,0.1,length,gen_model=gemma4_e4b,0.1278860469306438
+prompt_disjoint,0.1,length,decode_temperature,-4.07583625678965e-25
+prompt_disjoint,0.1,length,task_type=safety,0.0
+prompt_disjoint,0.1,counts,gen_model=qwen35_4b,-1.9935863770514735
+prompt_disjoint,0.1,counts,gen_model=qwen35_9b,-1.6369715502289566
+prompt_disjoint,0.1,counts,gen_model=qwen35_27b,-1.5695205175572187
+prompt_disjoint,0.1,counts,prefix_segments,1.2714050356321656
+prompt_disjoint,0.1,counts,gen_model=reasoner,0.8303904984331341
+prompt_disjoint,0.1,counts,difficulty_raw=Sexual content,-0.7141949337109709
+prompt_disjoint,0.1,counts,rate_verification,-0.585796635236489
+prompt_disjoint,0.1,counts,difficulty_raw=Illegal goods and services,-0.3923900632587218
+prompt_disjoint,0.1,counts,difficulty_raw=Non-violent crimes,-0.3436053335063096
+prompt_disjoint,0.1,counts,difficulty_raw=Violence,-0.29289855158078176
+prompt_disjoint,0.1,counts,"difficulty_raw=Hate, harassment and discrimination",-0.26552323128662975
+prompt_disjoint,0.1,counts,rate_subgoal,0.25924617316732246
+prompt_disjoint,0.1,counts,gen_model=gemma4_31b,-0.2560216671258792
+prompt_disjoint,0.1,counts,rate_Reconciliation,0.11613853876372326
+prompt_disjoint,0.1,counts,rate_Question_and_Answering,0.041173803033727786
+prompt_disjoint,0.1,counts,rate_Conflict_of_Perspectives,-0.034891168072382656
+prompt_disjoint,0.1,counts,gen_model=gemma4_e4b,-0.033191737032373415
+prompt_disjoint,0.1,counts,rate_Perspective_Shift,-0.03277531412330342
+prompt_disjoint,0.1,counts,rate_backward_chaining,-0.010570633031227192
+prompt_disjoint,0.1,counts,rate_backtracking,-0.001083774313729113
+prompt_disjoint,0.1,temporal,bin0_subgoal,-2.308138584362756
+prompt_disjoint,0.1,temporal,prefix_segments,1.9273003094570558
+prompt_disjoint,0.1,temporal,gen_model=qwen35_4b,-1.6192639546173082
+prompt_disjoint,0.1,temporal,gen_model=qwen35_9b,-1.4325192228266785
+prompt_disjoint,0.1,temporal,gen_model=gemma4_e4b,1.3482359999040838
+prompt_disjoint,0.1,temporal,gen_model=qwen35_27b,-1.1255296889567605
+prompt_disjoint,0.1,temporal,difficulty_raw=Sexual content,-0.7703602622841299
+prompt_disjoint,0.1,temporal,rate_Conflict_of_Perspectives,-0.6935289556446074
+prompt_disjoint,0.1,temporal,bin0_Conflict_of_Perspectives,-0.6299726568914199
+prompt_disjoint,0.1,temporal,bin1_backtracking,-0.6292624354764272
+prompt_disjoint,0.1,temporal,rate_verification,-0.6135768406604671
+prompt_disjoint,0.1,temporal,bin3_Conflict_of_Perspectives,0.5947675868218657
+prompt_disjoint,0.1,temporal,bin1_verification,-0.5945688963622056
+prompt_disjoint,0.1,temporal,gen_model=reasoner,0.5710328916148197
+prompt_disjoint,0.1,temporal,difficulty_raw=Illegal goods and services,-0.5421212914481818
+prompt_disjoint,0.1,temporal,bin2_verification,-0.482438801340492
+prompt_disjoint,0.1,temporal,bin2_subgoal,0.4660920967932689
+prompt_disjoint,0.1,temporal,difficulty_raw=Non-violent crimes,-0.3729927049049803
+prompt_disjoint,0.1,temporal,difficulty_raw=Violence,-0.34209986726374875
+prompt_disjoint,0.1,temporal,bin1_subgoal,0.32489040786480616
+prompt_disjoint,0.1,time_shuffled,gen_model=qwen35_4b,-1.995072685929868
+prompt_disjoint,0.1,time_shuffled,gen_model=qwen35_9b,-1.6559567487058386
+prompt_disjoint,0.1,time_shuffled,gen_model=qwen35_27b,-1.5858055986616986
+prompt_disjoint,0.1,time_shuffled,prefix_segments,1.3098722289664204
+prompt_disjoint,0.1,time_shuffled,gen_model=reasoner,0.8235293212289315
+prompt_disjoint,0.1,time_shuffled,difficulty_raw=Sexual content,-0.7114628502668076
+prompt_disjoint,0.1,time_shuffled,difficulty_raw=Illegal goods and services,-0.3957147182517655
+prompt_disjoint,0.1,time_shuffled,difficulty_raw=Non-violent crimes,-0.34345706078817073
+prompt_disjoint,0.1,time_shuffled,difficulty_raw=Violence,-0.29174986835011374
+prompt_disjoint,0.1,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.2647936358122829
+prompt_disjoint,0.1,time_shuffled,gen_model=gemma4_31b,-0.25684985133452193
+prompt_disjoint,0.1,time_shuffled,shuffled_bin1_verification,-0.13214641311890926
+prompt_disjoint,0.1,time_shuffled,rate_verification,-0.13214641311890926
+prompt_disjoint,0.1,time_shuffled,shuffled_bin3_verification,-0.13214641311890926
+prompt_disjoint,0.1,time_shuffled,shuffled_bin0_verification,-0.13214641311890926
+prompt_disjoint,0.1,time_shuffled,shuffled_bin2_verification,-0.13214641311890926
+prompt_disjoint,0.1,time_shuffled,shuffled_bin3_subgoal,0.052154691802719214
+prompt_disjoint,0.1,time_shuffled,rate_subgoal,0.052154691802719214
+prompt_disjoint,0.1,time_shuffled,shuffled_bin2_subgoal,0.052154691802719214
+prompt_disjoint,0.1,time_shuffled,shuffled_bin1_subgoal,0.052154691802719214
+random_trace,0.1,metadata,gen_model=reasoner,1.1811752800635174
+random_trace,0.1,metadata,gen_model=qwen35_27b,-1.0814071875782538
+random_trace,0.1,metadata,gen_model=qwen35_9b,-1.0728743145419095
+random_trace,0.1,metadata,gen_model=qwen35_4b,-1.0450313596597698
+random_trace,0.1,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+random_trace,0.1,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+random_trace,0.1,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+random_trace,0.1,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+random_trace,0.1,metadata,difficulty_raw=Violence,-0.26150689002324057
+random_trace,0.1,metadata,gen_model=gemma4_31b,-0.21603934397996016
+random_trace,0.1,metadata,gen_model=gemma4_e4b,0.14354116704333905
+random_trace,0.1,metadata,task_type=safety,0.0
+random_trace,0.1,length,gen_model=qwen35_4b,-2.0747009388866653
+random_trace,0.1,length,gen_model=qwen35_9b,-1.4739850843978004
+random_trace,0.1,length,gen_model=qwen35_27b,-1.4000177437413193
+random_trace,0.1,length,prefix_segments,1.06673638639391
+random_trace,0.1,length,gen_model=reasoner,0.9524740826215914
+random_trace,0.1,length,difficulty_raw=Sexual content,-0.7473786722224081
+random_trace,0.1,length,difficulty_raw=Illegal goods and services,-0.3606999766665351
+random_trace,0.1,length,difficulty_raw=Non-violent crimes,-0.33993892893196154
+random_trace,0.1,length,difficulty_raw=Violence,-0.2826099355738753
+random_trace,0.1,length,"difficulty_raw=Hate, harassment and discrimination",-0.26869321249197486
+random_trace,0.1,length,gen_model=gemma4_31b,-0.219841546093148
+random_trace,0.1,length,gen_model=gemma4_e4b,0.1278860469306438
+random_trace,0.1,length,decode_temperature,-4.07583625678965e-25
+random_trace,0.1,length,task_type=safety,0.0
+random_trace,0.1,counts,gen_model=qwen35_4b,-1.9935863770514735
+random_trace,0.1,counts,gen_model=qwen35_9b,-1.6369715502289566
+random_trace,0.1,counts,gen_model=qwen35_27b,-1.5695205175572187
+random_trace,0.1,counts,prefix_segments,1.2714050356321656
+random_trace,0.1,counts,gen_model=reasoner,0.8303904984331341
+random_trace,0.1,counts,difficulty_raw=Sexual content,-0.7141949337109709
+random_trace,0.1,counts,rate_verification,-0.585796635236489
+random_trace,0.1,counts,difficulty_raw=Illegal goods and services,-0.3923900632587218
+random_trace,0.1,counts,difficulty_raw=Non-violent crimes,-0.3436053335063096
+random_trace,0.1,counts,difficulty_raw=Violence,-0.29289855158078176
+random_trace,0.1,counts,"difficulty_raw=Hate, harassment and discrimination",-0.26552323128662975
+random_trace,0.1,counts,rate_subgoal,0.25924617316732246
+random_trace,0.1,counts,gen_model=gemma4_31b,-0.2560216671258792
+random_trace,0.1,counts,rate_Reconciliation,0.11613853876372326
+random_trace,0.1,counts,rate_Question_and_Answering,0.041173803033727786
+random_trace,0.1,counts,rate_Conflict_of_Perspectives,-0.034891168072382656
+random_trace,0.1,counts,gen_model=gemma4_e4b,-0.033191737032373415
+random_trace,0.1,counts,rate_Perspective_Shift,-0.03277531412330342
+random_trace,0.1,counts,rate_backward_chaining,-0.010570633031227192
+random_trace,0.1,counts,rate_backtracking,-0.001083774313729113
+random_trace,0.1,temporal,bin0_subgoal,-2.308138584362756
+random_trace,0.1,temporal,prefix_segments,1.9273003094570558
+random_trace,0.1,temporal,gen_model=qwen35_4b,-1.6192639546173082
+random_trace,0.1,temporal,gen_model=qwen35_9b,-1.4325192228266785
+random_trace,0.1,temporal,gen_model=gemma4_e4b,1.3482359999040838
+random_trace,0.1,temporal,gen_model=qwen35_27b,-1.1255296889567605
+random_trace,0.1,temporal,difficulty_raw=Sexual content,-0.7703602622841299
+random_trace,0.1,temporal,rate_Conflict_of_Perspectives,-0.6935289556446074
+random_trace,0.1,temporal,bin0_Conflict_of_Perspectives,-0.6299726568914199
+random_trace,0.1,temporal,bin1_backtracking,-0.6292624354764272
+random_trace,0.1,temporal,rate_verification,-0.6135768406604671
+random_trace,0.1,temporal,bin3_Conflict_of_Perspectives,0.5947675868218657
+random_trace,0.1,temporal,bin1_verification,-0.5945688963622056
+random_trace,0.1,temporal,gen_model=reasoner,0.5710328916148197
+random_trace,0.1,temporal,difficulty_raw=Illegal goods and services,-0.5421212914481818
+random_trace,0.1,temporal,bin2_verification,-0.482438801340492
+random_trace,0.1,temporal,bin2_subgoal,0.4660920967932689
+random_trace,0.1,temporal,difficulty_raw=Non-violent crimes,-0.3729927049049803
+random_trace,0.1,temporal,difficulty_raw=Violence,-0.34209986726374875
+random_trace,0.1,temporal,bin1_subgoal,0.32489040786480616
+random_trace,0.1,time_shuffled,gen_model=qwen35_4b,-1.995072685929868
+random_trace,0.1,time_shuffled,gen_model=qwen35_9b,-1.6559567487058386
+random_trace,0.1,time_shuffled,gen_model=qwen35_27b,-1.5858055986616986
+random_trace,0.1,time_shuffled,prefix_segments,1.3098722289664204
+random_trace,0.1,time_shuffled,gen_model=reasoner,0.8235293212289315
+random_trace,0.1,time_shuffled,difficulty_raw=Sexual content,-0.7114628502668076
+random_trace,0.1,time_shuffled,difficulty_raw=Illegal goods and services,-0.3957147182517655
+random_trace,0.1,time_shuffled,difficulty_raw=Non-violent crimes,-0.34345706078817073
+random_trace,0.1,time_shuffled,difficulty_raw=Violence,-0.29174986835011374
+random_trace,0.1,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.2647936358122829
+random_trace,0.1,time_shuffled,gen_model=gemma4_31b,-0.25684985133452193
+random_trace,0.1,time_shuffled,shuffled_bin1_verification,-0.13214641311890926
+random_trace,0.1,time_shuffled,rate_verification,-0.13214641311890926
+random_trace,0.1,time_shuffled,shuffled_bin3_verification,-0.13214641311890926
+random_trace,0.1,time_shuffled,shuffled_bin0_verification,-0.13214641311890926
+random_trace,0.1,time_shuffled,shuffled_bin2_verification,-0.13214641311890926
+random_trace,0.1,time_shuffled,shuffled_bin3_subgoal,0.052154691802719214
+random_trace,0.1,time_shuffled,rate_subgoal,0.052154691802719214
+random_trace,0.1,time_shuffled,shuffled_bin2_subgoal,0.052154691802719214
+random_trace,0.1,time_shuffled,shuffled_bin1_subgoal,0.052154691802719214
+prompt_disjoint,0.25,metadata,gen_model=reasoner,1.1811752800635174
+prompt_disjoint,0.25,metadata,gen_model=qwen35_27b,-1.0814071875782538
+prompt_disjoint,0.25,metadata,gen_model=qwen35_9b,-1.0728743145419095
+prompt_disjoint,0.25,metadata,gen_model=qwen35_4b,-1.0450313596597698
+prompt_disjoint,0.25,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+prompt_disjoint,0.25,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+prompt_disjoint,0.25,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+prompt_disjoint,0.25,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+prompt_disjoint,0.25,metadata,difficulty_raw=Violence,-0.26150689002324057
+prompt_disjoint,0.25,metadata,gen_model=gemma4_31b,-0.21603934397996016
+prompt_disjoint,0.25,metadata,gen_model=gemma4_e4b,0.14354116704333905
+prompt_disjoint,0.25,metadata,task_type=safety,0.0
+prompt_disjoint,0.25,length,gen_model=qwen35_4b,-2.17593499951122
+prompt_disjoint,0.25,length,gen_model=qwen35_9b,-1.5072778062782357
+prompt_disjoint,0.25,length,gen_model=qwen35_27b,-1.4302546652354355
+prompt_disjoint,0.25,length,prefix_segments,1.1152896604335902
+prompt_disjoint,0.25,length,gen_model=reasoner,0.9270776765573152
+prompt_disjoint,0.25,length,difficulty_raw=Sexual content,-0.7559400596694047
+prompt_disjoint,0.25,length,difficulty_raw=Illegal goods and services,-0.3715967957011335
+prompt_disjoint,0.25,length,difficulty_raw=Non-violent crimes,-0.343043591326275
+prompt_disjoint,0.25,length,difficulty_raw=Violence,-0.2852575319685028
+prompt_disjoint,0.25,length,"difficulty_raw=Hate, harassment and discrimination",-0.2741691862838092
+prompt_disjoint,0.25,length,gen_model=gemma4_31b,-0.2383169532242893
+prompt_disjoint,0.25,length,gen_model=gemma4_e4b,0.1258472866576226
+prompt_disjoint,0.25,length,decode_temperature,-2.1329427208323425e-24
+prompt_disjoint,0.25,length,task_type=safety,0.0
+prompt_disjoint,0.25,counts,gen_model=qwen35_4b,-2.192215770207407
+prompt_disjoint,0.25,counts,gen_model=qwen35_9b,-1.566889522858163
+prompt_disjoint,0.25,counts,gen_model=qwen35_27b,-1.4944199408930017
+prompt_disjoint,0.25,counts,prefix_segments,1.0673020260003836
+prompt_disjoint,0.25,counts,gen_model=reasoner,0.836453384595331
+prompt_disjoint,0.25,counts,difficulty_raw=Sexual content,-0.766732585431883
+prompt_disjoint,0.25,counts,difficulty_raw=Illegal goods and services,-0.36534058288132215
+prompt_disjoint,0.25,counts,difficulty_raw=Non-violent crimes,-0.32788007648392253
+prompt_disjoint,0.25,counts,gen_model=gemma4_31b,-0.2739789633695468
+prompt_disjoint,0.25,counts,difficulty_raw=Violence,-0.27059909431014106
+prompt_disjoint,0.25,counts,"difficulty_raw=Hate, harassment and discrimination",-0.26902429701507047
+prompt_disjoint,0.25,counts,rate_Perspective_Shift,0.12359034376919707
+prompt_disjoint,0.25,counts,rate_Reconciliation,0.12209677171722969
+prompt_disjoint,0.25,counts,rate_verification,0.09607634579061643
+prompt_disjoint,0.25,counts,rate_backtracking,-0.09193492918754141
+prompt_disjoint,0.25,counts,gen_model=gemma4_e4b,0.077184396805827
+prompt_disjoint,0.25,counts,rate_subgoal,0.06963870934016929
+prompt_disjoint,0.25,counts,rate_Conflict_of_Perspectives,-0.05348321323262196
+prompt_disjoint,0.25,counts,rate_backward_chaining,-0.03240606035005113
+prompt_disjoint,0.25,counts,rate_Question_and_Answering,0.001072394040189334
+prompt_disjoint,0.25,temporal,gen_model=qwen35_4b,-1.9910956589952087
+prompt_disjoint,0.25,temporal,gen_model=qwen35_9b,-1.7074982631813065
+prompt_disjoint,0.25,temporal,gen_model=qwen35_27b,-1.624126908410949
+prompt_disjoint,0.25,temporal,prefix_segments,1.2943450020986174
+prompt_disjoint,0.25,temporal,bin0_verification,-0.8290427431938839
+prompt_disjoint,0.25,temporal,gen_model=reasoner,0.7950538828861948
+prompt_disjoint,0.25,temporal,difficulty_raw=Sexual content,-0.7827596647783356
+prompt_disjoint,0.25,temporal,bin0_backtracking,-0.5053753584130105
+prompt_disjoint,0.25,temporal,difficulty_raw=Illegal goods and services,-0.4618956359387908
+prompt_disjoint,0.25,temporal,rate_Question_and_Answering,0.39036166670808703
+prompt_disjoint,0.25,temporal,bin3_Perspective_Shift,0.38462464074313335
+prompt_disjoint,0.25,temporal,difficulty_raw=Non-violent crimes,-0.3776591556229768
+prompt_disjoint,0.25,temporal,rate_Perspective_Shift,-0.32632994805174415
+prompt_disjoint,0.25,temporal,gen_model=gemma4_31b,-0.32600986920224084
+prompt_disjoint,0.25,temporal,rate_Reconciliation,0.3249731792158796
+prompt_disjoint,0.25,temporal,difficulty_raw=Violence,-0.32179568576921536
+prompt_disjoint,0.25,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.2985124907886677
+prompt_disjoint,0.25,temporal,rate_Conflict_of_Perspectives,-0.25869488571611315
+prompt_disjoint,0.25,temporal,bin0_subgoal,0.25505337392306165
+prompt_disjoint,0.25,temporal,bin3_Question_and_Answering,-0.25141809628720163
+prompt_disjoint,0.25,time_shuffled,gen_model=qwen35_4b,-2.192732759476437
+prompt_disjoint,0.25,time_shuffled,gen_model=qwen35_9b,-1.5679524620079692
+prompt_disjoint,0.25,time_shuffled,gen_model=qwen35_27b,-1.495424806214964
+prompt_disjoint,0.25,time_shuffled,prefix_segments,1.0668534548715232
+prompt_disjoint,0.25,time_shuffled,gen_model=reasoner,0.8351595696665902
+prompt_disjoint,0.25,time_shuffled,difficulty_raw=Sexual content,-0.7667973725229297
+prompt_disjoint,0.25,time_shuffled,difficulty_raw=Illegal goods and services,-0.36519088345089445
+prompt_disjoint,0.25,time_shuffled,difficulty_raw=Non-violent crimes,-0.32770272492521146
+prompt_disjoint,0.25,time_shuffled,gen_model=gemma4_31b,-0.27466864557720566
+prompt_disjoint,0.25,time_shuffled,difficulty_raw=Violence,-0.2704244959945651
+prompt_disjoint,0.25,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.26905731265110133
+prompt_disjoint,0.25,time_shuffled,gen_model=gemma4_e4b,0.07653601044413719
+prompt_disjoint,0.25,time_shuffled,rate_Perspective_Shift,0.025101298869977185
+prompt_disjoint,0.25,time_shuffled,shuffled_bin3_Perspective_Shift,0.025101298869977185
+prompt_disjoint,0.25,time_shuffled,shuffled_bin2_Perspective_Shift,0.025101298869977185
+prompt_disjoint,0.25,time_shuffled,shuffled_bin1_Perspective_Shift,0.025101298869977185
+prompt_disjoint,0.25,time_shuffled,shuffled_bin0_Perspective_Shift,0.025101298869977185
+prompt_disjoint,0.25,time_shuffled,shuffled_bin1_Reconciliation,0.02454038190296153
+prompt_disjoint,0.25,time_shuffled,shuffled_bin0_Reconciliation,0.02454038190296153
+prompt_disjoint,0.25,time_shuffled,shuffled_bin2_Reconciliation,0.02454038190296153
+random_trace,0.25,metadata,gen_model=reasoner,1.1811752800635174
+random_trace,0.25,metadata,gen_model=qwen35_27b,-1.0814071875782538
+random_trace,0.25,metadata,gen_model=qwen35_9b,-1.0728743145419095
+random_trace,0.25,metadata,gen_model=qwen35_4b,-1.0450313596597698
+random_trace,0.25,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+random_trace,0.25,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+random_trace,0.25,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+random_trace,0.25,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+random_trace,0.25,metadata,difficulty_raw=Violence,-0.26150689002324057
+random_trace,0.25,metadata,gen_model=gemma4_31b,-0.21603934397996016
+random_trace,0.25,metadata,gen_model=gemma4_e4b,0.14354116704333905
+random_trace,0.25,metadata,task_type=safety,0.0
+random_trace,0.25,length,gen_model=qwen35_4b,-2.17593499951122
+random_trace,0.25,length,gen_model=qwen35_9b,-1.5072778062782357
+random_trace,0.25,length,gen_model=qwen35_27b,-1.4302546652354355
+random_trace,0.25,length,prefix_segments,1.1152896604335902
+random_trace,0.25,length,gen_model=reasoner,0.9270776765573152
+random_trace,0.25,length,difficulty_raw=Sexual content,-0.7559400596694047
+random_trace,0.25,length,difficulty_raw=Illegal goods and services,-0.3715967957011335
+random_trace,0.25,length,difficulty_raw=Non-violent crimes,-0.343043591326275
+random_trace,0.25,length,difficulty_raw=Violence,-0.2852575319685028
+random_trace,0.25,length,"difficulty_raw=Hate, harassment and discrimination",-0.2741691862838092
+random_trace,0.25,length,gen_model=gemma4_31b,-0.2383169532242893
+random_trace,0.25,length,gen_model=gemma4_e4b,0.1258472866576226
+random_trace,0.25,length,decode_temperature,-2.1329427208323425e-24
+random_trace,0.25,length,task_type=safety,0.0
+random_trace,0.25,counts,gen_model=qwen35_4b,-2.192215770207407
+random_trace,0.25,counts,gen_model=qwen35_9b,-1.566889522858163
+random_trace,0.25,counts,gen_model=qwen35_27b,-1.4944199408930017
+random_trace,0.25,counts,prefix_segments,1.0673020260003836
+random_trace,0.25,counts,gen_model=reasoner,0.836453384595331
+random_trace,0.25,counts,difficulty_raw=Sexual content,-0.766732585431883
+random_trace,0.25,counts,difficulty_raw=Illegal goods and services,-0.36534058288132215
+random_trace,0.25,counts,difficulty_raw=Non-violent crimes,-0.32788007648392253
+random_trace,0.25,counts,gen_model=gemma4_31b,-0.2739789633695468
+random_trace,0.25,counts,difficulty_raw=Violence,-0.27059909431014106
+random_trace,0.25,counts,"difficulty_raw=Hate, harassment and discrimination",-0.26902429701507047
+random_trace,0.25,counts,rate_Perspective_Shift,0.12359034376919707
+random_trace,0.25,counts,rate_Reconciliation,0.12209677171722969
+random_trace,0.25,counts,rate_verification,0.09607634579061643
+random_trace,0.25,counts,rate_backtracking,-0.09193492918754141
+random_trace,0.25,counts,gen_model=gemma4_e4b,0.077184396805827
+random_trace,0.25,counts,rate_subgoal,0.06963870934016929
+random_trace,0.25,counts,rate_Conflict_of_Perspectives,-0.05348321323262196
+random_trace,0.25,counts,rate_backward_chaining,-0.03240606035005113
+random_trace,0.25,counts,rate_Question_and_Answering,0.001072394040189334
+random_trace,0.25,temporal,gen_model=qwen35_4b,-1.9910956589952087
+random_trace,0.25,temporal,gen_model=qwen35_9b,-1.7074982631813065
+random_trace,0.25,temporal,gen_model=qwen35_27b,-1.624126908410949
+random_trace,0.25,temporal,prefix_segments,1.2943450020986174
+random_trace,0.25,temporal,bin0_verification,-0.8290427431938839
+random_trace,0.25,temporal,gen_model=reasoner,0.7950538828861948
+random_trace,0.25,temporal,difficulty_raw=Sexual content,-0.7827596647783356
+random_trace,0.25,temporal,bin0_backtracking,-0.5053753584130105
+random_trace,0.25,temporal,difficulty_raw=Illegal goods and services,-0.4618956359387908
+random_trace,0.25,temporal,rate_Question_and_Answering,0.39036166670808703
+random_trace,0.25,temporal,bin3_Perspective_Shift,0.38462464074313335
+random_trace,0.25,temporal,difficulty_raw=Non-violent crimes,-0.3776591556229768
+random_trace,0.25,temporal,rate_Perspective_Shift,-0.32632994805174415
+random_trace,0.25,temporal,gen_model=gemma4_31b,-0.32600986920224084
+random_trace,0.25,temporal,rate_Reconciliation,0.3249731792158796
+random_trace,0.25,temporal,difficulty_raw=Violence,-0.32179568576921536
+random_trace,0.25,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.2985124907886677
+random_trace,0.25,temporal,rate_Conflict_of_Perspectives,-0.25869488571611315
+random_trace,0.25,temporal,bin0_subgoal,0.25505337392306165
+random_trace,0.25,temporal,bin3_Question_and_Answering,-0.25141809628720163
+random_trace,0.25,time_shuffled,gen_model=qwen35_4b,-2.192732759476437
+random_trace,0.25,time_shuffled,gen_model=qwen35_9b,-1.5679524620079692
+random_trace,0.25,time_shuffled,gen_model=qwen35_27b,-1.495424806214964
+random_trace,0.25,time_shuffled,prefix_segments,1.0668534548715232
+random_trace,0.25,time_shuffled,gen_model=reasoner,0.8351595696665902
+random_trace,0.25,time_shuffled,difficulty_raw=Sexual content,-0.7667973725229297
+random_trace,0.25,time_shuffled,difficulty_raw=Illegal goods and services,-0.36519088345089445
+random_trace,0.25,time_shuffled,difficulty_raw=Non-violent crimes,-0.32770272492521146
+random_trace,0.25,time_shuffled,gen_model=gemma4_31b,-0.27466864557720566
+random_trace,0.25,time_shuffled,difficulty_raw=Violence,-0.2704244959945651
+random_trace,0.25,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.26905731265110133
+random_trace,0.25,time_shuffled,gen_model=gemma4_e4b,0.07653601044413719
+random_trace,0.25,time_shuffled,rate_Perspective_Shift,0.025101298869977185
+random_trace,0.25,time_shuffled,shuffled_bin3_Perspective_Shift,0.025101298869977185
+random_trace,0.25,time_shuffled,shuffled_bin2_Perspective_Shift,0.025101298869977185
+random_trace,0.25,time_shuffled,shuffled_bin1_Perspective_Shift,0.025101298869977185
+random_trace,0.25,time_shuffled,shuffled_bin0_Perspective_Shift,0.025101298869977185
+random_trace,0.25,time_shuffled,shuffled_bin1_Reconciliation,0.02454038190296153
+random_trace,0.25,time_shuffled,shuffled_bin0_Reconciliation,0.02454038190296153
+random_trace,0.25,time_shuffled,shuffled_bin2_Reconciliation,0.02454038190296153
+prompt_disjoint,0.5,metadata,gen_model=reasoner,1.1811752800635174
+prompt_disjoint,0.5,metadata,gen_model=qwen35_27b,-1.0814071875782538
+prompt_disjoint,0.5,metadata,gen_model=qwen35_9b,-1.0728743145419095
+prompt_disjoint,0.5,metadata,gen_model=qwen35_4b,-1.0450313596597698
+prompt_disjoint,0.5,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+prompt_disjoint,0.5,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+prompt_disjoint,0.5,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+prompt_disjoint,0.5,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+prompt_disjoint,0.5,metadata,difficulty_raw=Violence,-0.26150689002324057
+prompt_disjoint,0.5,metadata,gen_model=gemma4_31b,-0.21603934397996016
+prompt_disjoint,0.5,metadata,gen_model=gemma4_e4b,0.14354116704333905
+prompt_disjoint,0.5,metadata,task_type=safety,0.0
+prompt_disjoint,0.5,length,gen_model=qwen35_4b,-2.199227734264918
+prompt_disjoint,0.5,length,gen_model=qwen35_9b,-1.5147093769421793
+prompt_disjoint,0.5,length,gen_model=qwen35_27b,-1.4367442035467288
+prompt_disjoint,0.5,length,prefix_segments,1.1257340251817647
+prompt_disjoint,0.5,length,gen_model=reasoner,0.9207552537026704
+prompt_disjoint,0.5,length,difficulty_raw=Sexual content,-0.7561192172314377
+prompt_disjoint,0.5,length,difficulty_raw=Illegal goods and services,-0.37182775548028685
+prompt_disjoint,0.5,length,difficulty_raw=Non-violent crimes,-0.34299160022276454
+prompt_disjoint,0.5,length,difficulty_raw=Violence,-0.2855527359842799
+prompt_disjoint,0.5,length,"difficulty_raw=Hate, harassment and discrimination",-0.2737842328335244
+prompt_disjoint,0.5,length,gen_model=gemma4_31b,-0.2434703951779386
+prompt_disjoint,0.5,length,gen_model=gemma4_e4b,0.12398893356766125
+prompt_disjoint,0.5,length,decode_temperature,1.9824738575145077e-25
+prompt_disjoint,0.5,length,task_type=safety,0.0
+prompt_disjoint,0.5,counts,gen_model=qwen35_4b,-2.3295093904400037
+prompt_disjoint,0.5,counts,gen_model=qwen35_9b,-1.603379086492545
+prompt_disjoint,0.5,counts,gen_model=qwen35_27b,-1.5294706417413175
+prompt_disjoint,0.5,counts,prefix_segments,1.1567033290914865
+prompt_disjoint,0.5,counts,gen_model=reasoner,0.874328686315046
+prompt_disjoint,0.5,counts,difficulty_raw=Sexual content,-0.7787424126299747
+prompt_disjoint,0.5,counts,gen_model=gemma4_31b,-0.3409753034729487
+prompt_disjoint,0.5,counts,difficulty_raw=Illegal goods and services,-0.3372108696131779
+prompt_disjoint,0.5,counts,difficulty_raw=Non-violent crimes,-0.3014941536642565
+prompt_disjoint,0.5,counts,"difficulty_raw=Hate, harassment and discrimination",-0.29392801941115193
+prompt_disjoint,0.5,counts,rate_Perspective_Shift,0.28836963478913946
+prompt_disjoint,0.5,counts,difficulty_raw=Violence,-0.26371039700920257
+prompt_disjoint,0.5,counts,rate_verification,0.24436087341299662
+prompt_disjoint,0.5,counts,rate_Question_and_Answering,-0.15141762260204003
+prompt_disjoint,0.5,counts,rate_backtracking,-0.1455969736912229
+prompt_disjoint,0.5,counts,gen_model=gemma4_e4b,0.13117786854417526
+prompt_disjoint,0.5,counts,rate_subgoal,-0.06422594342877658
+prompt_disjoint,0.5,counts,rate_Conflict_of_Perspectives,-0.036821600290054816
+prompt_disjoint,0.5,counts,rate_backward_chaining,-0.03540843574203834
+prompt_disjoint,0.5,counts,rate_Reconciliation,0.00613073012676653
+prompt_disjoint,0.5,temporal,gen_model=qwen35_4b,-2.169118396760491
+prompt_disjoint,0.5,temporal,gen_model=qwen35_9b,-1.6255459540684847
+prompt_disjoint,0.5,temporal,gen_model=qwen35_27b,-1.572062253250787
+prompt_disjoint,0.5,temporal,prefix_segments,1.0896816721927256
+prompt_disjoint,0.5,temporal,gen_model=reasoner,0.8680056320920412
+prompt_disjoint,0.5,temporal,difficulty_raw=Sexual content,-0.8564124445563959
+prompt_disjoint,0.5,temporal,gen_model=gemma4_31b,-0.47628179929683273
+prompt_disjoint,0.5,temporal,difficulty_raw=Non-violent crimes,-0.4398930085840252
+prompt_disjoint,0.5,temporal,difficulty_raw=Illegal goods and services,-0.4079215724391584
+prompt_disjoint,0.5,temporal,bin3_verification,0.4056463125669681
+prompt_disjoint,0.5,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.3499655953563703
+prompt_disjoint,0.5,temporal,rate_subgoal,0.34354720726367793
+prompt_disjoint,0.5,temporal,bin2_Perspective_Shift,0.3244915000157372
+prompt_disjoint,0.5,temporal,bin2_subgoal,-0.3074409541842594
+prompt_disjoint,0.5,temporal,bin3_subgoal,-0.3029041952934987
+prompt_disjoint,0.5,temporal,difficulty_raw=Violence,-0.2964515839946502
+prompt_disjoint,0.5,temporal,bin2_backward_chaining,-0.28524741575899504
+prompt_disjoint,0.5,temporal,rate_Reconciliation,-0.2719449560909018
+prompt_disjoint,0.5,temporal,rate_backward_chaining,-0.2647729661973693
+prompt_disjoint,0.5,temporal,bin3_backward_chaining,0.24757184409477623
+prompt_disjoint,0.5,time_shuffled,gen_model=qwen35_4b,-2.331562465680845
+prompt_disjoint,0.5,time_shuffled,gen_model=qwen35_9b,-1.6058540293044032
+prompt_disjoint,0.5,time_shuffled,gen_model=qwen35_27b,-1.5318191842700495
+prompt_disjoint,0.5,time_shuffled,prefix_segments,1.1560333507048686
+prompt_disjoint,0.5,time_shuffled,gen_model=reasoner,0.8734009394952037
+prompt_disjoint,0.5,time_shuffled,difficulty_raw=Sexual content,-0.7792691451036012
+prompt_disjoint,0.5,time_shuffled,gen_model=gemma4_31b,-0.3435090113275344
+prompt_disjoint,0.5,time_shuffled,difficulty_raw=Illegal goods and services,-0.3368924800595335
+prompt_disjoint,0.5,time_shuffled,difficulty_raw=Non-violent crimes,-0.30149929749328674
+prompt_disjoint,0.5,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.2946326749629203
+prompt_disjoint,0.5,time_shuffled,difficulty_raw=Violence,-0.26361559666378936
+prompt_disjoint,0.5,time_shuffled,gen_model=gemma4_e4b,0.1319766329335247
+prompt_disjoint,0.5,time_shuffled,rate_Perspective_Shift,0.058849187420300215
+prompt_disjoint,0.5,time_shuffled,shuffled_bin0_Perspective_Shift,0.058849187420300215
+prompt_disjoint,0.5,time_shuffled,shuffled_bin1_Perspective_Shift,0.058849187420300215
+prompt_disjoint,0.5,time_shuffled,shuffled_bin2_Perspective_Shift,0.058849187420300215
+prompt_disjoint,0.5,time_shuffled,shuffled_bin3_Perspective_Shift,0.058849187420300215
+prompt_disjoint,0.5,time_shuffled,shuffled_bin0_verification,0.05033445447851737
+prompt_disjoint,0.5,time_shuffled,shuffled_bin1_verification,0.05033445447851737
+prompt_disjoint,0.5,time_shuffled,shuffled_bin2_verification,0.05033445447851737
+random_trace,0.5,metadata,gen_model=reasoner,1.1811752800635174
+random_trace,0.5,metadata,gen_model=qwen35_27b,-1.0814071875782538
+random_trace,0.5,metadata,gen_model=qwen35_9b,-1.0728743145419095
+random_trace,0.5,metadata,gen_model=qwen35_4b,-1.0450313596597698
+random_trace,0.5,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+random_trace,0.5,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+random_trace,0.5,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+random_trace,0.5,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+random_trace,0.5,metadata,difficulty_raw=Violence,-0.26150689002324057
+random_trace,0.5,metadata,gen_model=gemma4_31b,-0.21603934397996016
+random_trace,0.5,metadata,gen_model=gemma4_e4b,0.14354116704333905
+random_trace,0.5,metadata,task_type=safety,0.0
+random_trace,0.5,length,gen_model=qwen35_4b,-2.199227734264918
+random_trace,0.5,length,gen_model=qwen35_9b,-1.5147093769421793
+random_trace,0.5,length,gen_model=qwen35_27b,-1.4367442035467288
+random_trace,0.5,length,prefix_segments,1.1257340251817647
+random_trace,0.5,length,gen_model=reasoner,0.9207552537026704
+random_trace,0.5,length,difficulty_raw=Sexual content,-0.7561192172314377
+random_trace,0.5,length,difficulty_raw=Illegal goods and services,-0.37182775548028685
+random_trace,0.5,length,difficulty_raw=Non-violent crimes,-0.34299160022276454
+random_trace,0.5,length,difficulty_raw=Violence,-0.2855527359842799
+random_trace,0.5,length,"difficulty_raw=Hate, harassment and discrimination",-0.2737842328335244
+random_trace,0.5,length,gen_model=gemma4_31b,-0.2434703951779386
+random_trace,0.5,length,gen_model=gemma4_e4b,0.12398893356766125
+random_trace,0.5,length,decode_temperature,1.9824738575145077e-25
+random_trace,0.5,length,task_type=safety,0.0
+random_trace,0.5,counts,gen_model=qwen35_4b,-2.3295093904400037
+random_trace,0.5,counts,gen_model=qwen35_9b,-1.603379086492545
+random_trace,0.5,counts,gen_model=qwen35_27b,-1.5294706417413175
+random_trace,0.5,counts,prefix_segments,1.1567033290914865
+random_trace,0.5,counts,gen_model=reasoner,0.874328686315046
+random_trace,0.5,counts,difficulty_raw=Sexual content,-0.7787424126299747
+random_trace,0.5,counts,gen_model=gemma4_31b,-0.3409753034729487
+random_trace,0.5,counts,difficulty_raw=Illegal goods and services,-0.3372108696131779
+random_trace,0.5,counts,difficulty_raw=Non-violent crimes,-0.3014941536642565
+random_trace,0.5,counts,"difficulty_raw=Hate, harassment and discrimination",-0.29392801941115193
+random_trace,0.5,counts,rate_Perspective_Shift,0.28836963478913946
+random_trace,0.5,counts,difficulty_raw=Violence,-0.26371039700920257
+random_trace,0.5,counts,rate_verification,0.24436087341299662
+random_trace,0.5,counts,rate_Question_and_Answering,-0.15141762260204003
+random_trace,0.5,counts,rate_backtracking,-0.1455969736912229
+random_trace,0.5,counts,gen_model=gemma4_e4b,0.13117786854417526
+random_trace,0.5,counts,rate_subgoal,-0.06422594342877658
+random_trace,0.5,counts,rate_Conflict_of_Perspectives,-0.036821600290054816
+random_trace,0.5,counts,rate_backward_chaining,-0.03540843574203834
+random_trace,0.5,counts,rate_Reconciliation,0.00613073012676653
+random_trace,0.5,temporal,gen_model=qwen35_4b,-2.169118396760491
+random_trace,0.5,temporal,gen_model=qwen35_9b,-1.6255459540684847
+random_trace,0.5,temporal,gen_model=qwen35_27b,-1.572062253250787
+random_trace,0.5,temporal,prefix_segments,1.0896816721927256
+random_trace,0.5,temporal,gen_model=reasoner,0.8680056320920412
+random_trace,0.5,temporal,difficulty_raw=Sexual content,-0.8564124445563959
+random_trace,0.5,temporal,gen_model=gemma4_31b,-0.47628179929683273
+random_trace,0.5,temporal,difficulty_raw=Non-violent crimes,-0.4398930085840252
+random_trace,0.5,temporal,difficulty_raw=Illegal goods and services,-0.4079215724391584
+random_trace,0.5,temporal,bin3_verification,0.4056463125669681
+random_trace,0.5,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.3499655953563703
+random_trace,0.5,temporal,rate_subgoal,0.34354720726367793
+random_trace,0.5,temporal,bin2_Perspective_Shift,0.3244915000157372
+random_trace,0.5,temporal,bin2_subgoal,-0.3074409541842594
+random_trace,0.5,temporal,bin3_subgoal,-0.3029041952934987
+random_trace,0.5,temporal,difficulty_raw=Violence,-0.2964515839946502
+random_trace,0.5,temporal,bin2_backward_chaining,-0.28524741575899504
+random_trace,0.5,temporal,rate_Reconciliation,-0.2719449560909018
+random_trace,0.5,temporal,rate_backward_chaining,-0.2647729661973693
+random_trace,0.5,temporal,bin3_backward_chaining,0.24757184409477623
+random_trace,0.5,time_shuffled,gen_model=qwen35_4b,-2.331562465680845
+random_trace,0.5,time_shuffled,gen_model=qwen35_9b,-1.6058540293044032
+random_trace,0.5,time_shuffled,gen_model=qwen35_27b,-1.5318191842700495
+random_trace,0.5,time_shuffled,prefix_segments,1.1560333507048686
+random_trace,0.5,time_shuffled,gen_model=reasoner,0.8734009394952037
+random_trace,0.5,time_shuffled,difficulty_raw=Sexual content,-0.7792691451036012
+random_trace,0.5,time_shuffled,gen_model=gemma4_31b,-0.3435090113275344
+random_trace,0.5,time_shuffled,difficulty_raw=Illegal goods and services,-0.3368924800595335
+random_trace,0.5,time_shuffled,difficulty_raw=Non-violent crimes,-0.30149929749328674
+random_trace,0.5,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.2946326749629203
+random_trace,0.5,time_shuffled,difficulty_raw=Violence,-0.26361559666378936
+random_trace,0.5,time_shuffled,gen_model=gemma4_e4b,0.1319766329335247
+random_trace,0.5,time_shuffled,rate_Perspective_Shift,0.058849187420300215
+random_trace,0.5,time_shuffled,shuffled_bin0_Perspective_Shift,0.058849187420300215
+random_trace,0.5,time_shuffled,shuffled_bin1_Perspective_Shift,0.058849187420300215
+random_trace,0.5,time_shuffled,shuffled_bin2_Perspective_Shift,0.058849187420300215
+random_trace,0.5,time_shuffled,shuffled_bin3_Perspective_Shift,0.058849187420300215
+random_trace,0.5,time_shuffled,shuffled_bin0_verification,0.05033445447851737
+random_trace,0.5,time_shuffled,shuffled_bin1_verification,0.05033445447851737
+random_trace,0.5,time_shuffled,shuffled_bin2_verification,0.05033445447851737
+prompt_disjoint,0.75,metadata,gen_model=reasoner,1.1811752800635174
+prompt_disjoint,0.75,metadata,gen_model=qwen35_27b,-1.0814071875782538
+prompt_disjoint,0.75,metadata,gen_model=qwen35_9b,-1.0728743145419095
+prompt_disjoint,0.75,metadata,gen_model=qwen35_4b,-1.0450313596597698
+prompt_disjoint,0.75,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+prompt_disjoint,0.75,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+prompt_disjoint,0.75,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+prompt_disjoint,0.75,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+prompt_disjoint,0.75,metadata,difficulty_raw=Violence,-0.26150689002324057
+prompt_disjoint,0.75,metadata,gen_model=gemma4_31b,-0.21603934397996016
+prompt_disjoint,0.75,metadata,gen_model=gemma4_e4b,0.14354116704333905
+prompt_disjoint,0.75,metadata,task_type=safety,0.0
+prompt_disjoint,0.75,length,gen_model=qwen35_4b,-2.2006061502981766
+prompt_disjoint,0.75,length,gen_model=qwen35_9b,-1.5152931882807834
+prompt_disjoint,0.75,length,gen_model=qwen35_27b,-1.437623702290297
+prompt_disjoint,0.75,length,prefix_segments,1.1272689064887051
+prompt_disjoint,0.75,length,gen_model=reasoner,0.9199981409400452
+prompt_disjoint,0.75,length,difficulty_raw=Sexual content,-0.7559576538278816
+prompt_disjoint,0.75,length,difficulty_raw=Illegal goods and services,-0.3713634175860968
+prompt_disjoint,0.75,length,difficulty_raw=Non-violent crimes,-0.3429066512686827
+prompt_disjoint,0.75,length,difficulty_raw=Violence,-0.28607888312199536
+prompt_disjoint,0.75,length,"difficulty_raw=Hate, harassment and discrimination",-0.27447816658349944
+prompt_disjoint,0.75,length,gen_model=gemma4_31b,-0.2434747000439909
+prompt_disjoint,0.75,length,gen_model=gemma4_e4b,0.12382955580582584
+prompt_disjoint,0.75,length,decode_temperature,5.1336972517694224e-24
+prompt_disjoint,0.75,length,task_type=safety,0.0
+prompt_disjoint,0.75,counts,gen_model=qwen35_4b,-2.407214886873732
+prompt_disjoint,0.75,counts,gen_model=qwen35_9b,-1.6110636634331954
+prompt_disjoint,0.75,counts,gen_model=qwen35_27b,-1.5467017221709418
+prompt_disjoint,0.75,counts,prefix_segments,1.2121118876997892
+prompt_disjoint,0.75,counts,gen_model=reasoner,0.8901935902023018
+prompt_disjoint,0.75,counts,difficulty_raw=Sexual content,-0.7508540336403297
+prompt_disjoint,0.75,counts,rate_backtracking,-0.43245865265699823
+prompt_disjoint,0.75,counts,rate_verification,0.3895208122427445
+prompt_disjoint,0.75,counts,gen_model=gemma4_31b,-0.3617109607290647
+prompt_disjoint,0.75,counts,difficulty_raw=Non-violent crimes,-0.3097803390925776
+prompt_disjoint,0.75,counts,difficulty_raw=Illegal goods and services,-0.3028244260032411
+prompt_disjoint,0.75,counts,"difficulty_raw=Hate, harassment and discrimination",-0.25993932332600117
+prompt_disjoint,0.75,counts,rate_Question_and_Answering,-0.25957398241392937
+prompt_disjoint,0.75,counts,rate_Perspective_Shift,0.2534758213369014
+prompt_disjoint,0.75,counts,difficulty_raw=Violence,-0.2365339168995858
+prompt_disjoint,0.75,counts,gen_model=gemma4_e4b,0.06820568509740159
+prompt_disjoint,0.75,counts,rate_backward_chaining,0.05242743201082956
+prompt_disjoint,0.75,counts,rate_subgoal,0.041599502629699615
+prompt_disjoint,0.75,counts,rate_Conflict_of_Perspectives,0.029023694083020756
+prompt_disjoint,0.75,counts,rate_Reconciliation,0.004521301910864115
+prompt_disjoint,0.75,temporal,gen_model=qwen35_4b,-2.232425991758615
+prompt_disjoint,0.75,temporal,gen_model=qwen35_27b,-1.6023668494680592
+prompt_disjoint,0.75,temporal,gen_model=qwen35_9b,-1.5896289421952847
+prompt_disjoint,0.75,temporal,prefix_segments,1.1566155146956336
+prompt_disjoint,0.75,temporal,gen_model=reasoner,0.8729268952622353
+prompt_disjoint,0.75,temporal,difficulty_raw=Sexual content,-0.8341245899138103
+prompt_disjoint,0.75,temporal,gen_model=gemma4_31b,-0.5744868747413171
+prompt_disjoint,0.75,temporal,rate_backtracking,-0.4434844978358216
+prompt_disjoint,0.75,temporal,difficulty_raw=Non-violent crimes,-0.41433808911821945
+prompt_disjoint,0.75,temporal,difficulty_raw=Illegal goods and services,-0.3897175071575375
+prompt_disjoint,0.75,temporal,bin1_Perspective_Shift,0.33826015280274135
+prompt_disjoint,0.75,temporal,bin3_subgoal,0.3347983538757679
+prompt_disjoint,0.75,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.3122315917379849
+prompt_disjoint,0.75,temporal,bin0_subgoal,0.30288596908182946
+prompt_disjoint,0.75,temporal,bin2_Question_and_Answering,-0.3009426458113284
+prompt_disjoint,0.75,temporal,bin1_backward_chaining,-0.29468198577820476
+prompt_disjoint,0.75,temporal,bin3_verification,0.28001657737650276
+prompt_disjoint,0.75,temporal,bin3_Reconciliation,0.26640813088624515
+prompt_disjoint,0.75,temporal,rate_verification,0.25985520499287734
+prompt_disjoint,0.75,temporal,difficulty_raw=Violence,-0.24826866888822224
+prompt_disjoint,0.75,time_shuffled,gen_model=qwen35_4b,-2.41263165093878
+prompt_disjoint,0.75,time_shuffled,gen_model=qwen35_9b,-1.616526805121584
+prompt_disjoint,0.75,time_shuffled,gen_model=qwen35_27b,-1.5529107697732552
+prompt_disjoint,0.75,time_shuffled,prefix_segments,1.2111559813442587
+prompt_disjoint,0.75,time_shuffled,gen_model=reasoner,0.8891256601103739
+prompt_disjoint,0.75,time_shuffled,difficulty_raw=Sexual content,-0.7511814533718107
+prompt_disjoint,0.75,time_shuffled,gen_model=gemma4_31b,-0.3654253242760729
+prompt_disjoint,0.75,time_shuffled,difficulty_raw=Non-violent crimes,-0.30963923556689243
+prompt_disjoint,0.75,time_shuffled,difficulty_raw=Illegal goods and services,-0.3018348191217486
+prompt_disjoint,0.75,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.26041495885205695
+prompt_disjoint,0.75,time_shuffled,difficulty_raw=Violence,-0.23577346557071333
+prompt_disjoint,0.75,time_shuffled,shuffled_bin3_backtracking,-0.08812164922725822
+prompt_disjoint,0.75,time_shuffled,shuffled_bin2_backtracking,-0.08812164922725822
+prompt_disjoint,0.75,time_shuffled,shuffled_bin1_backtracking,-0.08812164922725822
+prompt_disjoint,0.75,time_shuffled,rate_backtracking,-0.08812164922725822
+prompt_disjoint,0.75,time_shuffled,shuffled_bin0_backtracking,-0.08812164922725822
+prompt_disjoint,0.75,time_shuffled,shuffled_bin2_verification,0.08112538902218382
+prompt_disjoint,0.75,time_shuffled,rate_verification,0.08112538902218382
+prompt_disjoint,0.75,time_shuffled,shuffled_bin3_verification,0.08112538902218382
+prompt_disjoint,0.75,time_shuffled,shuffled_bin0_verification,0.08112538902218382
+random_trace,0.75,metadata,gen_model=reasoner,1.1811752800635174
+random_trace,0.75,metadata,gen_model=qwen35_27b,-1.0814071875782538
+random_trace,0.75,metadata,gen_model=qwen35_9b,-1.0728743145419095
+random_trace,0.75,metadata,gen_model=qwen35_4b,-1.0450313596597698
+random_trace,0.75,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+random_trace,0.75,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+random_trace,0.75,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+random_trace,0.75,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+random_trace,0.75,metadata,difficulty_raw=Violence,-0.26150689002324057
+random_trace,0.75,metadata,gen_model=gemma4_31b,-0.21603934397996016
+random_trace,0.75,metadata,gen_model=gemma4_e4b,0.14354116704333905
+random_trace,0.75,metadata,task_type=safety,0.0
+random_trace,0.75,length,gen_model=qwen35_4b,-2.2006061502981766
+random_trace,0.75,length,gen_model=qwen35_9b,-1.5152931882807834
+random_trace,0.75,length,gen_model=qwen35_27b,-1.437623702290297
+random_trace,0.75,length,prefix_segments,1.1272689064887051
+random_trace,0.75,length,gen_model=reasoner,0.9199981409400452
+random_trace,0.75,length,difficulty_raw=Sexual content,-0.7559576538278816
+random_trace,0.75,length,difficulty_raw=Illegal goods and services,-0.3713634175860968
+random_trace,0.75,length,difficulty_raw=Non-violent crimes,-0.3429066512686827
+random_trace,0.75,length,difficulty_raw=Violence,-0.28607888312199536
+random_trace,0.75,length,"difficulty_raw=Hate, harassment and discrimination",-0.27447816658349944
+random_trace,0.75,length,gen_model=gemma4_31b,-0.2434747000439909
+random_trace,0.75,length,gen_model=gemma4_e4b,0.12382955580582584
+random_trace,0.75,length,decode_temperature,5.1336972517694224e-24
+random_trace,0.75,length,task_type=safety,0.0
+random_trace,0.75,counts,gen_model=qwen35_4b,-2.407214886873732
+random_trace,0.75,counts,gen_model=qwen35_9b,-1.6110636634331954
+random_trace,0.75,counts,gen_model=qwen35_27b,-1.5467017221709418
+random_trace,0.75,counts,prefix_segments,1.2121118876997892
+random_trace,0.75,counts,gen_model=reasoner,0.8901935902023018
+random_trace,0.75,counts,difficulty_raw=Sexual content,-0.7508540336403297
+random_trace,0.75,counts,rate_backtracking,-0.43245865265699823
+random_trace,0.75,counts,rate_verification,0.3895208122427445
+random_trace,0.75,counts,gen_model=gemma4_31b,-0.3617109607290647
+random_trace,0.75,counts,difficulty_raw=Non-violent crimes,-0.3097803390925776
+random_trace,0.75,counts,difficulty_raw=Illegal goods and services,-0.3028244260032411
+random_trace,0.75,counts,"difficulty_raw=Hate, harassment and discrimination",-0.25993932332600117
+random_trace,0.75,counts,rate_Question_and_Answering,-0.25957398241392937
+random_trace,0.75,counts,rate_Perspective_Shift,0.2534758213369014
+random_trace,0.75,counts,difficulty_raw=Violence,-0.2365339168995858
+random_trace,0.75,counts,gen_model=gemma4_e4b,0.06820568509740159
+random_trace,0.75,counts,rate_backward_chaining,0.05242743201082956
+random_trace,0.75,counts,rate_subgoal,0.041599502629699615
+random_trace,0.75,counts,rate_Conflict_of_Perspectives,0.029023694083020756
+random_trace,0.75,counts,rate_Reconciliation,0.004521301910864115
+random_trace,0.75,temporal,gen_model=qwen35_4b,-2.232425991758615
+random_trace,0.75,temporal,gen_model=qwen35_27b,-1.6023668494680592
+random_trace,0.75,temporal,gen_model=qwen35_9b,-1.5896289421952847
+random_trace,0.75,temporal,prefix_segments,1.1566155146956336
+random_trace,0.75,temporal,gen_model=reasoner,0.8729268952622353
+random_trace,0.75,temporal,difficulty_raw=Sexual content,-0.8341245899138103
+random_trace,0.75,temporal,gen_model=gemma4_31b,-0.5744868747413171
+random_trace,0.75,temporal,rate_backtracking,-0.4434844978358216
+random_trace,0.75,temporal,difficulty_raw=Non-violent crimes,-0.41433808911821945
+random_trace,0.75,temporal,difficulty_raw=Illegal goods and services,-0.3897175071575375
+random_trace,0.75,temporal,bin1_Perspective_Shift,0.33826015280274135
+random_trace,0.75,temporal,bin3_subgoal,0.3347983538757679
+random_trace,0.75,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.3122315917379849
+random_trace,0.75,temporal,bin0_subgoal,0.30288596908182946
+random_trace,0.75,temporal,bin2_Question_and_Answering,-0.3009426458113284
+random_trace,0.75,temporal,bin1_backward_chaining,-0.29468198577820476
+random_trace,0.75,temporal,bin3_verification,0.28001657737650276
+random_trace,0.75,temporal,bin3_Reconciliation,0.26640813088624515
+random_trace,0.75,temporal,rate_verification,0.25985520499287734
+random_trace,0.75,temporal,difficulty_raw=Violence,-0.24826866888822224
+random_trace,0.75,time_shuffled,gen_model=qwen35_4b,-2.41263165093878
+random_trace,0.75,time_shuffled,gen_model=qwen35_9b,-1.616526805121584
+random_trace,0.75,time_shuffled,gen_model=qwen35_27b,-1.5529107697732552
+random_trace,0.75,time_shuffled,prefix_segments,1.2111559813442587
+random_trace,0.75,time_shuffled,gen_model=reasoner,0.8891256601103739
+random_trace,0.75,time_shuffled,difficulty_raw=Sexual content,-0.7511814533718107
+random_trace,0.75,time_shuffled,gen_model=gemma4_31b,-0.3654253242760729
+random_trace,0.75,time_shuffled,difficulty_raw=Non-violent crimes,-0.30963923556689243
+random_trace,0.75,time_shuffled,difficulty_raw=Illegal goods and services,-0.3018348191217486
+random_trace,0.75,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.26041495885205695
+random_trace,0.75,time_shuffled,difficulty_raw=Violence,-0.23577346557071333
+random_trace,0.75,time_shuffled,shuffled_bin3_backtracking,-0.08812164922725822
+random_trace,0.75,time_shuffled,shuffled_bin2_backtracking,-0.08812164922725822
+random_trace,0.75,time_shuffled,shuffled_bin1_backtracking,-0.08812164922725822
+random_trace,0.75,time_shuffled,rate_backtracking,-0.08812164922725822
+random_trace,0.75,time_shuffled,shuffled_bin0_backtracking,-0.08812164922725822
+random_trace,0.75,time_shuffled,shuffled_bin2_verification,0.08112538902218382
+random_trace,0.75,time_shuffled,rate_verification,0.08112538902218382
+random_trace,0.75,time_shuffled,shuffled_bin3_verification,0.08112538902218382
+random_trace,0.75,time_shuffled,shuffled_bin0_verification,0.08112538902218382
+prompt_disjoint,1.0,metadata,gen_model=reasoner,1.1811752800635174
+prompt_disjoint,1.0,metadata,gen_model=qwen35_27b,-1.0814071875782538
+prompt_disjoint,1.0,metadata,gen_model=qwen35_9b,-1.0728743145419095
+prompt_disjoint,1.0,metadata,gen_model=qwen35_4b,-1.0450313596597698
+prompt_disjoint,1.0,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+prompt_disjoint,1.0,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+prompt_disjoint,1.0,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+prompt_disjoint,1.0,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+prompt_disjoint,1.0,metadata,difficulty_raw=Violence,-0.26150689002324057
+prompt_disjoint,1.0,metadata,gen_model=gemma4_31b,-0.21603934397996016
+prompt_disjoint,1.0,metadata,gen_model=gemma4_e4b,0.14354116704333905
+prompt_disjoint,1.0,metadata,task_type=safety,0.0
+prompt_disjoint,1.0,length,gen_model=qwen35_4b,-2.199456558510792
+prompt_disjoint,1.0,length,gen_model=qwen35_9b,-1.5152437872467974
+prompt_disjoint,1.0,length,gen_model=qwen35_27b,-1.438105135656276
+prompt_disjoint,1.0,length,prefix_segments,1.1262760946711547
+prompt_disjoint,1.0,length,gen_model=reasoner,0.9196052317929989
+prompt_disjoint,1.0,length,difficulty_raw=Sexual content,-0.7564017894422639
+prompt_disjoint,1.0,length,difficulty_raw=Illegal goods and services,-0.37164540476366187
+prompt_disjoint,1.0,length,difficulty_raw=Non-violent crimes,-0.3433100118640757
+prompt_disjoint,1.0,length,difficulty_raw=Violence,-0.2865810622946441
+prompt_disjoint,1.0,length,"difficulty_raw=Hate, harassment and discrimination",-0.2743460485689137
+prompt_disjoint,1.0,length,gen_model=gemma4_31b,-0.24441461096362382
+prompt_disjoint,1.0,length,gen_model=gemma4_e4b,0.12358383685175305
+prompt_disjoint,1.0,length,decode_temperature,-6.605503807505375e-24
+prompt_disjoint,1.0,length,task_type=safety,0.0
+prompt_disjoint,1.0,counts,gen_model=qwen35_4b,-2.3075854531993305
+prompt_disjoint,1.0,counts,gen_model=qwen35_9b,-1.6296563052366702
+prompt_disjoint,1.0,counts,gen_model=qwen35_27b,-1.572233534693124
+prompt_disjoint,1.0,counts,prefix_segments,1.1727116806853244
+prompt_disjoint,1.0,counts,gen_model=reasoner,0.8357720162528604
+prompt_disjoint,1.0,counts,difficulty_raw=Sexual content,-0.7436002410785194
+prompt_disjoint,1.0,counts,gen_model=gemma4_31b,-0.42877931904719707
+prompt_disjoint,1.0,counts,rate_backtracking,-0.4106807594754939
+prompt_disjoint,1.0,counts,rate_verification,0.3106225015897616
+prompt_disjoint,1.0,counts,difficulty_raw=Illegal goods and services,-0.308359746799848
+prompt_disjoint,1.0,counts,rate_Perspective_Shift,0.3001730367764766
+prompt_disjoint,1.0,counts,"difficulty_raw=Hate, harassment and discrimination",-0.2935179471576887
+prompt_disjoint,1.0,counts,difficulty_raw=Non-violent crimes,-0.28773870886676833
+prompt_disjoint,1.0,counts,difficulty_raw=Violence,-0.2480403435308505
+prompt_disjoint,1.0,counts,rate_Question_and_Answering,-0.1833114696784036
+prompt_disjoint,1.0,counts,rate_subgoal,0.17079018684969705
+prompt_disjoint,1.0,counts,rate_Reconciliation,-0.1596892373337593
+prompt_disjoint,1.0,counts,rate_Conflict_of_Perspectives,0.13158028494392618
+prompt_disjoint,1.0,counts,gen_model=gemma4_e4b,0.04409145493752924
+prompt_disjoint,1.0,counts,rate_backward_chaining,0.02129736174010865
+prompt_disjoint,1.0,temporal,gen_model=qwen35_4b,-2.128720880538907
+prompt_disjoint,1.0,temporal,gen_model=qwen35_9b,-1.5861225427806516
+prompt_disjoint,1.0,temporal,gen_model=qwen35_27b,-1.5827280375011155
+prompt_disjoint,1.0,temporal,prefix_segments,1.088647787746022
+prompt_disjoint,1.0,temporal,gen_model=reasoner,0.910655724513382
+prompt_disjoint,1.0,temporal,difficulty_raw=Sexual content,-0.7779020264004478
+prompt_disjoint,1.0,temporal,gen_model=gemma4_31b,-0.645614453845303
+prompt_disjoint,1.0,temporal,difficulty_raw=Non-violent crimes,-0.41425253739022555
+prompt_disjoint,1.0,temporal,bin2_backtracking,-0.3841219433296718
+prompt_disjoint,1.0,temporal,difficulty_raw=Illegal goods and services,-0.37996386534719523
+prompt_disjoint,1.0,temporal,rate_backtracking,-0.34666377681896676
+prompt_disjoint,1.0,temporal,bin1_Perspective_Shift,0.34636180725088045
+prompt_disjoint,1.0,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.32857332635153125
+prompt_disjoint,1.0,temporal,bin3_Conflict_of_Perspectives,0.31667579590511025
+prompt_disjoint,1.0,temporal,bin2_subgoal,0.2918370668595123
+prompt_disjoint,1.0,temporal,bin2_Question_and_Answering,-0.27770864037900883
+prompt_disjoint,1.0,temporal,difficulty_raw=Violence,-0.2742243522149435
+prompt_disjoint,1.0,temporal,rate_Reconciliation,-0.26998217609824604
+prompt_disjoint,1.0,temporal,bin1_subgoal,-0.2684863140089872
+prompt_disjoint,1.0,temporal,bin3_Perspective_Shift,0.25752613576880035
+prompt_disjoint,1.0,time_shuffled,gen_model=qwen35_4b,-2.3112612795313776
+prompt_disjoint,1.0,time_shuffled,gen_model=qwen35_9b,-1.6346378140793276
+prompt_disjoint,1.0,time_shuffled,gen_model=qwen35_27b,-1.5782910215616497
+prompt_disjoint,1.0,time_shuffled,prefix_segments,1.1715182922105187
+prompt_disjoint,1.0,time_shuffled,gen_model=reasoner,0.8330480635411689
+prompt_disjoint,1.0,time_shuffled,difficulty_raw=Sexual content,-0.7434680907400993
+prompt_disjoint,1.0,time_shuffled,gen_model=gemma4_31b,-0.4341543350334557
+prompt_disjoint,1.0,time_shuffled,difficulty_raw=Illegal goods and services,-0.3074413941137684
+prompt_disjoint,1.0,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.2945482356382467
+prompt_disjoint,1.0,time_shuffled,difficulty_raw=Non-violent crimes,-0.2871369595775527
+prompt_disjoint,1.0,time_shuffled,difficulty_raw=Violence,-0.2475163453675591
+prompt_disjoint,1.0,time_shuffled,shuffled_bin3_backtracking,-0.08350976846401754
+prompt_disjoint,1.0,time_shuffled,shuffled_bin2_backtracking,-0.08350976846401754
+prompt_disjoint,1.0,time_shuffled,shuffled_bin1_backtracking,-0.08350976846401754
+prompt_disjoint,1.0,time_shuffled,rate_backtracking,-0.08350976846401754
+prompt_disjoint,1.0,time_shuffled,shuffled_bin0_backtracking,-0.08350976846401754
+prompt_disjoint,1.0,time_shuffled,rate_verification,0.06435243718006357
+prompt_disjoint,1.0,time_shuffled,shuffled_bin0_verification,0.06435243718006357
+prompt_disjoint,1.0,time_shuffled,shuffled_bin1_verification,0.06435243718006357
+prompt_disjoint,1.0,time_shuffled,shuffled_bin2_verification,0.06435243718006357
+random_trace,1.0,metadata,gen_model=reasoner,1.1811752800635174
+random_trace,1.0,metadata,gen_model=qwen35_27b,-1.0814071875782538
+random_trace,1.0,metadata,gen_model=qwen35_9b,-1.0728743145419095
+random_trace,1.0,metadata,gen_model=qwen35_4b,-1.0450313596597698
+random_trace,1.0,metadata,difficulty_raw=Sexual content,-0.7562762985038785
+random_trace,1.0,metadata,difficulty_raw=Non-violent crimes,-0.3531360042717948
+random_trace,1.0,metadata,difficulty_raw=Illegal goods and services,-0.30038912856669736
+random_trace,1.0,metadata,"difficulty_raw=Hate, harassment and discrimination",-0.2799035115854807
+random_trace,1.0,metadata,difficulty_raw=Violence,-0.26150689002324057
+random_trace,1.0,metadata,gen_model=gemma4_31b,-0.21603934397996016
+random_trace,1.0,metadata,gen_model=gemma4_e4b,0.14354116704333905
+random_trace,1.0,metadata,task_type=safety,0.0
+random_trace,1.0,length,gen_model=qwen35_4b,-2.199456558510792
+random_trace,1.0,length,gen_model=qwen35_9b,-1.5152437872467974
+random_trace,1.0,length,gen_model=qwen35_27b,-1.438105135656276
+random_trace,1.0,length,prefix_segments,1.1262760946711547
+random_trace,1.0,length,gen_model=reasoner,0.9196052317929989
+random_trace,1.0,length,difficulty_raw=Sexual content,-0.7564017894422639
+random_trace,1.0,length,difficulty_raw=Illegal goods and services,-0.37164540476366187
+random_trace,1.0,length,difficulty_raw=Non-violent crimes,-0.3433100118640757
+random_trace,1.0,length,difficulty_raw=Violence,-0.2865810622946441
+random_trace,1.0,length,"difficulty_raw=Hate, harassment and discrimination",-0.2743460485689137
+random_trace,1.0,length,gen_model=gemma4_31b,-0.24441461096362382
+random_trace,1.0,length,gen_model=gemma4_e4b,0.12358383685175305
+random_trace,1.0,length,decode_temperature,-6.605503807505375e-24
+random_trace,1.0,length,task_type=safety,0.0
+random_trace,1.0,counts,gen_model=qwen35_4b,-2.3075854531993305
+random_trace,1.0,counts,gen_model=qwen35_9b,-1.6296563052366702
+random_trace,1.0,counts,gen_model=qwen35_27b,-1.572233534693124
+random_trace,1.0,counts,prefix_segments,1.1727116806853244
+random_trace,1.0,counts,gen_model=reasoner,0.8357720162528604
+random_trace,1.0,counts,difficulty_raw=Sexual content,-0.7436002410785194
+random_trace,1.0,counts,gen_model=gemma4_31b,-0.42877931904719707
+random_trace,1.0,counts,rate_backtracking,-0.4106807594754939
+random_trace,1.0,counts,rate_verification,0.3106225015897616
+random_trace,1.0,counts,difficulty_raw=Illegal goods and services,-0.308359746799848
+random_trace,1.0,counts,rate_Perspective_Shift,0.3001730367764766
+random_trace,1.0,counts,"difficulty_raw=Hate, harassment and discrimination",-0.2935179471576887
+random_trace,1.0,counts,difficulty_raw=Non-violent crimes,-0.28773870886676833
+random_trace,1.0,counts,difficulty_raw=Violence,-0.2480403435308505
+random_trace,1.0,counts,rate_Question_and_Answering,-0.1833114696784036
+random_trace,1.0,counts,rate_subgoal,0.17079018684969705
+random_trace,1.0,counts,rate_Reconciliation,-0.1596892373337593
+random_trace,1.0,counts,rate_Conflict_of_Perspectives,0.13158028494392618
+random_trace,1.0,counts,gen_model=gemma4_e4b,0.04409145493752924
+random_trace,1.0,counts,rate_backward_chaining,0.02129736174010865
+random_trace,1.0,temporal,gen_model=qwen35_4b,-2.128720880538907
+random_trace,1.0,temporal,gen_model=qwen35_9b,-1.5861225427806516
+random_trace,1.0,temporal,gen_model=qwen35_27b,-1.5827280375011155
+random_trace,1.0,temporal,prefix_segments,1.088647787746022
+random_trace,1.0,temporal,gen_model=reasoner,0.910655724513382
+random_trace,1.0,temporal,difficulty_raw=Sexual content,-0.7779020264004478
+random_trace,1.0,temporal,gen_model=gemma4_31b,-0.645614453845303
+random_trace,1.0,temporal,difficulty_raw=Non-violent crimes,-0.41425253739022555
+random_trace,1.0,temporal,bin2_backtracking,-0.3841219433296718
+random_trace,1.0,temporal,difficulty_raw=Illegal goods and services,-0.37996386534719523
+random_trace,1.0,temporal,rate_backtracking,-0.34666377681896676
+random_trace,1.0,temporal,bin1_Perspective_Shift,0.34636180725088045
+random_trace,1.0,temporal,"difficulty_raw=Hate, harassment and discrimination",-0.32857332635153125
+random_trace,1.0,temporal,bin3_Conflict_of_Perspectives,0.31667579590511025
+random_trace,1.0,temporal,bin2_subgoal,0.2918370668595123
+random_trace,1.0,temporal,bin2_Question_and_Answering,-0.27770864037900883
+random_trace,1.0,temporal,difficulty_raw=Violence,-0.2742243522149435
+random_trace,1.0,temporal,rate_Reconciliation,-0.26998217609824604
+random_trace,1.0,temporal,bin1_subgoal,-0.2684863140089872
+random_trace,1.0,temporal,bin3_Perspective_Shift,0.25752613576880035
+random_trace,1.0,time_shuffled,gen_model=qwen35_4b,-2.3112612795313776
+random_trace,1.0,time_shuffled,gen_model=qwen35_9b,-1.6346378140793276
+random_trace,1.0,time_shuffled,gen_model=qwen35_27b,-1.5782910215616497
+random_trace,1.0,time_shuffled,prefix_segments,1.1715182922105187
+random_trace,1.0,time_shuffled,gen_model=reasoner,0.8330480635411689
+random_trace,1.0,time_shuffled,difficulty_raw=Sexual content,-0.7434680907400993
+random_trace,1.0,time_shuffled,gen_model=gemma4_31b,-0.4341543350334557
+random_trace,1.0,time_shuffled,difficulty_raw=Illegal goods and services,-0.3074413941137684
+random_trace,1.0,time_shuffled,"difficulty_raw=Hate, harassment and discrimination",-0.2945482356382467
+random_trace,1.0,time_shuffled,difficulty_raw=Non-violent crimes,-0.2871369595775527
+random_trace,1.0,time_shuffled,difficulty_raw=Violence,-0.2475163453675591
+random_trace,1.0,time_shuffled,shuffled_bin3_backtracking,-0.08350976846401754
+random_trace,1.0,time_shuffled,shuffled_bin2_backtracking,-0.08350976846401754
+random_trace,1.0,time_shuffled,shuffled_bin1_backtracking,-0.08350976846401754
+random_trace,1.0,time_shuffled,rate_backtracking,-0.08350976846401754
+random_trace,1.0,time_shuffled,shuffled_bin0_backtracking,-0.08350976846401754
+random_trace,1.0,time_shuffled,rate_verification,0.06435243718006357
+random_trace,1.0,time_shuffled,shuffled_bin0_verification,0.06435243718006357
+random_trace,1.0,time_shuffled,shuffled_bin1_verification,0.06435243718006357
+random_trace,1.0,time_shuffled,shuffled_bin2_verification,0.06435243718006357

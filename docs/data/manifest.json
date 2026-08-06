@@ -1,6 +1,8 @@
 {
   "project": "Thought Atlas",
   "experiment": "society-task-exp2",
+  "dataset_release": "v2-2026-08",
+  "source_commit": "a48081e17f08283d2f307dd5a558160bf1eeedda",
   "source_paper": "https://arxiv.org/abs/2601.10825",
   "bins": 24,
   "samples_per_cell": 12,

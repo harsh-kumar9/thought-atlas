@@ -140,6 +140,7 @@ const state = {
   renderLatex: true,
   annotationGridIndex: {}, // { [laneId]: index into sorted prompt list }
   showFullTrace: false, // false = annotated sentences only, true = full text with annotations inline
+  annotationFamily: "conversational",
 };
 
 const store = {};
@@ -457,6 +458,13 @@ function bindEvents() {
   if ($("showFullTraceToggle")) {
     $("showFullTraceToggle").addEventListener("click", () => {
       state.showFullTrace = !state.showFullTrace;
+      renderTraceAnnotationGrid();
+    });
+  }
+
+  if ($("annotationFamilyToggle")) {
+    $("annotationFamilyToggle").addEventListener("click", () => {
+      state.annotationFamily = state.annotationFamily === "conversational" ? "cognitive" : "conversational";
       renderTraceAnnotationGrid();
     });
   }
@@ -2477,15 +2485,17 @@ function syncFullTraceToggle() {
   if (toggle) toggle.classList.toggle("active", state.showFullTrace);
 }
 
-function annotationSentenceMarkup(a) {
-  const primary = a.behaviors?.length ? a.behaviors[0] : null;
+function annotationSentenceMarkup(a, family) {
+  const relevant = family
+    ? (a.behaviors || []).filter((b) => familyFor(b) === family)
+    : (a.behaviors || []);
+  const primary = relevant.length ? relevant[0] : null;
   const cls = primary || "no-behavior";
   const num = primary ? BEHAVIOR_NUMBERS[primary] : null;
   return `${num ? `<sup class="annotation-num ${cls}">${num}</sup>` : ""}<span class="trace-annotation-grid-sentence ${cls}">${escapeHtml(a.text)}</span>`;
 }
 
-function buildFullTraceHtml(trace) {
-  const annotations = trace.annotations || [];
+function buildFullTraceHtml(trace, annotations, family) {
   const sections = [
     { type: "think", label: "Thinking", text: trace.thinking?.text || "" },
     { type: "answer", label: "Answer", text: trace.answer?.text || "" },
@@ -2503,9 +2513,9 @@ function buildFullTraceHtml(trace) {
       sectionAnnotations.forEach((a) => {
         if (!a.text) return;
         const idx = section.text.indexOf(a.text, cursor);
-        if (idx === -1) return; // sentence text didn't line up (whitespace/segmentation drift) — leave it unhighlighted
+        if (idx === -1) return;
         html += escapeHtml(section.text.slice(cursor, idx)).replace(/\n/g, "<br>");
-        html += annotationSentenceMarkup(a);
+        html += annotationSentenceMarkup(a, family);
         cursor = idx + a.text.length;
       });
       html += escapeHtml(section.text.slice(cursor)).replace(/\n/g, "<br>");
@@ -2520,12 +2530,26 @@ function buildFullTraceHtml(trace) {
     .join("");
 }
 
+function syncAnnotationFamilyToggle() {
+  const toggle = $("annotationFamilyToggle");
+  if (!toggle) return;
+  toggle.dataset.family = state.annotationFamily;
+  toggle.textContent = `Showing: ${FAMILY_META[state.annotationFamily]?.short || titleCase(state.annotationFamily)}`;
+}
+
+function annotationMatchesFamily(a, family) {
+  const behaviors = a.behaviors || [];
+  if (!behaviors.length) return false; // no-behavior sentences don't belong to either family
+  return behaviors.some((b) => familyFor(b) === family);
+}
+
 function renderTraceAnnotationGrid() {
   const target = $("trace-annotation-grid");
   if (!target) return;
   renderTraceAnnotationLegend();
   syncTruncateToggle();
   syncFullTraceToggle();
+  syncAnnotationFamilyToggle();
 
   target.innerHTML = state.lanes
     .map((lane) => {
@@ -2583,19 +2607,29 @@ function renderTraceAnnotationGrid() {
         `;
       }
 
-      // Full-text mode: reconstruct thinking/answer with annotated sentences highlighted inline.
+      const familyAnnotations = annotations.filter((a) => annotationMatchesFamily(a, state.annotationFamily));
+
       if (state.showFullTrace) {
         return `
           <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
             ${head}
             ${promptBlock}
-            ${buildFullTraceHtml(trace)}
+            ${buildFullTraceHtml(trace, familyAnnotations, state.annotationFamily)}
           </div>
         `;
       }
 
-      // Default mode: annotated sentences only (existing behavior).
-      const { visible, hiddenCount } = truncateAnnotations(annotations);
+      if (!familyAnnotations.length) {
+        return `
+          <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+            ${head}
+            ${promptBlock}
+            <div class="trace-annotation-status">No ${FAMILY_META[state.annotationFamily]?.short.toLowerCase() || state.annotationFamily} behaviors identified for this trace.</div>
+          </div>
+        `;
+      }
+
+      const { visible, hiddenCount } = truncateAnnotations(familyAnnotations);
       return `
         <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
           ${head}
@@ -2605,7 +2639,7 @@ function renderTraceAnnotationGrid() {
               .map((a) =>
                 a._truncationMarker
                   ? `<span class="trace-annotation-truncation-marker">⋯ ${hiddenCount} sentence${hiddenCount === 1 ? "" : "s"} hidden ⋯</span>`
-                  : annotationSentenceMarkup(a),
+                  : annotationSentenceMarkup(a, state.annotationFamily),
               )
               .join("")}
           </p>
@@ -2687,19 +2721,17 @@ function renderTraceAnnotationLegend() {
   const target = $("trace-annotation-legend");
   if (!target) return;
 
-  const groups = ["cognitive", "conversational"]
-    .map((family) => ({
-      family,
-      meta: FAMILY_META[family],
-      behaviors: Object.keys(BEHAVIOR_NUMBERS).filter((behavior) => familyFor(behavior) === family),
-    }))
-    .filter((group) => group.behaviors.length);
+  const family = state.annotationFamily;
+  const group = {
+    family,
+    meta: FAMILY_META[family],
+    behaviors: Object.keys(BEHAVIOR_NUMBERS).filter((behavior) => familyFor(behavior) === family),
+  };
 
-  target.innerHTML = groups
-    .map(
-      (group) => `
+  target.innerHTML = group.behaviors.length
+    ? `
         <div class="trace-annotation-legend-group">
-          <div class="trace-annotation-legend-group-title">${escapeHtml(group.meta?.short || titleCase(group.family))}</div>
+          <div class="trace-annotation-legend-group-title">${escapeHtml(group.meta?.short || titleCase(group.family))} Behaviours</div>
           ${group.behaviors
             .map(
               (behavior) => `
@@ -2711,9 +2743,8 @@ function renderTraceAnnotationLegend() {
             )
             .join("")}
         </div>
-      `,
-    )
-    .join("");
+      `
+    : "";
 }
 
 

@@ -2065,7 +2065,8 @@ td small {
 
 #truncateAnnotationsToggle.active,
 #renderLatexToggle.active,
-#showFullTraceToggle.active {
+#showFullTraceToggle.active,
+#annotationFamilyToggle.active {
   border-color: rgba(20, 155, 143, 0.35);
   background: #e8fbf8;
   color: #075e55;

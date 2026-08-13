@@ -2116,6 +2116,18 @@ td small {
   letter-spacing: 0.02em;
 }
 
+.panel-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#renderLatexToggle.active {
+  border-color: rgba(20, 155, 143, 0.35);
+  background: #e8fbf8;
+  color: #075e55;
+}
+
 
 @media (max-width: 1180px) {
   .topbar {

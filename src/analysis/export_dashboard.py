@@ -604,6 +604,7 @@ def export_traces_by_prompt(
         for r in track_a.select(["trace_id"] + [b for b in BEHAVIORS if b in track_a.columns]).to_dicts()
     }
     sample_records = []
+    print(with_outcomes["gen_model"].unique().to_list())
     for domain in DOMAINS:
         if domain in SENSITIVE_TRACE_DOMAINS and not include_sensitive:
             continue
@@ -688,17 +689,17 @@ def export_traces_by_prompt(
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--traces-glob", default="data/traces/traces_*.parquet")
-    ap.add_argument("--trackA", default="data/judge/prod/trackA_counts__google_gemma-4-31B-it.parquet")
-    ap.add_argument("--trackB", default="data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet")
-    ap.add_argument("--grades", nargs="*", default=["data/perf/success_grades.parquet", "data/perf/code_grades.parquet"])
-    ap.add_argument("--quality", default="data/judge/prod/quality__google_gemma-4-31B-it.parquet")
-    ap.add_argument("--distance-dir", default="data/analysis/cross_model")
-    ap.add_argument("--timing-level", default="data/analysis/timing_level.parquet")
-    ap.add_argument("--prefix-monitor-dir", default="data/analysis/prefix_monitor")
+    ap.add_argument("--traces-glob", default="data/v2/traces/traces_*.parquet")
+    ap.add_argument("--trackA", default="data/v2/judge/trackA_counts__google_gemma-4-31B-it.parquet")
+    ap.add_argument("--trackB", default="data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet")
+    ap.add_argument("--grades", nargs="*", default=["data/v2/perf/success_grades.parquet", "data/v2/perf/code_grades.parquet"])
+    ap.add_argument("--quality", default="data/v2/judge/quality__google_gemma-4-31B-it.parquet")
+    ap.add_argument("--distance-dir", default="data/v2/analysis/cross_model")
+    ap.add_argument("--timing-level", default="data/v2/analysis/timing_level.parquet")
+    ap.add_argument("--prefix-monitor-dir", default="data/v2/analysis/prefix_monitor")
     ap.add_argument(
         "--safety-prefix-monitor-dir",
-        default="data/analysis/safety_prefix_monitor")
+        default="data/v2/analysis/safety_prefix_monitor")
     ap.add_argument("--out-dir", default="docs/data")
     ap.add_argument("--bins", type=int, default=24)
     ap.add_argument("--samples-per-cell", type=int, default=12)

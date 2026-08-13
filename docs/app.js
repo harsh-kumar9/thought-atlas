@@ -137,6 +137,7 @@ const state = {
     split: "prompt_disjoint",
   },
   truncateAnnotations: true,
+  renderLatex: true,
   annotationGridIndex: {}, // { [laneId]: index into sorted prompt list }
 };
 
@@ -434,6 +435,13 @@ function bindEvents() {
   if ($("truncateAnnotationsToggle")) {
     $("truncateAnnotationsToggle").addEventListener("click", () => {
       state.truncateAnnotations = !state.truncateAnnotations;
+      renderTraceAnnotationGrid();
+    });
+  }
+
+  if ($("renderLatexToggle")) {
+    $("renderLatexToggle").addEventListener("click", () => {
+      state.renderLatex = !state.renderLatex;
       renderTraceAnnotationGrid();
     });
   }
@@ -2522,13 +2530,34 @@ function renderTraceAnnotationGrid() {
       `;
     })
     .join("");
+  renderLatexInGrid(target);
+}
+
+
+
+function renderLatexInGrid(target) {
+  if (!state.renderLatex || typeof window.renderMathInElement !== "function") return;
+  window.renderMathInElement(target, {
+    delimiters: [
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false },
+      { left: "\\(", right: "\\)", display: false },
+      { left: "\\[", right: "\\]", display: true },
+    ],
+    throwOnError: false,
+  });
+}
+
+function syncLatexToggle() {
+  const toggle = $("renderLatexToggle");
+  if (toggle) toggle.classList.toggle("active", state.renderLatex);
 }
 
 function wordCount(text) {
   return (text || "").trim().split(/\s+/).filter(Boolean).length;
 }
 
-function truncateAnnotations(annotations, headWordBudget = 300, tailWordBudget = 75) {
+function truncateAnnotations(annotations, headWordBudget = 75, tailWordBudget = 75) {
   if (!state.truncateAnnotations || !annotations.length) {
     return { visible: annotations, hiddenCount: 0 };
   }

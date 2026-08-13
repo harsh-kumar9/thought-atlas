@@ -139,6 +139,7 @@ const state = {
   truncateAnnotations: true,
   renderLatex: true,
   annotationGridIndex: {}, // { [laneId]: index into sorted prompt list }
+  showFullTrace: true, // false = annotated sentences only, true = full text with annotations inline
 };
 
 const store = {};
@@ -452,6 +453,13 @@ function bindEvents() {
     if (prev) stepAnnotationPrompt(prev.dataset.annotationPrev, -1);
     if (next) stepAnnotationPrompt(next.dataset.annotationNext, 1);
   });
+
+  if ($("showFullTraceToggle")) {
+    $("showFullTraceToggle").addEventListener("click", () => {
+      state.showFullTrace = !state.showFullTrace;
+      renderTraceAnnotationGrid();
+    });
+  }
 
   document.querySelectorAll("[data-recipe]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -2464,11 +2472,60 @@ function stepAnnotationPrompt(laneId, delta) {
   renderTraceAnnotationGrid();
 }
 
+function syncFullTraceToggle() {
+  const toggle = $("showFullTraceToggle");
+  if (toggle) toggle.classList.toggle("active", state.showFullTrace);
+}
+
+function annotationSentenceMarkup(a) {
+  const primary = a.behaviors?.length ? a.behaviors[0] : null;
+  const cls = primary || "no-behavior";
+  const num = primary ? BEHAVIOR_NUMBERS[primary] : null;
+  return `${num ? `<sup class="annotation-num ${cls}">${num}</sup>` : ""}<span class="trace-annotation-grid-sentence ${cls}">${escapeHtml(a.text)}</span>`;
+}
+
+function buildFullTraceHtml(trace) {
+  const annotations = trace.annotations || [];
+  const sections = [
+    { type: "think", label: "Thinking", text: trace.thinking?.text || "" },
+    { type: "answer", label: "Answer", text: trace.answer?.text || "" },
+  ];
+
+  return sections
+    .filter((section) => section.text)
+    .map((section) => {
+      const sectionAnnotations = annotations.filter((a) =>
+        section.type === "think" ? (a.section_type || "think") === "think" : (a.section_type || "answer") !== "think",
+      );
+
+      let cursor = 0;
+      let html = "";
+      sectionAnnotations.forEach((a) => {
+        if (!a.text) return;
+        const idx = section.text.indexOf(a.text, cursor);
+        if (idx === -1) return; // sentence text didn't line up (whitespace/segmentation drift) — leave it unhighlighted
+        html += escapeHtml(section.text.slice(cursor, idx)).replace(/\n/g, "<br>");
+        html += annotationSentenceMarkup(a);
+        cursor = idx + a.text.length;
+      });
+      html += escapeHtml(section.text.slice(cursor)).replace(/\n/g, "<br>");
+
+      return `
+        <div class="trace-annotation-fulltext-section">
+          <div class="trace-annotation-fulltext-label">${section.label}</div>
+          <p class="trace-annotation-grid-sentences trace-annotation-grid-sentences--full">${html}</p>
+        </div>
+      `;
+    })
+    .join("");
+}
+
 function renderTraceAnnotationGrid() {
   const target = $("trace-annotation-grid");
   if (!target) return;
   renderTraceAnnotationLegend();
   syncTruncateToggle();
+  syncFullTraceToggle();
 
   target.innerHTML = state.lanes
     .map((lane) => {
@@ -2495,6 +2552,7 @@ function renderTraceAnnotationGrid() {
           ${nav}
         </div>
       `;
+
       if (!trace) {
         return `
           <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
@@ -2503,27 +2561,52 @@ function renderTraceAnnotationGrid() {
           </div>
         `;
       }
+
       const annotations = trace.annotations || [];
+      const behaviorCounts = trace.behavior_counts || {};
+      const totalBehaviorCount = Object.values(behaviorCounts).reduce((sum, n) => sum + (n || 0), 0);
+      const hasBehaviorCounts = totalBehaviorCount > 0 && annotations.some((a) => a.behaviors?.length);
+      const promptBlock = `<p class="trace-annotation-grid-prompt"><span class="prompt-label">Prompt</span>${escapeHtml(trace.prompt?.text || "")}</p>`;
+
+      // No behaviours identified at all — always fall back to full raw text, regardless of toggle.
+      if (!annotations.length || !hasBehaviorCounts) {
+        const fallbackText = [trace.thinking?.text, trace.answer?.text].filter(Boolean).join("\n\n");
+        return `
+          <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+            ${head}
+            ${promptBlock}
+            <div class="trace-annotation-status">No behaviors identified for this trace.</div>
+            <p class="trace-annotation-grid-sentences trace-annotation-grid-sentences--unannotated">
+              ${escapeHtml(fallbackText || "No trace text available.").replace(/\n/g, "<br>")}
+            </p>
+          </div>
+        `;
+      }
+
+      // Full-text mode: reconstruct thinking/answer with annotated sentences highlighted inline.
+      if (state.showFullTrace) {
+        return `
+          <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+            ${head}
+            ${promptBlock}
+            ${buildFullTraceHtml(trace)}
+          </div>
+        `;
+      }
+
+      // Default mode: annotated sentences only (existing behavior).
       const { visible, hiddenCount } = truncateAnnotations(annotations);
       return `
         <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
           ${head}
-          <p class="trace-annotation-grid-prompt"><span class="prompt-label">Prompt</span>${escapeHtml(trace.prompt?.text || "")}</p>
+          ${promptBlock}
           <p class="trace-annotation-grid-sentences">
             ${visible
-              .map((a) => {
-                if (a._truncationMarker) {
-                  return `<span class="trace-annotation-truncation-marker">⋯ ${hiddenCount} sentence${hiddenCount === 1 ? "" : "s"} hidden ⋯</span>`;
-                }
-                const primary = a.behaviors?.length ? a.behaviors[0] : null;
-                const cls = primary || "no-behavior";
-                const num = primary ? BEHAVIOR_NUMBERS[primary] : null;
-                return `
-                  ${num ? `<sup class="annotation-num ${cls}">${num}</sup>` : ""}<span class="trace-annotation-grid-sentence ${cls}">
-                    ${escapeHtml(a.text)}
-                  </span>
-                `;
-              })
+              .map((a) =>
+                a._truncationMarker
+                  ? `<span class="trace-annotation-truncation-marker">⋯ ${hiddenCount} sentence${hiddenCount === 1 ? "" : "s"} hidden ⋯</span>`
+                  : annotationSentenceMarkup(a),
+              )
               .join("")}
           </p>
         </div>

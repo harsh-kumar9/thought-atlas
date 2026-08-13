@@ -139,7 +139,7 @@ const state = {
   truncateAnnotations: true,
   renderLatex: true,
   annotationGridIndex: {}, // { [laneId]: index into sorted prompt list }
-  showFullTrace: true, // false = annotated sentences only, true = full text with annotations inline
+  showFullTrace: false, // false = annotated sentences only, true = full text with annotations inline
 };
 
 const store = {};
@@ -2565,7 +2565,7 @@ function renderTraceAnnotationGrid() {
       const annotations = trace.annotations || [];
       const behaviorCounts = trace.behavior_counts || {};
       const totalBehaviorCount = Object.values(behaviorCounts).reduce((sum, n) => sum + (n || 0), 0);
-      const hasBehaviorCounts = totalBehaviorCount > 0 && annotations.some((a) => a.behaviors?.length);
+      const hasBehaviorCounts = annotations.length > 0;
       const promptBlock = `<p class="trace-annotation-grid-prompt"><span class="prompt-label">Prompt</span>${escapeHtml(trace.prompt?.text || "")}</p>`;
 
       // No behaviours identified at all — always fall back to full raw text, regardless of toggle.

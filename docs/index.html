@@ -26,6 +26,7 @@
         <button class="tab" data-scroll="behavior-counts">Behavior counts</button>
         <button class="tab" data-scroll="raw">Raw traces</button>
         <button class="tab" data-scroll="overview">Overview</button>
+        <button class="tab" data-scroll="trace-annotations">Trace annotations</button>
       </nav>
       <div class="top-actions">
         <a class="ghost-link" href="data/manifest.json" title="Dashboard data manifest">
@@ -208,6 +209,20 @@
           </div>
           <div id="distanceMatrix" class="matrix"></div>
           <div class="matrix-legend"><span>More similar</span><i></i><span>More distant</span></div>
+        </section>
+
+        <section class="panel trace-annotations-panel" id="trace-annotations">
+          <div class="panel-head compact">
+            <div>
+              <h2 id="annotationTitle">Trace Annotations</h2>
+              <p id="annotationMeta">Sentence-by-sentence trace behaviour annotations.</p>
+            </div>
+            <button type="button" id="truncateAnnotationsToggle" class="mini-button active">Truncate long traces</button>
+          </div>
+          <div class="trace-annotation-layout">
+            <aside id="trace-annotation-legend" class="trace-annotation-legend"></aside>
+            <div id="trace-annotation-grid" class="trace-annotation-grid"></div>
+          </div>
         </section>
       </main>
     </div>

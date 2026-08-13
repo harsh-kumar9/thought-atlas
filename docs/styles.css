@@ -1890,127 +1890,6 @@ td small {
   background: linear-gradient(90deg, #40b7a8, #f0c66a, #d9656f);
 }
 
-@media (max-width: 1180px) {
-  .topbar {
-    grid-template-columns: 1fr auto;
-  }
-
-  .tabs {
-    display: none;
-  }
-
-  .app-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .controls {
-    display: none;
-    position: static;
-    height: auto;
-  }
-
-  .controls.open {
-    display: block;
-  }
-
-  .main-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .raw-columns,
-  .trace-facts,
-  .tracka-layout,
-  .monitor-layout,
-  .timing-layout,
-  .timing-filters {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  .topbar {
-    min-height: 60px;
-    padding: 10px;
-  }
-
-  .brand h1 {
-    font-size: 18px;
-  }
-
-  .brand p,
-  .top-actions {
-    display: none;
-  }
-
-  .app-shell {
-    padding: 8px;
-  }
-
-  .compare-panel,
-  .inspector-panel,
-  .tracka-panel,
-  .monitor-panel,
-  .timing-panel,
-  .raw-panel,
-  .summary-panel,
-  .distance-panel {
-    padding: 12px;
-  }
-
-  .panel-head,
-  .lane-readout {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .comparison-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .family-chart-grid,
-  .tracka-card-grid,
-  .tracka-grid,
-  .timing-filters,
-  .trace-annotation-list {
-    grid-template-columns: 1fr;
-  }
-
-  .tracka-bar-row {
-    grid-template-columns: 1fr;
-  }
-
-  .tracka-bar-values {
-    text-align: left;
-  }
-
-  .family-group-head,
-  .trace-annotation-head {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .mini-chart svg {
-    height: 150px;
-  }
-
-  .timing-scatter-card svg {
-    min-height: 260px;
-  }
-
-  .timing-summary-strip {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .monitor-summary-strip {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .monitor-chart-card svg {
-    min-height: 245px;
-  }
-}
 
 .trace-annotation-grid {
   display: grid;
@@ -2115,12 +1994,6 @@ td small {
   background-color: rgb(255, 164, 209);
 }
 
-@media (max-width: 720px) {
-  .trace-annotation-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .trace-annotation-layout {
   display: grid;
   grid-template-columns: minmax(160px, 200px) minmax(0, 1fr);
@@ -2179,19 +2052,6 @@ td small {
   border-radius: 2px;
   color: #111827;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-@media (max-width: 900px) {
-  .trace-annotation-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .trace-annotation-legend {
-    position: static;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
 }
 
 .trace-annotation-truncation-marker {
@@ -2254,4 +2114,150 @@ td small {
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+
+@media (max-width: 1180px) {
+  .topbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .tabs {
+    display: none;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .controls {
+    display: none;
+    position: static;
+    height: auto;
+  }
+
+  .controls.open {
+    display: block;
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .raw-columns,
+  .trace-facts,
+  .tracka-layout,
+  .monitor-layout,
+  .timing-layout,
+  .timing-filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .trace-annotation-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .trace-annotation-legend {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .trace-annotation-legend-group + .trace-annotation-legend-group {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    min-height: 60px;
+    padding: 10px;
+  }
+
+  .brand h1 {
+    font-size: 18px;
+  }
+
+  .brand p,
+  .top-actions {
+    display: none;
+  }
+
+  .app-shell {
+    padding: 8px;
+  }
+
+  .compare-panel,
+  .inspector-panel,
+  .tracka-panel,
+  .monitor-panel,
+  .timing-panel,
+  .raw-panel,
+  .summary-panel,
+  .distance-panel {
+    padding: 12px;
+  }
+
+  .panel-head,
+  .lane-readout {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .family-chart-grid,
+  .tracka-card-grid,
+  .tracka-grid,
+  .timing-filters,
+  .trace-annotation-list {
+    grid-template-columns: 1fr;
+  }
+
+  .tracka-bar-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tracka-bar-values {
+    text-align: left;
+  }
+
+  .family-group-head,
+  .trace-annotation-head {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .mini-chart svg {
+    height: 150px;
+  }
+
+  .timing-scatter-card svg {
+    min-height: 260px;
+  }
+
+  .timing-summary-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .monitor-summary-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .monitor-chart-card svg {
+    min-height: 245px;
+  }
+
+  .trace-annotation-grid {
+    grid-template-columns: 1fr;
+  }
 }

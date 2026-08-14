@@ -6,6 +6,9 @@
     <title>Thought Atlas</title>
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="white"/><path d="M16 3v26M3 16h26M7.5 7.5l17 17M24.5 7.5l-17 17" stroke="%23111827" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="%23149b8f" stroke-width="2"/></svg>' />
     <link rel="stylesheet" href="styles.css?v=20260703-atlas" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
   </head>
   <body>
     <header class="topbar">
@@ -26,6 +29,7 @@
         <button class="tab" data-scroll="behavior-counts">Behavior counts</button>
         <button class="tab" data-scroll="raw">Raw traces</button>
         <button class="tab" data-scroll="overview">Overview</button>
+        <button class="tab" data-scroll="trace-annotations">Trace annotations</button>
       </nav>
       <div class="top-actions">
         <a class="ghost-link" href="data/manifest.json" title="Dashboard data manifest">
@@ -208,6 +212,25 @@
           </div>
           <div id="distanceMatrix" class="matrix"></div>
           <div class="matrix-legend"><span>More similar</span><i></i><span>More distant</span></div>
+        </section>
+
+        <section class="panel trace-annotations-panel" id="trace-annotations">
+          <div class="panel-head compact">
+            <div>
+              <h2 id="annotationTitle">Trace Annotations</h2>
+              <p id="annotationMeta">Sentence-by-sentence trace behaviour annotations.</p>
+            </div>
+            <div class="panel-head-actions">
+              <button type="button" id="truncateAnnotationsToggle" class="mini-button active">Truncate long traces</button>
+              <button type="button" id="renderLatexToggle" class="mini-button active">Render LaTeX</button>
+              <button type="button" id="showFullTraceToggle" class="mini-button">Show full trace</button>
+              <button type="button" id="annotationFamilyToggle" class="mini-button active" data-family="conversational">Showing: Conversational</button>
+            </div>
+          </div>
+          <div class="trace-annotation-layout">
+            <aside id="trace-annotation-legend" class="trace-annotation-legend"></aside>
+            <div id="trace-annotation-grid" class="trace-annotation-grid"></div>
+          </div>
         </section>
       </main>
     </div>

@@ -95,6 +95,28 @@ const BEHAVIOR_DETAILS = {
   Reconciliation: "Integrates competing considerations into a compromise, synthesis, final choice, or resolved direction.",
 };
 
+const BEHAVIOR_NUMBERS = {
+  verification: 1,
+  backtracking: 2,
+  subgoal: 3,
+  backward_chaining: 4,
+  Question_and_Answering: 5,
+  Perspective_Shift: 6,
+  Conflict_of_Perspectives: 7,
+  Reconciliation: 8,
+};
+
+const BEHAVIOR_COLORS = {
+  verification: "rgb(255, 140, 140)",
+  backtracking: "rgb(255, 209, 122)",
+  subgoal: "rgb(255, 255, 132)",
+  backward_chaining: "rgb(139, 255, 139)",
+  Question_and_Answering: "rgb(137, 218, 255)",
+  Perspective_Shift: "rgb(139, 139, 255)",
+  Conflict_of_Perspectives: "rgb(206, 154, 255)",
+  Reconciliation: "rgb(255, 164, 209)",
+};
+
 const state = {
   lanes: [],
   nextLaneIndex: 0,
@@ -114,6 +136,11 @@ const state = {
   monitor: {
     split: "prompt_disjoint",
   },
+  truncateAnnotations: true,
+  renderLatex: true,
+  annotationGridIndex: {}, // { [laneId]: index into sorted prompt list }
+  showFullTrace: false, // false = annotated sentences only, true = full text with annotations inline
+  annotationFamily: "conversational",
 };
 
 const store = {};
@@ -121,7 +148,7 @@ let activeTooltipTarget = null;
 const $ = (id) => document.getElementById(id);
 
 async function loadData() {
-  const [manifest, summary, heartbeat, traces, distance, trackA] = await Promise.all([
+  const [manifest, summary, heartbeat, traces, distance, trackA, trace_sentences] = await Promise.all([
     fetch("data/manifest.json").then((r) => r.json()),
     fetch("data/summary.json").then((r) => r.json()),
     fetch("data/heartbeat.json").then((r) => r.json()),
@@ -130,7 +157,9 @@ async function loadData() {
     fetch("data/trackA.json")
       .then((r) => (r.ok ? r.json() : { cells: [], families: [] }))
       .catch(() => ({ cells: [], families: [] })),
+    fetch("data/trace_samples_by_prompt.json").then((r) => r.json()),
   ]);
+
 
   Object.assign(store, {
     manifest,
@@ -139,6 +168,7 @@ async function loadData() {
     traces: traces.traces,
     distance,
     trackA,
+    traceSentences: trace_sentences.traces || [],
     timingLevel: { meta: {}, pairs: [] },
     prefixMonitor: { meta: {}, metrics: [], deltas: [] },
     timingIndex: new Map(),
@@ -404,6 +434,41 @@ function bindEvents() {
     renderAll();
   });
 
+  if ($("truncateAnnotationsToggle")) {
+    $("truncateAnnotationsToggle").addEventListener("click", () => {
+      state.truncateAnnotations = !state.truncateAnnotations;
+      renderTraceAnnotationGrid();
+    });
+  }
+
+  if ($("renderLatexToggle")) {
+    $("renderLatexToggle").addEventListener("click", () => {
+      state.renderLatex = !state.renderLatex;
+      renderTraceAnnotationGrid();
+    });
+  }
+
+  $("trace-annotation-grid").addEventListener("click", (event) => {
+    const prev = event.target.closest("[data-annotation-prev]");
+    const next = event.target.closest("[data-annotation-next]");
+    if (prev) stepAnnotationPrompt(prev.dataset.annotationPrev, -1);
+    if (next) stepAnnotationPrompt(next.dataset.annotationNext, 1);
+  });
+
+  if ($("showFullTraceToggle")) {
+    $("showFullTraceToggle").addEventListener("click", () => {
+      state.showFullTrace = !state.showFullTrace;
+      renderTraceAnnotationGrid();
+    });
+  }
+
+  if ($("annotationFamilyToggle")) {
+    $("annotationFamilyToggle").addEventListener("click", () => {
+      state.annotationFamily = state.annotationFamily === "conversational" ? "cognitive" : "conversational";
+      renderTraceAnnotationGrid();
+    });
+  }
+
   document.querySelectorAll("[data-recipe]").forEach((button) => {
     button.addEventListener("click", () => {
       applyRecipe(button.dataset.recipe);
@@ -633,6 +698,7 @@ function renderAll() {
   renderTrace();
   renderSummary();
   renderDistance();
+  renderTraceAnnotationGrid();
 }
 
 function syncButtonStates() {
@@ -2387,6 +2453,300 @@ function escapeHtml(value) {
 function escapeAttr(value) {
   return escapeHtml(value).replaceAll("'", "&#39;");
 }
+
+function promptsForLane(lane) {
+  if (!lane) return [];
+  return (store.traceSentences || [])
+    .filter((t) => t.gen_model === lane.model && t.task_type === lane.domain)
+    .slice()
+    .sort((a, b) => (a.instance_id < b.instance_id ? -1 : a.instance_id > b.instance_id ? 1 : 0));
+}
+
+function currentPromptForLane(lane) {
+  const prompts = promptsForLane(lane);
+  if (!prompts.length) return { trace: null, index: 0, total: 0 };
+  const raw = state.annotationGridIndex[lane.id] || 0;
+  const index = ((raw % prompts.length) + prompts.length) % prompts.length; // wrap safely
+  return { trace: prompts[index], index, total: prompts.length };
+}
+
+function stepAnnotationPrompt(laneId, delta) {
+  const lane = laneConfig(laneId);
+  if (!lane) return;
+  const prompts = promptsForLane(lane);
+  if (!prompts.length) return;
+  const current = state.annotationGridIndex[laneId] || 0;
+  state.annotationGridIndex[laneId] = ((current + delta) % prompts.length + prompts.length) % prompts.length;
+  renderTraceAnnotationGrid();
+}
+
+function syncFullTraceToggle() {
+  const toggle = $("showFullTraceToggle");
+  if (toggle) toggle.classList.toggle("active", state.showFullTrace);
+}
+
+function annotationSentenceMarkup(a, family) {
+  const relevant = family
+    ? (a.behaviors || []).filter((b) => familyFor(b) === family)
+    : (a.behaviors || []);
+  const primary = relevant.length ? relevant[0] : null;
+  const cls = primary || "no-behavior";
+  const num = primary ? BEHAVIOR_NUMBERS[primary] : null;
+  return `${num ? `<sup class="annotation-num ${cls}">${num}</sup>` : ""}<span class="trace-annotation-grid-sentence ${cls}">${escapeHtml(a.text)}</span>`;
+}
+
+function buildFullTraceHtml(trace, annotations, family) {
+  const sections = [
+    { type: "think", label: "Thinking", text: trace.thinking?.text || "" },
+    { type: "answer", label: "Answer", text: trace.answer?.text || "" },
+  ];
+
+  return sections
+    .filter((section) => section.text)
+    .map((section) => {
+      const sectionAnnotations = annotations.filter((a) =>
+        section.type === "think" ? (a.section_type || "think") === "think" : (a.section_type || "answer") !== "think",
+      );
+
+      let cursor = 0;
+      let html = "";
+      sectionAnnotations.forEach((a) => {
+        if (!a.text) return;
+        const idx = section.text.indexOf(a.text, cursor);
+        if (idx === -1) return;
+        html += escapeHtml(section.text.slice(cursor, idx)).replace(/\n/g, "<br>");
+        html += annotationSentenceMarkup(a, family);
+        cursor = idx + a.text.length;
+      });
+      html += escapeHtml(section.text.slice(cursor)).replace(/\n/g, "<br>");
+
+      return `
+        <div class="trace-annotation-fulltext-section">
+          <div class="trace-annotation-fulltext-label">${section.label}</div>
+          <p class="trace-annotation-grid-sentences trace-annotation-grid-sentences--full">${html}</p>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function syncAnnotationFamilyToggle() {
+  const toggle = $("annotationFamilyToggle");
+  if (!toggle) return;
+  toggle.dataset.family = state.annotationFamily;
+  toggle.textContent = `Showing: ${FAMILY_META[state.annotationFamily]?.short || titleCase(state.annotationFamily)}`;
+}
+
+function annotationMatchesFamily(a, family) {
+  const behaviors = a.behaviors || [];
+  if (!behaviors.length) return false; // no-behavior sentences don't belong to either family
+  return behaviors.some((b) => familyFor(b) === family);
+}
+
+function renderTraceAnnotationGrid() {
+  const target = $("trace-annotation-grid");
+  if (!target) return;
+  renderTraceAnnotationLegend();
+  syncTruncateToggle();
+  syncFullTraceToggle();
+  syncAnnotationFamilyToggle();
+
+  target.innerHTML = state.lanes
+    .map((lane) => {
+      const style = laneStyle(lane.id);
+      const { trace, index, total } = currentPromptForLane(lane);
+      const nav = total > 1
+        ? `
+          <div class="trace-nav">
+            <span class="trace-nav-count">Prompt ${index + 1} / ${total}</span>
+            <button class="icon-button" data-annotation-prev="${escapeAttr(lane.id)}" aria-label="Previous prompt">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+            </button>
+            <button class="icon-button" data-annotation-next="${escapeAttr(lane.id)}" aria-label="Next prompt">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
+            </button>
+          </div>
+        `
+        : "";
+      const head = `
+        <div class="trace-annotation-grid-head">
+          <i style="background:${style.line}"></i>
+          <strong>${laneLabel(lane.id)}</strong>
+          <span>${modelLabel(lane.model)} · ${titleCase(lane.domain)}</span>
+          ${nav}
+        </div>
+      `;
+
+      if (!trace) {
+        return `
+          <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+            ${head}
+            <div class="empty-state">No sampled prompt for this lane.</div>
+          </div>
+        `;
+      }
+
+      const annotations = trace.annotations || [];
+      const behaviorCounts = trace.behavior_counts || {};
+      const totalBehaviorCount = Object.values(behaviorCounts).reduce((sum, n) => sum + (n || 0), 0);
+      const hasBehaviorCounts = annotations.length > 0;
+      const promptBlock = `<p class="trace-annotation-grid-prompt"><span class="prompt-label">Prompt</span>${escapeHtml(trace.prompt?.text || "")}</p>`;
+
+      // No behaviours identified at all — always fall back to full raw text, regardless of toggle.
+      if (!annotations.length || !hasBehaviorCounts) {
+        const fallbackText = [trace.thinking?.text, trace.answer?.text].filter(Boolean).join("\n\n");
+        return `
+          <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+            ${head}
+            ${promptBlock}
+            <div class="trace-annotation-status">No behaviors identified for this trace.</div>
+            <p class="trace-annotation-grid-sentences trace-annotation-grid-sentences--unannotated">
+              ${escapeHtml(fallbackText || "No trace text available.").replace(/\n/g, "<br>")}
+            </p>
+          </div>
+        `;
+      }
+
+      const familyAnnotations = annotations.filter((a) => annotationMatchesFamily(a, state.annotationFamily));
+
+      if (state.showFullTrace) {
+        return `
+          <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+            ${head}
+            ${promptBlock}
+            ${buildFullTraceHtml(trace, familyAnnotations, state.annotationFamily)}
+          </div>
+        `;
+      }
+
+      if (!familyAnnotations.length) {
+        return `
+          <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+            ${head}
+            ${promptBlock}
+            <div class="trace-annotation-status">No ${FAMILY_META[state.annotationFamily]?.short.toLowerCase() || state.annotationFamily} behaviors identified for this trace.</div>
+          </div>
+        `;
+      }
+
+      const { visible, hiddenCount } = truncateAnnotations(familyAnnotations);
+      return `
+        <div class="trace-annotation-grid-cell" style="--lane-control-color:${style.line}">
+          ${head}
+          ${promptBlock}
+          <p class="trace-annotation-grid-sentences">
+            ${visible
+              .map((a) =>
+                a._truncationMarker
+                  ? `<span class="trace-annotation-truncation-marker">⋯ ${hiddenCount} sentence${hiddenCount === 1 ? "" : "s"} hidden ⋯</span>`
+                  : annotationSentenceMarkup(a, state.annotationFamily),
+              )
+              .join("")}
+          </p>
+        </div>
+      `;
+    })
+    .join("");
+  renderLatexInGrid(target);
+}
+
+
+
+function renderLatexInGrid(target) {
+  if (!state.renderLatex || typeof window.renderMathInElement !== "function") return;
+  window.renderMathInElement(target, {
+    delimiters: [
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false },
+      { left: "\\(", right: "\\)", display: false },
+      { left: "\\[", right: "\\]", display: true },
+    ],
+    throwOnError: false,
+  });
+}
+
+function syncLatexToggle() {
+  const toggle = $("renderLatexToggle");
+  if (toggle) toggle.classList.toggle("active", state.renderLatex);
+}
+
+function wordCount(text) {
+  return (text || "").trim().split(/\s+/).filter(Boolean).length;
+}
+
+function truncateAnnotations(annotations, headWordBudget = 75, tailWordBudget = 75) {
+  if (!state.truncateAnnotations || !annotations.length) {
+    return { visible: annotations, hiddenCount: 0 };
+  }
+
+  const counts = annotations.map((a) => wordCount(a.text));
+
+  // Walk forward from the start, keeping whole sentences until the head budget is used up.
+  // Always keep at least the first sentence, even if it alone exceeds the budget.
+  let headEnd = 0;
+  let headWords = 0;
+  while (headEnd < annotations.length) {
+    const w = counts[headEnd];
+    if (headEnd > 0 && headWords + w > headWordBudget) break;
+    headWords += w;
+    headEnd += 1;
+  }
+
+  // Walk backward from the end, keeping whole sentences until the tail budget is used up.
+  let tailStart = annotations.length;
+  let tailWords = 0;
+  while (tailStart > headEnd) {
+    const w = counts[tailStart - 1];
+    if (tailStart < annotations.length && tailWords + w > tailWordBudget) break;
+    tailWords += w;
+    tailStart -= 1;
+  }
+
+  const hiddenCount = tailStart - headEnd;
+  if (hiddenCount <= 0) {
+    return { visible: annotations, hiddenCount: 0 };
+  }
+
+  const head = annotations.slice(0, headEnd);
+  const tail = annotations.slice(tailStart);
+  return { visible: [...head, { _truncationMarker: true }, ...tail], hiddenCount };
+}
+
+function syncTruncateToggle() {
+  const toggle = $("truncateAnnotationsToggle");
+  if (toggle) toggle.classList.toggle("active", state.truncateAnnotations);
+}
+
+function renderTraceAnnotationLegend() {
+  const target = $("trace-annotation-legend");
+  if (!target) return;
+
+  const family = state.annotationFamily;
+  const group = {
+    family,
+    meta: FAMILY_META[family],
+    behaviors: Object.keys(BEHAVIOR_NUMBERS).filter((behavior) => familyFor(behavior) === family),
+  };
+
+  target.innerHTML = group.behaviors.length
+    ? `
+        <div class="trace-annotation-legend-group">
+          <div class="trace-annotation-legend-group-title">${escapeHtml(group.meta?.short || titleCase(group.family))} Behaviours</div>
+          ${group.behaviors
+            .map(
+              (behavior) => `
+                <div class="trace-annotation-legend-row">
+                  <span class="trace-annotation-legend-swatch" style="background:${BEHAVIOR_COLORS[behavior]}">${BEHAVIOR_NUMBERS[behavior]}</span>
+                  <span class="trace-annotation-legend-label has-tooltip" data-tooltip="${escapeAttr(behaviorDescription(behavior))}">${titleCase(behavior)}</span>
+                </div>
+              `,
+            )
+            .join("")}
+        </div>
+      `
+    : "";
+}
+
 
 loadData().catch((error) => {
   console.error(error);

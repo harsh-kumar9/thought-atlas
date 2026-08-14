@@ -154,7 +154,7 @@ def _safe(v: Any) -> Any:
 
 def write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(_safe(data), indent=2, ensure_ascii=False))
+    path.write_text(json.dumps(_safe(data), indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def model_display_name(model_key: str | None, model_id: str | None) -> str:
@@ -261,6 +261,7 @@ def export_manifest(traces: pl.DataFrame, out_dir: Path, args: argparse.Namespac
                 "timing_level.json",
                 "trace_samples.json",
                 "distance.json",
+                "trace_samples_by_prompt.json",
             ],
             "notes": [
                 "Raw full-fidelity traces remain in data/traces/*.parquet.",
@@ -589,19 +590,116 @@ def export_prefix_monitor(
         )
 
 
+def export_traces_by_prompt(
+    with_outcomes: pl.DataFrame,
+    track_a: pl.DataFrame,
+    track_b: pl.DataFrame,
+    out_dir: Path,
+    samples_per_cell: int,
+    max_text_chars: int,
+    include_sensitive: bool = False,
+) -> None:
+    counts = {
+        r["trace_id"]: {b: r.get(b, 0) for b in BEHAVIORS}
+        for r in track_a.select(["trace_id"] + [b for b in BEHAVIORS if b in track_a.columns]).to_dicts()
+    }
+    sample_records = []
+    print(with_outcomes["gen_model"].unique().to_list())
+    for domain in DOMAINS:
+        if domain in SENSITIVE_TRACE_DOMAINS and not include_sensitive:
+            continue
+        domain_rows = with_outcomes.filter(pl.col("task_type") == domain)
+        if domain_rows.height == 0:
+            continue
+
+        # Pick the same instance_ids for every model in this domain,
+        # instead of sampling trace_id independently per (model, domain) cell.
+        instance_ids = (
+            domain_rows.select("instance_id")
+            .unique()
+            .sort("instance_id")
+            .head(samples_per_cell)
+            .to_series()
+            .to_list()
+        )
+
+        for model in sorted(with_outcomes["gen_model"].unique().to_list()):
+            sub = domain_rows.filter(
+                (pl.col("gen_model") == model) & (pl.col("instance_id").is_in(instance_ids))
+            )
+            if sub.height == 0:
+                continue
+            # Preserve the same instance_id ordering across models, and keep
+            # only one row per instance_id in case of dupes.
+            sub = sub.sort("instance_id").unique(subset=["instance_id"], keep="first")
+            sample_records.extend(sub.iter_rows(named=True))
+
+    label_cols = [b for b in BEHAVIORS if b in track_b.columns]
+    sample_ids = [r["trace_id"] for r in sample_records]
+    labels_by_trace: dict[str, dict[int, list[str]]] = {}
+    if sample_ids and label_cols and track_b.height:
+        label_rows = (
+            track_b.filter(pl.col("trace_id").is_in(sample_ids))
+            .select(["trace_id", "seg_idx"] + label_cols)
+            .to_dicts()
+        )
+        for row in label_rows:
+            labels = [b for b in label_cols if row.get(b)]
+            if labels:
+                labels_by_trace.setdefault(row["trace_id"], {})[int(row["seg_idx"])] = labels
+
+    rows = []
+    for r in sample_records:
+        think = clipped(r.get("think_text"), max_text_chars)
+        answer = clipped(r.get("answer_text"), max_text_chars)
+        prompt = clipped(r.get("prompt"), max_text_chars // 2)
+        rows.append(
+            {
+                "trace_id": r["trace_id"],
+                "gen_model": r["gen_model"],
+                "gen_model_id": r.get("gen_model_id"),
+                "task_type": r["task_type"],
+                "outcome": r.get("outcome"),
+                "instance_id": r.get("instance_id"),
+                "completed": r.get("completed"),
+                "finish_reason": r.get("finish_reason"),
+                "failure_mode": r.get("failure_mode"),
+                "n_new_tokens": r.get("n_new_tokens"),
+                "success": r.get("success"),
+                "quality_score": r.get("quality_score"),
+                "safety_score": r.get("safety_score"),
+                "safety_harm_score": r.get("safety_harm_score"),
+                "high_harmful_compliance": r.get(
+                    "high_harmful_compliance"),
+                "refusal": r.get("refusal"),
+                "prompt": prompt,
+                "thinking": think,
+                "answer": answer,
+                "behavior_counts": counts.get(r["trace_id"], {}),
+                "annotations": segment_annotations(r.get("full_text"), labels_by_trace.get(r["trace_id"], {})),
+            }
+        )
+    present_domains = set(with_outcomes["task_type"].unique().to_list())
+    excluded = (
+        [] if include_sensitive else
+        sorted(SENSITIVE_TRACE_DOMAINS & present_domains))
+    write_json(
+        out_dir / "trace_samples_by_prompt.json",
+        {"traces": rows, "excluded_sensitive_domains": excluded})
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--traces-glob", default="data/traces/traces_*.parquet")
-    ap.add_argument("--trackA", default="data/judge/prod/trackA_counts__google_gemma-4-31B-it.parquet")
-    ap.add_argument("--trackB", default="data/judge/prod/trackB_full__google_gemma-4-31B-it.parquet")
-    ap.add_argument("--grades", nargs="*", default=["data/perf/success_grades.parquet", "data/perf/code_grades.parquet"])
-    ap.add_argument("--quality", default="data/judge/prod/quality__google_gemma-4-31B-it.parquet")
-    ap.add_argument("--distance-dir", default="data/analysis/cross_model")
-    ap.add_argument("--timing-level", default="data/analysis/timing_level.parquet")
-    ap.add_argument("--prefix-monitor-dir", default="data/analysis/prefix_monitor")
+    ap.add_argument("--traces-glob", default="data/v2/traces/traces_*.parquet")
+    ap.add_argument("--trackA", default="data/v2/judge/trackA_counts__google_gemma-4-31B-it.parquet")
+    ap.add_argument("--trackB", default="data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet")
+    ap.add_argument("--grades", nargs="*", default=["data/v2/perf/success_grades.parquet", "data/v2/perf/code_grades.parquet"])
+    ap.add_argument("--quality", default="data/v2/judge/quality__google_gemma-4-31B-it.parquet")
+    ap.add_argument("--distance-dir", default="data/v2/analysis/cross_model")
+    ap.add_argument("--timing-level", default="data/v2/analysis/timing_level.parquet")
+    ap.add_argument("--prefix-monitor-dir", default="data/v2/analysis/prefix_monitor")
     ap.add_argument(
         "--safety-prefix-monitor-dir",
-        default="data/analysis/safety_prefix_monitor")
+        default="data/v2/analysis/safety_prefix_monitor")
     ap.add_argument("--out-dir", default="docs/data")
     ap.add_argument("--bins", type=int, default=24)
     ap.add_argument("--samples-per-cell", type=int, default=12)
@@ -633,6 +731,9 @@ def main() -> int:
         filename="safety_prefix_monitor.json")
     export_timing_level(Path(args.timing_level), out_dir)
     export_trace_samples(
+        with_outcomes, track_a, track_b, out_dir, args.samples_per_cell,
+        args.max_text_chars, args.include_sensitive_trace_samples)
+    export_traces_by_prompt(
         with_outcomes, track_a, track_b, out_dir, args.samples_per_cell,
         args.max_text_chars, args.include_sensitive_trace_samples)
     export_distances(Path(args.distance_dir), out_dir)

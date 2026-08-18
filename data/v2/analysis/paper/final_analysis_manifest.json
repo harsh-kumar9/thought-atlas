@@ -1,0 +1,942 @@
+{
+  "schema_version": "paper-final-manifest-v1",
+  "config_sha256": "cab9eef0f3432e440bbbbea9d2fa2cacd3295a718fdfa45b346676e4559f6838",
+  "code_commit": "90bad30c8a3e0a1e0860969bc84a133e99bd170a",
+  "files": [
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/analysis_manifest.json",
+      "bytes": 11743,
+      "sha256": "25177976adb07a5c176071c7cf2a198341f8554f1830dd325a8ba1b8ef531b71"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/analysis_source_by_model.csv",
+      "bytes": 389,
+      "sha256": "45ab70c3da167ebb6a0703201b836e01e29c1f7fdbf47e356e80c1d84f4a7a85"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/completion_by_cell.csv",
+      "bytes": 4458,
+      "sha256": "1bdc73614139e111a91667d97f1445dc2d44bbcc8badc9c7dd21491f18fe2793"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/context_pair_coverage.csv",
+      "bytes": 5261,
+      "sha256": "32c56643bc746072132955a20f37a4953903f17bf8ddbaaf78998a0049af7906"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/data_quality_flags.csv",
+      "bytes": 2076,
+      "sha256": "1f872b383dbc3345420d0966d36ab242e1d658f59d4b09c88bcc7b80a6eb1318"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/outcome_coverage.csv",
+      "bytes": 5027,
+      "sha256": "da7a950d70e83f9b7619c0f5626885985e365168868ba0f29ef288df6a7ab733"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/segment_coverage.csv",
+      "bytes": 5919,
+      "sha256": "be4b880b81d2ca562e3c902f72eabfd753e43cc61f021359ff959eef3dc84338"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/00_audit/trace_coverage.csv",
+      "bytes": 4111,
+      "sha256": "9688f4da73beb4eed5dbe72c6283069481753a5ec66a4e5f071a27f2839b2a16"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/01_family_structure/balanced_partition_test.csv",
+      "bytes": 4110,
+      "sha256": "43ace9f44df75959ea42e30ca14123cc8baaa1041b75c0daa5e041d6ed8c9727"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/01_family_structure/behavior_profile_vectors.parquet",
+      "bytes": 29358,
+      "sha256": "2b1e2d305ef7b978262d44ac2ee143e9ce841bedc3373db4d0321459685f3cbb"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/01_family_structure/behavior_similarity.csv",
+      "bytes": 3082,
+      "sha256": "00d97fab641ca725c6d3d2a5ae81dea67bb474f5bf79ad065391953e6ccd6eac"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/01_family_structure/domain_temporal_effects.csv",
+      "bytes": 1979,
+      "sha256": "fb85baea9b82accb87b66f3194c0e2a2066b51221a4660ddf82ec3dee715477f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/01_family_structure/family_separation_bootstrap.csv",
+      "bytes": 25483,
+      "sha256": "dccdab8584c91eaefa003ce77253361f68fa5399c832e826122d2bc77cdc75e1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/01_family_structure/family_structure_summary.json",
+      "bytes": 279,
+      "sha256": "fff28a2f08cc9d76233340a220d2999adda451fa9437d4a4be7f452fd3b80213"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/01_family_structure/pairwise_cooccurrence.csv",
+      "bytes": 3003,
+      "sha256": "b73ccddc93231fa6ce0713209a3bacaf7339d6193640c36486dc6236adeca0c8"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/amount_shape_summary.json",
+      "bytes": 211,
+      "sha256": "9cd8cce9c15de0c587c15b08e9cf30b2f9d26e0d8b86e18ccbf9cc7ac34662ca"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/behavior_amount_by_cell.csv",
+      "bytes": 33005,
+      "sha256": "f5140abfd166b7874825a0fa807a868fd121b81598f7411cd92635091159ca94"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/behavior_shape_by_cell.parquet",
+      "bytes": 21862,
+      "sha256": "05dd6f0de5d2793f16643f04fa9e089258951368a0c2877ad47d3c2e888108d4"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/completion_sensitivity.csv",
+      "bytes": 10252,
+      "sha256": "6b1e90863722da121387494e6fb256782f11bb9f959ebaa336ede419992270fb"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/hurdle_backward_chaining.csv",
+      "bytes": 4261,
+      "sha256": "dacdc0be324f2941b8e6c6a41118bdb20fbfac2adae6d1cecba64a4ee7ab2c8c"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/model_distance_amount.csv",
+      "bytes": 5760,
+      "sha256": "d036eecdc79c1deaabaccb26ded40b36d948f98d6fbc69f65bdd17232a3e1b3d"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/model_distance_shape.csv",
+      "bytes": 18601,
+      "sha256": "e69110ca0886da740fd0e08f2643e524c7a7eee96f389205167ce3b4da8165ba"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/model_distance_shape_bootstrap.csv",
+      "bytes": 29146,
+      "sha256": "4fe1109d9fb5458a7eb148bec590e3c34ae7f427307dc0dae52d1fd42065b254"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/02_amount_shape/trace_behavior_amount.parquet",
+      "bytes": 2521968,
+      "sha256": "a29576cbc152743bba05cd671735be1fdf3c57de5150d25f44dbf4c3808b7401"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/03_trace_features/feature_correlations.csv",
+      "bytes": 102844,
+      "sha256": "f04e1c5709bb8184cdbe50f13e2ef2527e16db54418d6e87487a964b213f00fe"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/03_trace_features/feature_dictionary.csv",
+      "bytes": 7882,
+      "sha256": "86823df4048f4708d2ae485c76d97c41fa491f740264753762dc69d9b800a6ba"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/03_trace_features/feature_manifest.json",
+      "bytes": 245,
+      "sha256": "f0986c00993b481fab97b6cbec8c72f1a6e8a250a33f2c6b4ccbd2cc4ee2e81a"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/03_trace_features/feature_missingness.csv",
+      "bytes": 9149,
+      "sha256": "ce4e8424ed98cfe0002848238cbb4b174f2adc4608d8f36df300f06b5f53c22c"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/03_trace_features/trace_features.parquet",
+      "bytes": 11181458,
+      "sha256": "2e3e7fc90293c8ae9a1079d47eeceb8309b084203d53cf2eab67d01c45649161"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/domain_meta_analysis.csv",
+      "bytes": 331,
+      "sha256": "d3cbd0a23461bf9dd6176a01435eb5ede1291aadcaba5fd9f821c6978239a366"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/inferential_coefficients.csv",
+      "bytes": 2746,
+      "sha256": "e33e4dcc90c1c969dc9e9e3e4e679b919e60e179a259ea2cb09d9aab570b7fba"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/model_specifications.json",
+      "bytes": 4328,
+      "sha256": "d191c15395031d1518c41e10bf3cbd76d288b1344665450952ed7e4d10ec556d"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/model_transfer_metrics.csv",
+      "bytes": 4124,
+      "sha256": "f13b7e9b975284588a93070594a790907eed1afd8b315baf4f0bb6ed64ce3c4e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/nested_metric_deltas.csv",
+      "bytes": 5710,
+      "sha256": "e9608bc6c1d301cb23fcabf45d7282bb9296a09a8e8c8f445c9249f5869b1498"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/out_of_fold_predictions.parquet",
+      "bytes": 2771789,
+      "sha256": "fb5ed7ce30bd8df4472f7d32f10a198d35afa45cf0db4b85fd71bf1fc77816b5"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/outcome_model_summary.json",
+      "bytes": 212,
+      "sha256": "de134bf4e20242ca39c7d1e6293146053cc01b089ac5a51d4974837c0e5dc2aa"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/predictive_metrics.csv",
+      "bytes": 7308,
+      "sha256": "2e30be5c72503f49fed0990268ef748b3491d60f2e183b732d363db45d54f9e6"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/exploratory_motifs.csv",
+      "bytes": 41,
+      "sha256": "88729399433acf83f7ed03f29ffcf27ab4a6422638a8f79b5a83d72279cf4d23"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/motif_domain_transfer.csv",
+      "bytes": 753,
+      "sha256": "b8964de460a955a9ac57f9ce20111172bce2b1dc07cd53f00f38d6a19928455e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/motif_incremental_metrics.csv",
+      "bytes": 753,
+      "sha256": "b8964de460a955a9ac57f9ce20111172bce2b1dc07cd53f00f38d6a19928455e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/motif_model_transfer.csv",
+      "bytes": 4051,
+      "sha256": "a044db1d9a0ee11344603717a06f3c9d9d2e72ff845f287461dedb87d8057db1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/motif_null_distributions.parquet",
+      "bytes": 336456,
+      "sha256": "21e2cc1e23b2321a15cbb064805c71ebc9a593d776e0f3fffafa78d6f144ab48"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/motif_outcome_effects.csv",
+      "bytes": 5025,
+      "sha256": "ec3d669f8d12ed32db1e108a69dc8f521fd88b8473443e8e6831065833756e88"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/motif_summary.json",
+      "bytes": 300,
+      "sha256": "dbce1595dae276ad022bf19486e7f3f6e736c7d15c9d270a2277273f530961da"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/pairwise_transition_lift.csv",
+      "bytes": 45186,
+      "sha256": "aa29cd36d0f18a5ec39e4a0210bbc4142d4687f447305acd124d180092f61bec"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/05_motifs/pre_registered_motifs.csv",
+      "bytes": 1028,
+      "sha256": "664f2b86c1fdf1ff4c79f58ae0aa7888379e17cfe4933165f3ee459b620f24d1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/06_context/context_by_domain.csv",
+      "bytes": 4688,
+      "sha256": "81c2de07f770931a3ca9552c806aca155d91229e11cceb7c1a9e5c170b7b3b46"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/06_context/context_by_position.csv",
+      "bytes": 4713,
+      "sha256": "fbd5eeb9b8960f6bd4315e6293b07011b9697141853f62cb1ee99a98ccaa374d"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/06_context/context_disagreement_model.csv",
+      "bytes": 212,
+      "sha256": "9da75aaa320acfb51538c71ca20e39b5dd31d7cd335ce9abb76d7758bbf228fc"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/06_context/context_summary.json",
+      "bytes": 313,
+      "sha256": "510a1c8c8c799a5ed48c115ecbb53f2c18172cb5881bed5d4254118157175786"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/06_context/context_validation_sample.csv",
+      "bytes": 148761,
+      "sha256": "49ee3eea1c717b5750166c63c39319d2ef54169fe52a7bd985de022872ed4adb"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/06_context/full_vs_isolated_outcome_metrics.csv",
+      "bytes": 573,
+      "sha256": "10f741981d4ac39c19ea0e9607f7fde9185d3bcdee2f3fa3b94159a2a5de25e9"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/06_context/paired_context_metrics.csv",
+      "bytes": 8512,
+      "sha256": "c783182a6832a9bfd240e9b837f654a83a0929d06625d50ba6671fd6d4e59a8a"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/adaptive_differentiation.csv",
+      "bytes": 4948,
+      "sha256": "0ad22afe273461ec4175c825580d7911836efbe1ff7a5d58392c7a6922f7d166"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/anchor_contrast.csv",
+      "bytes": 165,
+      "sha256": "f3d5bbcbe1c28708f4136d379963d180afd86814a2b520745989b55ad8cc6b1b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/between_domain_distance.csv",
+      "bytes": 53414,
+      "sha256": "d5cb660e94c660718f667926cd6d8e93c63d6445fb07518b65e7b683914c6434"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/differentiation_summary.json",
+      "bytes": 228,
+      "sha256": "4457be3b8951ca59aa843da9f57e20371a12e07193268120a66376e6a4c504e7"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/family_trajectory_tensors.parquet",
+      "bytes": 15501,
+      "sha256": "57989f9bc78a6533968424425fb559e9435889f0c5839ee948add2c8d978b1f1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/gemma_scale_results.csv",
+      "bytes": 1752,
+      "sha256": "d3bf3ffdda5bcf204cfc1f1e2ef6e96c0d542ebc90343345694395f2f6cf039d"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/qwen_scale_results.csv",
+      "bytes": 2552,
+      "sha256": "59141430a3dea3b4167529d59abec2c0e28d03418e9dde58de52d6e829c251f9"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/successful_prototype_alignment.csv",
+      "bytes": 1861,
+      "sha256": "a2a80d08a1e3f668a56e5e01c3ac02b96316cd6af9ad5660bd1eacdce137e811"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/07_adaptive_differentiation/within_domain_bootstrap_distance.csv",
+      "bytes": 15539260,
+      "sha256": "24c0437dccbdcfd07fb7ee29d2e6f1a870cbd0c16c4404491fcb2f08128d6693"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/coalition_dictionary.csv",
+      "bytes": 4631,
+      "sha256": "578c0e308bcce7a02d97bbce1a096679b8d7624508e24fa230e2bfee4309b4ec"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/coalition_windows.parquet",
+      "bytes": 2607118,
+      "sha256": "478a47db2d4009bb0bdb5406445158bf72a2707519b0aeb865e968bc641aa75b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/kline_interpretation_gate.json",
+      "bytes": 460,
+      "sha256": "b4b7d4cdfff7123925a8dfaca218366a44a4a9e0952cba979baeb515c12831c6"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/kline_nulls.csv",
+      "bytes": 26839,
+      "sha256": "f0ed0362602b4760fd2b374c91f25d9def4e7f6063295fa59386c5a8b278cf61"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/reinstatement_outcome_models.csv",
+      "bytes": 2247,
+      "sha256": "ca0c97c4bc3dc2eaf0a6dd8b8c4145ef60ade0cca69a0cf8fc5d0bfa62169d79"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/reinstatement_scores.parquet",
+      "bytes": 1003469,
+      "sha256": "01e35824f9c95951e66ab2e4d968575999e5f8cc39d39a23099a9626046a5e40"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/same_vs_other_stratum.csv",
+      "bytes": 2247,
+      "sha256": "ca0c97c4bc3dc2eaf0a6dd8b8c4145ef60ade0cca69a0cf8fc5d0bfa62169d79"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/08_kline/successful_prototypes.parquet",
+      "bytes": 65723,
+      "sha256": "879b667c6983b6e38ec8b136cc480033a27700ba8fd11a07bd32c1324b3c40c8"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/domain_behavior_attribution.csv",
+      "bytes": 264290,
+      "sha256": "441f25da76225e74695e1a99a0d1060f6fa14b59c1667e8a7d8638038725a729"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/domain_modal_path_table.csv",
+      "bytes": 4602,
+      "sha256": "b0ecdc7ae04a0230a2430f7ef24be54c338435f894eaf4d97cb30e93d7ee9fe1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/domain_signature_models.csv",
+      "bytes": 4787,
+      "sha256": "40541014f4f1d9e0984f483330e219f2496f0ffb1ccfc630c9c09fe6a381a47c"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/modal_path_sequences.csv",
+      "bytes": 22636,
+      "sha256": "e42b944c6a4599158ef4a0e2f1247c647f8906f964f2b5ff06c2deb0f61d8a09"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/modal_paths.csv",
+      "bytes": 361791,
+      "sha256": "27317674e76bd3f33b5764ebff5acc490c2eb467360e2121d5c8e3a15a2e6860"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/model_run_log.json",
+      "bytes": 15537,
+      "sha256": "e5e6f03cad4df43e374c0d7bb1aed9963ddbe9d4b1c73be9ff8454fe534ec1ba"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/native_outcome_behavior_attribution.csv",
+      "bytes": 242916,
+      "sha256": "fed33c30bdb08e015fb045fc24b0099c43e50f72069e99f3f08edef5947a5610"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/native_outcome_signature_models.csv",
+      "bytes": 38916,
+      "sha256": "2d83c0e36c2d86754d2eeaf5d47659a17dd71964a4cbf50f562b0a4b4ef32221"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/pairwise_domain_signature_models.csv",
+      "bytes": 120994,
+      "sha256": "f1d220c8c7468c47b2ad92dae9b65dd8e89f94e718ae24db3cd18328d86bef53"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/quality_class_coverage.csv",
+      "bytes": 1620,
+      "sha256": "5d52d2b520184b2264fd00389a96804b8324ee9254fa7279f19045790c84d44e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/quality_signature_models.csv",
+      "bytes": 28621,
+      "sha256": "a2a8ce1ae4103d9aa8cfb8731bc1991f36d6361cdcbacafc50b0d9052a3b5d48"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/09_signatures/signature_summary.json",
+      "bytes": 1187,
+      "sha256": "374917137f927764e3a84f130dba0c39ace42c97031c52e925b594905228ba89"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/finding_registry.csv",
+      "bytes": 6496,
+      "sha256": "1f1d532440938ba817908cb961479084e178bd09aae35c204658fcd824e6fa67"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/outcomes.parquet",
+      "bytes": 857701,
+      "sha256": "812696676f34d2ba3df053b2900b48ef0c757e192935941d977e719ece95631f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/splits.parquet",
+      "bytes": 630902,
+      "sha256": "99f09e6f53ecf1dd31ccbd45c3c6eeb772a7bff274b060d96617fa891345d650"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table10_domain_signatures.csv",
+      "bytes": 4787,
+      "sha256": "40541014f4f1d9e0984f483330e219f2496f0ffb1ccfc630c9c09fe6a381a47c"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table11_quality_signatures.csv",
+      "bytes": 28621,
+      "sha256": "a2a8ce1ae4103d9aa8cfb8731bc1991f36d6361cdcbacafc50b0d9052a3b5d48"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table12_domain_modal_paths.csv",
+      "bytes": 4602,
+      "sha256": "b0ecdc7ae04a0230a2430f7ef24be54c338435f894eaf4d97cb30e93d7ee9fe1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table13_pairwise_domain_signatures.csv",
+      "bytes": 120994,
+      "sha256": "f1d220c8c7468c47b2ad92dae9b65dd8e89f94e718ae24db3cd18328d86bef53"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table14_domain_behavior_attribution.csv",
+      "bytes": 264290,
+      "sha256": "441f25da76225e74695e1a99a0d1060f6fa14b59c1667e8a7d8638038725a729"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table15_native_outcome_signatures.csv",
+      "bytes": 38916,
+      "sha256": "2d83c0e36c2d86754d2eeaf5d47659a17dd71964a4cbf50f562b0a4b4ef32221"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table16_native_outcome_behavior_attribution.csv",
+      "bytes": 242916,
+      "sha256": "fed33c30bdb08e015fb045fc24b0099c43e50f72069e99f3f08edef5947a5610"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table1_dataset_coverage.csv",
+      "bytes": 4111,
+      "sha256": "9688f4da73beb4eed5dbe72c6283069481753a5ec66a4e5f071a27f2839b2a16"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table2_family_validation.csv",
+      "bytes": 3082,
+      "sha256": "00d97fab641ca725c6d3d2a5ae81dea67bb474f5bf79ad065391953e6ccd6eac"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table3_amount_shape.csv",
+      "bytes": 18601,
+      "sha256": "e69110ca0886da740fd0e08f2643e524c7a7eee96f389205167ce3b4da8165ba"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table4_nested_outcome_increments.csv",
+      "bytes": 5710,
+      "sha256": "e9608bc6c1d301cb23fcabf45d7282bb9296a09a8e8c8f445c9249f5869b1498"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table5_motif_effects.csv",
+      "bytes": 5025,
+      "sha256": "ec3d669f8d12ed32db1e108a69dc8f521fd88b8473443e8e6831065833756e88"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table6_context.csv",
+      "bytes": 8512,
+      "sha256": "c783182a6832a9bfd240e9b837f654a83a0929d06625d50ba6671fd6d4e59a8a"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table7_adaptive_scale.csv",
+      "bytes": 4948,
+      "sha256": "0ad22afe273461ec4175c825580d7911836efbe1ff7a5d58392c7a6922f7d166"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table8_robustness.csv",
+      "bytes": 10252,
+      "sha256": "6b1e90863722da121387494e6fb256782f11bb9f959ebaa336ede419992270fb"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/tables/table9_kline_gate.csv",
+      "bytes": 398,
+      "sha256": "8b4fac45b3c085d0b3aec0f8e3f59218db3403e465dc1636c1ecd899e163f2f4"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/trace_index.parquet",
+      "bytes": 783413,
+      "sha256": "0621ee46351f18202936bd6508dd5d14e9eaec8a992be7b3f6c4c09d779f6955"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/ANALYSIS_REPORT.html",
+      "bytes": 15583,
+      "sha256": "5e9900d1d5a61050be66c2fd6cf4896809575548a91582a54fa38e8a1631bbe3"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/ANALYSIS_REPORT.md",
+      "bytes": 14253,
+      "sha256": "c22ef3e4fa0df4f7d41009332d0a9de9caf46ae29c8fa89a0b2ab083bf04ba04"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/REGRESSION_MODEL_LOG.md",
+      "bytes": 9103,
+      "sha256": "f7ea0d1633d05eadcaafdd85191602cec2b44be4395a357c7848f0fcee9bd19a"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/SIGNATURE_ANALYSIS_REPORT.html",
+      "bytes": 17246,
+      "sha256": "e970bd2d1a627c47020879520646eebb0de466c60e3c44b1feb4943408dd0df4"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/SIGNATURE_ANALYSIS_REPORT.md",
+      "bytes": 14941,
+      "sha256": "78075c2af7517c300256cb1315fbd9b241522caab12b1f4d1082b399ac0f5a4b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig10_domain_signature_information_gain.csv",
+      "bytes": 4787,
+      "sha256": "40541014f4f1d9e0984f483330e219f2496f0ffb1ccfc630c9c09fe6a381a47c"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig11_quality_amount_gain.csv",
+      "bytes": 28621,
+      "sha256": "a2a8ce1ae4103d9aa8cfb8731bc1991f36d6361cdcbacafc50b0d9052a3b5d48"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig12_quality_timing_gain.csv",
+      "bytes": 28621,
+      "sha256": "a2a8ce1ae4103d9aa8cfb8731bc1991f36d6361cdcbacafc50b0d9052a3b5d48"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig13_pairwise_domain_localization.csv",
+      "bytes": 120994,
+      "sha256": "f1d220c8c7468c47b2ad92dae9b65dd8e89f94e718ae24db3cd18328d86bef53"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig14_domain_behavior_amount_attribution.csv",
+      "bytes": 130980,
+      "sha256": "91a6919d229c7654a536b93e793b49a1a832d0e66a75057b3af23bd05c28f93d"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig15_domain_behavior_timing_attribution.csv",
+      "bytes": 133571,
+      "sha256": "bcd5e2bd4f5e756acd745d100a7d5b3249e806a9772704151187ea8345ae9793"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig16_native_outcome_signature_gain.csv",
+      "bytes": 38916,
+      "sha256": "2d83c0e36c2d86754d2eeaf5d47659a17dd71964a4cbf50f562b0a4b4ef32221"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig17_native_outcome_behavior_attribution.csv",
+      "bytes": 242916,
+      "sha256": "fed33c30bdb08e015fb045fc24b0099c43e50f72069e99f3f08edef5947a5610"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig17_native_outcome_evidence_gate.csv",
+      "bytes": 37806,
+      "sha256": "f60bf89e4ca550efeb5de684c2043acaeb307ee70b57004fdc931f7e6c177057"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig1_conceptual_families.csv",
+      "bytes": 208,
+      "sha256": "bdcd1eb8d2b1c41fc6502e1630e501ec4b02852d0eb4e6be43fc3f6a07b5466f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig2_domain_atlas.csv",
+      "bytes": 5947,
+      "sha256": "de0c268dbae28bffe2f978e629c759087ccd5d33a94072497d7a8c380a8e52d9"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig3_amount_vs_shape.csv",
+      "bytes": 404,
+      "sha256": "a14efc897810a6916f199a66d95e90101240d48d3adf217d2db5e2a3e532de5a"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig4_nested_outcome_increments.csv",
+      "bytes": 5305,
+      "sha256": "4d4c1ba309593a990074896379c4a2db8eae4c08e94622d5d3a6932ab1ad58fc"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig5_motif_network.csv",
+      "bytes": 325,
+      "sha256": "9b343394c466d6935e071bfe4268f6af3df1c6eb0af8286e8f398337a72d9d1f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig6_context_sensitivity.csv",
+      "bytes": 4443,
+      "sha256": "176506e8b48ca478198555a9f5f11cfe51298f02dbdb0077ba21dd27e3d303b1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig7_adaptive_differentiation.csv",
+      "bytes": 2405,
+      "sha256": "03345d5232a3153152ac36204bee35c2e983062a53cbec34e31ae1fa31b7d90d"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig8_robustness.csv",
+      "bytes": 198,
+      "sha256": "26d845ec6e13787a28f5f50dc36ecc1045cb40d3c7848839397ce65ffa47e799"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figure_data/fig9_kline_exploratory.csv",
+      "bytes": 237,
+      "sha256": "2339ef2b87937cb7f03939634254c6eef1b6c321e8d1b702e33145239544ca48"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig10_domain_signature_information_gain.pdf",
+      "bytes": 39707,
+      "sha256": "baaaa7af85bfc7a675d7faaeae945a8d465cc66d96375dcfa4c8f924abd7f489"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig10_domain_signature_information_gain.png",
+      "bytes": 104206,
+      "sha256": "d58c653f6115f8b9d8bdbd1432cf774a6a71fb3e388dd0ecddf54993b1fc9a69"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig11_quality_amount_gain.pdf",
+      "bytes": 44584,
+      "sha256": "4246163ce436b87bc2fe78ba2666ade6dec67b375b6c33c94323bf5cbfa14f41"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig11_quality_amount_gain.png",
+      "bytes": 190371,
+      "sha256": "06cd621cda6bd118a7865e28ee40b0b93b29c1095db9a62d195c27e5eea73c92"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig12_quality_timing_gain.pdf",
+      "bytes": 44342,
+      "sha256": "a5e071cf62ce811c1a468c470fc34f8c07dfb4e64dbb1a758bd674e397dd69d2"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig12_quality_timing_gain.png",
+      "bytes": 201445,
+      "sha256": "99cf17424bf45730b76cf20c4bfb947efef592cace8d110e030bbc81b3c2061a"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig13_pairwise_domain_localization.pdf",
+      "bytes": 154916,
+      "sha256": "b2f7c95d0a3da80fddcec3ea8a30724f04eb8ce8fd7480540353b5c0fc5e1f33"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig13_pairwise_domain_localization.png",
+      "bytes": 920172,
+      "sha256": "baca2d2320c7e20d295de5ba25b541d13431e90941f7ffffbd03d15f7b041ff5"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig14_domain_behavior_amount_attribution.pdf",
+      "bytes": 182101,
+      "sha256": "0da29c13046759dc23f10f97f952aa12ff1d82c68f45bd828fa70ef3ddd7480f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig14_domain_behavior_amount_attribution.png",
+      "bytes": 575896,
+      "sha256": "6088fd3376266c175453eef9d116ef399c886af7e8ec6f07447c60fa864d8436"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig15_domain_behavior_timing_attribution.pdf",
+      "bytes": 146301,
+      "sha256": "285c88119264c701f96c048eaaaf445f8c2384a8ea85d7bf9b19c7455ad42649"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig15_domain_behavior_timing_attribution.png",
+      "bytes": 415831,
+      "sha256": "8a841d697733646bb0ef07f52415fbff445c4883479967fbba781a67a2aac843"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig16_native_outcome_amount_gain.pdf",
+      "bytes": 48999,
+      "sha256": "ee73bb9154e9034cd626c76d95b32ff20ee171085cfbc984d3b23108c72ed9c2"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig16_native_outcome_amount_gain.png",
+      "bytes": 206575,
+      "sha256": "6dcaf8c6934b361f484d96dafc1454152cf4081fbe75fa4379ca21b1ce78f527"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig16b_native_outcome_timing_gain.pdf",
+      "bytes": 48876,
+      "sha256": "10da40645906b35e340ef04530875b108711dd6185b09c8a1cf9968169047f3e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig16b_native_outcome_timing_gain.png",
+      "bytes": 201647,
+      "sha256": "b6b4c3fa36f484f4bf901ada780505b4aeadc4675f2664c737f8ab31f0f04a60"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig17_native_outcome_behavior_attribution.pdf",
+      "bytes": 8841,
+      "sha256": "140425664613bf39dfd23a45da69a0714f0ead719801d1bc8ef77bafac2d9c1e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig17_native_outcome_behavior_attribution.png",
+      "bytes": 18101,
+      "sha256": "4dde8ca4a56e52de32eb88f3c72929e84888b87461fc85ba2256460ac8f57733"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig17_native_outcome_evidence_gate.pdf",
+      "bytes": 36841,
+      "sha256": "6a32a9ca4df0fec8d5048e024235743f346ea952b1bef0be68ba58a5d47402d5"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig17_native_outcome_evidence_gate.png",
+      "bytes": 96552,
+      "sha256": "30e8f9afa1c1dff7a70af73b97656986e2a75d10a48ebd6001ffc651162ecdbb"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig1_conceptual_families.pdf",
+      "bytes": 61786,
+      "sha256": "32218c1f7cb6d7b4b1c688f6a4c26a9415b4dfea1e16b481e08801a4a118e4b2"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig1_conceptual_families.png",
+      "bytes": 52464,
+      "sha256": "3e691e2b00b98f643b2b035e20db98d41891d5363de255f7246452761f0a2daf"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig2_domain_atlas.pdf",
+      "bytes": 66450,
+      "sha256": "c9d6730e1f0cf6bb83837e3ccbc31a8d85b5dd79e7caa3d49a1ff92db107434b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig2_domain_atlas.png",
+      "bytes": 81015,
+      "sha256": "5b385abc2986382e5f642346b470374c8626c4227ccc690e501c3c93db4335ea"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig3_amount_vs_shape.pdf",
+      "bytes": 34481,
+      "sha256": "9dae9fe1960623dd6bbd34a95de5fc9cba2a458a5a5679c35a2f651ac721029e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig3_amount_vs_shape.png",
+      "bytes": 62017,
+      "sha256": "5c618ac9e3ea71d0889de9956c9ad687fd35a6534192602b3e052c761819801f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig4_nested_outcome_increments.pdf",
+      "bytes": 55413,
+      "sha256": "b3c153532e63a3b93850fcbd7696a8c9df6b4b29bb3ebb2189d27d54f13f78e8"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig4_nested_outcome_increments.png",
+      "bytes": 71194,
+      "sha256": "9d2b65b71772f478fdfb433453993dfcc77fd82cf6dee71ff423e06f7bbbca0e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig5_motif_network.pdf",
+      "bytes": 60762,
+      "sha256": "20db37072939247cc1d24512aacd04fb8840ceb734542b09ddd481d7978ab246"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig5_motif_network.png",
+      "bytes": 55753,
+      "sha256": "c486e93ca7ad230ddffa1065c85724253c9ece8e98d0fec91ae78a4e81111641"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig6_context_sensitivity.pdf",
+      "bytes": 63189,
+      "sha256": "7316658e3c7c69972e1d82678fe88193e618e11fede276607b4c8bfa331c077b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig6_context_sensitivity.png",
+      "bytes": 66564,
+      "sha256": "05eb0d673e0c49dacffab86b460df6d4b9ddf7f8f5f0df924979498fbce4386e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig7_adaptive_differentiation.pdf",
+      "bytes": 41106,
+      "sha256": "018a5169254e511df467be6477055da78bb60d56f7ea889012b7753e12c30f90"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig7_adaptive_differentiation.png",
+      "bytes": 144307,
+      "sha256": "c3825fe572342ee6f64f538ac4a9b6a6da2514343be1fb78383616bab5573cb1"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig8_robustness.pdf",
+      "bytes": 38505,
+      "sha256": "237d80264b36bb3f175a8f06ed4c7797473991e5e17f99aa030e9e952e71d673"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig8_robustness.png",
+      "bytes": 39686,
+      "sha256": "588676ed0c4e44b05c93009f846278c749b6436bee81eb4cad4a2964243abc0b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig9_kline_exploratory.pdf",
+      "bytes": 12331,
+      "sha256": "6e6a020a176276c71a9ca238d754d3a472b6f023867b89f6a47bdae4b8675234"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/fig9_kline_exploratory.png",
+      "bytes": 57810,
+      "sha256": "e3327d63210bd58e53e9439ae002e580ea1b449a919a882c789a2709ac137f51"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_gemma4_31b.pdf",
+      "bytes": 79886,
+      "sha256": "e7c3900c538267c43518e9cbeab483db0d79f1febe7d8e76387cb68a745c5051"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_gemma4_31b.png",
+      "bytes": 224872,
+      "sha256": "621c3a8ff3b738ca4fb1110784c29fb327a18132b5f2a6d01f6ea056e36a50bb"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_gemma4_e4b.pdf",
+      "bytes": 79485,
+      "sha256": "f7fc7ae5a1fe10255af1b0d60b1329d9888b144537e356b8d72637e1867c6916"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_gemma4_e4b.png",
+      "bytes": 226712,
+      "sha256": "50b844b0c31d1759d2978ffec42df8220b5a11d09e3bdc2257d39c5cf57cd33b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_qwen35_27b.pdf",
+      "bytes": 80431,
+      "sha256": "5ac8e5ba9280ef409203b44d7893e7ba7f41cc564ded2d856a259a55ba78824b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_qwen35_27b.png",
+      "bytes": 226150,
+      "sha256": "8e6b9d2e6239a12e99fa0ee25f6cdc1110284386cc125e17cdec7eef148c3a30"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_qwen35_4b.pdf",
+      "bytes": 80179,
+      "sha256": "d3d7150efc2fab6dd0122ff8a24a8c0e334eb0627804a72d85908643f04bc87f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_qwen35_4b.png",
+      "bytes": 225363,
+      "sha256": "e9e531cfb73860971741736e1b3e063b96d30741b206251fb2b924038aab214b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_qwen35_9b.pdf",
+      "bytes": 80259,
+      "sha256": "0ea62e48a33b9d32e07e881b622a4659d38e9dfd841182b80fd0fb97291cfa0d"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_qwen35_9b.png",
+      "bytes": 225347,
+      "sha256": "597767e6dd301ba8a5ee92cdf087498120b1923dca6064e7a631887851a49e44"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_reasoner.pdf",
+      "bytes": 79865,
+      "sha256": "c36109be513899794d92de9eb87ebd07bfd5684987498bb20127bab249f1be13"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_domain_reasoner.png",
+      "bytes": 220309,
+      "sha256": "f62e9da02692b09067d882869103f94d20098656a29c2bf7e7e547080f9052d9"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_gemma4_31b.pdf",
+      "bytes": 92022,
+      "sha256": "f0005fda7d04ff2853d7df7e5e9f966298144ec94b6a7ab413daa153fe383bd5"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_gemma4_31b.png",
+      "bytes": 469970,
+      "sha256": "d49145ca34b813fa16838453f3cfea3f070f08f74866fdc2989c946623007492"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_gemma4_e4b.pdf",
+      "bytes": 91294,
+      "sha256": "57460c34cb58c953b12c59fa757d13303751f1ae595b124f955f8aad6a891df7"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_gemma4_e4b.png",
+      "bytes": 477965,
+      "sha256": "6aa0ab4afcb25f610b883f41003f0afd8a9de002d8b6ae1765936256fe1fccad"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_qwen35_27b.pdf",
+      "bytes": 92626,
+      "sha256": "4094f1dc32902e0f343c50a785a7425ab7fc9b0f0f76943f2f50a2679463ad2f"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_qwen35_27b.png",
+      "bytes": 471464,
+      "sha256": "3701c06cd67f32caa98a32e8bea6405519348bc775bff00dd94f97bc11469248"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_qwen35_4b.pdf",
+      "bytes": 92363,
+      "sha256": "2da56e01738c62f40993ba4e234f87b825b66e028fa8341b55a6f9d6dfb81329"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_qwen35_4b.png",
+      "bytes": 468241,
+      "sha256": "cadece86c107f41d3ad8cef743bc05c720e4cef91fb579f86c9424f191b9b98b"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_qwen35_9b.pdf",
+      "bytes": 92508,
+      "sha256": "6027fdeef364adaa9782730b12815e7a81151644606ed5c864d4efddcd7a7290"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_qwen35_9b.png",
+      "bytes": 467997,
+      "sha256": "ea483689fa415aadcc937486cb1b5f7f4c1e2de6a3c8a4ca9f7cb5ec2b8b0adf"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_reasoner.pdf",
+      "bytes": 93304,
+      "sha256": "917d11703c7269a5bfd59477c078344e3319c7af8a861c782c09f8e83ddc8ef6"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/docs/paper_analysis/generated/figures/modal_paths_quality_reasoner.png",
+      "bytes": 468713,
+      "sha256": "ffacbd726f107521eb81cd18422aa8cd765f497c3f0f946080a2fce1b6142f9c"
+    }
+  ]
+}

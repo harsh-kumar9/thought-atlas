@@ -1,0 +1,5 @@
+{
+  "mean_increment": -0.00160587743008272,
+  "null_note": "1,000 Monte Carlo count-null draws approximate the two specified shuffles; label-level permutation was computationally deferred and is not used as confirmation.",
+  "interpretation": "motif outcome generalization not supported on average"
+}

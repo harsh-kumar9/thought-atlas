@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "criteria": {
+    "exceeds_current_null": true,
+    "held_out_prompt_confirmation": false,
+    "positive_in_multiple_model_families": true,
+    "increment_beyond_behavior_amount": false,
+    "partial_overlap_beats_exact_repetition": false
+  },
+  "observed_mean_spearman": 0.08543367234572245,
+  "null_95": 0.00023103404186381466,
+  "interpretation": "K-line gate failed; keep as future work",
+  "mechanistic_kline_claim_allowed": false
+}

@@ -1,0 +1,123 @@
+# Reproducible paper-analysis configuration. Paths are repository-relative.
+seed: 42
+
+paths:
+  experiment_config: configs/exp.yaml
+  tasks_dir: data/v2/tasks
+  traces_glob: data/v2/traces/traces_*.parquet
+  answer_extractions: data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet
+  track_b_full: data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet
+  track_b_isolated: data/v2/judge/trackB_isolated__google_gemma-4-31B-it.parquet
+  grades:
+    - data/v2/perf/success_grades.parquet
+    - data/v2/perf/code_grades.parquet
+  quality: data/v2/judge/quality__google_gemma-4-31B-it.parquet
+  output_dir: data/v2/analysis/paper
+  dev_output_dir: data/v2/analysis/paper_dev
+  report_dir: docs/paper_analysis/generated
+
+domains:
+  core: [math, code, gpqa, planning, moral, idea]
+  extensions: [safety, security]
+
+models:
+  qwen_scale: [qwen35_4b, qwen35_9b, qwen35_27b]
+  gemma_scale: [gemma4_e4b, gemma4_31b]
+  confounded_anchor_pair: [anchor, reasoner]
+
+# These values are copied from configs/exp.yaml so the audit can put the
+# channel and budget confounds directly beside the observed data coverage.
+model_metadata:
+  anchor:
+    family: llama_anchor
+    analysis_source: answer_text
+    configured_token_budget: 4096
+  reasoner:
+    family: deepseek_distill
+    analysis_source: think_text
+    configured_token_budget: 65536
+  gemma4_e4b:
+    family: gemma4
+    analysis_source: think_text
+    configured_token_budget: 65536
+  gemma4_12b:
+    family: gemma4
+    analysis_source: think_text
+    configured_token_budget: 65536
+  gemma4_31b:
+    family: gemma4
+    analysis_source: think_text
+    configured_token_budget: 65536
+  qwen35_4b:
+    family: qwen35
+    analysis_source: think_text
+    configured_token_budget: 65536
+  qwen35_9b:
+    family: qwen35
+    analysis_source: think_text
+    configured_token_budget: 65536
+  qwen35_27b:
+    family: qwen35
+    analysis_source: think_text
+    configured_token_budget: 65536
+
+behaviors:
+  dialectical:
+    - Question_and_Answering
+    - Perspective_Shift
+    - Conflict_of_Perspectives
+    - Reconciliation
+  sot_core:
+    - Perspective_Shift
+    - Conflict_of_Perspectives
+    - Reconciliation
+  executive:
+    - verification
+    - backtracking
+    - subgoal
+    - backward_chaining
+
+temporal:
+  descriptive_bins: 20
+  inferential_bins: 10
+  phase_bins: 3
+  motif_lags: [1, 2]
+  motif_max_gap: 3
+  coalition_windows: [3, 5]
+
+resampling:
+  bootstrap_reps: 1000
+  permutation_reps: 1000
+  folds: 5
+  group_column: instance_id
+
+filters:
+  min_segments: 10
+  min_behavior_occurrences_for_shape: 5
+  min_traces_per_cell: 20
+
+sensitivities:
+  completed_only: true
+  all_valid_traces: true
+  fixed_budget_tokens: [4096]
+  inverse_probability_completion_weighting: true
+  questioning_separate: true
+
+multiple_testing:
+  method: benjamini_hochberg
+  q: 0.05
+
+audit:
+  require_strict_v2: true
+  # Approved by the project owner on August 9, 2026. These exact strings are
+  # retained as appendix limitations; any new or changed audit issue blocks.
+  accepted_release_exceptions:
+    - "answer extraction: 13 invalid rows require retry"
+    - "answer extraction: 1622 prompts were truncated"
+    - "answer extraction: 1 ok rows fail consumer validation"
+    - "behavior judge: 673 rows contain parse failures"
+
+dev:
+  max_traces_per_model_domain: 200
+  bootstrap_reps: 30
+  permutation_reps: 30

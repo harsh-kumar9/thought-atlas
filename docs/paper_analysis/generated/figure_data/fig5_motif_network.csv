@@ -1,0 +1,8 @@
+motif,lift
+question_to_subgoal,0.5717097116077865
+conflict_to_verification,0.8400375170064815
+reconciliation_to_verification,0.9740133369279311
+perspective_to_verification,1.1067149487097654
+backtracking_to_subgoal,1.7043671024604208
+verification_to_backtracking,4.38289879749704
+conflict_to_reconciliation,5.763118518920376

@@ -1,0 +1,98 @@
+{
+  "analysis": "Thought Atlas paper RQ results",
+  "seed": 20260809,
+  "split_half_repetitions": 200,
+  "prompt_bootstrap_repetitions": 500,
+  "inputs": [
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet",
+      "sha256": "7bfdc18de054b6cc78a3ec46852cc3df6795d4c3c4f54d3006040c3c1ae864d5"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/trackB_isolated__google_gemma-4-31B-it.parquet",
+      "sha256": "f697b46c0863d34f138d05cbfc59952c61e4898348972dc4bc69f08189c62457"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/perf/success_grades.parquet",
+      "sha256": "f1acc8224cb38f13efb9c8dd0f9c8c2a20f84678396e5a94dccf14abe7e83c0e"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/perf/code_grades.parquet",
+      "sha256": "7ef7a1e06aa9367408b1dd1756dca5783bb3c02cd347d6f3e91ea53f7329ed17"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/quality__google_gemma-4-31B-it.parquet",
+      "sha256": "27ce0b28ab1fa76b34ec9138f548785e2d43e5a11367cdd1f422420a98734784"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_anchor.parquet",
+      "sha256": "f38cbacdafaf4310b7ab5d3f0d452e33086caf57b56fdbfe39f56d24e9b5a302"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_gemma4_31b.parquet",
+      "sha256": "d30cb6dff35c330264343a19c53b53ca80cf0d8a40e961d75f889cf198df6797"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_gemma4_e4b.parquet",
+      "sha256": "e0e0dee6b6661bc3c7a240c11b33fdcd148613a8f96d9139a1ba5b17e1895171"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_27b.parquet",
+      "sha256": "6cc161c30a42cffeee9d2c420c0f2bc12289a8d9b16b1619656c2a276a29f9ba"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_4b.parquet",
+      "sha256": "3e8ad7286d29f1817e52aadf7e202b67e04de5f7cc732ef72ad832e70fb741d4"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_9b.parquet",
+      "sha256": "6bfbc285921841ab8d8946c6d5782f0fe0c21b91a7d92a0595aa9c690df15904"
+    },
+    {
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_reasoner.parquet",
+      "sha256": "3f9a46f8dc2318de6b0468a53a070b3c572849bfa2a16be4e169341483bbfac1"
+    }
+  ],
+  "tables": [
+    "tables/data_coverage_by_cell.csv",
+    "tables/data_coverage_by_model.csv",
+    "tables/endpoint_summary.csv",
+    "tables/rq1_system_summary_by_model_domain.csv",
+    "tables/rq1_system_summary_by_domain.csv",
+    "tables/rq1_behavior_hurdle_summary.csv",
+    "tables/rq1_variance_partition.csv",
+    "tables/rq1_matched_scale_contrasts.csv",
+    "tables/rq2_adaptive_differentiation.csv",
+    "tables/rq2_capability_summary.csv",
+    "tables/rq3_motif_enrichment.csv",
+    "tables/rq3_motif_outcome_by_domain.csv",
+    "tables/rq3_motif_outcome_meta_analysis.csv",
+    "tables/rq3_rq4_predictive_cv.csv",
+    "tables/rq4_context_monitorability.csv",
+    "tables/rq5_timing_outcome_associations.csv"
+  ],
+  "figures": [
+    "figures/fig1_coverage_and_selection.pdf",
+    "figures/fig1_coverage_and_selection.png",
+    "figures/fig2_dual_system_orchestration_atlas.pdf",
+    "figures/fig2_dual_system_orchestration_atlas.png",
+    "figures/fig3_variance_partition.pdf",
+    "figures/fig3_variance_partition.png",
+    "figures/fig4_adaptive_differentiation.pdf",
+    "figures/fig4_adaptive_differentiation.png",
+    "figures/fig5_transition_motif_enrichment.pdf",
+    "figures/fig5_transition_motif_enrichment.png",
+    "figures/fig6_context_monitorability.pdf",
+    "figures/fig6_context_monitorability.png",
+    "figures/fig7_predictive_value_of_structure.pdf",
+    "figures/fig7_predictive_value_of_structure.png",
+    "figures/fig8_timing_outcome_associations.pdf",
+    "figures/fig8_timing_outcome_associations.png"
+  ],
+  "guardrails": [
+    "Llama answer-text anchor excluded from inferential dual-system analyses",
+    "Track-B availability treated as selection and reported",
+    "Full versus isolated labels treated as paired judge measurements, not ground truth",
+    "Timing and outcome analyses described as observational"
+  ]
+}

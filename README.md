@@ -80,6 +80,21 @@ tests/                   CPU smoke tests
 See `DATASET.md` for a data dictionary, `RUNBOOK.md` for end-to-end commands, and
 `SAFETY_SECURITY.md` for the safety/security benchmark decision.
 
+## Paper analysis
+
+The repository includes the audit-gated RQ1–RQ9 paper analysis, its exact
+configuration, generated tables/figures, and machine-readable finding registry.
+Start with [docs/paper_analysis/README.md](docs/paper_analysis/README.md) for the
+analysis population, feature and outcome contracts, methods, assumptions,
+accepted data-quality exceptions, challenges, reproduction order, and supported
+claim boundaries. The authoritative narrative is
+[docs/paper_analysis/generated/ANALYSIS_REPORT.md](docs/paper_analysis/generated/ANALYSIS_REPORT.md).
+
+The main result is intentionally moderate: domain/model organization and context
+sensitivity are well supported, while a clean two-family separation, universal
+scaling law, general motif/coupling outcome benefit, and causal interpretation
+are not.
+
 ## Local Setup
 
 For CPU-side inspection, tests, analysis, and dashboard export:
@@ -341,6 +356,13 @@ Behavior Counts tab uses the same lanes for whole-trace count and presence
 comparisons without a temporal cursor. Raw trace and overview tabs expose sampled
 task text, thinking text, answer text, model/domain summaries, and model-distance
 matrices.
+
+Comparison lanes use redundant color, dash, marker-shape, and letter encodings so
+they remain distinguishable in grayscale and for common color-vision differences.
+The trace-annotation panel can switch between conversational and cognitive labels,
+show a truncated or full sampled trace, and optionally render LaTeX. These controls
+operate only on the compact public sample exported to `docs/data/`; they do not
+change the scientific analysis inputs.
 
 Derived analyses such as prefix predictability and timing-vs-level decompositions
 are exported under `data/analysis/` and `docs/data/` so they can be used in the

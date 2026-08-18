@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thought Atlas analysis-specification coverage audit</title>
+<style>
+:root { color-scheme: light; --ink:#17212b; --muted:#526071; --line:#dce3ea; --accent:#6d4aff; }
+* { box-sizing: border-box; }
+body { margin:0; color:var(--ink); background:#f4f6f8; font:16px/1.62 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+main { max-width:1040px; margin:32px auto; padding:56px 72px; background:white; box-shadow:0 10px 36px rgba(28,39,52,.08); border-radius:16px; }
+h1 { font-size:2.35rem; line-height:1.12; letter-spacing:-.035em; margin:0 0 1rem; }
+h2 { font-size:1.55rem; line-height:1.25; margin:3rem 0 1rem; border-top:1px solid var(--line); padding-top:1.25rem; }
+h3 { font-size:1.15rem; margin:2rem 0 .5rem; }
+p, li { max-width:82ch; }
+blockquote { margin:1.5rem 0; padding:1rem 1.25rem; border-left:4px solid var(--accent); background:#f7f5ff; font-size:1.06rem; }
+table { width:100%; border-collapse:collapse; margin:1.25rem 0 2rem; font-size:.9rem; }
+th, td { border-bottom:1px solid var(--line); padding:.62rem .7rem; text-align:left; vertical-align:top; }
+th { background:#f3f5f8; font-weight:650; }
+tr:hover td { background:#fafbfc; }
+img { display:block; max-width:100%; height:auto; margin:1.5rem auto 2.25rem; border:1px solid var(--line); border-radius:8px; }
+code { background:#f1f3f5; padding:.12rem .32rem; border-radius:4px; font-size:.9em; }
+pre { overflow:auto; background:#17212b; color:#edf2f7; padding:1rem 1.2rem; border-radius:8px; }
+pre code { background:transparent; padding:0; }
+strong { font-weight:680; }
+@media (max-width:760px) { main { margin:0; padding:28px 22px; border-radius:0; } h1 { font-size:1.9rem; } table { display:block; overflow-x:auto; } }
+@media print { body { background:white; } main { box-shadow:none; margin:0; padding:0; max-width:none; } h2 { break-after:avoid; } img, table { break-inside:avoid; } }
+</style>
+</head>
+<body><main><h1>Thought Atlas analysis-specification coverage audit</h1>
+<p><strong>Specification audited:</strong> <code>/Users/harsh/Downloads/THOUGHT_ATLAS_CODEX_ANALYSIS_SPEC.md</code><br />
+<strong>Specification version:</strong> August 6, 2026<br />
+<strong>Audit date:</strong> August 9, 2026<br />
+<strong>Current commit:</strong> <code>90bad30c8a3e0a1e0860969bc84a133e99bd170a</code></p>
+<h2>Bottom line</h2>
+<p>No—the current <code>paper_results</code> package does <strong>not</strong> cover the complete analysis specification.</p>
+<p>It is a compact exploratory analysis that covers important parts of domain conditioning, amount/timing separation, adjacent motifs, contextual labeling, scale contrasts, and adaptive differentiation. It does not implement the specification's mandatory family-validation analysis, Society-of-Thought sensitivity split, exact nested outcome ladder, transfer tests, prescribed motif nulls, full robustness suite, or staged engineering architecture.</p>
+<p>The existing numerical results remain useful, but they should be described as <strong>interim and partially specification-aligned</strong>, not as the final analysis package defined by the specification.</p>
+<h2>Research-question alignment</h2>
+<table>
+<thead>
+<tr>
+<th>Specification RQ</th>
+<th>Current status</th>
+<th>What is covered</th>
+<th>What is missing or materially different</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RQ1 — Are dialectical and executive-control operations empirically distinguishable?</strong></td>
+<td><strong>Missing</strong></td>
+<td>The report separates the families conceptually and compares some domain, timing, and context summaries.</td>
+<td>No standardized behavior-profile vectors; no within- versus cross-family similarity statistic; no exact balanced 4+4 partition test; no stratified pairwise co-occurrence; no mandatory <code>SOT_CORE</code> versus questioning-only sensitivity; no incremental predictive complementarity by family. The current results cannot validate the 4+4 architecture empirically.</td>
+</tr>
+<tr>
+<td><strong>RQ2 — How do domain and model alter amount, timing, and coupling?</strong></td>
+<td><strong>Partially covered</strong></td>
+<td>Trace-level amount, centroids, three-phase allocation, 20-bin family curves, coupling excess, domain×model variance partition, matched Qwen/Gemma comparisons, rare backward-chaining hurdle table.</td>
+<td>Family density is reported as labels per segment rather than divided by four; no family diversity/onset/entropy; no behavior-level effect-size CIs; no Jensen–Shannon/correlation/Wasserstein shape-distance suite; no completed-only, fixed-4096, or IPW sensitivity.</td>
+</tr>
+<tr>
+<td><strong>RQ3 — Are Society-of-Thought behaviors sufficient, or useful through executive coupling?</strong></td>
+<td><strong>Mostly missing</strong></td>
+<td>Prompt-disjoint models compare all behavior counts with timing and motif blocks.</td>
+<td>The required M0, M1-D, M1-E, M2, M3, M4, M5 ladder was not run. There is no `ΔExecutive</td>
+</tr>
+<tr>
+<td><strong>RQ4 — Do cross-family motifs distinguish outcomes and generalize?</strong></td>
+<td><strong>Partially covered</strong></td>
+<td>Six adjacent motifs, position-aware analytic expectation, prompt-cluster bootstrap CIs, within-domain outcome associations controlling constituent rates, prompt-disjoint prediction.</td>
+<td>Only six of the prescribed motifs; no perspective-shift→verification or conflict→reconciliation primary pair; no length-3 motifs; no lag-2 or maximum-gap motifs; no independent circular-shift null; no decile-constrained 1,000-permutation null; no leave-one-domain-out or leave-one-model-family-out transfer. Current motif enrichment is exploratory relative to the specification.</td>
+</tr>
+<tr>
+<td><strong>RQ5 — Which operations require trajectory context?</strong></td>
+<td><strong>Partially covered</strong></td>
+<td>Exact paired keys; disagreement, directional prevalence, retention, raw agreement, κ; behavior/family summaries; full-versus-isolated prompt-disjoint outcome models.</td>
+<td>No model/domain/phase/outcome stratification; no prevalence-adjusted agreement; no clustered disagreement model; no SOT-core family comparison; no coefficient-stability analysis; no cross-judge detection or 1,200–2,000-segment validation sample.</td>
+</tr>
+<tr>
+<td><strong>RQ6 — Is capability associated with adaptive differentiation?</strong></td>
+<td><strong>Partially covered</strong></td>
+<td>Repeated split-half denominator, between-domain/within-domain ratio, bootstrap interval, matched Qwen/Gemma amount and centroid comparisons, capability correlation.</td>
+<td>Uses RMSE rather than family-wise Jensen–Shannon distance; combines the full eight-label amount profile and both family shapes rather than reporting dialectical/SOT-core/executive separately; 200 split halves and 500 interval resamples rather than the final 1,000; no successful-prototype outcome alignment; no completed/fixed-budget/IPW sensitivity.</td>
+</tr>
+<tr>
+<td><strong>Exploratory RQ7 — K-line-inspired coalition reinstatement</strong></td>
+<td><strong>Not run</strong></td>
+<td>None.</td>
+<td>Optional coalition windows, prototypes, held-out reinstatement scores, nulls, and interpretation gate were not implemented. This should remain future work until RQ1–RQ6 are complete.</td>
+</tr>
+</tbody>
+</table>
+<h2>Phase-by-phase implementation coverage</h2>
+<table>
+<thead>
+<tr>
+<th>Specification phase</th>
+<th>Status</th>
+<th>Current artifact</th>
+<th>Main gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phase 1 — Audit and manifest</strong></td>
+<td>Partial</td>
+<td>Coverage tables, endpoint table, input hashes, result manifest, Parquet magic-byte check, existing tests.</td>
+<td>Strict-v2 audit currently returns <code>ok: false</code>; no prescribed <code>00_audit/</code> directory, analysis-source/budget tables, or canonical flag registry.</td>
+</tr>
+<tr>
+<td><strong>Phase 2 — Family structure</strong></td>
+<td>Missing</td>
+<td>No direct equivalent.</td>
+<td>Entire empirical family-separation and SOT sensitivity package is absent.</td>
+</tr>
+<tr>
+<td><strong>Phase 3 — Amount versus shape</strong></td>
+<td>Partial</td>
+<td>Trace amount/rates/centroids, 20-bin conditional shapes, matched-scale contrasts, hurdle summary.</td>
+<td>Required distances, 1,000 prompt bootstraps, and completion/budget/IPW populations are absent.</td>
+</tr>
+<tr>
+<td><strong>Phase 4 — Trace orchestration features</strong></td>
+<td>Partial</td>
+<td><code>cache/trace_features_full.parquet</code> and isolated counterpart.</td>
+<td>Missing presence/diversity, first/last, SD, entropy, runs, recurrence, SOT-core, lag-2, within-5, transition balance/share, feature dictionary, missingness/correlation tables, and feature manifest.</td>
+</tr>
+<tr>
+<td><strong>Phase 5 — Outcome models</strong></td>
+<td>Partial</td>
+<td>Prompt-disjoint ridge models and selected clustered motif regressions.</td>
+<td>Wrong feature ladder and primary outcome treatment; no OOF predictions, bootstrapped metric CIs, continuous-outcome metrics, or transfer.</td>
+</tr>
+<tr>
+<td><strong>Phase 6 — Motifs</strong></td>
+<td>Partial</td>
+<td>Adjacent motif lift and outcome tables.</td>
+<td>Incomplete motif set, incomplete lag/gap structure, non-prescribed null, no transfer.</td>
+</tr>
+<tr>
+<td><strong>Phase 7 — Context</strong></td>
+<td>Partial</td>
+<td>Paired behavior/family metrics and context prediction comparison.</td>
+<td>Missing stratified disagreement analyses, clustered model, PABAK, validation sample.</td>
+</tr>
+<tr>
+<td><strong>Phase 8 — Adaptive differentiation</strong></td>
+<td>Partial</td>
+<td>Amount/shape differentiation table and scale contrasts.</td>
+<td>Not family-specific as specified; no successful-prototype alignment or required robustness populations.</td>
+</tr>
+<tr>
+<td><strong>Phase 9 — K-line</strong></td>
+<td>Missing</td>
+<td>None.</td>
+<td>Optional; correctly deferred.</td>
+</tr>
+</tbody>
+</table>
+<h2>Robustness-contract coverage</h2>
+<table>
+<thead>
+<tr>
+<th>Robustness requirement</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full-context labels</td>
+<td>Covered</td>
+<td>Primary current analysis source.</td>
+</tr>
+<tr>
+<td>Isolated-label replication</td>
+<td>Partial</td>
+<td>Context metrics and prediction comparison only; headline family/domain analyses were not rerun in isolation.</td>
+</tr>
+<tr>
+<td>Cross-judge/human validation</td>
+<td>Missing</td>
+<td>No additional judge files detected or validation sample generated.</td>
+</tr>
+<tr>
+<td>Lexical-cue baseline and cue ablation</td>
+<td>Missing</td>
+<td>Not run.</td>
+</tr>
+<tr>
+<td>All valid versus completed-only</td>
+<td>Missing for headline analyses</td>
+<td>Coverage is shown, but headline estimates were not repeated on completed-only traces.</td>
+</tr>
+<tr>
+<td>Fixed 4,096-token population</td>
+<td>Missing</td>
+<td>Segment labels are available, but the specified token-aligned sensitivity was not implemented.</td>
+</tr>
+<tr>
+<td>Inverse-probability completion weighting</td>
+<td>Missing</td>
+<td>Not run.</td>
+</tr>
+<tr>
+<td>Length-matched subsample / efficiency</td>
+<td>Missing</td>
+<td>Log segment length is controlled, but the other length robustness analyses are absent.</td>
+</tr>
+<tr>
+<td>Prompt-disjoint prediction</td>
+<td>Covered</td>
+<td>Five deterministic folds grouped by <code>instance_id</code>.</td>
+</tr>
+<tr>
+<td>Leave-one-domain-out</td>
+<td>Missing</td>
+<td>Not run.</td>
+</tr>
+<tr>
+<td>Leave-one-model-family-out</td>
+<td>Missing</td>
+<td>Not run.</td>
+</tr>
+<tr>
+<td>Continuous moral/idea primary outcome</td>
+<td>Missing</td>
+<td>Current prediction/inference uses the repository median split. Continuous quality appears only in capability scoring.</td>
+</tr>
+<tr>
+<td>Continuous safety harm primary outcome</td>
+<td>Missing</td>
+<td>Current general endpoint uses absence of high harmful compliance.</td>
+</tr>
+<tr>
+<td>Safety thresholds .25/.50/.75</td>
+<td>Missing</td>
+<td>Not run.</td>
+</tr>
+<tr>
+<td>Multiple-testing correction</td>
+<td>Partial</td>
+<td>BH is used for motif/timing families, but the specification's full test-family registry is absent.</td>
+</tr>
+<tr>
+<td>Multi-seed validation</td>
+<td>Missing</td>
+<td>The release has one sample seed per prompt.</td>
+</tr>
+</tbody>
+</table>
+<h2>Engineering and artifact-contract coverage</h2>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Status</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Staged <code>src/analysis/paper/</code> package</td>
+<td>Missing</td>
+<td>Current implementation is one monolithic <code>scripts/paper_rq_results.py</code>.</td>
+</tr>
+<tr>
+<td><code>configs/paper_analysis.yaml</code></td>
+<td>Missing</td>
+<td>Parameters are CLI defaults, not a hashed config.</td>
+</tr>
+<tr>
+<td>Stage-selectable runner and dev mode</td>
+<td>Missing</td>
+<td>No <code>--stage</code>, <code>--dev</code>, <code>--force</code>, or <code>--jobs</code>.</td>
+</tr>
+<tr>
+<td>Polars lazy scan; do not materialize Track B in pandas</td>
+<td>Not compliant</td>
+<td>Current script materializes each full Track-B table in pandas.</td>
+</tr>
+<tr>
+<td>Prescribed output root</td>
+<td>Not compliant</td>
+<td>Outputs are under <code>paper_results/</code>, not <code>data/v2/analysis/paper/</code> and <code>docs/paper_analysis/generated/</code>.</td>
+</tr>
+<tr>
+<td>Final ≥1,000 bootstrap/permutation reps</td>
+<td>Not compliant</td>
+<td>Current run uses 500 bootstrap resamples and 200 split-half repetitions; motif null is analytic, not 1,000 permutations.</td>
+</tr>
+<tr>
+<td>Analysis amendment</td>
+<td>Added during this alignment pass</td>
+<td>See <code>prereg/ANALYSIS_AMENDMENT_2026-08-06.md</code>.</td>
+</tr>
+<tr>
+<td>Onboarding/progress documents</td>
+<td>Added during this alignment pass</td>
+<td>See <code>docs/paper_analysis/</code>.</td>
+</tr>
+<tr>
+<td>Paper-specific unit and integration tests</td>
+<td>Missing</td>
+<td>Existing repository tests pass, but the required synthetic paper-analysis tests do not exist.</td>
+</tr>
+<tr>
+<td>Finding registry</td>
+<td>Missing</td>
+<td>No row-level claim registry with status/estimand/robustness fields.</td>
+</tr>
+<tr>
+<td>Exact plotted-value sidecars</td>
+<td>Partial</td>
+<td>Most figures map to CSVs; the atlas curve values are in the trace-feature cache rather than a dedicated plotted-values file.</td>
+</tr>
+<tr>
+<td>Conceptual and robustness figures</td>
+<td>Missing</td>
+<td>The current eight figures do not include the required conceptual diagram, amount-versus-shape comparison panel, or consolidated robustness panel.</td>
+</tr>
+</tbody>
+</table>
+<h2>Strict-v2 audit status</h2>
+<p>The required audit command was rerun on August 9, 2026. It found all canonical Parquet files present, valid Parquet magic bytes, valid trace manifests, 24,416 unique traces, and no duplicate natural keys. However, it returned:</p>
+<pre><code class="language-text">ok: false
+issues:
+  - 13 invalid answer-extraction rows require retry
+  - 1,622 answer-extraction prompts were truncated
+  - 1 accepted row fails downstream consumer validation
+</code></pre>
+<p><code>DATASET.md</code> describes the invalid and truncated extraction rows as accepted release exceptions. The implementation specification is stricter: Section 6 says to stop if strict-v2 fails. The next implementation must either repair these rows or record an explicit, reviewed amendment to the stop rule before treating later phases as specification-complete.</p>
+<p>The behavior-label inputs used by the current trace analyses are present and readable. This audit failure is therefore a governance/acceptance blocker under the new specification, not evidence that all existing descriptive behavior estimates must be discarded.</p>
+<h2>Priority order for remaining work</h2>
+<h3>P0 — Restore a valid execution baseline</h3>
+<ol>
+<li>Resolve or formally adjudicate the strict-v2 extraction exceptions.</li>
+<li>Implement PR 1 from the specification: config, lazy data layer, outcome registry, grouped split registry, audit outputs, tests, and stage runner.</li>
+<li>Move final derived outputs to the prescribed versioned directories without deleting the interim package.</li>
+</ol>
+<h3>P1 — Scientific blockers for the central paper claim</h3>
+<ol>
+<li>Run the mandatory RQ1 family-separation analysis and the <code>SOT_ALL</code>/<code>SOT_CORE</code>/questioning-only sensitivity.</li>
+<li>Run the exact M0–M5 nested outcome ladder with continuous moral, idea, and safety outcomes.</li>
+<li>Complete the pre-specified motif set, lag-2/length-3 features, both required nulls, and held-out domain/model-family transfer.</li>
+<li>Stratify context sensitivity and generate an independent validation sample.</li>
+<li>Recompute adaptive differentiation separately for dialectical, SOT-core, and executive tensors, then add successful-prototype outcome alignment.</li>
+</ol>
+<h3>P2 — Robustness needed for submission</h3>
+<ol>
+<li>Completed-only, fixed-4,096-token, inverse-probability, and length-matched analyses.</li>
+<li>Lexical-cue baseline and cue-removal validation.</li>
+<li>Continuous/threshold sensitivity for open-ended, safety, and security outcomes.</li>
+<li>1,000-replicate final intervals/nulls and paper-specific synthetic tests.</li>
+<li>Finding registry, robustness summary, and exact plotted-value sidecars.</li>
+</ol>
+<h3>P3 — Optional follow-up</h3>
+<p>Run K-line-inspired coalition reinstatement only after P0–P2. It is not required for the moderate NAACL framing and cannot establish memory retrieval.</p>
+<h2>Correct interpretation of the current package</h2>
+<p>The current results provisionally support the specification's <strong>moderate outcome</strong> framing:</p>
+<blockquote>
+<p><strong>Thought Atlas reveals domain- and lineage-specific organizations of visible deliberation and identifies operations whose classification changes with trajectory context.</strong></p>
+</blockquote>
+<p>They do not yet meet the stronger framing, because family separability is untested, cross-family predictive value is near zero, transfer is untested, and the full robustness contract is incomplete.</p>
+</main></body>
+</html>

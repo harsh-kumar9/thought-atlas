@@ -1,0 +1,5 @@
+{
+  "minimum_ad": 5.43192338404244,
+  "maximum_ad": 16.736095602300825,
+  "interpretation": "All models differentiate domains beyond prompt-composition variability, but Qwen and Gemma do not support one universal scale trend."
+}

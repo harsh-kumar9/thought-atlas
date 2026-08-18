@@ -1,0 +1,49 @@
+gen_model,model,task_type,domain,cognitive,conversational
+reasoner,DeepSeek-R1 Distill 8B,math,Math,Subgoal setting → Verification,Perspective shift
+reasoner,DeepSeek-R1 Distill 8B,code,Code,Verification,Perspective shift
+reasoner,DeepSeek-R1 Distill 8B,gpqa,GPQA,Verification,Perspective shift
+reasoner,DeepSeek-R1 Distill 8B,planning,Planning,Subgoal setting → Verification,Perspective shift
+reasoner,DeepSeek-R1 Distill 8B,moral,Moral,Subgoal setting,Perspective shift → Reconciliation
+reasoner,DeepSeek-R1 Distill 8B,idea,Idea,Subgoal setting → Backtracking → Verification,Perspective shift
+reasoner,DeepSeek-R1 Distill 8B,safety,Safety,Subgoal setting,Perspective shift
+reasoner,DeepSeek-R1 Distill 8B,security,Security,Subgoal setting → Verification,Perspective shift
+gemma4_e4b,Gemma 4 E4B,math,Math,Subgoal setting → Verification,Perspective shift
+gemma4_e4b,Gemma 4 E4B,code,Code,Subgoal setting → Verification,Perspective shift
+gemma4_e4b,Gemma 4 E4B,gpqa,GPQA,Subgoal setting → Verification,Perspective shift → Reconciliation
+gemma4_e4b,Gemma 4 E4B,planning,Planning,Subgoal setting → Verification,Perspective shift
+gemma4_e4b,Gemma 4 E4B,moral,Moral,Subgoal setting → Verification,Perspective shift → Question–answer
+gemma4_e4b,Gemma 4 E4B,idea,Idea,Subgoal setting → Verification → Subgoal setting → Verification,Perspective shift → Question–answer → Perspective shift → Question–answer → Perspective shift
+gemma4_e4b,Gemma 4 E4B,safety,Safety,Subgoal setting → Backtracking → Subgoal setting,Perspective shift → Perspective conflict
+gemma4_e4b,Gemma 4 E4B,security,Security,Subgoal setting → Verification,Perspective shift
+gemma4_31b,Gemma 4 31B,math,Math,Subgoal setting → Verification,Perspective shift
+gemma4_31b,Gemma 4 31B,code,Code,Subgoal setting → Verification,Perspective shift
+gemma4_31b,Gemma 4 31B,gpqa,GPQA,Verification,Perspective shift
+gemma4_31b,Gemma 4 31B,planning,Planning,Verification,Perspective shift → Question–answer → Perspective shift → Question–answer
+gemma4_31b,Gemma 4 31B,moral,Moral,Subgoal setting,Perspective shift
+gemma4_31b,Gemma 4 31B,idea,Idea,Subgoal setting → Verification → Backtracking → Verification,Perspective shift → Question–answer
+gemma4_31b,Gemma 4 31B,safety,Safety,Subgoal setting,Perspective shift
+gemma4_31b,Gemma 4 31B,security,Security,Verification,Perspective shift
+qwen35_4b,Qwen3.5 4B,math,Math,Verification,Perspective shift → Question–answer → Perspective shift → Question–answer
+qwen35_4b,Qwen3.5 4B,code,Code,Subgoal setting → Verification,Perspective shift
+qwen35_4b,Qwen3.5 4B,gpqa,GPQA,Verification,Perspective shift
+qwen35_4b,Qwen3.5 4B,planning,Planning,Verification,Perspective shift → Question–answer
+qwen35_4b,Qwen3.5 4B,moral,Moral,Subgoal setting,Perspective shift
+qwen35_4b,Qwen3.5 4B,idea,Idea,Verification → Backtracking,Perspective shift
+qwen35_4b,Qwen3.5 4B,safety,Safety,Subgoal setting → Verification → Subgoal setting → Verification,Perspective shift
+qwen35_4b,Qwen3.5 4B,security,Security,Subgoal setting → Verification,Perspective shift
+qwen35_9b,Qwen3.5 9B,math,Math,Verification,Perspective shift → Question–answer → Perspective shift → Question–answer
+qwen35_9b,Qwen3.5 9B,code,Code,Verification,Perspective shift
+qwen35_9b,Qwen3.5 9B,gpqa,GPQA,Verification,Perspective shift
+qwen35_9b,Qwen3.5 9B,planning,Planning,Verification,Perspective shift → Question–answer → Perspective shift
+qwen35_9b,Qwen3.5 9B,moral,Moral,Subgoal setting,Perspective shift
+qwen35_9b,Qwen3.5 9B,idea,Idea,Verification → Backtracking,Perspective shift
+qwen35_9b,Qwen3.5 9B,safety,Safety,Subgoal setting → Verification,Perspective shift
+qwen35_9b,Qwen3.5 9B,security,Security,Subgoal setting → Verification,Perspective shift
+qwen35_27b,Qwen3.5 27B,math,Math,Subgoal setting → Verification,Perspective shift → Question–answer → Perspective shift → Question–answer
+qwen35_27b,Qwen3.5 27B,code,Code,Verification,Perspective shift
+qwen35_27b,Qwen3.5 27B,gpqa,GPQA,Verification,Perspective shift
+qwen35_27b,Qwen3.5 27B,planning,Planning,Verification,Perspective shift → Question–answer → Perspective shift
+qwen35_27b,Qwen3.5 27B,moral,Moral,Subgoal setting,Perspective shift
+qwen35_27b,Qwen3.5 27B,idea,Idea,Verification → Backtracking → Verification,Perspective shift
+qwen35_27b,Qwen3.5 27B,safety,Safety,Subgoal setting → Verification → Subgoal setting → Verification,Perspective shift
+qwen35_27b,Qwen3.5 27B,security,Security,Subgoal setting → Verification,Perspective shift

@@ -1,0 +1,381 @@
+{
+  "schema_version": "thought-atlas-signature-model-log-v2",
+  "config_sha256": "cab9eef0f3432e440bbbbea9d2fa2cacd3295a718fdfa45b346676e4559f6838",
+  "code_commit": "90bad30c8a3e0a1e0860969bc84a133e99bd170a",
+  "analysis_population": {
+    "models": [
+      "reasoner",
+      "gemma4_e4b",
+      "gemma4_31b",
+      "qwen35_4b",
+      "qwen35_9b",
+      "qwen35_27b"
+    ],
+    "domains": [
+      "math",
+      "code",
+      "gpqa",
+      "planning",
+      "moral",
+      "idea",
+      "safety",
+      "security"
+    ],
+    "traces": 18624,
+    "inclusion": "reasoning models; n_valid > 0; full-context labels parsed",
+    "generation_replication": "one decoding seed per prompt"
+  },
+  "split_contract": {
+    "registry": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/splits.parquet",
+    "group": "instance_id",
+    "outer_folds": 5,
+    "assignment": "frozen deterministic prompt_fold from the audited split registry",
+    "fold_counts": {
+      "0": 3878,
+      "1": 3615,
+      "2": 3641,
+      "3": 3902,
+      "4": 3588
+    },
+    "leakage_check": "every instance_id maps to exactly one prompt_fold"
+  },
+  "shared_estimator": {
+    "categorical_targets": "reference-class multinomial logistic regression",
+    "continuous_targets": "linear ridge regression",
+    "penalty": "L2=1.0 on standardized slopes; intercept unpenalized",
+    "preprocessing": "training-fold mean imputation and z-standardization; test fold transformed with training values",
+    "probability_metric": "out-of-fold log score; differences reported in bits per trace",
+    "continuous_metric": "out-of-fold R2; paired gain equals per-trace squared-error reduction divided by outcome variance"
+  },
+  "mathematical_estimands": {
+    "training_fold_preprocessing": {
+      "equation": "z_ij = (x_ij - mean_train,j) / sd_train,j",
+      "missing_values": "replace x_ij by the training-fold mean before standardizing",
+      "zero_variance_columns": "use scale 1",
+      "held_out_contract": "the held-out fold never contributes to imputation means, scales, or coefficients; fixed prompt-stratum dummy columns are created from prompt metadata before CV and use no outcomes"
+    },
+    "categorical_regression": {
+      "reference_class": "eta_i0 = 0; eta_ic = alpha_c + z_i^T beta_c for c=1,...,K-1",
+      "probability": "p_ic = exp(eta_ic) / sum_r exp(eta_ir)",
+      "objective": "minimize -sum_i log p_i,y_i + (lambda/2) sum_c ||beta_c||_2^2",
+      "lambda": 1.0,
+      "intercept": "unpenalized"
+    },
+    "continuous_regression": {
+      "prediction": "yhat_i = alpha + z_i^T beta",
+      "objective": "minimize sum_i (y_i - alpha - z_i^T beta)^2 + lambda ||beta||_2^2",
+      "closed_form": "theta_hat = (X^T X + lambda P)^+ X^T y, with P_00=0 and P_jj=1 for slopes",
+      "lambda": 1.0
+    },
+    "behavior_features": {
+      "amount": "a_ib = positive valid segments for behavior b / all valid segments in trace i",
+      "phase_prevalence": "r_ibp = positive valid segments for b in phase p / valid segments in phase p",
+      "conditional_share": "s_ibp = r_ibp / sum_q r_ibq when the sum is positive; otherwise all shares are zero",
+      "timing_contrasts": "t_ib,1 = s_ib,middle - s_ib,early; t_ib,2 = s_ib,late - s_ib,early",
+      "descriptive_timing_centroid": "c_ib = 0.5 s_ib,middle + s_ib,late, defined only when behavior b occurs"
+    },
+    "categorical_predictive_gain": {
+      "per_trace": "g_i(B|A) = log2[p_B(y_i|x_i) / p_A(y_i|x_i)]",
+      "reported_increment": "Delta(B|A) = mean_i g_i(B|A), in bits per held-out trace",
+      "probability_multiplier": "2^Delta is the geometric-mean multiplier in held-out probability assigned to the true class"
+    },
+    "continuous_predictive_gain": {
+      "per_trace": "g_i(B|A) = ((y_i-yhat_A,i)^2 - (y_i-yhat_B,i)^2) / Var(y)",
+      "reported_increment": "mean_i g_i(B|A) = R2_B - R2_A"
+    },
+    "exact_grouped_shapley": {
+      "players": "the four behaviors in one signature family; an amount player is one rate and a timing player is its two timing contrasts",
+      "coalitions": "all 2^4 = 16 subsets, fit on the same outer folds",
+      "coalition_value_categorical": "v_i(S) = log2 p_S(y_i|x_i)",
+      "coalition_value_continuous": "v_i(S) = -(y_i-yhat_S,i)^2 / Var(y)",
+      "equation": "phi_ib = sum_{S subseteq B\\{b}} |S|!(m-|S|-1)!/m! * [v_i(S union {b}) - v_i(S)]",
+      "domain_summary": "mean phi_ib over held-out traces whose true domain is d",
+      "efficiency": "sum_b phi_ib = v_i(B) - v_i(empty set), up to numerical precision"
+    },
+    "direction_overlay": {
+      "amount": "[mean_domain(a_b) - mean_other_domains(a_b)] / sd_all_domains(a_b)",
+      "timing": "mean_domain(c_b) - mean_other_domains(c_b), conditional on behavior occurrence",
+      "interpretation": "direction is descriptive and separate from Shapley predictive credit"
+    }
+  },
+  "runs": {
+    "prior_staged_outcome_ladder_RQ3": {
+      "status": "pre-existing analysis documented for continuity",
+      "population": "pooled models within each domain",
+      "specification_source": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper/04_outcome_models/model_specifications.json",
+      "feature_ladder": {
+        "M0": [
+          "log_tokens",
+          "log_segments",
+          "completed"
+        ],
+        "M1-D": [
+          "log_tokens",
+          "log_segments",
+          "completed",
+          "dialectical_density",
+          "dialectical_diversity",
+          "sot_core_rate",
+          "sot_core_diversity",
+          "questioning_rate",
+          "Question_and_Answering__rate",
+          "Perspective_Shift__rate",
+          "Conflict_of_Perspectives__rate",
+          "Reconciliation__rate"
+        ],
+        "M1-E": [
+          "log_tokens",
+          "log_segments",
+          "completed",
+          "executive_density",
+          "executive_diversity",
+          "verification__rate",
+          "backtracking__rate",
+          "subgoal__rate",
+          "backward_chaining__rate"
+        ],
+        "M2": [
+          "log_tokens",
+          "log_segments",
+          "completed",
+          "dialectical_density",
+          "dialectical_diversity",
+          "sot_core_rate",
+          "sot_core_diversity",
+          "questioning_rate",
+          "Question_and_Answering__rate",
+          "Perspective_Shift__rate",
+          "Conflict_of_Perspectives__rate",
+          "Reconciliation__rate",
+          "executive_density",
+          "executive_diversity",
+          "verification__rate",
+          "backtracking__rate",
+          "subgoal__rate",
+          "backward_chaining__rate"
+        ],
+        "M3": [
+          "log_tokens",
+          "log_segments",
+          "completed",
+          "dialectical_density",
+          "dialectical_diversity",
+          "sot_core_rate",
+          "sot_core_diversity",
+          "questioning_rate",
+          "Question_and_Answering__rate",
+          "Perspective_Shift__rate",
+          "Conflict_of_Perspectives__rate",
+          "Reconciliation__rate",
+          "executive_density",
+          "executive_diversity",
+          "verification__rate",
+          "backtracking__rate",
+          "subgoal__rate",
+          "backward_chaining__rate",
+          "dialectical_centroid",
+          "control_centroid",
+          "dialectical_early",
+          "dialectical_middle",
+          "dialectical_late",
+          "control_early",
+          "control_middle",
+          "control_late",
+          "Conflict_of_Perspectives__centroid",
+          "Reconciliation__centroid",
+          "subgoal__centroid",
+          "verification__centroid"
+        ],
+        "M4": [
+          "log_tokens",
+          "log_segments",
+          "completed",
+          "dialectical_density",
+          "dialectical_diversity",
+          "sot_core_rate",
+          "sot_core_diversity",
+          "questioning_rate",
+          "Question_and_Answering__rate",
+          "Perspective_Shift__rate",
+          "Conflict_of_Perspectives__rate",
+          "Reconciliation__rate",
+          "executive_density",
+          "executive_diversity",
+          "verification__rate",
+          "backtracking__rate",
+          "subgoal__rate",
+          "backward_chaining__rate",
+          "dialectical_centroid",
+          "control_centroid",
+          "dialectical_early",
+          "dialectical_middle",
+          "dialectical_late",
+          "control_early",
+          "control_middle",
+          "control_late",
+          "Conflict_of_Perspectives__centroid",
+          "Reconciliation__centroid",
+          "subgoal__centroid",
+          "verification__centroid",
+          "coupling_presence",
+          "coupling_excess",
+          "D_to_E__rate",
+          "E_to_D__rate",
+          "D_to_D__rate",
+          "E_to_E__rate"
+        ],
+        "M5": [
+          "log_tokens",
+          "log_segments",
+          "completed",
+          "dialectical_density",
+          "dialectical_diversity",
+          "sot_core_rate",
+          "sot_core_diversity",
+          "questioning_rate",
+          "Question_and_Answering__rate",
+          "Perspective_Shift__rate",
+          "Conflict_of_Perspectives__rate",
+          "Reconciliation__rate",
+          "executive_density",
+          "executive_diversity",
+          "verification__rate",
+          "backtracking__rate",
+          "subgoal__rate",
+          "backward_chaining__rate",
+          "dialectical_centroid",
+          "control_centroid",
+          "dialectical_early",
+          "dialectical_middle",
+          "dialectical_late",
+          "control_early",
+          "control_middle",
+          "control_late",
+          "Conflict_of_Perspectives__centroid",
+          "Reconciliation__centroid",
+          "subgoal__centroid",
+          "verification__centroid",
+          "coupling_presence",
+          "coupling_excess",
+          "D_to_E__rate",
+          "E_to_D__rate",
+          "D_to_D__rate",
+          "E_to_E__rate",
+          "motif__question_to_subgoal__rate",
+          "motif__perspective_to_verification__rate",
+          "motif__conflict_to_verification__rate",
+          "motif__conflict_to_reconciliation__rate",
+          "motif__verification_to_backtracking__rate",
+          "motif__backtracking_to_subgoal__rate",
+          "motif__reconciliation_to_verification__rate",
+          "motif__conflict_verification_backtracking__rate",
+          "motif__verification_backtracking_subgoal__rate",
+          "motif__perspective_conflict_reconciliation__rate",
+          "motif__conflict_reconciliation_verification__rate"
+        ]
+      },
+      "primary_metrics": "AUROC for binary outcomes; R2 for continuous outcomes",
+      "claim_boundary": "associational prediction, not a within-model causal effect"
+    },
+    "omnibus_domain_signature_RQ8": {
+      "unit": "trace within a fixed model",
+      "target": "eight-class domain",
+      "baseline": [
+        "log_tokens",
+        "log_segments"
+      ],
+      "amount_step": "four behavior rates from one signature family",
+      "timing_step": "two conditional phase contrasts per behavior",
+      "tests": 12
+    },
+    "binary_quality_signature_RQ9": {
+      "unit": "completed, scored trace within fixed model and domain",
+      "target": "high versus low quality",
+      "continuous_score_rule": "within-model/domain median split",
+      "baseline": [
+        "log_tokens",
+        "log_segments"
+      ],
+      "minimum_support": "20 traces in each quality class",
+      "role": "common-scale sensitivity analysis; native-outcome analysis is primary for localization"
+    },
+    "pairwise_domain_localization_RQ8a": {
+      "target": "binary domain identity for all 28 unordered pairs",
+      "fits": "separate fixed-model, fixed-family models",
+      "baseline": [
+        "log_tokens",
+        "log_segments"
+      ],
+      "feature_steps": [
+        "amount rates",
+        "conditional timing beyond all amounts"
+      ],
+      "tests_per_step": 336,
+      "correction_family": "Benjamini-Hochberg across all 336 pair \u00d7 model \u00d7 family tests, separately for amount and timing"
+    },
+    "domain_behavior_attribution_RQ8b": {
+      "method": "exact grouped Shapley decomposition of out-of-fold log-score gain",
+      "groups": "the four behaviors in each family",
+      "subset_models": 16,
+      "amount_base": [
+        "log_tokens",
+        "log_segments"
+      ],
+      "timing_base": "length plus all four behavior rates",
+      "localization": "per true domain within each fixed model",
+      "direction": "one-domain-versus-rest standardized amount contrast; conditional timing-centroid contrast",
+      "correction_family": "Benjamini-Hochberg across all model \u00d7 domain \u00d7 behavior attributions, separately for amount and timing",
+      "claim_boundary": "predictive credit is shared under correlation; it is not causal attribution"
+    },
+    "native_outcome_signature_RQ9a": {
+      "unit": "completed, scored trace within fixed model and domain",
+      "targets": "native binary outcomes retained as binary; moral, idea, and safety scores retained as continuous",
+      "baseline": [
+        "log_tokens",
+        "log_segments",
+        "available within-domain prompt-stratum indicators"
+      ],
+      "minimum_support": "n >= 40; binary cells also require >=20 per class; continuous cells require >=3 unique outcomes",
+      "feature_steps": [
+        "four family behavior rates",
+        "two timing contrasts per behavior beyond amount"
+      ],
+      "attribution": "exact four-group Shapley decomposition for every estimable cell",
+      "correction_family": "Benjamini-Hochberg across all estimable model \u00d7 domain \u00d7 family blocks; behavior attributions corrected separately by layer",
+      "claim_boundary": "predictive association only; the data cannot show that inducing a signature improves an answer"
+    }
+  },
+  "uncertainty_and_testing": {
+    "bootstrap": "1,000 paired prompt resamples; class-stratified for categorical targets and outcome-quantile-stratified for continuous targets",
+    "test": "one-sided paired sign-flip test of held-out per-trace score improvement",
+    "support_rule": "95% interval lower bound > 0 and BH q < 0.05",
+    "multiplicity": "amount and timing are separate predeclared testing families"
+  },
+  "result_counts": {
+    "domain_cells": 12,
+    "domain_amount_supported_cells": 12,
+    "domain_timing_supported_cells": 12,
+    "domain_median_amount_gain_bits": 0.756267979746989,
+    "domain_median_timing_gain_bits": 0.06982366146323568,
+    "cognitive_amount_stronger_models": 5,
+    "quality_total_cells": 96,
+    "quality_estimated_cells": 86,
+    "quality_amount_supported_cells": 2,
+    "quality_timing_supported_cells": 0,
+    "quality_median_amount_gain_bits": 0.002608597578997638,
+    "quality_median_timing_gain_bits": -0.012970388210591169,
+    "incomplete_total": 45,
+    "incomplete_adequate_cells": 0,
+    "pairwise_domain_cells": 336,
+    "pairwise_amount_supported_cells": 294,
+    "pairwise_timing_supported_cells": 94,
+    "domain_amount_behavior_attributions_supported": 295,
+    "domain_timing_behavior_attributions_supported": 97,
+    "native_outcome_total_cells": 96,
+    "native_outcome_estimated_cells": 88,
+    "native_outcome_amount_supported_cells": 0,
+    "native_outcome_timing_supported_cells": 0,
+    "native_outcome_behavior_attributions_supported": 0,
+    "interpretation": "Domain signatures are widespread and localized by domain pair and behavior; native-outcome associations remain cell-specific and non-causal."
+  }
+}

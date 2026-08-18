@@ -37,6 +37,8 @@ const OUTCOME_GROUPS = {
 
 const MODEL_COLORS = {
   anchor: "#64748b",
+  gemma4_e4b: "#0f766e",
+  gemma4_31b: "#be123c",
   qwen35_4b: "#0891b2",
   qwen35_9b: "#7c3aed",
   qwen35_27b: "#d97706",
@@ -69,7 +71,16 @@ const MONITOR_FEATURES = {
 
 const MONITOR_VISIBLE_FEATURES = ["metadata", "length", "counts", "temporal"];
 
-const LANE_DASHES = ["", "5 4", "2 3", "7 3 2 3", "1 4", "10 4 2 4"];
+// Comparison lanes use an ordinal, color-blind-safe palette rather than model
+// family colors. Dash and marker shape repeat the lane identity in grayscale.
+const LANE_STYLES = [
+  { line: "#2563eb", dash: "", marker: "circle" },
+  { line: "#b45309", dash: "8 5", marker: "square" },
+  { line: "#0f766e", dash: "2 4", marker: "triangle" },
+  { line: "#7c3aed", dash: "10 4 2 4", marker: "diamond" },
+  { line: "#be123c", dash: "3 5", marker: "circle" },
+  { line: "#4d7c0f", dash: "12 4", marker: "square" },
+];
 
 const FAMILY_META = {
   conversational: {
@@ -331,7 +342,7 @@ function renderLaneControls() {
       return `
         <section class="control-group lane dynamic-lane" data-lane-id="${escapeAttr(lane.id)}" style="--lane-control-color:${style.line}">
           <div class="lane-title">
-            <i style="background:${style.line}"></i>
+            ${laneSymbolHtml(lane.id)}
             <span>${laneLabel(lane.id)}</span>
             <div class="lane-title-actions">
               <button class="mini-action" data-duplicate-lane="${escapeAttr(lane.id)}" aria-label="Duplicate ${laneLabel(lane.id)}">Copy</button>
@@ -355,7 +366,7 @@ function renderTraceLaneControls() {
       const style = laneStyle(lane.id);
       return `
         <button data-trace-lane="${escapeAttr(lane.id)}" class="${lane.id === state.traceLane ? "active" : ""}" style="--lane-control-color:${style.line}">
-          <i style="background:${style.line}"></i>${laneLabel(lane.id)}
+          <span class="lane-letter" style="--lane-color:${style.line}">${laneShortLabel(lane.id)}</span>${laneLabel(lane.id)}
         </button>
       `;
     })
@@ -781,8 +792,7 @@ function renderLaneLegend() {
   `;
   const laneItems = state.lanes
     .map((lane) => {
-      const style = laneStyle(lane.id);
-      return `<span><i class="line-swatch" style="${lineSwatchStyle(style)}"></i>${laneLabel(lane.id)} · ${modelLabel(lane.model)}</span>`;
+      return `<span class="lane-legend-item">${laneSymbolHtml(lane.id)}<strong>${laneLabel(lane.id)}</strong> · ${modelLabel(lane.model)}</span>`;
     })
     .join("");
   $("laneLegend").innerHTML = `${laneItems}${performanceLegend}`;
@@ -792,7 +802,7 @@ function laneChip(lane) {
   const style = laneStyle(lane.id);
   return `
     <div class="lane-chip" style="border-left-color:${style.line}">
-      <strong><i class="model-dot" style="background:${style.line}"></i>${laneLabel(lane.id)} · ${modelLabel(lane.model)}</strong>
+      <strong><span class="lane-letter" style="--lane-color:${style.line}">${laneShortLabel(lane.id)}</span>${modelLabel(lane.model)}</strong>
       <span>${titleCase(lane.domain)}</span>
       <em class="outcome-chip ${outcomeTone(lane.outcome)}">${OUTCOME_GROUPS[lane.outcome].label}</em>
     </div>
@@ -876,8 +886,7 @@ function renderTrackA() {
 function renderTrackALegend() {
   const laneItems = state.lanes
     .map((lane) => {
-      const style = laneStyle(lane.id);
-      return `<span><i class="line-swatch" style="${lineSwatchStyle(style)}"></i>${laneLabel(lane.id)} · ${modelLabel(lane.model)}</span>`;
+      return `<span class="lane-legend-item">${laneSymbolHtml(lane.id)}<strong>${laneLabel(lane.id)}</strong> · ${modelLabel(lane.model)}</span>`;
     })
     .join("");
   $("trackALegend").innerHTML = `${laneItems}<span><i class="tracka-mean"></i>mean count</span><span><i class="tracka-presence"></i>presence rate</span>`;
@@ -1830,15 +1839,25 @@ function drawMiniChart(svg, curves) {
     const style = laneStyle(curve.lane);
     const point = curve.values[state.bin];
     if (!point) return;
-    svg.appendChild(svgEl("circle", {
-      cx: scrubX,
-      cy: y(point.freq || 0),
-      r: "3.2",
-      fill: style.line,
-      stroke: "#fff",
-      "stroke-width": "1.4",
-    }));
+    drawLaneMarker(svg, scrubX, y(point.freq || 0), style);
   });
+}
+
+function drawLaneMarker(svg, cx, cy, style) {
+  const attrs = { fill: "#fff", stroke: style.line, "stroke-width": "2.2" };
+  if (style.marker === "square") {
+    svg.appendChild(svgEl("rect", { ...attrs, x: cx - 4, y: cy - 4, width: 8, height: 8, rx: "1" }));
+    return;
+  }
+  if (style.marker === "triangle") {
+    svg.appendChild(svgEl("path", { ...attrs, d: `M ${cx} ${cy - 5} L ${cx + 4.6} ${cy + 3.8} L ${cx - 4.6} ${cy + 3.8} Z` }));
+    return;
+  }
+  if (style.marker === "diamond") {
+    svg.appendChild(svgEl("path", { ...attrs, d: `M ${cx} ${cy - 5} L ${cx + 5} ${cy} L ${cx} ${cy + 5} L ${cx - 5} ${cy} Z` }));
+    return;
+  }
+  svg.appendChild(svgEl("circle", { ...attrs, cx, cy, r: "4.2" }));
 }
 
 function visibleCurveValues(values) {
@@ -1912,7 +1931,7 @@ function drawLine(svg, values, x, y, color, dashArray) {
     d: path,
     fill: "none",
     stroke: color,
-    "stroke-width": "2.2",
+    "stroke-width": "2.6",
     "stroke-dasharray": dashArray || "",
   }));
 }
@@ -1966,11 +1985,10 @@ function laneConfig(laneKey) {
 }
 
 function laneStyle(laneKey) {
-  const lane = laneConfig(laneKey);
-  if (!lane) return { line: "#334155", band: "rgba(51, 65, 85, 0.1)", dash: "" };
+  if (!laneConfig(laneKey)) return { ...LANE_STYLES[0], line: "#334155", band: "rgba(51, 65, 85, 0.1)" };
   const index = Math.max(0, state.lanes.findIndex((item) => item.id === laneKey));
-  const line = colorForModel(lane.model);
-  return { line, band: alphaColor(line, state.lanes.length > 3 ? 0.07 : 0.12), dash: LANE_DASHES[index % LANE_DASHES.length] };
+  const style = LANE_STYLES[index % LANE_STYLES.length];
+  return { ...style, band: alphaColor(style.line, state.lanes.length > 3 ? 0.07 : 0.11) };
 }
 
 function colorForModel(model) {
@@ -2004,8 +2022,26 @@ function laneLabel(laneKey) {
   return `Lane ${letter}`;
 }
 
-function lineSwatchStyle(style) {
-  return `border-top:3px ${style.dash ? "dashed" : "solid"} ${style.line};background:transparent`;
+function laneShortLabel(laneKey) {
+  return laneLabel(laneKey).replace("Lane ", "");
+}
+
+function laneSymbolHtml(laneKey) {
+  const style = laneStyle(laneKey);
+  const markerAttrs = `fill="#fff" stroke="${style.line}" stroke-width="2"`;
+  const marker = style.marker === "square"
+    ? `<rect x="11" y="2" width="8" height="8" rx="1" ${markerAttrs}></rect>`
+    : style.marker === "triangle"
+      ? `<path d="M 15 1.5 L 19.5 10 L 10.5 10 Z" ${markerAttrs}></path>`
+      : style.marker === "diamond"
+        ? `<path d="M 15 1 L 20 6 L 15 11 L 10 6 Z" ${markerAttrs}></path>`
+        : `<circle cx="15" cy="6" r="4" ${markerAttrs}></circle>`;
+  return `
+    <svg class="lane-symbol" viewBox="0 0 30 12" width="30" height="12" style="width:30px;height:12px;min-width:30px;max-width:30px;flex:0 0 30px" aria-hidden="true" focusable="false">
+      <line x1="1" x2="29" y1="6" y2="6" stroke="${style.line}" stroke-width="2.6" stroke-dasharray="${style.dash}"></line>
+      ${marker}
+    </svg>
+  `;
 }
 
 function trackAKey(model, domain, outcome, behavior) {

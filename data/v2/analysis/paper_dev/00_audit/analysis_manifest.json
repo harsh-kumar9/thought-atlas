@@ -1,0 +1,264 @@
+{
+  "config": {
+    "path": "/Users/harsh/Documents/society of thought experiments/configs/paper_analysis.yaml",
+    "sha256": "48194f62c232e1bfe74280b1322fe4a7107a4d3940a159a5db41b5e898fcc5a5"
+  },
+  "created_at_utc": "2026-08-09T15:53:37.494503+00:00",
+  "git_commit": "90bad30c8a3e0a1e0860969bc84a133e99bd170a",
+  "inputs": [
+    {
+      "bytes": 8629,
+      "path": "/Users/harsh/Documents/society of thought experiments/configs/exp.yaml",
+      "sha256": "72073a61795c9f66dba4d63cb9a4447ed992363b77c8950e869bb8e3b96e093b"
+    },
+    {
+      "bytes": 1171,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/answer_extractions__google_gemma-4-31B-it.manifest.json",
+      "sha256": "16fb124de4b0c31b8740f1e3b8d6a589cd4f1aa3a58c6078ff83ee5d9f452e2a"
+    },
+    {
+      "bytes": 3964390,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/answer_extractions__google_gemma-4-31B-it.parquet",
+      "sha256": "45cf37a424ff17e7fae636635bd50e57962302cf87d4b90d11fb7ebdcdcc65be"
+    },
+    {
+      "bytes": 1055,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/quality__google_gemma-4-31B-it.manifest.json",
+      "sha256": "737a898a731a7b07d9a60a076d40735479adff9c30115b6659cfa83d053771e6"
+    },
+    {
+      "bytes": 1267009,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/quality__google_gemma-4-31B-it.parquet",
+      "sha256": "27ce0b28ab1fa76b34ec9138f548785e2d43e5a11367cdd1f422420a98734784"
+    },
+    {
+      "bytes": 1050,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/trackB_full__google_gemma-4-31B-it.manifest.json",
+      "sha256": "37ad03863a385abf2239983df0b0a0b7144847b5a738a7e8413177841a44dda5"
+    },
+    {
+      "bytes": 58678874,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet",
+      "sha256": "7bfdc18de054b6cc78a3ec46852cc3df6795d4c3c4f54d3006040c3c1ae864d5"
+    },
+    {
+      "bytes": 1070,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/trackB_isolated__google_gemma-4-31B-it.manifest.json",
+      "sha256": "3b3803551184a7872e887d0ea6312d19682a0f8b097c313cff8279e68f8e6700"
+    },
+    {
+      "bytes": 60807784,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/judge/trackB_isolated__google_gemma-4-31B-it.parquet",
+      "sha256": "f697b46c0863d34f138d05cbfc59952c61e4898348972dc4bc69f08189c62457"
+    },
+    {
+      "bytes": 154320,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/perf/code_grades.parquet",
+      "sha256": "7ef7a1e06aa9367408b1dd1756dca5783bb3c02cd347d6f3e91ea53f7329ed17"
+    },
+    {
+      "bytes": 2157293,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/perf/success_grades.parquet",
+      "sha256": "f1acc8224cb38f13efb9c8dd0f9c8c2a20f84678396e5a94dccf14abe7e83c0e"
+    },
+    {
+      "bytes": 92081238,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/code.parquet",
+      "sha256": "a53b45775d9cd31ef32354d5f1e6fafb2d319d81524e6b1bc7271c7d9cb30ac0"
+    },
+    {
+      "bytes": 134716,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/gpqa.parquet",
+      "sha256": "fe3fc8f835ec92b3bbc5c46657951e5c49dc08f18902ba8b3a2b2998ffb4113f"
+    },
+    {
+      "bytes": 18111,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/idea.parquet",
+      "sha256": "3025887c8a8c2de3c96dd8c84a75d6c8cb7e46601e5b6070098eeef6413a1bfb"
+    },
+    {
+      "bytes": 1152,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/manifest.json",
+      "sha256": "e29421eaca756a5d21e04fe86c41937984415284fab232281655a84c8efb4883"
+    },
+    {
+      "bytes": 140945,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/math.parquet",
+      "sha256": "b92745cf8530961fd404c79970e794dafa186ffc2b3ca35dadf0f8b58a4cfff8"
+    },
+    {
+      "bytes": 945360,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/moral.parquet",
+      "sha256": "ad7bd7723acb2cab7debb27c0cd067d49202e28126d3de2d1a197c4ccae24e28"
+    },
+    {
+      "bytes": 107847,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/planning.parquet",
+      "sha256": "c0dfa41fb0bbec54716646574889673a563ef6bfa83cc866311c6bb9dfb1076b"
+    },
+    {
+      "bytes": 29287,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/safety.parquet",
+      "sha256": "f2366f14408f94ae9bb54ac86698d2bf071e31f63d56d52afdca55ac318aea3b"
+    },
+    {
+      "bytes": 139643,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/tasks/security.parquet",
+      "sha256": "5b0604222b4cb0f06235faadc54f0986dbca133882da69681fbe4669a3b6c929"
+    },
+    {
+      "bytes": 1731,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_anchor.manifest.json",
+      "sha256": "0ede5306f64d7388fa89b3f46806f65cc96b97a85d6938eff6fa64d738f9e151"
+    },
+    {
+      "bytes": 99770590,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_anchor.parquet",
+      "sha256": "f38cbacdafaf4310b7ab5d3f0d452e33086caf57b56fdbfe39f56d24e9b5a302"
+    },
+    {
+      "bytes": 1783,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_gemma4_31b.manifest.json",
+      "sha256": "9e24048193abb56ae5bb0d16cc03e3cbf305bb5ec55b9d12ba3fafcc15be254f"
+    },
+    {
+      "bytes": 117287306,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_gemma4_31b.parquet",
+      "sha256": "d30cb6dff35c330264343a19c53b53ca80cf0d8a40e961d75f889cf198df6797"
+    },
+    {
+      "bytes": 1783,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_gemma4_e4b.manifest.json",
+      "sha256": "bd81d5ce3a90f1495a5086b25352660271482fe88e5a1583ac4b5cd7aac0bb2d"
+    },
+    {
+      "bytes": 113219666,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_gemma4_e4b.parquet",
+      "sha256": "e0e0dee6b6661bc3c7a240c11b33fdcd148613a8f96d9139a1ba5b17e1895171"
+    },
+    {
+      "bytes": 1783,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_27b.manifest.json",
+      "sha256": "8704c37732a15aede295eb35b39e2515524e98e362f961f68f27fd4d00071746"
+    },
+    {
+      "bytes": 154414833,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_27b.parquet",
+      "sha256": "6cc161c30a42cffeee9d2c420c0f2bc12289a8d9b16b1619656c2a276a29f9ba"
+    },
+    {
+      "bytes": 1770,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_4b.manifest.json",
+      "sha256": "51a0d6be1b54eb9d6929f4359961b39caf9de52a8671bba23b085e6f83dd7c84"
+    },
+    {
+      "bytes": 154614284,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_4b.parquet",
+      "sha256": "3e8ad7286d29f1817e52aadf7e202b67e04de5f7cc732ef72ad832e70fb741d4"
+    },
+    {
+      "bytes": 1770,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_9b.manifest.json",
+      "sha256": "208b88444d52099470cc2c33ef3804e2c15ca560f40b34d261b065688167fa75"
+    },
+    {
+      "bytes": 159133868,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_qwen35_9b.parquet",
+      "sha256": "6bfbc285921841ab8d8946c6d5782f0fe0c21b91a7d92a0595aa9c690df15904"
+    },
+    {
+      "bytes": 1757,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_reasoner.manifest.json",
+      "sha256": "5f53e4d96fa7ec671b92d1298fd0f3201ca07ff77b58c875135b068330b3a491"
+    },
+    {
+      "bytes": 124672259,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/traces/traces_reasoner.parquet",
+      "sha256": "3f9a46f8dc2318de6b0468a53a070b3c572849bfa2a16be4e169341483bbfac1"
+    }
+  ],
+  "metadata": {
+    "accepted_release_exceptions": [],
+    "blocking_flag_count": 1,
+    "effective_audit_ok": false,
+    "mode": "dev",
+    "paired_context_totals": {
+      "full_duplicate_keys": 0,
+      "full_only_rows": 0,
+      "full_rows": 2160826,
+      "isolated_duplicate_keys": 0,
+      "isolated_only_rows": 0,
+      "isolated_rows": 2160826,
+      "paired_rows": 2160826
+    },
+    "paper_analysis_ready": false,
+    "strict_v2_issues": [
+      "answer extraction: 13 invalid rows require retry",
+      "answer extraction: 1622 prompts were truncated",
+      "answer extraction: 1 ok rows fail consumer validation",
+      "behavior judge: 673 rows contain parse failures"
+    ],
+    "strict_v2_ok": false,
+    "strict_v2_returncode": 1,
+    "trace_count": 11025,
+    "unaccepted_audit_issues": [
+      "answer extraction: 13 invalid rows require retry",
+      "answer extraction: 1622 prompts were truncated",
+      "answer extraction: 1 ok rows fail consumer validation",
+      "behavior judge: 673 rows contain parse failures"
+    ]
+  },
+  "outputs": [
+    {
+      "bytes": 389,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/00_audit/analysis_source_by_model.csv",
+      "sha256": "f35601d175d20b16d4ed0308250c4ed7976072635ede02881a382248133fcd7c"
+    },
+    {
+      "bytes": 4393,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/00_audit/completion_by_cell.csv",
+      "sha256": "6e3e6b892a1835887327052e9c74e6bd95c5033c98212048b1653ff6bf5cd015"
+    },
+    {
+      "bytes": 5163,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/00_audit/context_pair_coverage.csv",
+      "sha256": "16565422d03035f8b0992cf05f6552eb86b9a978f6ea56f6a985f90af0070c2a"
+    },
+    {
+      "bytes": 2084,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/00_audit/data_quality_flags.csv",
+      "sha256": "87fdacf237acfe932e53b04560499311a328fdf2dd1a62d15f85211db23c5a82"
+    },
+    {
+      "bytes": 5015,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/00_audit/outcome_coverage.csv",
+      "sha256": "dad602910bba4de5a1ae23ef3dacd088281319e66798d65f8b4c17983faf3fcf"
+    },
+    {
+      "bytes": 5819,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/00_audit/segment_coverage.csv",
+      "sha256": "c9de50b7720c2e60e309fd93f426efe12c16eb3780458e68f4f8f18fb1e133a1"
+    },
+    {
+      "bytes": 4059,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/00_audit/trace_coverage.csv",
+      "sha256": "6fe499b67501f9987b8af90e897c676af93705932d97d554cdef161723674fb1"
+    },
+    {
+      "bytes": 524000,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/outcomes.parquet",
+      "sha256": "54f650abac4dd5e127f5fd90d6c565d5ce14e2a4777fa18df3e6f527c964683a"
+    },
+    {
+      "bytes": 308730,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/splits.parquet",
+      "sha256": "913d3b849738c7ff788c436f7ad680e7062e6e1b470d9c8c7232ec08bd389868"
+    },
+    {
+      "bytes": 486456,
+      "path": "/Users/harsh/Documents/society of thought experiments/data/v2/analysis/paper_dev/trace_index.parquet",
+      "sha256": "dd60aab00ca3f28d42eb28eec15950c03c90571c89e809fc2c68e380186744f3"
+    }
+  ],
+  "schema_version": "paper-analysis-manifest-v1"
+}

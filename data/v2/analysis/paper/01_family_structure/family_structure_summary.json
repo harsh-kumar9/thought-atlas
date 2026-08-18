@@ -1,0 +1,8 @@
+{
+  "estimate": -0.016277035847857682,
+  "ci_low": -0.05106632642077963,
+  "ci_high": 0.017930247060723888,
+  "exact_partition_p": 0.5142857142857142,
+  "sot_core_cross_family_mean_correlation": 0.03336333026964421,
+  "interpretation": "family separation not cleanly supported"
+}

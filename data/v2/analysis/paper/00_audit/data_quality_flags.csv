@@ -1,0 +1,11 @@
+flag_id,severity,blocking,observed,expected,detail
+reasoning_analysis_channel,info,false,['think_text'],think_text,Reasoning-model analysis uses think_text/reasoning_text_for_analysis.
+anchor_analysis_channel,warning,false,['answer_text'],answer_text,The non-reasoning anchor is analyzed from answer_text and is channel-confounded with reasoning models.
+configured_models_absent,warning,false,['gemma4_12b'],"['anchor', 'gemma4_12b', 'gemma4_31b', 'gemma4_e4b', 'qwen35_27b', 'qwen35_4b', 'qwen35_9b', 'reasoner']",Configured comparisons are intentions only; absent cells are not fabricated.
+posthoc_extension_domains,warning,false,safety|security,explicit post-hoc labeling,Safety and security were added after the frozen H1-H4 preregistration and must be labeled exploratory extensions.
+protect_sensitive_raw_text,warning,false,aggregate-only audit outputs,no raw sensitive text,"Raw safety/security prompts, answers, and reasoning must never enter public outputs; this audit writes aggregates only."
+qwen35_4b_completion_selection,warning,false,0.668865,report completed-only and censoring sensitivities,Completed-only Qwen-4B results are selection-conditioned and require all-valid/censoring sensitivity.
+single_sample_seed,warning,false,1,>1 for multi-sample robustness,Only one sampled generation is available per model-prompt condition; uncertainty cannot estimate within-prompt decoding variation.
+track_b_parse_failures,warning,false,673,0,"Invalid judge rows remain null and must be excluded with missingness reported, never converted to zero."
+unequal_generation_budgets,warning,false,"{'anchor': '4096', 'gemma4_31b': '65536', 'gemma4_e4b': '65536', 'qwen35_27b': '65536', 'qwen35_4b': '65536', 'qwen35_9b': '65536', 'reasoner': '65536'}",matched budget/channel for causal comparison,Anchor and reasoning models have different configured token ceilings; cross-channel comparisons need matched-budget sensitivity.
+upstream_strict_v2,warning,false,False,True,"The literal strict-v2 audit failed, but every issue is covered by the version-controlled exception list."

@@ -250,6 +250,39 @@ svg {
   background: transparent;
 }
 
+.lane-symbol {
+  display: inline-block;
+  width: 30px;
+  min-width: 30px;
+  max-width: none;
+  height: 12px;
+  flex: 0 0 30px;
+}
+
+.legend .lane-symbol,
+.lane-title .lane-symbol {
+  display: inline-block;
+  width: 30px;
+  height: 12px;
+  border-radius: 0;
+}
+
+.lane-letter {
+  display: inline-grid;
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  place-items: center;
+  border: 2px solid var(--lane-color);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--lane-color) 10%, #fff);
+  color: var(--lane-color);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1;
+}
+
 .lane label {
   display: grid;
   gap: 5px;
@@ -516,10 +549,12 @@ input[type="range"] {
   color: var(--text);
 }
 
-.trace-lane-buttons i {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
+.trace-lane-buttons .lane-letter {
+  width: 17px;
+  height: 17px;
+  flex-basis: 17px;
+  border-radius: 4px;
+  font-size: 9px;
 }
 
 .view-mode {
@@ -603,6 +638,15 @@ input[type="range"] {
   gap: 6px;
   max-width: 250px;
   white-space: normal;
+}
+
+.legend .lane-legend-item {
+  gap: 5px;
+}
+
+.lane-legend-item strong {
+  color: var(--text);
+  font-weight: 800;
 }
 
 .scrub-line {

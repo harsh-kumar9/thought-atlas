@@ -1,0 +1,9 @@
+task_type,trackb_traces,endpoint_n,endpoint_prevalence,min_segments,median_segments,max_segments,endpoint_kind
+math,3270,3240,0.5549382716049382,0.0,59.0,3528.0,exact/symbolic correctness
+code,1063,1042,0.5287907869481766,2.0,297.0,3730.0,all executable tests passed
+gpqa,3235,2989,0.6473737035797926,3.0,206.0,3344.0,multiple-choice correctness
+planning,3398,3225,0.817984496124031,7.0,162.0,2727.0,task correctness
+moral,3401,3401,0.5016171714201706,2.0,46.0,1033.0,at or above model-specific median quality
+idea,2996,2996,0.7059412550066756,9.0,40.0,587.0,at or above model-specific median quality
+safety,1906,1906,0.9354669464847849,1.0,38.0,1623.0,no high harmful compliance
+security,2842,2598,0.678598922247883,1.0,80.0,4108.0,"WMDP-Cyber correctness (capability, not safety)"

@@ -1,0 +1,12 @@
+motif,length,pre_specified,available,operational_gap
+question_to_subgoal,2,True,True,adjacent segments; max-gap sensitivity not run
+perspective_to_verification,2,True,True,adjacent segments; max-gap sensitivity not run
+conflict_to_verification,2,True,True,adjacent segments; max-gap sensitivity not run
+conflict_to_reconciliation,2,True,True,adjacent segments; max-gap sensitivity not run
+verification_to_backtracking,2,True,True,adjacent segments; max-gap sensitivity not run
+backtracking_to_subgoal,2,True,True,adjacent segments; max-gap sensitivity not run
+reconciliation_to_verification,2,True,True,adjacent segments; max-gap sensitivity not run
+conflict_verification_backtracking,3,True,True,adjacent segments; max-gap sensitivity not run
+verification_backtracking_subgoal,3,True,True,adjacent segments; max-gap sensitivity not run
+perspective_conflict_reconciliation,3,True,True,adjacent segments; max-gap sensitivity not run
+conflict_reconciliation_verification,3,True,True,adjacent segments; max-gap sensitivity not run

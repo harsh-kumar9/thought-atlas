@@ -1,0 +1,2 @@
+passed,criteria,observed_mean_spearman,null_95,interpretation,mechanistic_kline_claim_allowed
+False,"{'exceeds_current_null': True, 'held_out_prompt_confirmation': False, 'positive_in_multiple_model_families': True, 'increment_beyond_behavior_amount': False, 'partial_overlap_beats_exact_repetition': False}",0.08543367234572245,0.00023103404186381466,K-line gate failed; keep as future work,False

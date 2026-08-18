@@ -1,0 +1,8 @@
+gen_model,n_traces,analysis_source,configured_token_budget,model_family,n_sample_seeds
+anchor,1575,answer_text,4096,llama_anchor,1
+gemma4_31b,1575,think_text,65536,gemma4,1
+gemma4_e4b,1575,think_text,65536,gemma4,1
+qwen35_27b,1575,think_text,65536,qwen35,1
+qwen35_4b,1575,think_text,65536,qwen35,1
+qwen35_9b,1575,think_text,65536,qwen35,1
+reasoner,1575,think_text,65536,deepseek_distill,1

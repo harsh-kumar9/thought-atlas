@@ -332,3 +332,41 @@ online-warning claims.
 Do not replace or publish the legacy dataset until v2 passes the strict audit and
 the expected row counts are reviewed.  Keep the manifests with every promoted
 artifact; they record row counts, content hashes, fingerprints, and source shards.
+
+## 9. Build the paper-analysis release
+
+The RQ1–RQ9 paper package is audit-gated and has a separate frozen config. Its
+current implementation depends on feature caches and selected tables produced by
+the interim paper builder, so a clean checkout must run that builder first:
+
+```bash
+python scripts/paper_rq_results.py \
+  --data-dir data/v2 \
+  --out-dir paper_results \
+  --seed 20260809 \
+  --splits 200 \
+  --bootstrap 500
+
+python scripts/run_paper_analysis.py \
+  --config configs/paper_analysis.yaml \
+  --stage audit \
+  --force
+
+python scripts/run_paper_analysis.py \
+  --config configs/paper_analysis.yaml \
+  --stage all \
+  --force \
+  --jobs 1
+
+python scripts/run_signature_analysis.py \
+  --config configs/paper_analysis.yaml \
+  --force
+
+python -m pytest tests/ -q
+```
+
+Do not continue past the audit unless its manifest records
+`paper_analysis_ready=true`. The exact analysis population, estimands, assumptions,
+accepted release exceptions, known implementation challenges, artifact map, and
+claim boundaries are documented in
+[`docs/paper_analysis/README.md`](docs/paper_analysis/README.md).

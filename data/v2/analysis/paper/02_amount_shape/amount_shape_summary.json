@@ -1,0 +1,5 @@
+{
+  "n_traces": 18624,
+  "backward_chaining_cells": 48,
+  "note": "Amount is unnormalized; shape is conditional on occurrence. Bootstrap CIs use 200 prompt-composition resamples for computational feasibility."
+}

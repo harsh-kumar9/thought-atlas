@@ -1,0 +1,313 @@
+gen_model,task_type,quality_class,signature_family,modal_path,modal_path_codes
+gemma4_31b,code,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_31b,code,all,conversational,Perspective shift,P
+gemma4_31b,code,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_31b,code,high,conversational,Perspective shift,P
+gemma4_31b,code,low,cognitive,Subgoal setting → Verification,S→V
+gemma4_31b,code,low,conversational,Perspective shift,P
+gemma4_31b,gpqa,all,cognitive,Verification,V
+gemma4_31b,gpqa,all,conversational,Perspective shift,P
+gemma4_31b,gpqa,high,cognitive,Verification,V
+gemma4_31b,gpqa,high,conversational,Perspective shift,P
+gemma4_31b,gpqa,low,cognitive,Verification,V
+gemma4_31b,gpqa,low,conversational,Perspective shift,P
+gemma4_31b,idea,all,cognitive,Subgoal setting → Verification → Backtracking → Verification,S→V→B→V
+gemma4_31b,idea,all,conversational,Perspective shift → Question–answer,P→Q
+gemma4_31b,idea,high,cognitive,Subgoal setting → Verification → Backtracking → Verification,S→V→B→V
+gemma4_31b,idea,high,conversational,Perspective shift → Question–answer,P→Q
+gemma4_31b,idea,low,cognitive,Subgoal setting → Verification → Backtracking → Verification,S→V→B→V
+gemma4_31b,idea,low,conversational,Perspective shift → Question–answer,P→Q
+gemma4_31b,math,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_31b,math,all,conversational,Perspective shift,P
+gemma4_31b,math,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_31b,math,high,conversational,Perspective shift,P
+gemma4_31b,math,low,cognitive,Subgoal setting → Verification,S→V
+gemma4_31b,math,low,conversational,Perspective shift,P
+gemma4_31b,moral,all,cognitive,Subgoal setting,S
+gemma4_31b,moral,all,conversational,Perspective shift,P
+gemma4_31b,moral,high,cognitive,Subgoal setting,S
+gemma4_31b,moral,high,conversational,Perspective shift,P
+gemma4_31b,moral,low,cognitive,Subgoal setting,S
+gemma4_31b,moral,low,conversational,Perspective shift,P
+gemma4_31b,planning,all,cognitive,Verification,V
+gemma4_31b,planning,all,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer,P→Q→P→Q
+gemma4_31b,planning,high,cognitive,Verification,V
+gemma4_31b,planning,high,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer,P→Q→P→Q
+gemma4_31b,planning,low,cognitive,Verification,V
+gemma4_31b,planning,low,conversational,Question–answer → Perspective shift,Q→P
+gemma4_31b,safety,all,cognitive,Subgoal setting,S
+gemma4_31b,safety,all,conversational,Perspective shift,P
+gemma4_31b,safety,high,cognitive,Subgoal setting,S
+gemma4_31b,safety,high,conversational,Perspective shift,P
+gemma4_31b,safety,low,cognitive,Backtracking → Subgoal setting,B→S
+gemma4_31b,safety,low,conversational,Perspective shift,P
+gemma4_31b,security,all,cognitive,Verification,V
+gemma4_31b,security,all,conversational,Perspective shift,P
+gemma4_31b,security,high,cognitive,Verification,V
+gemma4_31b,security,high,conversational,Perspective shift,P
+gemma4_31b,security,low,cognitive,Verification,V
+gemma4_31b,security,low,conversational,Perspective shift,P
+gemma4_e4b,code,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,code,all,conversational,Perspective shift,P
+gemma4_e4b,code,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,code,high,conversational,Perspective shift,P
+gemma4_e4b,code,low,cognitive,Subgoal setting → Verification → Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V→S→V
+gemma4_e4b,code,low,conversational,Perspective shift,P
+gemma4_e4b,gpqa,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,gpqa,all,conversational,Perspective shift → Reconciliation,P→R
+gemma4_e4b,gpqa,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,gpqa,high,conversational,Perspective shift,P
+gemma4_e4b,gpqa,low,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,gpqa,low,conversational,Perspective shift → Reconciliation,P→R
+gemma4_e4b,idea,all,cognitive,Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V
+gemma4_e4b,idea,all,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer → Perspective shift,P→Q→P→Q→P
+gemma4_e4b,idea,high,cognitive,Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V
+gemma4_e4b,idea,high,conversational,Perspective conflict → Question–answer → Perspective shift → Question–answer → Perspective shift,C→Q→P→Q→P
+gemma4_e4b,idea,low,cognitive,Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V
+gemma4_e4b,idea,low,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer → Perspective shift,P→Q→P→Q→P
+gemma4_e4b,math,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,math,all,conversational,Perspective shift,P
+gemma4_e4b,math,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,math,high,conversational,Perspective shift,P
+gemma4_e4b,math,low,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,math,low,conversational,Perspective shift,P
+gemma4_e4b,moral,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,moral,all,conversational,Perspective shift → Question–answer,P→Q
+gemma4_e4b,moral,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,moral,high,conversational,Perspective shift → Question–answer,P→Q
+gemma4_e4b,moral,low,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,moral,low,conversational,Perspective shift → Question–answer,P→Q
+gemma4_e4b,planning,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,planning,all,conversational,Perspective shift,P
+gemma4_e4b,planning,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,planning,high,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+gemma4_e4b,planning,low,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,planning,low,conversational,Perspective shift,P
+gemma4_e4b,safety,all,cognitive,Subgoal setting → Backtracking → Subgoal setting,S→B→S
+gemma4_e4b,safety,all,conversational,Perspective shift → Perspective conflict,P→C
+gemma4_e4b,safety,high,cognitive,Subgoal setting → Backtracking → Subgoal setting,S→B→S
+gemma4_e4b,safety,high,conversational,Perspective shift,P
+gemma4_e4b,safety,low,cognitive,Subgoal setting → Backtracking → Verification,S→B→V
+gemma4_e4b,safety,low,conversational,Perspective conflict → Question–answer → Perspective conflict → Perspective shift → Question–answer,C→Q→C→P→Q
+gemma4_e4b,security,all,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,security,all,conversational,Perspective shift,P
+gemma4_e4b,security,high,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,security,high,conversational,Perspective shift,P
+gemma4_e4b,security,low,cognitive,Subgoal setting → Verification,S→V
+gemma4_e4b,security,low,conversational,Perspective shift,P
+qwen35_27b,code,all,cognitive,Verification,V
+qwen35_27b,code,all,conversational,Perspective shift,P
+qwen35_27b,code,high,cognitive,Verification,V
+qwen35_27b,code,high,conversational,Perspective shift,P
+qwen35_27b,code,incomplete,cognitive,Verification → Subgoal setting → Verification,V→S→V
+qwen35_27b,code,incomplete,conversational,Perspective shift → Question–answer → Perspective conflict → Perspective shift,P→Q→C→P
+qwen35_27b,code,low,cognitive,Verification,V
+qwen35_27b,code,low,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_27b,gpqa,all,cognitive,Verification,V
+qwen35_27b,gpqa,all,conversational,Perspective shift,P
+qwen35_27b,gpqa,high,cognitive,Verification,V
+qwen35_27b,gpqa,high,conversational,Perspective shift,P
+qwen35_27b,gpqa,incomplete,cognitive,Subgoal setting → Verification,S→V
+qwen35_27b,gpqa,incomplete,conversational,Perspective shift → Question–answer → Perspective conflict → Perspective shift → Perspective conflict → Perspective shift → Question–answer → Perspective shift,P→Q→C→P→C→P→Q→P
+qwen35_27b,gpqa,low,cognitive,Verification,V
+qwen35_27b,gpqa,low,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer → Perspective shift,P→Q→P→Q→P
+qwen35_27b,idea,all,cognitive,Verification → Backtracking → Verification,V→B→V
+qwen35_27b,idea,all,conversational,Perspective shift,P
+qwen35_27b,idea,high,cognitive,Verification → Backtracking → Verification,V→B→V
+qwen35_27b,idea,high,conversational,Perspective shift,P
+qwen35_27b,idea,low,cognitive,Verification → Backtracking → Verification,V→B→V
+qwen35_27b,idea,low,conversational,Perspective shift,P
+qwen35_27b,math,all,cognitive,Subgoal setting → Verification,S→V
+qwen35_27b,math,all,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer,P→Q→P→Q
+qwen35_27b,math,high,cognitive,Verification,V
+qwen35_27b,math,high,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_27b,math,low,cognitive,Subgoal setting → Verification,S→V
+qwen35_27b,math,low,conversational,Perspective shift → Question–answer,P→Q
+qwen35_27b,moral,all,cognitive,Subgoal setting,S
+qwen35_27b,moral,all,conversational,Perspective shift,P
+qwen35_27b,moral,high,cognitive,Subgoal setting,S
+qwen35_27b,moral,high,conversational,Perspective shift,P
+qwen35_27b,moral,low,cognitive,Subgoal setting,S
+qwen35_27b,moral,low,conversational,Perspective shift,P
+qwen35_27b,planning,all,cognitive,Verification,V
+qwen35_27b,planning,all,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_27b,planning,high,cognitive,Verification,V
+qwen35_27b,planning,high,conversational,Perspective shift → Question–answer,P→Q
+qwen35_27b,planning,low,cognitive,Verification,V
+qwen35_27b,planning,low,conversational,Question–answer → Perspective shift,Q→P
+qwen35_27b,safety,all,cognitive,Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V
+qwen35_27b,safety,all,conversational,Perspective shift,P
+qwen35_27b,safety,high,cognitive,Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V
+qwen35_27b,safety,high,conversational,Perspective shift,P
+qwen35_27b,security,all,cognitive,Subgoal setting → Verification,S→V
+qwen35_27b,security,all,conversational,Perspective shift,P
+qwen35_27b,security,high,cognitive,Subgoal setting → Verification,S→V
+qwen35_27b,security,high,conversational,Perspective shift,P
+qwen35_27b,security,incomplete,cognitive,Subgoal setting → Backtracking → Verification → Backtracking → Verification → Backtracking,S→B→V→B→V→B
+qwen35_27b,security,incomplete,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer → Perspective shift,P→Q→P→Q→P
+qwen35_27b,security,low,cognitive,Subgoal setting → Verification,S→V
+qwen35_27b,security,low,conversational,Perspective shift,P
+qwen35_4b,code,all,cognitive,Subgoal setting → Verification,S→V
+qwen35_4b,code,all,conversational,Perspective shift,P
+qwen35_4b,code,high,cognitive,Subgoal setting → Verification,S→V
+qwen35_4b,code,high,conversational,Perspective shift,P
+qwen35_4b,code,incomplete,cognitive,Subgoal setting → Verification → Subgoal setting → Verification → Backtracking,S→V→S→V→B
+qwen35_4b,code,incomplete,conversational,Perspective shift → Perspective conflict,P→C
+qwen35_4b,code,low,cognitive,Verification,V
+qwen35_4b,code,low,conversational,Perspective shift,P
+qwen35_4b,gpqa,all,cognitive,Verification,V
+qwen35_4b,gpqa,all,conversational,Perspective shift,P
+qwen35_4b,gpqa,high,cognitive,Verification,V
+qwen35_4b,gpqa,high,conversational,Perspective shift,P
+qwen35_4b,gpqa,incomplete,cognitive,Verification,V
+qwen35_4b,gpqa,incomplete,conversational,Perspective shift,P
+qwen35_4b,gpqa,low,cognitive,Verification,V
+qwen35_4b,gpqa,low,conversational,Perspective shift,P
+qwen35_4b,idea,all,cognitive,Verification → Backtracking,V→B
+qwen35_4b,idea,all,conversational,Perspective shift,P
+qwen35_4b,idea,high,cognitive,Verification → Backtracking,V→B
+qwen35_4b,idea,high,conversational,Perspective shift,P
+qwen35_4b,idea,low,cognitive,Verification → Backtracking,V→B
+qwen35_4b,idea,low,conversational,Perspective shift,P
+qwen35_4b,math,all,cognitive,Verification,V
+qwen35_4b,math,all,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer,P→Q→P→Q
+qwen35_4b,math,high,cognitive,Verification,V
+qwen35_4b,math,high,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer,P→Q→P→Q
+qwen35_4b,math,incomplete,cognitive,Subgoal setting → Verification,S→V
+qwen35_4b,math,incomplete,conversational,Perspective conflict → Question–answer → Perspective shift → Question–answer → Reconciliation → Question–answer,C→Q→P→Q→R→Q
+qwen35_4b,math,low,cognitive,Verification,V
+qwen35_4b,math,low,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_4b,moral,all,cognitive,Subgoal setting,S
+qwen35_4b,moral,all,conversational,Perspective shift,P
+qwen35_4b,moral,high,cognitive,Subgoal setting,S
+qwen35_4b,moral,high,conversational,Perspective shift,P
+qwen35_4b,moral,low,cognitive,Subgoal setting,S
+qwen35_4b,moral,low,conversational,Perspective shift,P
+qwen35_4b,planning,all,cognitive,Verification,V
+qwen35_4b,planning,all,conversational,Perspective shift → Question–answer,P→Q
+qwen35_4b,planning,high,cognitive,Verification,V
+qwen35_4b,planning,high,conversational,Perspective shift → Question–answer,P→Q
+qwen35_4b,planning,incomplete,cognitive,Verification,V
+qwen35_4b,planning,incomplete,conversational,Question–answer → Perspective shift,Q→P
+qwen35_4b,planning,low,cognitive,Verification,V
+qwen35_4b,planning,low,conversational,Question–answer → Perspective shift,Q→P
+qwen35_4b,safety,all,cognitive,Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V
+qwen35_4b,safety,all,conversational,Perspective shift,P
+qwen35_4b,safety,high,cognitive,Subgoal setting → Verification → Subgoal setting → Verification,S→V→S→V
+qwen35_4b,safety,high,conversational,Perspective shift,P
+qwen35_4b,security,all,cognitive,Subgoal setting → Verification,S→V
+qwen35_4b,security,all,conversational,Perspective shift,P
+qwen35_4b,security,high,cognitive,Subgoal setting → Verification,S→V
+qwen35_4b,security,high,conversational,Perspective shift,P
+qwen35_4b,security,incomplete,cognitive,Verification → Backtracking → Verification → Backtracking → Verification,V→B→V→B→V
+qwen35_4b,security,incomplete,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_4b,security,low,cognitive,Subgoal setting → Verification,S→V
+qwen35_4b,security,low,conversational,Perspective shift,P
+qwen35_9b,code,all,cognitive,Verification,V
+qwen35_9b,code,all,conversational,Perspective shift,P
+qwen35_9b,code,high,cognitive,Verification,V
+qwen35_9b,code,high,conversational,Perspective shift,P
+qwen35_9b,code,incomplete,cognitive,Verification,V
+qwen35_9b,code,incomplete,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer,P→Q→P→Q
+qwen35_9b,code,low,cognitive,Verification,V
+qwen35_9b,code,low,conversational,Perspective shift,P
+qwen35_9b,gpqa,all,cognitive,Verification,V
+qwen35_9b,gpqa,all,conversational,Perspective shift,P
+qwen35_9b,gpqa,high,cognitive,Verification,V
+qwen35_9b,gpqa,high,conversational,Perspective shift,P
+qwen35_9b,gpqa,incomplete,cognitive,Verification,V
+qwen35_9b,gpqa,incomplete,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_9b,gpqa,low,cognitive,Verification,V
+qwen35_9b,gpqa,low,conversational,Perspective shift,P
+qwen35_9b,idea,all,cognitive,Verification → Backtracking,V→B
+qwen35_9b,idea,all,conversational,Perspective shift,P
+qwen35_9b,idea,high,cognitive,Verification → Backtracking,V→B
+qwen35_9b,idea,high,conversational,Perspective shift,P
+qwen35_9b,idea,low,cognitive,Verification → Backtracking,V→B
+qwen35_9b,idea,low,conversational,Perspective shift,P
+qwen35_9b,math,all,cognitive,Verification,V
+qwen35_9b,math,all,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer,P→Q→P→Q
+qwen35_9b,math,high,cognitive,Verification,V
+qwen35_9b,math,high,conversational,Perspective shift → Question–answer,P→Q
+qwen35_9b,math,incomplete,cognitive,Verification,V
+qwen35_9b,math,incomplete,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_9b,math,low,cognitive,Subgoal setting → Verification,S→V
+qwen35_9b,math,low,conversational,Perspective shift,P
+qwen35_9b,moral,all,cognitive,Subgoal setting,S
+qwen35_9b,moral,all,conversational,Perspective shift,P
+qwen35_9b,moral,high,cognitive,Subgoal setting,S
+qwen35_9b,moral,high,conversational,Perspective shift,P
+qwen35_9b,moral,low,cognitive,Subgoal setting,S
+qwen35_9b,moral,low,conversational,Perspective shift,P
+qwen35_9b,planning,all,cognitive,Verification,V
+qwen35_9b,planning,all,conversational,Perspective shift → Question–answer → Perspective shift,P→Q→P
+qwen35_9b,planning,high,cognitive,Verification,V
+qwen35_9b,planning,high,conversational,Perspective shift → Question–answer,P→Q
+qwen35_9b,planning,incomplete,cognitive,Verification,V
+qwen35_9b,planning,incomplete,conversational,Perspective shift → Question–answer → Perspective shift → Question–answer → Perspective shift → Question–answer → Perspective shift,P→Q→P→Q→P→Q→P
+qwen35_9b,planning,low,cognitive,Verification,V
+qwen35_9b,planning,low,conversational,Question–answer → Perspective shift,Q→P
+qwen35_9b,safety,all,cognitive,Subgoal setting → Verification,S→V
+qwen35_9b,safety,all,conversational,Perspective shift,P
+qwen35_9b,safety,high,cognitive,Subgoal setting → Verification,S→V
+qwen35_9b,safety,high,conversational,Perspective shift,P
+qwen35_9b,security,all,cognitive,Subgoal setting → Verification,S→V
+qwen35_9b,security,all,conversational,Perspective shift,P
+qwen35_9b,security,high,cognitive,Subgoal setting → Verification,S→V
+qwen35_9b,security,high,conversational,Perspective shift,P
+qwen35_9b,security,low,cognitive,Subgoal setting → Verification,S→V
+qwen35_9b,security,low,conversational,Perspective shift,P
+reasoner,code,all,cognitive,Verification,V
+reasoner,code,all,conversational,Perspective shift,P
+reasoner,code,high,cognitive,Verification,V
+reasoner,code,high,conversational,Perspective conflict → Perspective shift,C→P
+reasoner,code,incomplete,cognitive,Subgoal setting → Verification → Subgoal setting → Verification → Subgoal setting → Backtracking,S→V→S→V→S→B
+reasoner,code,incomplete,conversational,Perspective conflict → Perspective shift → Perspective conflict → Perspective shift,C→P→C→P
+reasoner,code,low,cognitive,Verification,V
+reasoner,code,low,conversational,Perspective shift,P
+reasoner,gpqa,all,cognitive,Verification,V
+reasoner,gpqa,all,conversational,Perspective shift,P
+reasoner,gpqa,high,cognitive,Subgoal setting → Verification,S→V
+reasoner,gpqa,high,conversational,Perspective shift,P
+reasoner,gpqa,low,cognitive,Verification,V
+reasoner,gpqa,low,conversational,Perspective shift,P
+reasoner,idea,all,cognitive,Subgoal setting → Backtracking → Verification,S→B→V
+reasoner,idea,all,conversational,Perspective shift,P
+reasoner,idea,high,cognitive,Subgoal setting → Backtracking → Verification,S→B→V
+reasoner,idea,high,conversational,Perspective shift,P
+reasoner,idea,low,cognitive,Subgoal setting → Backtracking → Verification → Subgoal setting → Verification,S→B→V→S→V
+reasoner,idea,low,conversational,Perspective shift,P
+reasoner,math,all,cognitive,Subgoal setting → Verification,S→V
+reasoner,math,all,conversational,Perspective shift,P
+reasoner,math,high,cognitive,Subgoal setting → Verification,S→V
+reasoner,math,high,conversational,Perspective shift,P
+reasoner,math,low,cognitive,Subgoal setting → Verification,S→V
+reasoner,math,low,conversational,Perspective shift,P
+reasoner,moral,all,cognitive,Subgoal setting,S
+reasoner,moral,all,conversational,Perspective shift → Reconciliation,P→R
+reasoner,moral,high,cognitive,Subgoal setting,S
+reasoner,moral,high,conversational,Perspective shift → Reconciliation,P→R
+reasoner,moral,low,cognitive,Subgoal setting,S
+reasoner,moral,low,conversational,Perspective shift → Reconciliation,P→R
+reasoner,planning,all,cognitive,Subgoal setting → Verification,S→V
+reasoner,planning,all,conversational,Perspective shift,P
+reasoner,planning,high,cognitive,Subgoal setting → Verification,S→V
+reasoner,planning,high,conversational,Perspective shift,P
+reasoner,planning,incomplete,cognitive,Verification,V
+reasoner,planning,incomplete,conversational,Perspective shift → Perspective conflict → Perspective shift,P→C→P
+reasoner,planning,low,cognitive,Verification,V
+reasoner,planning,low,conversational,Perspective shift → Perspective conflict → Perspective shift → Perspective conflict → Perspective shift,P→C→P→C→P
+reasoner,safety,all,cognitive,Subgoal setting,S
+reasoner,safety,all,conversational,Perspective shift,P
+reasoner,safety,high,cognitive,Subgoal setting,S
+reasoner,safety,high,conversational,Perspective shift → Reconciliation,P→R
+reasoner,safety,low,cognitive,Subgoal setting,S
+reasoner,safety,low,conversational,Perspective shift,P
+reasoner,security,all,cognitive,Subgoal setting → Verification,S→V
+reasoner,security,all,conversational,Perspective shift,P
+reasoner,security,high,cognitive,Subgoal setting → Verification,S→V
+reasoner,security,high,conversational,Perspective shift,P
+reasoner,security,incomplete,cognitive,Subgoal setting → Backtracking → Backward chaining → Verification → Subgoal setting → Verification,S→B→K→V→S→V
+reasoner,security,incomplete,conversational,Perspective conflict → Perspective shift → Question–answer → Perspective conflict → Perspective shift,C→P→Q→C→P
+reasoner,security,low,cognitive,Subgoal setting → Verification,S→V
+reasoner,security,low,conversational,Perspective shift,P

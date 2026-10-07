@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vllm-gemma4-unified"
+version = "0.1.0"
+description = "vLLM 0.22 plugin: run google/gemma-4-12B-it (Gemma4UnifiedForConditionalGeneration) text-only via the native gemma4 model class"
+requires-python = ">=3.10"
+
+[project.entry-points."vllm.general_plugins"]
+gemma4_unified = "vllm_gemma4_unified:register"
+
+[tool.setuptools]
+packages = ["vllm_gemma4_unified"]

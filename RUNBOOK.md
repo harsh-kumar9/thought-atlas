@@ -64,6 +64,17 @@ sbatch -w mira scripts/blackwell.sbatch generate qwen35_9b
 sbatch -w mira scripts/blackwell.sbatch generate qwen35_27b
 ```
 
+`gemma4_12b` needs the vLLM plugin in `env/vllm_gemma4_unified/` installed into the
+env (`pip install --no-deps -e env/vllm_gemma4_unified`, done in `sote` 2026-09-12).
+The Hub checkpoint was re-published as `Gemma4UnifiedForConditionalGeneration`
+(`model_type gemma4_unified`, transformers >= 5.10); vLLM 0.22 does not know that name
+and its generic Transformers fallback fails at load. The text tower is the same gemma4
+layout as the 31B, so the plugin maps the name onto vLLM's native text-only
+`Gemma4ForCausalLM`, drops the unified vision/audio tensors, and applies the same
+TRITON_ATTN hook the 31B gets. Text-only generation is all this pipeline uses.
+Run its generation as one replica per 1-GPU job: four replicas in one job produced
+`<pad>`-only traces (2026-09-13).
+
 Monitor with `squeue -u "$USER"` and inspect both the top-level Slurm log and
 `outputs/<job>_<model>_shard*.log`.  A failed replica now makes the job fail and
 prevents a partial merge.  A successful job creates:

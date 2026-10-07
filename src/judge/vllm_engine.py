@@ -46,6 +46,36 @@ class EngineConfig:
     extra: dict = field(default_factory=dict)  # passthrough (e.g. enable_expert_parallel=True for MoE)
 
 
+def _allow_heterogeneous_config(config):
+    """transformers >= 5.15 raises AmbiguousGlobalPerLayerAttributeError when vLLM 0.22 reads a
+    per-layer attribute (e.g. gemma-4 head_dim: sliding 256 / global 512) from the global config.
+    The flag restores the pre-5.15 behaviour (global value), which is what vLLM's model code expects.
+    Module-level so it pickles by reference into spawned engine workers."""
+    for c in (config, getattr(config, "text_config", None)):
+        if c is not None:
+            try:
+                c.allow_global_per_layer_attribute_access = True
+            except Exception:
+                pass
+            # transformers 5.15 folds gemma-4's global_head_dim / num_global_key_value_heads into
+            # per-layer configs and drops the global fields; vLLM 0.22's gemma4 model reads them via
+            # getattr with a sliding-layer fallback, which then mis-sizes the global-attention weights.
+            plc = getattr(c, "per_layer_config", None)
+            layer_types = getattr(c, "layer_types", None)
+            if plc is not None and layer_types and "full_attention" in layer_types:
+                i = list(layer_types).index("full_attention")
+                for name, src in (("global_head_dim", "head_dim"),
+                                  ("num_global_key_value_heads", "num_key_value_heads")):
+                    try:
+                        getattr(c, name)
+                    except AttributeError:
+                        try:
+                            setattr(c, name, getattr(plc[i], src))
+                        except Exception:
+                            pass
+    return config
+
+
 def build_llm(cfg: EngineConfig):
     """Construct ONE vLLM replica (single GPU by default; TP only if a model won't fit one card).
 
@@ -64,6 +94,7 @@ def build_llm(cfg: EngineConfig):
         enforce_eager=cfg.enforce_eager,
         seed=cfg.seed,
         trust_remote_code=True,
+        hf_overrides=_allow_heterogeneous_config,
     )
     if cfg.max_num_seqs is not None:
         kwargs["max_num_seqs"] = cfg.max_num_seqs

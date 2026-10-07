@@ -1,0 +1,6 @@
+[
+ {"name": "ol_math_A2", "ref_domain": "math",
+  "cond": {"name": "ol_math_A2_g3p0", "mode": "target", "map": "map_corpus1_dm8_L16_r8.npz", "phi_star": "math_A2", "gain": 3.0, "rel_lam": 0.001, "open_loop": true, "open_norm": 2.25, "sustained": true}},
+ {"name": "ol_random", "ref_domain": "math",
+  "cond": {"name": "ol_random_g3p0", "mode": "target", "map": "map_corpus1_dm8_L16_r8.npz", "phi_star": "math_A2", "gain": 3.0, "rel_lam": 0.001, "open_loop": true, "open_norm": 2.25, "sustained": true, "random_subspace": true, "seed": 7}}
+]

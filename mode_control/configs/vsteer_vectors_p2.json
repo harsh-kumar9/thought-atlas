@@ -1,0 +1,6 @@
+[
+ {"name": "ol_gpqa_A4", "ref_domain": "gpqa",
+  "cond": {"name": "ol_gpqa_A4_g3p0", "mode": "target", "map": "map_corpus1_dm8_L16_r8.npz", "phi_star": "gpqa_A4", "gain": 3.0, "rel_lam": 0.001, "open_loop": true, "open_norm": 2.25, "sustained": true}},
+ {"name": "ol_planning_A2", "ref_domain": "planning",
+  "cond": {"name": "ol_planning_A2_g3p0", "mode": "target", "map": "map_corpus1_dm8_L16_r8.npz", "phi_star": "planning_A2", "gain": 3.0, "rel_lam": 0.001, "open_loop": true, "open_norm": 2.25, "sustained": true}}
+]

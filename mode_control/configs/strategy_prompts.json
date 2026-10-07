@@ -1,0 +1,14 @@
+{
+  "checking": [
+    "Work toward one well-supported solution. Keep the relevant constraints in view and examine the soundness of each inference before committing to it.",
+    "Aim for a single, carefully justified answer. Confirm that each step follows from the previous one and that the result satisfies the requirements of the task.",
+    "Pursue one line of reasoning and make it rigorous. At each step, test whether your intermediate conclusions actually hold before building on them.",
+    "Focus on producing a correct, well-checked result. Proceed methodically, scrutinize every claim you rely on, and settle on the answer only when it withstands scrutiny."
+  ],
+  "exploratory": [
+    "Develop several plausible approaches. Revisit your assumptions, compare alternatives, and delay commitment until the possibilities have been considered.",
+    "Generate multiple candidate directions before choosing. Challenge your initial framing, weigh competing options against each other, and stay open to changing course.",
+    "Cast a wide net: brainstorm different angles on the task, reconsider what you took for granted, and contrast the alternatives before deciding.",
+    "Explore rather than converge early. Try out a range of ideas, switch approaches when a new one looks promising, and only narrow down after surveying the options."
+  ]
+}

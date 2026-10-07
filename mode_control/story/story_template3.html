@@ -1,0 +1,918 @@
+<title>Thought Atlas Steering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f3f5f7;
+  --surface: #fcfcfb;
+  --ink: #14171c;
+  --ink-2: #4a5059;
+  --muted: #7a808a;
+  --hair: #e1e3e6;
+  --axis: #c3c6cc;
+  --callout: #e9eef5;
+  --c-base: #8a8f98;
+  --c-a2: #2a78d6;
+  --c-seal: #eb6834;
+  --c-sealdir: #1baf7a;
+  --c-concise: #4a3aa7;
+  --c-random: #e34948;
+  --c-own: #008300;
+  --c-rlzero: #e87ba4;
+  --c-rla2: #eda100;
+  --c-knob: #2c323b;
+  --bar-neutral: #a3a9b2;
+  --bar-strong: #2c323b;
+  --seq-lo: #eef4fc;
+  --seq-hi: #104281;
+  --div-neg: #e34948;
+  --div-mid: #f0efec;
+  --div-pos: #2a78d6;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0f1113; --surface: #1a1a19; --ink: #f2f3f5; --ink-2: #c3c6cc; --muted: #8e939c; --hair: #2c2c2a; --axis: #3d3e40;
+    --callout: #1d242d;
+    --c-base: #8e939c; --c-a2: #3987e5; --c-seal: #d95926; --c-sealdir: #199e70; --c-concise: #9085e9; --c-random: #e66767;
+    --c-own: #008300; --c-rlzero: #d55181; --c-rla2: #c98500; --c-knob: #e4e6ea; --bar-neutral: #5b616a; --bar-strong: #dfe2e6;
+    --seq-lo: #1d2733; --seq-hi: #86b6ef; --div-neg: #e66767; --div-mid: #383835; --div-pos: #3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1113; --surface: #1a1a19; --ink: #f2f3f5; --ink-2: #c3c6cc; --muted: #8e939c; --hair: #2c2c2a; --axis: #3d3e40;
+  --callout: #1d242d;
+  --c-base: #8e939c; --c-a2: #3987e5; --c-seal: #d95926; --c-sealdir: #199e70; --c-concise: #9085e9; --c-random: #e66767;
+  --c-own: #008300; --c-rlzero: #d55181; --c-rla2: #c98500; --c-knob: #e4e6ea; --bar-neutral: #5b616a; --bar-strong: #dfe2e6;
+  --seq-lo: #1d2733; --seq-hi: #86b6ef; --div-neg: #e66767; --div-mid: #383835; --div-pos: #3987e5;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16.5px; line-height: 1.6; }
+.page { max-width: 940px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 80px; }
+.prose { max-width: 680px; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(2rem, 4.6vw, 2.9rem); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 1.02rem; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 14px; }
+header.top { display: flex; flex-direction: column; gap: 14px; padding-bottom: 28px; border-bottom: 1px solid var(--hair); }
+.dek { font-size: 1.16rem; color: var(--ink-2); max-width: 680px; }
+.meta { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+.short { margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.short .item { background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+.short .item .k { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.short .item p { font-size: 0.97rem; }
+.short .item.no { background: transparent; border-style: dashed; }
+.glossary { margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 28px; font-size: 0.93rem; color: var(--ink-2); }
+.glossary dt { font-weight: 600; color: var(--ink); }
+.glossary dd { margin: 0 0 6px 0; }
+section.chap { margin-top: 64px; display: flex; flex-direction: column; gap: 18px; }
+section.chap > .head { display: flex; flex-direction: column; gap: 6px; }
+.num { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); }
+.did, .found { display: grid; grid-template-columns: 5.5em 1fr; gap: 0 12px; max-width: 760px; }
+.did .lbl, .found .lbl { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+.found .body { font-weight: 500; }
+figure.fig { margin: 6px 0 0 0; background: var(--surface); border: 1px solid var(--hair); border-radius: 10px; padding: 18px 18px 14px; display: flex; flex-direction: column; gap: 12px; }
+.fig .ftitle { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.fig .ftitle .fn { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+.fig .ftitle h3 { font-size: 1rem; }
+.fig figcaption { font-size: 0.84rem; color: var(--muted); max-width: 760px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.84rem; color: var(--ink-2); }
+.legend .it { display: inline-flex; align-items: center; gap: 7px; }
+.legend .sw { width: 16px; height: 0; border-top: 2.5px solid currentColor; border-radius: 2px; display: inline-block; }
+.legend .sq { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+.chart { width: 100%; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart svg text { font-family: var(--sans); }
+.multi { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.multi .panel { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.multi .panel h4 { margin: 0; font-size: 0.9rem; font-weight: 600; }
+.multi .panel .sub { font-size: 0.8rem; color: var(--muted); }
+details.nums { font-size: 0.84rem; color: var(--ink-2); }
+details.nums summary { cursor: pointer; color: var(--muted); font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.03em; }
+details.nums summary:focus-visible { outline: 2px solid var(--c-a2); outline-offset: 2px; border-radius: 3px; }
+.tablewrap { overflow-x: auto; margin-top: 8px; }
+table.t { border-collapse: collapse; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+table.t th, table.t td { padding: 4px 12px 4px 0; text-align: right; border-bottom: 1px solid var(--hair); white-space: nowrap; }
+table.t th:first-child, table.t td:first-child { text-align: left; }
+table.t th { color: var(--muted); font-weight: 500; }
+.callout { background: var(--callout); border-radius: 8px; padding: 14px 18px; font-size: 0.95rem; max-width: 760px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.stat { border-left: 2px solid var(--hair); padding: 2px 0 2px 12px; }
+.stat .v { font-size: 1.5rem; font-weight: 600; }
+.stat .l { font-size: 0.82rem; color: var(--muted); }
+ul.plain { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; }
+.tip { position: fixed; z-index: 10; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--axis); border-radius: 6px; padding: 8px 10px; font-size: 0.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.12); max-width: 260px; font-variant-numeric: tabular-nums; }
+.tip .tt { font-weight: 600; margin-bottom: 4px; }
+.tip .row { display: flex; align-items: center; gap: 8px; }
+.tip .row .k { width: 12px; border-top: 2.5px solid currentColor; }
+.tip .row .val { font-weight: 600; margin-left: auto; padding-left: 10px; }
+.tip .row .nm { color: var(--ink-2); }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; align-items: start; }
+.card { border: 1px solid var(--hair); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.card .ch { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.card .who { font-weight: 600; font-size: 0.95rem; }
+.card .it { font-size: 0.92rem; font-weight: 500; }
+.q { font-size: 0.88rem; color: var(--ink-2); max-width: 760px; }
+.kw { font-size: 0.86rem; font-weight: 600; margin-top: 4px; }
+pre.excerpt { font-family: var(--mono); font-size: 0.76rem; line-height: 1.55; color: var(--ink); background: var(--bg); border-radius: 6px; padding: 8px 10px; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tl { display: flex; flex-direction: column; gap: 5px; }
+.tag { order: -1; align-self: flex-start; font-size: 0.72rem; color: var(--ink-2); border: 1px solid var(--axis); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.gap { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+.scores { display: flex; gap: 16px; font-size: 0.84rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.scores b { color: var(--ink); font-weight: 600; }
+ol.tkey { margin: 8px 0 0 0; padding-left: 1.4em; font-size: 0.84rem; color: var(--ink-2); display: grid; gap: 2px; }
+footer.end { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--hair); font-size: 0.85rem; color: var(--muted); }
+code { font-family: var(--mono); font-size: 0.88em; }
+@media (max-width: 560px) { body { font-size: 15.5px; } .did, .found { grid-template-columns: 1fr; } .page { padding-inline: 16px; } }
+@media (prefers-reduced-motion: no-preference) { .chart svg .hov { transition: opacity 120ms; } }
+</style>
+
+<main class="page">
+  <header class="top">
+    <div class="eyebrow">Thought Atlas · reasoning-mode study · September 2026</div>
+    <h1>Steering how a model thinks</h1>
+    <p class="dek">Reasoning models think differently on different kinds of tasks. We asked whether that difference sits in a part of the model we can turn, what turning it does, and whether reinforcement learning finds the same thing on its own.</p>
+    <p class="meta">Model Qwen3.5-9B · behaviour judge Gemma-4-31B · tasks: MATH-500, GPQA science questions, ACP planning, open-ended idea generation</p>
+  </header>
+
+  <div class="short">
+    <div class="item"><span class="k">Found 1</span><p><strong>Each task has its own thinking signature.</strong> Math reasoning checks and sets subgoals; idea generation shifts perspective and backtracks.</p></div>
+    <div class="item"><span class="k">Found 2</span><p><strong>The signature can be steered.</strong> Adding one vector to the model's internal state while it thinks moves idea traces more than half way to the math profile.</p></div>
+    <div class="item"><span class="k">Found 3</span><p><strong>What steering buys is efficiency.</strong> On math, science and planning it reaches what unsteered thinking gets with 32k tokens using a third to a half of the tokens, and the model almost never loops.</p></div>
+    <div class="item"><span class="k">Found 4</span><p><strong>RL finds the same behaviour.</strong> Training only a steering vector with RL lands on the same way of thinking, through an unrelated direction. It keeps checking its work and is the most accurate arm at 32k.</p></div>
+    <div class="item no"><span class="k">Did not find</span><p>More accurate reasoning (on the problems it answers, A2 is right a little less often: 93% vs 97%), better ideas, or new kinds of solutions from steering.</p></div>
+  </div>
+
+  <dl class="glossary">
+    <div><dt>Reasoning trace</dt><dd>The text the model writes in its thinking block before it answers.</dd></div>
+    <div><dt>Signature</dt><dd>A judge model labels every sentence with 8 behaviours (checking, setting a subgoal, asking itself a question…). The signature is how often each appears, per 100 sentences.</dd></div>
+    <div><dt>Steering vector</dt><dd>A fixed list of 4,096 numbers added to the model's internal state at one layer, at every token, while it thinks.</dd></div>
+    <div><dt>Token budget</dt><dd>The most tokens the model may write. If it has not answered by then, the task counts as wrong.</dd></div>
+    <div><dt>Random direction</dt><dd>A vector of the same size pointing somewhere random. It shows whether an effect comes from the direction or from any disturbance.</dd></div>
+    <div><dt>Grading</dt><dd>A judge model reads the final answer and we compare it with the reference. We checked it by hand on 100 traces.</dd></div>
+    <div><dt>Held-out problems</dt><dd>Problems never used to build or tune a vector. All accuracy numbers here are on held-out problems.</dd></div>
+  </dl>
+
+  <section class="chap" id="s1">
+    <div class="head"><span class="num">1</span><h2>Models think differently on different tasks</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">We had Qwen3.5-9B solve four kinds of tasks, 200 tasks each, 4 samples per task. A judge model labelled every sentence of every reasoning trace.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">Math and planning lean on checking. Idea generation leans on perspective shifts, conflict and backtracking. Science questions sit in between. The difference is large: a simple classifier tells a math trace from an idea trace almost perfectly (AUROC 0.998).</p></div>
+    <figure class="fig" id="f1">
+      <div class="ftitle"><span class="fn">Fig. 1</span><h3>How often each behaviour appears, per 100 sentences of reasoning</h3></div>
+      <div class="chart" data-chart="sig"></div>
+      <figcaption>800 unsteered traces per task type. Darker cells mean the behaviour is more frequent.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="sig"></div></details>
+    </figure>
+    <figure class="fig" id="x1">
+      <div class="ftitle"><span class="fn">Example 1</span><h3>What the behaviours look like in a trace</h3></div>
+      <div class="pair">
+        <div class="card">
+          <div class="ch">Math · 2,896 tokens</div>
+          <p class="q">“Half the value of 3x − 9 is x + 37. What is the value of x?”</p>
+          <div class="tl"><pre class="excerpt">Step 1: Eliminate the fraction. Multiply both sides of the equation by 2.
+3x − 9 = 2(x + 37)
+Step 2: Distribute the 2 on the right side. …
+Step 4: Isolate x. …
+x = 83</pre><span class="tag">subgoals</span></div>
+          <div class="tl"><pre class="excerpt">4. Verify the Solution:
+Plug x = 83 back into the original statement to see if it holds true. …
+Does 120 = 120? Yes.</pre><span class="tag">checking</span></div>
+          <div class="tl"><pre class="excerpt">Did I interpret "Half the value of" correctly? Yes, it means (3x − 9)/2. Did I make an arithmetic error? 2 × 37 = 74. …</pre><span class="tag">self-questioning</span></div>
+        </div>
+        <div class="card">
+          <div class="ch">Idea generation · 5,705 tokens</div>
+          <p class="q">Keyword: erosion. “Propose one novel, specific research idea related to the keyword below.”</p>
+          <div class="tl"><pre class="excerpt">Idea 1 (Soil/Climate): AI-driven prediction of soil erosion under extreme precipitation scenarios. (A bit common, AI + climate is saturated). …
+Idea 2 (Coastal): Bio-cementation of eroding coastlines using specific microorganisms. (Emerging, but maybe too applied). …
+Idea 6 (Planetary Science): Erosion processes on Mars vs. Earth using new rover data. (Good, but maybe too speculative).</pre><span class="tag">new angle, then an objection</span></div>
+          <div class="tl"><pre class="excerpt">Actually, let's look at Microplastic Erosion. …
+Better: Permafrost Thaw and "Microbial Erosion" coupling.
+Even better: The role of specific fungal networks (mycorrhizae) in preventing subsurface soil erosion under freeze-thaw cycles. …
+Digital Erosion vs. Physical Erosion? No, stick to physical.
+Idea: "Acoustic Levitation Erosion Testing." No.</pre><span class="tag">backtracking</span></div>
+        </div>
+      </div>
+      <figcaption>Excerpts from two unsteered traces. “…” marks a cut and maths notation is simplified. The tags are our reading, to show what the behaviour names mean. The math trace works in steps and checks them; the idea trace keeps switching angle, objecting, and dropping ideas.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chap" id="s2">
+    <div class="head"><span class="num">2</span><h2>There is a knob inside the model</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">We gave the model the same text twice: once with an instruction to explore, once with an instruction to check its work. The difference in its internal state is one direction. That direction also separates unprompted math traces from idea traces. Then we pushed along it while the model thought.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">Pushing for the first 64 tokens did nothing. Pushing at every token did. Idea traces moved more than half way toward the math signature, with fewer perspective shifts and backtracks and more checking. A random direction of the same size did not move them. The other way worked less well: math traces moved only a little toward the idea profile before the model started to loop.</p></div>
+    <figure class="fig" id="f2">
+      <div class="ftitle"><span class="fn">Fig. 2</span><h3>Where steered traces land between the math and idea signatures</h3></div>
+      <div class="chart" data-chart="knob"></div>
+      <figcaption>Idea-likeness is a classifier's score over the first 8k tokens of reasoning: above 0 looks like idea generation, below 0 like math. 150 tasks per type. "Weak" and "strong" are two push sizes along the explore–check direction.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="knob"></div></details>
+    </figure>
+  </section>
+
+  <section class="chap" id="s3">
+    <div class="head"><span class="num">3</span><h2>What the knob buys depends on the task</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">We scored the final ideas for originality and feasibility, and the math answers for correctness, under each push. We also tried schedules, such as exploring first and checking later.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">On idea generation the knob is a dial between two kinds of ideas: toward exploring gives more original but less feasible ideas, toward checking gives the reverse. No push and no schedule improved both. On math, pushing toward exploring lowered accuracy.</p></div>
+    <figure class="fig" id="f3">
+      <div class="ftitle"><span class="fn">Fig. 3</span><h3>Idea tasks: every push trades originality against feasibility</h3></div>
+      <div class="chart" data-chart="trade"></div>
+      <figcaption>Change in the judge's scores (1 to 10 scale; unsteered ideas score 8.6 for originality and 7.3 for feasibility), with 95% intervals, 200 idea tasks (104 for the math vector). The upper-right corner, better on both, stays empty. The blue point is the math vector from section 4 applied to idea tasks.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="trade"></div></details>
+    </figure>
+    <figure class="fig" id="x2">
+      <div class="ftitle"><span class="fn">Example 2</span><h3>The same idea task, pushed each way</h3></div>
+      <div class="kw">Keyword: fieldwork</div>
+      <div class="pair">
+        <div class="card">
+          <div class="ch">Pushed toward exploring</div>
+          <p class="it">“The ‘Stress-Strain’ Fieldwork Protocol: Quantifying Researcher Physiological Load vs. Sampling Accuracy in High-Stakes Ecological Monitoring”</p>
+          <p class="q">Put wearables on field researchers and test whether stress makes the data they collect worse.</p>
+          <div class="scores"><span>Originality <b>9</b></span><span>Feasibility <b>8</b></span></div>
+        </div>
+        <div class="card">
+          <div class="ch">Pushed toward checking</div>
+          <p class="it">“Quantifying the Observer Effect in Ecological Fieldwork: A Comparative Study of Nocturnal Insect Activity Recorded by Human Observers versus Autonomous Acoustic Sensors”</p>
+          <p class="q">Count night insects with people and with sound recorders at the same place and time, and measure the difference.</p>
+          <div class="scores"><span>Originality <b>8</b></span><span>Feasibility <b>9</b></span></div>
+        </div>
+      </div>
+      <div class="kw">Keyword: educational psychology</div>
+      <div class="pair">
+        <div class="card">
+          <div class="ch">Pushed toward exploring</div>
+          <p class="it">“The ‘Transparency Paradox’ in AI Tutoring”</p>
+          <p class="q">Test whether AI tutors that show their reasoning help students judge their own learning, even if students like them less.</p>
+          <div class="scores"><span>Originality <b>9</b></span><span>Feasibility <b>8</b></span></div>
+        </div>
+        <div class="card">
+          <div class="ch">Pushed toward checking</div>
+          <p class="it">“The Impact of Explainable AI (XAI) Feedback on Metacognitive Regulation in Secondary Mathematics”</p>
+          <p class="q">A randomised trial: students get plain right/wrong feedback or feedback that explains why, then are tested on fixing their own errors.</p>
+          <div class="scores"><span>Originality <b>8</b></span><span>Feasibility <b>9</b></span></div>
+        </div>
+      </div>
+      <figcaption>Final ideas for two of the 200 idea tasks, with the explore–check knob pushed each way. Titles are the model's own; the one-line summaries are ours. Scores are the judge's, 1 to 10. Exploring gives the bolder question, checking gives the study that is easier to run.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chap" id="s4">
+    <div class="head"><span class="num">4</span><h2>A finer knob: steer toward what good math traces look like</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">The explore–check direction is one line through a space of eight behaviours. We fit a map from the model's internal state (layer 16) to the behaviours it is about to show. Then we took typical good math traces as targets and steered toward them. One target, called A2, asks for more subgoal setting with less checking and less self-questioning, a mix the explore–check knob cannot produce.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">Steering toward A2 raised math accuracy at a 12k-token budget from 57% to 81% on 199 held-out problems. The explore–check knob pushed toward checking reached 63%. A random direction of the same size lowered accuracy to 46%.</p></div>
+    <figure class="fig" id="f4">
+      <div class="ftitle"><span class="fn">Fig. 4</span><h3>Math accuracy at a 12k-token budget</h3></div>
+      <div class="chart" data-chart="ctrl"></div>
+      <figcaption>199 held-out MATH-500 problems, one sample each. An unanswered problem counts as wrong.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chap" id="s5">
+    <div class="head"><span class="num">5</span><h2>Is A2 better thinking, or faster thinking?</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">A 12k budget is tight: without steering, 42% of math traces had not answered yet. So we let every run think up to 32k tokens and read off accuracy at smaller budgets by cutting each trace. We also compared A2 with SEAL, a published method that steers reasoning to be shorter, and with a plain "Be concise." instruction.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">Mostly faster. With a 16k cap, A2 matches what unsteered thinking reaches with 32k (87% vs 85%), using 6.0k tokens on average instead of 13.2k. Its lead shrinks as the budget grows, from 27 points at 12k to 7 points at 32k. The lead that is left comes from finishing: at 32k, 12% of unsteered traces never answer (9% are stuck in a loop), against 1% for A2. On the problems each one answers, A2 is right a little less often (93% vs 97%), which fits it checking its work less. A2 beats SEAL by 22 points at 12k, and beats the concise instruction.</p></div>
+    <figure class="fig" id="f5">
+      <div class="ftitle"><span class="fn">Fig. 5</span><h3>Math accuracy as the token budget grows</h3></div>
+      <div class="legend" data-legend="p1"></div>
+      <div class="chart" data-chart="p1"></div>
+      <figcaption>199 held-out MATH-500 problems × 2 samples. SEAL is run as published; "SEAL's direction" is SEAL's vector given A2's layer and size. Hover for exact values.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="p1"></div></details>
+    </figure>
+    <figure class="fig" id="f5b">
+      <div class="ftitle"><span class="fn">Fig. 6</span><h3>Tokens used and loops, with a 32k budget</h3></div>
+      <div class="multi">
+        <div class="panel"><h4>Mean tokens per trace</h4><div class="chart" data-chart="p1tok"></div></div>
+        <div class="panel"><h4>Traces stuck in a loop</h4><div class="chart" data-chart="p1loop"></div></div>
+      </div>
+      <figcaption>Same runs as Fig. 5.</figcaption>
+    </figure>
+    <figure class="fig" id="x3">
+      <div class="ftitle"><span class="fn">Example 3</span><h3>One easy problem, three runs</h3></div>
+      <p class="q">“The arithmetic mean of 7, 2, x and 10 is 9. What is the value of x?” (answer: 17)</p>
+      <div class="chart" data-chart="same"></div>
+      <div class="pair">
+        <div class="card">
+          <div class="ch">Unsteered, around token 450</div>
+          <pre class="excerpt">Step 5c: Solve for x.
+Subtract 19 from both sides.
+x = 36 − 19
+Step 5d: Calculate the result.
+36 − 10 = 26
+26 − 9 = 17
+So, x = 17.</pre>
+          <div class="gap">… and 32,000 tokens later, still thinking:</div>
+          <pre class="excerpt">(Wait, I should check if I should mention the answer. Yes, clear answer.)
+Okay.
+I'll write it.
+Done.
+(Wait, I should check if I should mention the steps. Yes, clear steps.)
+Okay.
+I'll write it.
+Done.
+(Wait, I should check if I should mention the formula. Yes, clear</pre>
+          <p class="q">“(Wait, …” appears 760 times. The budget runs out before the model answers.</p>
+        </div>
+        <div class="card">
+          <div class="ch">A2, whole answer after 1,055 tokens</div>
+          <pre class="excerpt">9 = (7 + 2 + x + 10) / 4
+9 = (19 + x) / 4
+36 = 19 + x
+x = 36 − 19
+x = 17
+The value of x is 17.</pre>
+          <p class="q">RL from zero writes the same steps after 877 tokens.</p>
+        </div>
+      </div>
+      <div class="tablewrap"><table class="t">
+        <tr><th>Problem (tokens used, seed 1)</th><th>Unsteered</th><th>A2</th><th>RL from zero</th></tr>
+        <tr><td>Mean of 7, 2, x and 10 is 9; find x</td><td>32,768, no answer</td><td>1,055, right</td><td>877, right</td></tr>
+        <tr><td>Battalions from 5 upper- and 10 lower-class soldiers</td><td>32,768, no answer</td><td>1,213, right</td><td>1,361, right</td></tr>
+        <tr><td>Product of all x with |x − 4| − 10 = 2</td><td>32,768, no answer</td><td>1,623, right</td><td>1,371, right</td></tr>
+        <tr><td>Assortments of 6 cookies from 3 kinds</td><td>32,768, no answer</td><td>1,629, right</td><td>4,829, right</td></tr>
+      </table></div>
+      <figcaption>This is the extreme case, not the typical one. 37 of 398 unsteered math traces got stuck in a loop like this; A2 solved 32 of those problems. Answers are shortened and maths notation is simplified.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chap" id="s6">
+    <div class="head"><span class="num">6</span><h2>It carries over to other tasks with one right answer</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">We added the A2 vector, built from math, to the model on science questions (GPQA) and planning problems. We also built each task's own vector from its own good traces. Before running, we predicted the effects from which behaviours separate right from wrong answers on the same problem, and wrote the predictions down.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">The same pattern: large gains when the budget is tight, none when it is generous. The task's own vector does best. On GPQA it reaches the unsteered 32k accuracy (76% vs 74%) with 5.2k tokens instead of 16.0k; on planning, 92% vs 89% with 4.0k tokens instead of 10.2k. The predictions got the order right.</p></div>
+    <figure class="fig" id="f6">
+      <div class="ftitle"><span class="fn">Fig. 7</span><h3>Accuracy as the token budget grows, on science and planning</h3></div>
+      <div class="legend" data-legend="p2"></div>
+      <div class="multi">
+        <div class="panel"><h4>GPQA science questions</h4><div class="chart" data-chart="gpqa"></div></div>
+        <div class="panel"><h4>Planning problems</h4><div class="chart" data-chart="planning"></div></div>
+      </div>
+      <figcaption>200 held-out tasks per domain × 2 samples.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="p2"></div></details>
+    </figure>
+  </section>
+
+  <section class="chap" id="s7">
+    <div class="head"><span class="num">7</span><h2>What changes in the thinking</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">We labelled the steered traces with the same judge and compared each with the unsteered trace for the same problem.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">On all three tasks the model asks itself fewer questions and sets more subgoals. On math it also checks less. The science and planning vectors cut self-questioning harder and leave checking alone, which fits what separates right from wrong answers in those tasks.</p></div>
+    <figure class="fig" id="f7">
+      <div class="ftitle"><span class="fn">Fig. 8</span><h3>Change in each behaviour under steering, per 100 sentences</h3></div>
+      <div class="legend" data-legend="shift"></div>
+      <div class="multi" data-chart-multi="shift"></div>
+      <figcaption>199 to 200 held-out tasks per domain, one sample each, with 95% intervals. Bars right of zero mean the behaviour became more frequent.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="shift"></div></details>
+    </figure>
+  </section>
+
+  <section class="chap" id="s8">
+    <div class="head"><span class="num">8</span><h2>Many knobs, one behaviour</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">We compared the steering vectors two ways: how much they point the same way inside the model, and how much they change the thinking the same way.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">A2, SEAL's direction and a vector learned by RL (next section) point in unrelated directions inside the model: their overlap is close to zero. Yet they change the thinking in almost the same way. A random vector changes it the opposite way. The efficient way of thinking is a target that many different pushes reach.</p></div>
+    <figure class="fig" id="f8">
+      <div class="ftitle"><span class="fn">Fig. 9</span><h3>Same effect on thinking, unrelated directions inside the model</h3></div>
+      <div class="multi">
+        <div class="panel"><h4>Overlap of the vectors inside the model</h4><span class="sub">cosine similarity of the 4,096 numbers</span><div class="chart" data-chart="cosres"></div></div>
+        <div class="panel"><h4>Overlap of their effect on behaviour</h4><span class="sub">cosine similarity of the 8 behaviour changes on math</span><div class="chart" data-chart="cosbeh"></div></div>
+      </div>
+      <figcaption>1 means the same direction, 0 unrelated, −1 opposite. "A2 + RL" is A2 after RL training (section 9), so it still overlaps A2.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chap" id="s9">
+    <div class="head"><span class="num">9</span><h2>Reinforcement learning finds the same behaviour</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">We froze the whole model and trained only a steering vector with reinforcement learning. The reward was 1 for a correct answer within 8k tokens. Each step used 16 problems with 8 samples each, drawn from the 301 MATH-500 problems outside the 199 we test on. We started once from zero and once from A2.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">From zero, RL learns a vector that matches A2 at 12k (79% vs 81%) and beats it at 32k (95% vs 92%), with no loops. It is a third as long and points somewhere unrelated, but it changes the thinking the same way, more gently, and with one difference: it does not cut checking. It finishes as often as A2 and is right as often as unsteered when it answers (97%). Started from A2, RL keeps A2 and sharpens it: 15 points better than A2 at 4k, and 2k fewer tokens at 32k.</p></div>
+    <figure class="fig" id="f9">
+      <div class="ftitle"><span class="fn">Fig. 10</span><h3>Training, and accuracy on held-out problems</h3></div>
+      <div class="legend" data-legend="rl"></div>
+      <div class="multi">
+        <div class="panel"><h4>Training reward</h4><span class="sub">share correct within 8k tokens, as scored during training; average of the last 6 steps</span><div class="chart" data-chart="rltrain"></div></div>
+        <div class="panel"><h4>Held-out math accuracy by budget</h4><span class="sub">199 problems × 2 samples</span><div class="chart" data-chart="rleval"></div></div>
+      </div>
+      <figcaption>The training reward was scored by our earlier grader, which missed about a quarter of correct math answers, so read its trend, not its level. The held-out accuracies are re-graded. An earlier version of this experiment computed the training update at the wrong sampling temperature; those runs are withdrawn and everything shown is after the fix.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="rl"></div></details>
+    </figure>
+  </section>
+
+  <section class="chap" id="s10">
+    <div class="head"><span class="num">10</span><h2>Can steering produce different kinds of solutions?</h2></div>
+    <div class="did"><span class="lbl">What we did</span><p class="prose">On math, a different kind of solution can be worth more than the same solution found faster. Our steering never did this. Unprompted, the model uses the same method for a problem 95% of the time, and behaviour steering left the mix of methods unchanged. So we tried method prompts from Pólya's How to Solve It ("work backwards", "try small cases", "draw a picture"), and then steered along the prompt's own direction without the prompt.</p></div>
+    <div class="found"><span class="lbl">Found</span><p class="body prose">Prompts can change the method: "draw a picture" moves 29% of samples off the usual method. But a different method did not solve more problems. Mixing prompted and unprompted samples solves 86% of problems at least once in 4 tries, against 84% for unprompted samples alone, within noise. The prompt that did help, "work backwards" (67% to 76%), mostly kept the usual method and finished more often. Steering along the picture prompt's direction does worse: accuracy falls, loops rise, and the method barely changes.</p></div>
+    <figure class="fig" id="f10">
+      <div class="ftitle"><span class="fn">Fig. 11</span><h3>Method prompts versus steering along the prompt's direction</h3></div>
+      <div class="multi">
+        <div class="panel"><h4>Samples that use a different method than usual</h4><div class="chart" data-chart="p3off"></div></div>
+        <div class="panel"><h4>Solved at least once in 4 samples</h4><span class="sub">pools of 4 samples per problem</span><div class="chart" data-chart="p3pool"></div></div>
+        <div class="panel"><h4>Steering along the "draw a picture" direction</h4><span class="sub">accuracy, 16k budget</span><div class="chart" data-chart="p3steer"></div></div>
+      </div>
+      <figcaption>199 held-out math problems × 4 samples, 16k budget. "Usual method" is the method most unprompted samples use for that problem, as labelled by the judge (with a tie, every tied method counts as usual). The mixed pool is 2 unprompted + 2 "draw a picture" samples: +1.7 points over unprompted, 95% interval −0.6 to +4.1.</figcaption>
+      <details class="nums"><summary>Show the numbers</summary><div class="tablewrap" data-table="p3"></div></details>
+    </figure>
+    <figure class="fig" id="x4">
+      <div class="ftitle"><span class="fn">Example 4</span><h3>A new route is not always a better one</h3></div>
+      <p class="q">“A 90° rotation around the origin in the counter-clockwise direction is applied to 7 + 2i. What is the resulting complex number?” (answer: −2 + 7i)</p>
+      <div class="pair">
+        <div class="card">
+          <div class="ch">Unprompted · 4 samples</div>
+          <p class="who">Multiplies by i</p>
+          <pre class="excerpt">Specifically, multiplying by i corresponds to a 90° counter-clockwise rotation.</pre>
+          <p class="q">All 4 samples use this method. 4 of 4 right, about 2,000 tokens each.</p>
+        </div>
+        <div class="card">
+          <div class="ch">“Draw a picture” · 4 samples</div>
+          <p class="who">Plots the point (7, 2) and turns it</p>
+          <pre class="excerpt">Plot the initial point A = (7, 2).
+Draw the vector from the origin to A.
+Visualize the rotation. …
+Plot the new point B = (−2, 7).</pre>
+          <p class="q">All 4 samples use this method. 2 of 4 right (2.8k and 5.8k tokens); the other 2 ran out of the 16k budget.</p>
+        </div>
+      </div>
+      <figcaption>Methods as labelled by the judge; excerpts from one sample each. On this problem the prompt changed the route every time and solved the problem less often. Across all 199 problems the picture prompt was 3 points less accurate than no prompt (within noise).</figcaption>
+    </figure>
+  </section>
+
+  <section class="chap" id="s11">
+    <div class="head"><span class="num">11</span><h2>What it adds up to</h2></div>
+    <div class="stats">
+      <div class="stat"><div class="v">⅓ to ½</div><div class="l">of the tokens for the same accuracy, on math, science and planning</div></div>
+      <div class="stat"><div class="v">9% → &lt;1%</div><div class="l">math traces stuck in a loop, unsteered vs steered</div></div>
+      <div class="stat"><div class="v">0.94</div><div class="l">overlap in behaviour change between A2 and the vector RL found from zero</div></div>
+      <div class="stat"><div class="v">≈ 0</div><div class="l">overlap between those two vectors inside the model</div></div>
+    </div>
+    <div class="prose stack">
+      <p>Thinking has a signature that depends on the task, and part of it can be steered from inside the model. On tasks with one right answer, the part that pays off is efficiency: fewer self-questions, more subgoals, no loops. That gives the same accuracy for a third to a half of the tokens, more than a published steering method or a concise instruction gives. Reinforcement learning with a budgeted reward finds the same way of thinking on its own, through a different direction, and the vector it finds is the most accurate we have at 32k.</p>
+      <p>Steering did not make the reasoning itself more accurate. A2 answers far more often but is right a little less often on what it answers (93% vs 97%); its gain at large budgets comes from finishing. It did not make better ideas (it trades originality for feasibility), and it did not produce new kinds of solutions. A prompt can change the method, but here that did not solve more problems, and steering along the prompt's direction does not change the method.</p>
+    </div>
+    <div class="callout stack">
+      <strong>Limits</strong>
+      <ul class="plain">
+        <li>One model (Qwen3.5-9B) and one behaviour judge (Gemma-4-31B). A second model is the first thing to add.</li>
+        <li>Most runs use one or two samples per task. Differences of a few points are within noise; the main effects are 15 to 38 points.</li>
+        <li>An earlier grader missed about a quarter of correct math answers. Every math number on this page has been re-graded (checked by hand on 100 traces, all right), except the rank-one knob's math result in section 3, which is still being re-graded.</li>
+        <li>The idea-quality judge scores most ideas near the top of its scale, which limits what it can detect.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="end">Code, logs and every number: <code>thought-atlas/mode_control</code> on ada (<code>RESULTS.md</code>, decisions D-01 to D-47).</footer>
+</main>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script>
+const DATA = /*__DATA__*/;
+</script>
+<script>
+(function () {
+  "use strict";
+  const NS = "http://www.w3.org/2000/svg";
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const pct = x => Math.round(x * 100) + "%";
+  const pts = x => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(Math.round(x * 100)) + " pts";
+  const fmt1 = x => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(1);
+  const kfmt = x => (x / 1000).toFixed(1) + "k";
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+  const ENT = {
+    baseline: { name: "Unsteered", c: "--c-base" },
+    ol_math_A2: { name: "A2 (math vector)", c: "--c-a2" },
+    seal: { name: "SEAL, as published", c: "--c-seal" },
+    sealdir_matched: { name: "SEAL's direction at A2's size", c: "--c-sealdir" },
+    concise: { name: "“Be concise.” instruction", c: "--c-concise" },
+    ol_random: { name: "Random direction", c: "--c-random" },
+    own: { name: "Task's own vector", c: "--c-own" },
+    rl_zeroT_s60: { name: "RL from zero", c: "--c-rlzero" },
+    rl_a2initT_s60: { name: "A2 + RL", c: "--c-rla2" },
+  };
+
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs || {}) {
+      if (k === "style") { for (const s in attrs.style) e.style[s] = attrs.style[s]; }
+      else if (k === "text") e.textContent = attrs.text;
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function svgFor(container, w, h) {
+    container.textContent = "";
+    const s = el("svg", { viewBox: `0 0 ${w} ${h}`, width: w, height: h, role: "img" }, container);
+    return s;
+  }
+  function txt(parent, x, y, s, o) {
+    o = o || {};
+    return el("text", { x, y, "font-size": o.size || 12, "text-anchor": o.anchor || "start", "dominant-baseline": o.base || "middle",
+      "font-weight": o.weight || 400, style: { fill: o.fill || "var(--muted)" }, text: s }, parent);
+  }
+  // ---- tooltip
+  const tip = document.getElementById("tip");
+  function showTip(ev, title, rows) {
+    tip.textContent = "";
+    if (title) { const t = document.createElement("div"); t.className = "tt"; t.textContent = title; tip.appendChild(t); }
+    for (const r of rows) {
+      const row = document.createElement("div"); row.className = "row";
+      if (r.c) { const k = document.createElement("span"); k.className = "k"; k.style.color = `var(${r.c})`; row.appendChild(k); }
+      const nm = document.createElement("span"); nm.className = "nm"; nm.textContent = r.name; row.appendChild(nm);
+      const v = document.createElement("span"); v.className = "val"; v.textContent = r.value; row.appendChild(v);
+      tip.appendChild(row);
+    }
+    tip.hidden = false;
+    const pad = 14, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = ev.clientX + pad, y = ev.clientY + pad;
+    if (x + tw > window.innerWidth - 8) x = ev.clientX - tw - pad;
+    if (y + th > window.innerHeight - 8) y = ev.clientY - th - pad;
+    tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+  }
+  function hideTip() { tip.hidden = true; }
+  function hover(node, title, rows) {
+    node.setAttribute("tabindex", "0");
+    node.addEventListener("pointermove", e => showTip(e, title, typeof rows === "function" ? rows() : rows));
+    node.addEventListener("pointerleave", hideTip);
+    node.addEventListener("focus", () => { const r = node.getBoundingClientRect(); showTip({ clientX: r.right, clientY: r.top }, title, typeof rows === "function" ? rows() : rows); });
+    node.addEventListener("blur", hideTip);
+  }
+  function legend(key, items, square) {
+    const box = document.querySelector(`[data-legend="${key}"]`); if (!box) return;
+    box.textContent = "";
+    for (const it of items) {
+      const s = document.createElement("span"); s.className = "it";
+      const sw = document.createElement("span"); sw.className = square ? "sq" : "sw";
+      if (square) sw.style.background = `var(${it.c})`; else sw.style.color = `var(${it.c})`;
+      s.appendChild(sw); s.appendChild(document.createTextNode(it.name)); box.appendChild(s);
+    }
+  }
+  function table(key, head, rows) {
+    const box = document.querySelector(`[data-table="${key}"]`); if (!box) return;
+    box.textContent = "";
+    const t = document.createElement("table"); t.className = "t";
+    const tr = document.createElement("tr");
+    for (const h of head) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
+    t.appendChild(tr);
+    for (const r of rows) { const tr2 = document.createElement("tr"); for (const c of r) { const td = document.createElement("td"); td.textContent = c; tr2.appendChild(td); } t.appendChild(tr2); }
+    box.appendChild(t);
+  }
+  // colour helpers for heatmaps
+  function hex2rgb(h) { h = h.replace("#", ""); if (h.length === 3) h = h.split("").map(c => c + c).join(""); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }
+  function mix(a, b, t) { const A = hex2rgb(a), B = hex2rgb(b); return "rgb(" + A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(",") + ")"; }
+  function lum(rgb) { const m = rgb.match(/\d+/g).map(Number).map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]; }
+  const inkOn = rgb => lum(rgb) > 0.36 ? "#14171c" : "#ffffff";
+
+  // ---- line chart (shared x = budgets)
+  function lineChart(box, o) {
+    const W = Math.max(280, box.clientWidth), H = o.height || Math.round(clamp(W * 0.52, 240, 380));
+    const m = { l: 44, r: o.endLabels ? 118 : 14, t: 12, b: 34 };
+    const s = svgFor(box, W, H), iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const xs = o.x, x0 = o.xmin ?? xs[0], x1 = o.xmax ?? xs[xs.length - 1];
+    const X = v => m.l + (v - x0) / (x1 - x0) * iw, Y = v => m.t + ih - (v - o.ymin) / (o.ymax - o.ymin) * ih;
+    for (const t of o.yticks) {
+      el("line", { x1: m.l, x2: m.l + iw, y1: Y(t), y2: Y(t), style: { stroke: t === o.ymin ? "var(--axis)" : "var(--hair)", strokeWidth: 1 } }, s);
+      txt(s, m.l - 8, Y(t), o.yfmt(t), { anchor: "end", size: 11 });
+    }
+    for (const t of o.xticks) txt(s, X(t), m.t + ih + 18, o.xfmt(t), { anchor: "middle", size: 11 });
+    if (o.xlabel) txt(s, m.l + iw, m.t + ih + 32, o.xlabel, { anchor: "end", size: 10.5 });
+    const cross = el("line", { y1: m.t, y2: m.t + ih, style: { stroke: "var(--axis)", strokeWidth: 1, opacity: 0 } }, s);
+    for (const sr of o.series) {
+      const d = sr.v.map((v, i) => (i ? "L" : "M") + X(xs[i]).toFixed(1) + "," + Y(v).toFixed(1)).join("");
+      el("path", { d, style: { fill: "none", stroke: `var(${sr.c})`, strokeWidth: sr.w || 2, strokeLinejoin: "round", strokeLinecap: "round" } }, s);
+      if (!o.noDots) sr.v.forEach((v, i) => el("circle", { cx: X(xs[i]), cy: Y(v), r: 3.5, style: { fill: `var(${sr.c})`, stroke: "var(--surface)", strokeWidth: 2 } }, s));
+    }
+    if (o.endLabels) {
+      const labs = o.series.filter(sr => sr.label).map(sr => ({ sr, y: Y(sr.v[sr.v.length - 1]) }));
+      labs.sort((a, b) => a.y - b.y);
+      for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 14) labs[i].y = labs[i - 1].y + 14;
+      for (const l of labs) {
+        const yEnd = Y(l.sr.v[l.sr.v.length - 1]);
+        if (Math.abs(l.y - yEnd) > 2) el("line", { x1: m.l + iw + 4, x2: m.l + iw + 10, y1: yEnd, y2: l.y, style: { stroke: "var(--axis)", strokeWidth: 1 } }, s);
+        txt(s, m.l + iw + 12, l.y, l.sr.label, { size: 11.5, fill: "var(--ink-2)" });
+      }
+    }
+    if (o.annot) for (const a of o.annot) {
+      el("line", { x1: X(a.x), x2: X(a.x), y1: Y(a.y) - 26, y2: Y(a.y) - 6, style: { stroke: "var(--ink-2)", strokeWidth: 1 } }, s);
+      txt(s, X(a.x), Y(a.y) - 32, a.text, { anchor: a.anchor || "middle", size: 11, fill: "var(--ink)" });
+    }
+    const hit = el("rect", { x: m.l, y: m.t, width: iw, height: ih, style: { fill: "transparent" } }, s);
+    hit.addEventListener("pointermove", e => {
+      const r = s.getBoundingClientRect(), px = (e.clientX - r.left) * (W / r.width);
+      let bi = 0, bd = 1e9; xs.forEach((xv, i) => { const dd = Math.abs(X(xv) - px); if (dd < bd) { bd = dd; bi = i; } });
+      cross.setAttribute("x1", X(xs[bi])); cross.setAttribute("x2", X(xs[bi])); cross.style.opacity = 1;
+      const rows = o.series.map(sr => ({ name: sr.name, c: sr.c, value: o.tipfmt(sr.v[bi], sr, bi), y: sr.v[bi] })).sort((a, b) => b.y - a.y);
+      showTip(e, o.tiptitle(xs[bi]), rows);
+    });
+    hit.addEventListener("pointerleave", () => { cross.style.opacity = 0; hideTip(); });
+  }
+
+  // ---- horizontal bar chart (one bar per row)
+  function barChart(box, o) {
+    const W = Math.max(260, box.clientWidth), rowH = o.rowH || 34;
+    const labW = Math.min(o.labW || 210, W * 0.46), m = { l: labW, r: 58, t: 6, b: o.axis ? 24 : 6 };
+    const H = m.t + m.b + rowH * o.rows.length, s = svgFor(box, W, H), iw = W - m.l - m.r;
+    const X = v => m.l + (v - o.min) / (o.max - o.min) * iw;
+    if (o.axis) for (const t of o.ticks) {
+      el("line", { x1: X(t), x2: X(t), y1: m.t, y2: H - m.b, style: { stroke: t === o.min ? "var(--axis)" : "var(--hair)", strokeWidth: 1 } }, s);
+      txt(s, X(t), H - m.b + 13, o.tfmt(t), { anchor: "middle", size: 10.5 });
+    }
+    o.rows.forEach((r, i) => {
+      const yc = m.t + rowH * i + rowH / 2, bh = Math.min(18, rowH - 12);
+      txt(s, labW - 10, yc, r.label, { anchor: "end", size: 12, fill: r.strong ? "var(--ink)" : "var(--ink-2)", weight: r.strong ? 600 : 400 });
+      const x0 = X(o.min), x1 = X(r.v), w = Math.max(1, x1 - x0), rr = Math.min(4, w);
+      const p = `M${x0},${yc - bh / 2}H${x1 - rr}Q${x1},${yc - bh / 2} ${x1},${yc - bh / 2 + rr}V${yc + bh / 2 - rr}Q${x1},${yc + bh / 2} ${x1 - rr},${yc + bh / 2}H${x0}Z`;
+      const bar = el("path", { d: p, class: "hov", style: { fill: `var(${r.c})` } }, s);
+      txt(s, x1 + 6, yc, o.vfmt(r.v), { size: 12, fill: "var(--ink)", weight: r.strong ? 600 : 500 });
+      const hit = el("rect", { x: 0, y: yc - rowH / 2, width: W, height: rowH, style: { fill: "transparent" } }, s);
+      hover(hit, r.label, [{ name: o.what || "Value", value: o.vfmt(r.v), c: r.c }].concat(r.extra || []));
+      hit.addEventListener("pointerenter", () => bar.style.opacity = 0.8); hit.addEventListener("pointerleave", () => bar.style.opacity = 1);
+    });
+  }
+
+  // ---- heatmap
+  function heatmap(box, o) {
+    const W = Math.max(260, box.clientWidth);
+    const labW = Math.min(o.labW || 170, W * 0.42), top = o.top || 26;
+    const cw = (W - labW) / o.cols.length, ch = o.cellH || 30;
+    const H = top + ch * o.rows.length + 4, s = svgFor(box, W, H);
+    o.cols.forEach((c, j) => txt(s, labW + cw * j + cw / 2, top - 12, c, { anchor: "middle", size: 11.5, fill: "var(--ink-2)", weight: 500 }));
+    o.rows.forEach((r, i) => {
+      txt(s, labW - 10, top + ch * i + ch / 2, r, { anchor: "end", size: 12, fill: "var(--ink-2)" });
+      o.cols.forEach((c, j) => {
+        const v = o.val(i, j), fill = o.color(v);
+        const x = labW + cw * j + 1, y = top + ch * i + 1;
+        const rect = el("rect", { x, y, width: cw - 2, height: ch - 2, rx: 3, style: { fill } }, s);
+        txt(s, x + (cw - 2) / 2, y + (ch - 2) / 2, o.fmt(v), { anchor: "middle", size: 11.5, fill: inkOn(fill), weight: 500 });
+        hover(rect, `${r} · ${c}`, [{ name: o.what, value: o.fmt(v) }]);
+      });
+    });
+  }
+  const seqColor = (v, max) => mix(css("--seq-lo"), css("--seq-hi"), Math.pow(clamp(v / max, 0, 1), 0.85));
+  const divColor = v => v >= 0 ? mix(css("--div-mid"), css("--div-pos"), clamp(v, 0, 1)) : mix(css("--div-mid"), css("--div-neg"), clamp(-v, 0, 1));
+
+  // ---------------------------------------------------------------- charts
+  const B = DATA.budgets, BK = B.map(b => b / 1024);
+  const CH = {};
+
+  CH.sig = box => {
+    const doms = ["Math", "Planning", "GPQA", "Idea"];
+    const max = Math.max(...doms.flatMap(d => DATA.sig[d]));
+    heatmap(box, { rows: DATA.behaviours, cols: doms, val: (i, j) => DATA.sig[doms[j]][i], color: v => seqColor(v, max), fmt: v => v.toFixed(1), what: "Per 100 sentences", labW: 190 });
+  };
+
+  CH.knob = box => {
+    const K = DATA.knob, W = Math.max(300, box.clientWidth), H = 200, m = { l: 92, r: 18, t: 18, b: 34 };
+    const s = svgFor(box, W, H), iw = W - m.l - m.r, lo = -9, hi = 11;
+    const X = v => m.l + (v - lo) / (hi - lo) * iw;
+    for (const t of [-8, -4, 0, 4, 8]) {
+      el("line", { x1: X(t), x2: X(t), y1: m.t, y2: H - m.b, style: { stroke: t === 0 ? "var(--axis)" : "var(--hair)", strokeWidth: 1 } }, s);
+      txt(s, X(t), H - m.b + 16, (t > 0 ? "+" : t < 0 ? "−" : "") + Math.abs(t), { anchor: "middle", size: 11 });
+    }
+    txt(s, X(lo) + 2, H - 6, "← more math-like", { size: 10.5 }); txt(s, X(hi), H - 6, "more idea-like →", { anchor: "end", size: 10.5 });
+    const rows = [
+      { y: 62, label: "Idea tasks", pts: [
+        { v: K.idea_base, n: "Unsteered", c: "--c-base", up: true },
+        { v: K.idea_random, n: "Random", c: "--c-random", up: false },
+        { v: K.idea_g1, n: "Weak push", c: "--c-knob", up: true },
+        { v: K.idea_g3, n: "Strong push", c: "--c-knob", up: false } ] },
+      { y: 128, label: "Math tasks", pts: [
+        { v: K.math_base, n: "Unsteered", c: "--c-base", up: true },
+        { v: K.math_g3, n: "Strong push to math", c: "--c-knob", up: false },
+        { v: K.math_ideaward, n: "Push to ideas", c: "--c-knob", up: true } ] } ];
+    for (const r of rows) {
+      txt(s, m.l - 12, r.y, r.label, { anchor: "end", size: 12, fill: "var(--ink)", weight: 600 });
+      el("line", { x1: X(lo), x2: X(hi), y1: r.y, y2: r.y, style: { stroke: "var(--hair)", strokeWidth: 1 } }, s);
+    }
+    // arrow for the strong push on idea tasks
+    const a0 = X(K.idea_base) - 8, a1 = X(K.idea_g3) + 8, ay = 62;
+    el("path", { d: `M${a0},${ay - 1}L${a1 + 6},${ay - 1}`, style: { stroke: "var(--c-knob)", strokeWidth: 1.5, fill: "none", opacity: 0.45 } }, s);
+    el("path", { d: `M${a1 + 7},${ay - 5}L${a1},${ay - 1}L${a1 + 7},${ay + 3}`, style: { stroke: "var(--c-knob)", strokeWidth: 1.5, fill: "none", opacity: 0.45 } }, s);
+    for (const r of rows) for (const p of r.pts) {
+      const cx = X(p.v);
+      const dot = el("circle", { cx, cy: r.y, r: 6, style: { fill: `var(${p.c})`, stroke: "var(--surface)", strokeWidth: 2 } }, s);
+      txt(s, cx, r.y + (p.up ? -17 : 19), p.n, { anchor: "middle", size: 11, fill: "var(--ink-2)" });
+      const hit = el("circle", { cx, cy: r.y, r: 14, style: { fill: "transparent" } }, s);
+      hover(hit, `${r.label}: ${p.n}`, [{ name: "Idea-likeness", value: fmt1(p.v), c: p.c }]);
+    }
+    const gap = K.idea_base - K.math_base, moved = K.idea_base - K.idea_g3;
+    txt(s, (X(K.idea_base) + X(K.idea_g3)) / 2, 36, `moved ${Math.round(moved / gap * 100)}% of the gap`, { anchor: "middle", size: 11, fill: "var(--ink)" });
+  };
+
+  CH.trade = box => {
+    const W = Math.max(300, box.clientWidth), H = Math.round(clamp(W * 0.6, 280, 420)), m = { l: 50, r: 16, t: 14, b: 40 };
+    const s = svgFor(box, W, H), iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const x0 = -0.6, x1 = 0.55, y0 = -0.7, y1 = 0.4;
+    const X = v => m.l + (v - x0) / (x1 - x0) * iw, Y = v => m.t + ih - (v - y0) / (y1 - y0) * ih;
+    for (const t of [-0.6, -0.4, -0.2, 0, 0.2, 0.4]) {
+      el("line", { x1: X(t), x2: X(t), y1: m.t, y2: m.t + ih, style: { stroke: t === 0 ? "var(--axis)" : "var(--hair)", strokeWidth: 1 } }, s);
+      txt(s, X(t), m.t + ih + 15, fmt1(t), { anchor: "middle", size: 10.5 });
+    }
+    for (const t of [-0.6, -0.4, -0.2, 0, 0.2, 0.4]) {
+      el("line", { x1: m.l, x2: m.l + iw, y1: Y(t), y2: Y(t), style: { stroke: t === 0 ? "var(--axis)" : "var(--hair)", strokeWidth: 1 } }, s);
+      txt(s, m.l - 8, Y(t), fmt1(t), { anchor: "end", size: 10.5 });
+    }
+    txt(s, m.l + iw, m.t + ih + 32, "change in originality →", { anchor: "end", size: 10.5 });
+    el("text", { x: 12, y: m.t + ih / 2, "font-size": 10.5, "text-anchor": "middle", transform: `rotate(-90 12 ${m.t + ih / 2})`, style: { fill: "var(--muted)" }, text: "change in feasibility →" }, s);
+    txt(s, X(0.52), Y(0.36), "better on both", { anchor: "end", size: 11, fill: "var(--muted)" });
+    const offs = { "Knob toward exploring": [8, -12, "start"], "Knob toward checking": [-8, -14, "end"], "Explore first, then check": [8, 14, "start"], "Random schedule": [-8, 14, "end"], "Math A2 vector": [8, 14, "start"] };
+    const narrow = W < 520;
+    for (const [i, p] of DATA.trade.entries()) {
+      const cx = X(p.x[0]), cy = Y(p.y[0]), c = p.c === "a2" ? "--c-a2" : p.c === "random" ? "--c-random" : "--c-knob";
+      el("line", { x1: X(p.x[1]), x2: X(p.x[2]), y1: cy, y2: cy, style: { stroke: `var(${c})`, strokeWidth: 1.2, opacity: 0.55 } }, s);
+      el("line", { x1: cx, x2: cx, y1: Y(p.y[1]), y2: Y(p.y[2]), style: { stroke: `var(${c})`, strokeWidth: 1.2, opacity: 0.55 } }, s);
+      el("circle", { cx, cy, r: 5.5, style: { fill: `var(${c})`, stroke: "var(--surface)", strokeWidth: 2 } }, s);
+      const o = offs[p.name] || [8, -10, "start"];
+      if (narrow) txt(s, cx + 7, cy - 11, String(i + 1), { size: 12, fill: "var(--ink)", weight: 600 });
+      else {
+        const lab = txt(s, cx + o[0], cy + o[1], p.name, { anchor: o[2], size: 11.5, fill: "var(--ink)", weight: 500 });
+        const bb = lab.getBBox();
+        if (bb.x + bb.width > W - 2) { lab.setAttribute("text-anchor", "end"); lab.setAttribute("x", cx - 8); }
+      }
+      const hit = el("circle", { cx, cy, r: 14, style: { fill: "transparent" } }, s);
+      hover(hit, p.name, [{ name: "Originality", value: `${fmt1(p.x[0])} (${fmt1(p.x[1])} to ${fmt1(p.x[2])})`, c }, { name: "Feasibility", value: `${fmt1(p.y[0])} (${fmt1(p.y[1])} to ${fmt1(p.y[2])})`, c }]);
+    }
+    if (narrow) {
+      const key = document.createElement("ol"); key.className = "tkey";
+      for (const p of DATA.trade) { const li = document.createElement("li"); li.textContent = p.name; key.appendChild(li); }
+      box.appendChild(key);
+    }
+  };
+
+  CH.ctrl = box => {
+    const cmap = { base: "--c-base", random: "--c-random", knob: "--c-knob", a2: "--c-a2" };
+    barChart(box, { rows: DATA.ctrl.map(r => ({ label: r[0], v: r[1], c: cmap[r[2]], strong: r[2] === "a2" })), min: 0, max: 1, axis: true,
+      ticks: [0, 0.25, 0.5, 0.75, 1], tfmt: pct, vfmt: pct, what: "Accuracy", labW: 250 });
+  };
+
+  const P1 = ["ol_math_A2", "sealdir_matched", "concise", "seal", "baseline", "ol_random"];
+  CH.p1 = box => {
+    legend("p1", P1.map(k => ({ name: ENT[k].name, c: ENT[k].c })));
+    const lab = { ol_math_A2: "A2", baseline: "Unsteered", ol_random: "Random", seal: "SEAL", sealdir_matched: "SEAL's direction", concise: "Be concise" };
+    lineChart(box, { x: B, xticks: B, xfmt: b => b / 1024 + "k", xlabel: "token budget", ymin: 0, ymax: 1, yticks: [0, 0.25, 0.5, 0.75, 1], yfmt: pct,
+      series: P1.map(k => ({ name: ENT[k].name, c: ENT[k].c, v: DATA.math[k].correct, label: ["ol_math_A2", "baseline", "ol_random"].includes(k) ? lab[k] : null, w: k === "ol_math_A2" ? 2.5 : 2 })),
+      endLabels: true, tipfmt: v => pct(v), tiptitle: b => `Budget ${b / 1024}k tokens`,
+      annot: [{ x: 16384, y: DATA.math.ol_math_A2.correct[3], text: "A2 at 16k ≈ unsteered at 32k", anchor: "start" }] });
+  };
+  CH.p1tok = box => barChart(box, { rows: P1.map(k => ({ label: ENT[k].name.replace(" (math vector)", ""), v: DATA.math[k].tokens[5], c: ENT[k].c, strong: k === "ol_math_A2" })),
+    min: 0, max: 16000, vfmt: kfmt, what: "Mean tokens", labW: 170, rowH: 28 });
+  CH.p1loop = box => barChart(box, { rows: P1.map(k => ({ label: ENT[k].name.replace(" (math vector)", ""), v: DATA.loops["p1_budget/" + k], c: ENT[k].c, strong: k === "ol_math_A2" })),
+    min: 0, max: 0.2, vfmt: pct, what: "Loop rate", labW: 170, rowH: 28 });
+
+  function p2(box, key, own) {
+    const arms = ["ol_math_A2", "own", "baseline", "ol_random"];
+    const src = { ol_math_A2: "ol_math_A2", own, baseline: "baseline", ol_random: "ol_random" };
+    const lab = { ol_math_A2: "A2", own: "Own vector", baseline: "Unsteered", ol_random: "Random" };
+    lineChart(box, { x: B, xticks: [4096, 8192, 16384, 24576, 32768], xfmt: b => b / 1024 + "k", xlabel: "token budget", ymin: 0, ymax: 1, yticks: [0, 0.25, 0.5, 0.75, 1], yfmt: pct,
+      series: arms.map(k => ({ name: ENT[k].name, c: ENT[k].c, v: DATA[key][src[k]].correct, label: lab[k], w: k === "own" ? 2.5 : 2 })),
+      endLabels: true, tipfmt: v => pct(v), tiptitle: b => `Budget ${b / 1024}k tokens`, height: 260 });
+  }
+  CH.gpqa = box => { legend("p2", ["ol_math_A2", "own", "baseline", "ol_random"].map(k => ({ name: ENT[k].name, c: ENT[k].c }))); p2(box, "gpqa", "ol_gpqa_A4"); };
+  CH.planning = box => p2(box, "planning", "ol_planning_A2");
+
+  CH.shift = box => {
+    legend("shift", [{ name: "A2 (math vector)", c: "--c-a2" }, { name: "Task's own vector", c: "--c-own" }], true);
+    box.textContent = "";
+    const doms = [["Math", "math", null], ["GPQA", "gpqa", "gpqa/own"], ["Planning", "planning", "planning/own"]];
+    const lo = -9, hi = 12;
+    for (const [title, k, own] of doms) {
+      const panel = document.createElement("div"); panel.className = "panel";
+      const h = document.createElement("h4"); h.textContent = title; panel.appendChild(h);
+      const c = document.createElement("div"); c.className = "chart"; panel.appendChild(c); box.appendChild(panel);
+      const W = Math.max(240, c.clientWidth || 280), labW = 138, rowH = own ? 30 : 24, m = { t: 6, b: 24, r: 10 };
+      const beh = DATA.shift_behaviours, H = m.t + m.b + rowH * beh.length, s = svgFor(c, W, H), iw = W - labW - m.r;
+      const X = v => labW + (v - lo) / (hi - lo) * iw;
+      for (const t of [-8, -4, 0, 4, 8, 12]) {
+        el("line", { x1: X(t), x2: X(t), y1: m.t, y2: H - m.b, style: { stroke: t === 0 ? "var(--axis)" : "var(--hair)", strokeWidth: 1 } }, s);
+        txt(s, X(t), H - m.b + 13, (t > 0 ? "+" : t < 0 ? "−" : "") + Math.abs(t), { anchor: "middle", size: 10 });
+      }
+      const series = [[`${k}/A2`, "--c-a2", "A2 (math vector)"]].concat(own ? [[own, "--c-own", "Task's own vector"]] : []);
+      beh.forEach((b, i) => {
+        const yc = m.t + rowH * i + rowH / 2;
+        txt(s, labW - 8, yc, b, { anchor: "end", size: 11, fill: "var(--ink-2)" });
+        series.forEach(([key, col, nm], si) => {
+          const bh = own ? 10 : 12, y = own ? yc - bh - 1 + si * (bh + 2) : yc - bh / 2;
+          const [v, l, u] = DATA.shift[key].v[i];
+          const xa = X(Math.min(0, v)), xb = X(Math.max(0, v));
+          el("rect", { x: xa, y, width: Math.max(1, xb - xa), height: bh, rx: 2, style: { fill: `var(${col})` } }, s);
+          el("line", { x1: X(l), x2: X(u), y1: y + bh / 2, y2: y + bh / 2, style: { stroke: "var(--ink-2)", strokeWidth: 1, opacity: 0.7 } }, s);
+          const hit = el("rect", { x: labW, y, width: iw, height: bh + 2, style: { fill: "transparent" } }, s);
+          hover(hit, `${title}: ${b}`, [{ name: nm, value: `${fmt1(v)} (${fmt1(l)} to ${fmt1(u)})`, c: col }]);
+        });
+      });
+    }
+  };
+
+  function cosmap(box, which) {
+    const n = DATA.cos.names, M = DATA.cos[which];
+    const short = { "A2": "A2", "SEAL direction": "SEAL", "RL from zero": "RL 0", "A2 + RL": "A2+RL", "random": "Rand." };
+    heatmap(box, { rows: n, cols: n.map(x => short[x] || x), val: (i, j) => M[i][j], color: divColor,
+      fmt: v => (v < 0 ? "−" : "") + Math.abs(v).toFixed(2), what: "Cosine", labW: 108, cellH: 32, top: 24 });
+  }
+  CH.cosres = box => cosmap(box, "residual");
+  CH.cosbeh = box => cosmap(box, "behaviour");
+
+  const roll = (arr, k) => arr.map((_, i) => { const s = arr.slice(Math.max(0, i - k + 1), i + 1); return s.reduce((a, b) => a + b, 0) / s.length; });
+  CH.rltrain = box => {
+    legend("rl", [{ name: "Unsteered", c: "--c-base" }, { name: "A2 (math vector)", c: "--c-a2" }, { name: "RL started from zero", c: "--c-rlzero" }, { name: "RL started from A2 (A2 + RL)", c: "--c-rla2" }]);
+    const z = DATA.rl.zero8k_T, a = DATA.rl.a2init8k_T, steps = z.map(r => r[0]);
+    lineChart(box, { x: steps, xticks: [1, 10, 20, 30, 40, 50, 60], xfmt: v => v, xlabel: "training step", ymin: 0.3, ymax: 0.85, yticks: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8], yfmt: pct, noDots: true,
+      series: [{ name: "A2 + RL", c: "--c-rla2", v: roll(a.map(r => r[1]), 6), label: "A2 + RL" }, { name: "RL from zero", c: "--c-rlzero", v: roll(z.map(r => r[1]), 6), label: "From zero" }],
+      endLabels: true, tipfmt: v => pct(v), tiptitle: st => `Step ${st}`, height: 250 });
+  };
+  CH.rleval = box => {
+    const arms = ["rl_a2initT_s60", "ol_math_A2", "rl_zeroT_s60", "baseline"];
+    const lab = { rl_a2initT_s60: "A2 + RL", ol_math_A2: "A2", rl_zeroT_s60: "RL from zero", baseline: "Unsteered" };
+    lineChart(box, { x: B, xticks: [4096, 8192, 16384, 24576, 32768], xfmt: b => b / 1024 + "k", xlabel: "token budget", ymin: 0, ymax: 1, yticks: [0, 0.25, 0.5, 0.75, 1], yfmt: pct,
+      series: arms.map(k => ({ name: ENT[k].name, c: ENT[k].c, v: DATA.math[k].correct, label: lab[k] })), endLabels: true, tipfmt: v => pct(v), tiptitle: b => `Budget ${b / 1024}k tokens`, height: 250 });
+  };
+
+  CH.p3off = box => {
+    const o = DATA.p3.off;
+    barChart(box, { rows: [["Unprompted", o.baseline], ["“Work backwards”", o.prompt_backward], ["“Try small cases”", o.prompt_cases], ["“Draw a picture”", o.prompt_figure]]
+      .map(([l, v], i) => ({ label: l, v, c: i === 3 ? "--bar-strong" : "--bar-neutral", strong: i === 3 })), min: 0, max: 0.4, vfmt: pct, what: "Off the usual method", labW: 150, rowH: 30 });
+  };
+  CH.p3pool = box => {
+    const p = DATA.p3.pools;
+    barChart(box, { rows: [["Unprompted", p.unprompted], ["“Draw a picture”", p.figure], ["2 + 2 mixed", p.mixed_figure], ["“Work backwards”", p.backward]]
+      .map(([l, v], i) => ({ label: l, v, c: i === 2 ? "--bar-strong" : "--bar-neutral", strong: i === 2 })), min: 0, max: 1, vfmt: pct, what: "Solved at least once", labW: 150, rowH: 30 });
+  };
+  CH.p3steer = box => {
+    const a = DATA.p3.pass1_steer, L = DATA.p3.loops;
+    barChart(box, { rows: [["Unsteered", a.baseline, "p3_steer/baseline", "--bar-neutral"], ["Direction × 2", a.pdir_figure_x2, "p3_steer/pdir_figure_x2", "--bar-strong"],
+      ["Direction × 4", a.pdir_figure_x4, "p3_steer/pdir_figure_x4", "--bar-strong"], ["Random, same size", a.rand_x4, "p3_steer/rand_x4", "--c-random"]]
+      .map(([l, v, key, c]) => ({ label: l, v, c, extra: [{ name: "Loop rate", value: pct(L[key]) }] })), min: 0, max: 0.7, vfmt: pct, what: "Accuracy", labW: 150, rowH: 30 });
+  };
+
+  CH.same = box => {
+    const W = Math.max(280, box.clientWidth), labW = Math.min(112, W * 0.3), m = { l: labW, r: 12, t: 8, b: 22 };
+    const rows = [{ label: "Unsteered", v: 32768, c: "--c-base", h: 58 }, { label: "A2", v: 1055, c: "--c-a2", h: 34 }, { label: "RL from zero", v: 877, c: "--c-rlzero", h: 34 }];
+    const H = m.t + m.b + rows.reduce((a, r) => a + r.h, 0), s = svgFor(box, W, H), iw = W - m.l - m.r, X = v => m.l + v / 32768 * iw;
+    for (const t of [0, 8192, 16384, 24576, 32768]) {
+      el("line", { x1: X(t), x2: X(t), y1: m.t, y2: H - m.b, style: { stroke: t === 0 ? "var(--axis)" : "var(--hair)", strokeWidth: 1 } }, s);
+      txt(s, X(t), H - m.b + 13, t ? t / 1024 + "k" : "0", { anchor: t === 32768 ? "end" : "middle", size: 10.5 });
+    }
+    let y = m.t;
+    for (const r of rows) {
+      const yc = y + (r.label === "Unsteered" ? 20 : r.h / 2), bh = 14, x1 = X(r.v), rr = Math.min(4, x1 - m.l);
+      txt(s, labW - 10, yc, r.label, { anchor: "end", size: 12, fill: "var(--ink-2)" });
+      el("path", { d: `M${m.l},${yc - bh / 2}H${x1 - rr}Q${x1},${yc - bh / 2} ${x1},${yc - bh / 2 + rr}V${yc + bh / 2 - rr}Q${x1},${yc + bh / 2} ${x1 - rr},${yc + bh / 2}H${m.l}Z`, style: { fill: `var(${r.c})` } }, s);
+      if (r.label === "Unsteered") {
+        const xm = X(452);
+        el("line", { x1: xm, x2: xm, y1: yc - bh / 2 - 3, y2: yc + bh / 2 + 5, style: { stroke: "var(--ink)", strokeWidth: 1.5 } }, s);
+        txt(s, xm + 4, yc + bh / 2 + 13, "x = 17 written at token 452", { size: 11, fill: "var(--ink)" });
+        txt(s, X(32768), yc - bh / 2 - 8, "32,768 tokens, no answer", { anchor: "end", size: 11, fill: "var(--ink)" });
+      } else txt(s, x1 + 6, yc, `${r.v.toLocaleString("en-US")} tokens, answers 17`, { size: 11.5, fill: "var(--ink)" });
+      const hit = el("rect", { x: 0, y, width: W, height: r.h, style: { fill: "transparent" } }, s);
+      hover(hit, r.label, [{ name: "Tokens", value: r.v.toLocaleString("en-US"), c: r.c }, { name: "Answer", value: r.label === "Unsteered" ? "none (budget ran out)" : "17 (right)" }]);
+      y += r.h;
+    }
+  };
+
+  // ---------------------------------------------------------------- tables (static)
+  function tables() {
+    table("sig", ["Behaviour", "Math", "Planning", "GPQA", "Idea"], DATA.behaviours.map((b, i) => [b].concat(["Math", "Planning", "GPQA", "Idea"].map(d => DATA.sig[d][i].toFixed(1)))));
+    const K = DATA.knob;
+    table("knob", ["Condition", "Idea-likeness"], [["Math, unsteered", fmt1(K.math_base)], ["Math, strong push to math", fmt1(K.math_g3)], ["Math, push to ideas", fmt1(K.math_ideaward)], ["Math, random direction", fmt1(K.math_random)],
+      ["Idea, unsteered", fmt1(K.idea_base)], ["Idea, weak push to math", fmt1(K.idea_g1)], ["Idea, strong push to math", fmt1(K.idea_g3)], ["Idea, “check your work” instruction", fmt1(K.idea_check_prompt)],
+      ["Idea, “explore” instruction", fmt1(K.idea_explore_prompt)], ["Idea, random direction", fmt1(K.idea_random)]]);
+    table("trade", ["Condition", "Originality (95% CI)", "Feasibility (95% CI)"], DATA.trade.map(p => [p.name, `${fmt1(p.x[0])} (${fmt1(p.x[1])}, ${fmt1(p.x[2])})`, `${fmt1(p.y[0])} (${fmt1(p.y[1])}, ${fmt1(p.y[2])})`]));
+    table("p1", ["Arm"].concat(B.map(b => b / 1024 + "k")).concat(["Answered (32k)", "Right when answered", "Tokens (32k)", "Loops"]), P1.concat(["rl_zeroT_s60", "rl_a2initT_s60"]).map(k => [ENT[k].name].concat(DATA.math[k].correct.map(pct)).concat([pct(DATA.math[k].answered[5]), pct(DATA.math[k].correct[5] / DATA.math[k].answered[5]), kfmt(DATA.math[k].tokens[5]),
+      DATA.loops["p1_budget/" + k] != null ? pct(DATA.loops["p1_budget/" + k]) : pct(DATA.loops[(k === "rl_zeroT_s60" ? "p4_eval3/" : "p4_eval2/") + k])])));
+    const r2 = [];
+    for (const [dn, key, own] of [["GPQA", "gpqa", "ol_gpqa_A4"], ["Planning", "planning", "ol_planning_A2"]])
+      for (const [nm, k] of [["Unsteered", "baseline"], ["A2 (math vector)", "ol_math_A2"], ["Task's own vector", own], ["Random direction", "ol_random"]])
+        r2.push([`${dn}: ${nm}`].concat(DATA[key][k].correct.map(pct)).concat([kfmt(DATA[key][k].tokens[5]), pct(DATA.loops[`p2_${key}/${k}`])]));
+    table("p2", ["Arm"].concat(B.map(b => b / 1024 + "k")).concat(["Tokens (32k)", "Loops"]), r2);
+    const r3 = [];
+    for (const [key, nm] of [["math/A2", "Math, A2"], ["gpqa/A2", "GPQA, A2"], ["gpqa/own", "GPQA, own vector"], ["planning/A2", "Planning, A2"], ["planning/own", "Planning, own vector"]])
+      r3.push([nm].concat(DATA.shift[key].v.map(x => fmt1(x[0]))));
+    table("shift", ["Arm"].concat(DATA.shift_behaviours), r3);
+    const z = DATA.rl.zero8k_T, a = DATA.rl.a2init8k_T, blk = (arr, lo, hi, j) => (arr.slice(lo, hi).reduce((s, r) => s + r[j], 0) / (hi - lo));
+    table("rl", ["Steps", "From zero: reward", "tokens", "From A2: reward", "tokens"], [[0, 10], [10, 20], [20, 30], [30, 40], [40, 50], [50, 60]].map(([lo, hi]) =>
+      [`${lo + 1}–${hi}`, pct(blk(z, lo, hi, 1)), kfmt(blk(z, lo, hi, 2)), pct(blk(a, lo, hi, 1)), kfmt(blk(a, lo, hi, 2))]));
+    const P = DATA.p3;
+    table("p3", ["Arm", "Accuracy (16k)", "Off usual method", "Loops"], [["Unprompted", pct(P.pass1.baseline), pct(P.off.baseline), pct(P.loops["p3_strat/baseline"])],
+      ["“Work backwards”", pct(P.pass1.prompt_backward), pct(P.off.prompt_backward), pct(P.loops["p3_strat/prompt_backward"])],
+      ["“Try small cases”", pct(P.pass1.prompt_cases), pct(P.off.prompt_cases), pct(P.loops["p3_strat/prompt_cases"])],
+      ["“Draw a picture”", pct(P.pass1.prompt_figure), pct(P.off.prompt_figure), pct(P.loops["p3_strat/prompt_figure"])],
+      ["Steered, picture direction × 2", pct(P.pass1_steer.pdir_figure_x2), pct(P.off_steer.pdir_figure_x2), pct(P.loops["p3_steer/pdir_figure_x2"])],
+      ["Steered, picture direction × 4", pct(P.pass1_steer.pdir_figure_x4), pct(P.off_steer.pdir_figure_x4), pct(P.loops["p3_steer/pdir_figure_x4"])],
+      ["Steered, random × 4 size", pct(P.pass1_steer.rand_x4), pct(P.off_steer.rand_x4), pct(P.loops["p3_steer/rand_x4"])]]);
+  }
+
+  // ---------------------------------------------------------------- render, resize, theme
+  function renderAll() {
+    document.querySelectorAll("[data-chart]").forEach(box => { const f = CH[box.dataset.chart]; if (f) { try { f(box); } catch (e) { console.error(box.dataset.chart, e); } } });
+    document.querySelectorAll("[data-chart-multi]").forEach(box => { const f = CH[box.dataset.chartMulti]; if (f) { try { f(box); } catch (e) { console.error(e); } } });
+  }
+  tables();
+  renderAll();
+  let raf = 0, lastW = window.innerWidth;
+  window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - lastW) < 4) return; lastW = window.innerWidth; cancelAnimationFrame(raf); raf = requestAnimationFrame(renderAll); });
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", renderAll);
+  new MutationObserver(renderAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  document.addEventListener("scroll", hideTip, { passive: true });
+})();
+</script>

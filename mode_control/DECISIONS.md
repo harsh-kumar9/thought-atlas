@@ -512,3 +512,113 @@ random 8%. Qualitative reading unchanged.
 Still open: re-grade of the older rank-one runs (power1, sched1, sched1_d1, pilot3, sigx_math; 5,624 math traces staged
 in data/extract_in2), job 367279 held for the two-job cap. Until then the "exploring costs math 13 points" claim is
 stated without a size. The RL training rewards used the old grader (trend only).
+
+## D-48 (ratified 2026-10-06): paper frame and order of work
+Harsh: "all of this sounds good, go ahead and implement. we will do audit during paper writing. we can schedule these
+jobs with LOW priority." The paper is built on three findings:
+- F1. Reasoning models deliberate differently by task demand, and the state that sets this is readable before the
+  first thinking token. New test: minimal pairs (D-50).
+- F2. Each domain's signature is tuned to its own demand. Porting it into another domain moves behaviour, and the
+  target domain's own behaviour-outcome slopes predict what it does to the outcome (D-52), including the Society of
+  Thought crossover (D-51).
+- F3. The behaviour profile, not the residual vector, is the unit of control, and what it buys is efficiency (D-53).
+Order: blockers (push mode_control to GitHub, re-grade the old runs, re-grade the atlas), then F1, Countdown,
+transplant matrix, then the second model (D-54). The human audit of the behaviour labels moves to paper writing.
+All jobs from here run at --qos=ashton_low (Harsh, 2026-10-06), so every stage must checkpoint well inside 15 minutes:
+vsteer flushes every 180 s, extraction writes every 128 traces, Track B uses exp_mode_chunk20.yaml.
+Blocker status 2026-10-06: mode_control pushed as branch `mode-control` (95690cc; code, decisions, results, figures,
+story sources, archived run builders; data stays on ada). The ada checkout is NOT pulled: GitHub main tracks data/v2 as
+LFS pointers and ada has no git-lfs, so a pull would replace the real parquets. Old-run re-grade resubmitted (freex2,
+jobs 378510/378511).
+
+## D-49 (ratified with D-48): re-grade the atlas with the free-text extraction
+This settles D-47 option (a) for the main pipeline by reusing the validated mode_control extraction rather than
+changing src/judge/run_answer_extraction.py. `mc/atlas_regrade.py stage` copies the math, gpqa, planning and security
+traces of all 8 models (16,000) to data/v2/extract_free_atlas/in; `mode.sbatch freexa <shard> 6` extracts (jobs
+378517-378522); `atlas_regrade grade` writes data/v2/perf/success_grades_freex.parquet next to the canonical file (never
+over it) and a model x domain comparison. The paper analysis switches to the new file only after the comparison is read.
+The D-47 hand check was on Qwen3.5-9B traces only; before the switch I check 10 changed grades per model family.
+
+## D-50 (proposed, ratified in outline by D-48): F1 minimal pairs, demand vs topic vs format
+Question: does a model's deliberation follow what the task asks for (solve it, generate options, judge an answer), or
+the topic, or the answer format? CoT Encyclopedia (arXiv 2505.10185) finds format matters far more than domain, and
+Sahoo et al. (arXiv 2606.02907) find reasoning-type probes detect format. Our within-format separation (MCQ trio 68-85%
+vs chance 33%) suggests more than format, but topic and demand are still confounded with domain.
+Design. Content: 80 MATH-500 problems (16 per level) and 80 GPQA questions, seed 20261006. Four prompts per item:
+- solve_free: math as in the atlas; GPQA stem without options, "end with your final answer".
+- solve_mcq: GPQA as in the atlas; math stem with four options (the reference plus three wrong final answers other atlas
+  models gave for that problem; numeric perturbations of the reference if fewer than three exist), same MCQ instruction.
+- generate: "Do not solve this problem. List several genuinely different ways someone could approach it, and say
+  briefly what each would involve." (no options shown)
+- evaluate: the problem (no options) and a proposed final answer, correct for half the items and a wrong one for the
+  other half (fixed by item hash); "Decide whether the proposed answer is correct ... end with Correct or Incorrect."
+So within an item, solve_free vs solve_mcq changes only the format, solve_free vs generate/evaluate changes only the
+demand, and math vs GPQA at the same prompt type changes the topic.
+Models: Qwen3.5-9B, Gemma-4-12B, R1-Distill-Llama-8B; one sample, 32k budget, atlas decoding. Track B on the first 8,192
+reasoning tokens (exp_mode_chunk20.yaml, full context only), same as every mode_control run.
+Analyses, fixed now: (1) per behaviour and for the 8-rate profile, the share of between-trace variance explained by
+demand, format and topic (item as a blocking factor); (2) paired distances within item: format change vs demand change
+vs topic change, in the atlas log-ratio metric; (3) the model's own atlas domain classifier (8 domains, retrained on
+atlas labels cut to the same 8,192-token window) applied to each prompt type; (4) Qwen and R1: residual stream at the
+last prompt token, decode demand trained on math items and tested on GPQA items, and topic trained on solve prompts and
+tested on generate prompts, per layer.
+Predictions: demand changes move the profile more than format changes in all three models; generate prompts on math
+content are classified as idea or moral more often than as math; demand is decodable across topics from early layers.
+If format moves the profile as much as demand, F1 is restated as a format result and the paper says so.
+
+## D-51 (proposed, ratified in outline by D-48): Society of Thought crossover on Countdown
+Kim et al. (arXiv 2601.10825) steer toward more conversational behaviour (Q&A, perspective shift, conflict,
+reconciliation) and double Countdown accuracy. Our gains on Math, GPQA and planning come from fewer Q&A and conflict
+turns. Prediction: a crossover. Conversational-up helps Countdown and hurts Math at tight budgets; A2 (structure) helps
+Math and helps Countdown less or hurts it.
+Design: 200 four-number Countdown tasks (Jiayi-Pan/Countdown-Tasks-3to4, seed 20261006), TinyZero-style prompt with the
+equation in <answer> tags, deterministic grader (each number once, value equals target). Qwen3.5-9B, vLLM fixed vectors
+at layer 16, norm 6.75 (A2's), 2 seeds, 32k budget read at 4k-32k by truncation. Arms on Countdown: unsteered, A2,
+conv_up, conv_down, random. Arms on Math (the 199 p1_budget tasks and seeds, so unsteered/A2/random are shared):
+conv_up, conv_down. conv_up = the A2 recipe with the target "+1 within-domain SD on the four conversational rates",
+same map (map_corpus1_dm8_L16_r8). Manipulation check: Track B on seed 1 of every arm.
+Pre-registered contrast: (conv_up - A2) on Countdown minus (conv_up - A2) on Math, at 12k, > 0.
+
+## D-52 (proposed, ratified in outline by D-48): the transplant matrix
+Domains: math, gpqa, planning (converge), idea (generate), moral (judge). Code dropped: 175 tasks cannot supply a
+readout corpus and 200 held-out tasks, and its grading needs sandboxed execution.
+Signature vector of a domain S: its mean behaviour profile minus the mean of the five domain profiles (the 16 readout
+targets: future and next-4 rates over the first 8k tokens), pushed through the same readout map as A2
+(map_corpus1_dm8_L16_r8, rel_lam 1e-3) and scaled to norm 6.75. Moral is not in the readout corpus; its profile is
+computed the same way from the atlas Qwen3.5-9B moral traces (300 tasks; the other 200 are held out). The map stays the
+one A2 came from, so every vector in the paper lives in one readout.
+Targets and tasks: math = the 199 p1_budget tasks; gpqa and planning = the p2 tasks (same seeds, so their unsteered,
+A2, own-archetype and random arms are reused); moral = 200 held-out atlas tasks; idea = 200 LiveIdeaBench keywords
+never used before (the 500 atlas keywords are spent on the corpus and pilots). 2 seeds, 32k budget, 8k Track B window.
+Arms per target: the five signature vectors (own = amplify), random, two prompt ports as system messages ("Think about
+this the way you would think about a math problem." / "... the way you would brainstorm a research idea."), and on math
+and gpqa "idea + commit" (the idea vector plus half of A2, renormalised to 6.75). Dose: 0.5x and 1.5x of each signature
+vector on the first 100 tasks, seed 1.
+Outcomes: accuracy at 12k (primary) and 32k for math/gpqa/planning (free-text extraction for math); originality,
+feasibility and their mean for idea; MoReBench rubric score for moral; answered, loops and tokens everywhere.
+H2a, written down before any outcome is graded (data/transplant/prereg.json, hashed): each target's within-task
+behaviour-outcome slopes (unsteered corpus, task fixed effects, re-graded math) times (i) the profile shift the vector is
+built to make and (ii) the shift Track B measures. Tests: sign agreement over the 20 off-diagonal cells; Spearman of
+predicted vs observed within target, averaged; pooled correlation in outcome-SD units.
+H2b: loops and unanswered rise more when divergent signatures (idea, moral) enter convergent targets than the reverse;
+"idea + commit" removes most of those loops while keeping the shift and conflict increase.
+
+## D-53 (proposed, ratified in outline by D-48): F3 beyond Math
+On the gpqa and planning targets, add the two vectors whose Math behaviour shift matched A2 from orthogonal residual
+directions: the SEAL direction at A2's dose and the zero-start RL bias (step 60). Prediction: both reproduce A2's GPQA
+and planning behaviour shift (cosine > 0.8) and land near its accuracy, ordered by shift size. Then one regression over
+every vector we have run on Math, GPQA and planning: accuracy change at 12k on the Track B shift vs on the residual-space
+cosine with A2. Expectation: the behaviour shift carries the prediction, the residual cosine adds nothing.
+
+## D-54 (proposed): second model = Gemma-4-12B, after the Qwen matrix
+Other lineage, already in the atlas with 500 labelled traces per domain, and our vLLM plugin serves it. Readout corpus =
+its atlas traces on 300 tasks per domain (no new generation); held-out = the other 200. Needs HF loading and hooks for
+the unified checkpoint, the map fit, its own efficient archetype, and then the core cells: Math<->Idea transplant, its A2
+analogue on Math and GPQA, random, and the Countdown crossover. Starts when the Qwen matrix has been read.
+D-50 build note (2026-10-06, before any generation): two item rules added after inspecting the tasks. (1) Math items are
+restricted to integer answers (311 of 500 eligible), and the three MCQ distractors are other atlas models' wrong integer
+answers, then nearby integers. The first build used the canonical predicted answers, which carry the bold-parser debris
+("**", "x", prose) and order-swapped lists equal to the reference. (2) GPQA items whose stem already lists the option
+texts are skipped (453 of 500 eligible), since their "free" version would still show the options. Final set: 80 math
+(16 per level) and 80 GPQA items, 640 prompts; mode_control/data/f1/tasks. Generation config mode_control/configs/exp_f1.yaml
+(configs/exp.yaml with a 32k budget and 32-trace checkpoints).

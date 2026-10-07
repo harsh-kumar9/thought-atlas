@@ -23,6 +23,9 @@ from src.utils.parse import parse_generation_detailed
 def grade(answer: str, ref, task: str, prompt: str) -> int:
     if not answer:
         return 0
+    if task == "countdown":
+        from .countdown import grade_countdown
+        return grade_countdown(answer, ref)
     if task == "math":
         return int(bool(grade_math_answer(answer.replace("**", ""), ref).get("success")))
     return int(bool(grade_mcq_answer(answer, ref, prompt).get("success")))
@@ -32,10 +35,12 @@ GRADES = DATA / "extract_free" / "grades.parquet"
 
 
 def load_grades() -> dict:
-    """Per-trace grades from the free-text answer extraction (D-47); empty if not built yet."""
-    if not GRADES.exists():
+    """Per-trace grades from the free-text answer extraction (D-47), pooled over every data/extract_free*/grades.parquet
+    (extract_free: D-47 runs; extract_free2: older rank-one runs; later sets for new runs); empty if none built yet."""
+    files = sorted(DATA.glob("extract_free*/grades.parquet"))
+    if not files:
         return {}
-    g = pl.read_parquet(GRADES, columns=["trace_id", "success"])
+    g = pl.concat([pl.read_parquet(f, columns=["trace_id", "success"]) for f in files]).unique("trace_id", keep="last")
     return dict(zip(g["trace_id"].to_list(), g["success"].to_list()))
 
 
@@ -81,9 +86,17 @@ def main():
     ap.add_argument("--budgets", default="4096,8192,12288,16384,24576,32768")
     ap.add_argument("--refs", default="baseline", help="comma list of reference conditions for paired contrasts")
     ap.add_argument("--direct", action="store_true", help="grade with the direct grader instead of the extraction grades")
+    ap.add_argument("--borrow", action="append", default=[],
+                    help="run:cond1,cond2 -- add these condition files from another run with the same fingerprint (shared arms)")
     a = ap.parse_args()
     rd = DATA / "runs" / a.run; out = rd / "analysis"; out.mkdir(parents=True, exist_ok=True)
     tr = pl.concat([pl.read_parquet(p) for p in sorted(rd.glob("traces_*.parquet"))], how="diagonal_relaxed")
+    for b in a.borrow:
+        orun, conds = b.split(":")
+        extra = pl.concat([pl.read_parquet(DATA / "runs" / orun / f"traces_{c}.parquet") for c in conds.split(",")], how="diagonal_relaxed")
+        fp_own, fp_b = set(tr["run_fingerprint"].unique().to_list()), set(extra["run_fingerprint"].unique().to_list())
+        assert fp_own == fp_b, f"--borrow {orun}: run fingerprint differs ({fp_b} vs {fp_own}); arms would not be paired"
+        tr = pl.concat([tr, extra.filter(~pl.col("condition").is_in(tr["condition"].unique().to_list()))], how="diagonal_relaxed")
     budgets = [int(x) for x in a.budgets.split(",")]
     budgets = [b for b in budgets if b <= int(tr["n_new_tokens"].max()) or b == budgets[0]]
     grades = {} if a.direct else load_grades()

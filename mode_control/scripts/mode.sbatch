@@ -85,6 +85,15 @@ case "$STAGE" in
   xdiag) python /ada1/u/harsh/tmp/extract_diag.py ;;
   freex) python -m mode_control.mc.extract_free extract --shard "${1:?shard}" --num-shards "${2:?n}" ;;
   freex2) XF_IN=mode_control/data/extract_in2 XF_OUT=mode_control/data/extract_free2 python -m mode_control.mc.extract_free extract --shard "${1:?shard}" --num-shards "${2:?n}" ;;
+  qualityc) RUN=${1:?run}; C=${2:?cond}   # quality judge for one condition file (smaller unit for ashton_low preemption)
+         python -m src.judge.run_quality --config mode_control/configs/exp_mode.yaml --judge-model google/gemma-4-31B-it \
+           --traces-glob "$DD/runs/$RUN/traces_$C.parquet" --out-dir "$DD/runs/$RUN/judge/quality_$C" ;;
+  f1gen) M=${1:?model}; SH=${2:?shard}; NS=${3:?nshards}   # D-50: atlas generator on the minimal-pair tasks, one replica per job
+         MASTER_ADDR=127.0.0.1 MASTER_PORT=$((30000 + SLURM_JOB_ID % 10000)) VLLM_PORT=$((40000 + SLURM_JOB_ID % 10000)) \
+         python -m src.generate.generate_traces --config mode_control/configs/exp_f1.yaml --gen-model "$M" --tasks-dir mode_control/data/f1/tasks \
+           --out-dir mode_control/data/f1/traces --shard "$SH" --num-shards "$NS" ;;
+  f1acts) MC_MODEL=${1:?model} python -m mode_control.mc.f1_pairs acts ;;
+  freexg) XF_IN=${1:?in_dir} XF_OUT=${2:?out_dir} python -m mode_control.mc.extract_free extract --shard "${3:?shard}" --num-shards "${4:?n}" ;;
   freexa) XF_IN=data/v2/extract_free_atlas/in XF_OUT=data/v2/extract_free_atlas/out python -m mode_control.mc.extract_free extract --shard "${1:?shard}" --num-shards "${2:?n}" ;;
   vgen) RUN=${1:?run}; CONDS=${2:-}; python -m mode_control.mc.vsteer gen --run "$RUN" ${CONDS:+--conditions "$CONDS"} ;;
   budget) RUN=${1:?run}; python -m mode_control.mc.budget --run "$RUN" ;;

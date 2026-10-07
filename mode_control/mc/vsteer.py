@@ -405,7 +405,11 @@ def cmd_gen(run: str, conds_filter: str | None, flush_s: float):
         out_path = rd / f"traces_{cond['name']}.parquet"
         existing = pl.read_parquet(out_path) if out_path.exists() else None
         done = set(zip(existing["instance_id"].to_list(), existing["seed"].to_list())) if existing is not None else set()
-        work = [(r, s) for r in tasks.iter_rows(named=True) for s in spec["seeds"] if (r["instance_id"], s) not in done]
+        # optional per-condition subset (dose arms): the first n_tasks tasks in run order and/or a subset of the seeds.
+        # Sampling seeds still come from the full run fingerprint, so a subset arm pairs with the full arms.
+        c_tasks = tasks.head(int(cond["n_tasks"])) if cond.get("n_tasks") else tasks
+        c_seeds = [s for s in spec["seeds"] if s in cond["seeds"]] if cond.get("seeds") else spec["seeds"]
+        work = [(r, s) for r in c_tasks.iter_rows(named=True) for s in c_seeds if (r["instance_id"], s) not in done]
         print(f"[vgen:{cond['name']}] {len(work)} pending of {tasks.height * len(spec['seeds'])}", flush=True)
         if not work:
             continue

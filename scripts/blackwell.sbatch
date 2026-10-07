@@ -27,7 +27,10 @@ cleanup() {
   rc=$?
   pkill -9 -P $$ 2>/dev/null || true
   if [ "$rc" -ne 0 ]; then
-    pkill -9 -u "$USER" -f "VLLM::EngineCore" 2>/dev/null || true
+    # only processes on this job's own GPUs (a user-wide pkill here killed other jobs' vLLM engines on the node, 2026-10-07)
+    for p in $(nvidia-smi -i "${CUDA_VISIBLE_DEVICES:-0}" --query-compute-apps=pid --format=csv,noheader 2>/dev/null); do
+      kill -9 "$p" 2>/dev/null || true
+    done
   fi
 }
 trap cleanup EXIT

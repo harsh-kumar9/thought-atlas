@@ -1,0 +1,521 @@
+{
+ "domains": [
+  "math",
+  "gpqa",
+  "planning",
+  "idea",
+  "moral"
+ ],
+ "n_traces": {
+  "math": 800,
+  "gpqa": 800,
+  "planning": 800,
+  "idea": 800,
+  "moral": 800
+ },
+ "axis_position_L19": {
+  "math": -0.06987502425909042,
+  "gpqa": 1.493931531906128,
+  "planning": 1.9053359031677246,
+  "idea": 3.2569878101348877,
+  "moral": 3.889930486679077
+ },
+ "k_top": 30,
+ "n_conj_act_ovr": {
+  "math": 355,
+  "gpqa": 277,
+  "planning": 384,
+  "idea": 434,
+  "moral": 375
+ },
+ "n_conj_dom19_ovr": {
+  "math": 372,
+  "gpqa": 213,
+  "planning": 325,
+  "idea": 377,
+  "moral": 385
+ },
+ "top_jaccard": {
+  "math": {
+   "math": 1.0,
+   "gpqa": 0.1320754716981132,
+   "planning": 0.01694915254237288,
+   "idea": 0.0,
+   "moral": 0.0
+  },
+  "gpqa": {
+   "math": 0.1320754716981132,
+   "gpqa": 1.0,
+   "planning": 0.1111111111111111,
+   "idea": 0.05263157894736842,
+   "moral": 0.0
+  },
+  "planning": {
+   "math": 0.01694915254237288,
+   "gpqa": 0.1111111111111111,
+   "planning": 1.0,
+   "idea": 0.034482758620689655,
+   "moral": 0.01694915254237288
+  },
+  "idea": {
+   "math": 0.0,
+   "gpqa": 0.05263157894736842,
+   "planning": 0.034482758620689655,
+   "idea": 1.0,
+   "moral": 0.1111111111111111
+  },
+  "moral": {
+   "math": 0.0,
+   "gpqa": 0.0,
+   "planning": 0.01694915254237288,
+   "idea": 0.1111111111111111,
+   "moral": 1.0
+  }
+ },
+ "overlap_with_math_idea_carriers": {
+  "math": 0.13333333333333333,
+  "gpqa": 0.13333333333333333,
+  "planning": 0.3,
+  "idea": 0.3333333333333333,
+  "moral": 0.13333333333333333
+ },
+ "top_kinds": {
+  "math": [
+   {
+    "kind": "attn",
+    "len": 1
+   },
+   {
+    "kind": "mlp",
+    "len": 8
+   },
+   {
+    "kind": "lin",
+    "len": 21
+   }
+  ],
+  "gpqa": [
+   {
+    "kind": "attn",
+    "len": 11
+   },
+   {
+    "kind": "lin",
+    "len": 14
+   },
+   {
+    "kind": "mlp",
+    "len": 5
+   }
+  ],
+  "planning": [
+   {
+    "kind": "attn",
+    "len": 28
+   },
+   {
+    "kind": "lin",
+    "len": 2
+   }
+  ],
+  "idea": [
+   {
+    "kind": "attn",
+    "len": 10
+   },
+   {
+    "kind": "lin",
+    "len": 11
+   },
+   {
+    "kind": "mlp",
+    "len": 9
+   }
+  ],
+  "moral": [
+   {
+    "kind": "attn",
+    "len": 7
+   },
+   {
+    "kind": "lin",
+    "len": 21
+   },
+   {
+    "kind": "mlp",
+    "len": 2
+   }
+  ]
+ },
+ "top_layer_median": {
+  "math": 17.0,
+  "gpqa": 13.0,
+  "planning": 16.0,
+  "idea": 11.5,
+  "moral": 14.5
+ },
+ "top8": {
+  "math": [
+   {
+    "layer": 19,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_math": 0.07249939441680908
+   },
+   {
+    "layer": 14,
+    "kind": "lin",
+    "head": 20,
+    "act_ovr_math": 0.03746636211872101
+   },
+   {
+    "layer": 17,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_math": 0.03664422035217285
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 13,
+    "act_ovr_math": 0.03517115116119385
+   },
+   {
+    "layer": 18,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_math": 0.02788621187210083
+   },
+   {
+    "layer": 10,
+    "kind": "lin",
+    "head": 16,
+    "act_ovr_math": 0.027333764359354973
+   },
+   {
+    "layer": 18,
+    "kind": "lin",
+    "head": 10,
+    "act_ovr_math": 0.022444814443588257
+   },
+   {
+    "layer": 18,
+    "kind": "lin",
+    "head": 24,
+    "act_ovr_math": 0.017971638590097427
+   }
+  ],
+  "gpqa": [
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 15,
+    "act_ovr_gpqa": 0.02660013735294342
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 14,
+    "act_ovr_gpqa": 0.020130649209022522
+   },
+   {
+    "layer": 18,
+    "kind": "lin",
+    "head": 0,
+    "act_ovr_gpqa": 0.019332215189933777
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 0,
+    "act_ovr_gpqa": 0.016258373856544495
+   },
+   {
+    "layer": 15,
+    "kind": "attn",
+    "head": 9,
+    "act_ovr_gpqa": 0.015062227845191956
+   },
+   {
+    "layer": 8,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_gpqa": 0.013853654265403748
+   },
+   {
+    "layer": 10,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_gpqa": 0.012862741947174072
+   },
+   {
+    "layer": 9,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_gpqa": 0.012716725468635559
+   }
+  ],
+  "planning": [
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 8,
+    "act_ovr_planning": 0.078544020652771
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 7,
+    "act_ovr_planning": 0.07672937214374542
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 12,
+    "act_ovr_planning": 0.07245151698589325
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 15,
+    "act_ovr_planning": 0.06930379569530487
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 4,
+    "act_ovr_planning": 0.06214885413646698
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 6,
+    "act_ovr_planning": 0.061572879552841187
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 14,
+    "act_ovr_planning": 0.05648121237754822
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 10,
+    "act_ovr_planning": 0.053751811385154724
+   }
+  ],
+  "idea": [
+   {
+    "layer": 11,
+    "kind": "attn",
+    "head": 0,
+    "act_ovr_idea": 0.09870214760303497
+   },
+   {
+    "layer": 8,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_idea": 0.05148725211620331
+   },
+   {
+    "layer": 16,
+    "kind": "lin",
+    "head": 9,
+    "act_ovr_idea": 0.04716872423887253
+   },
+   {
+    "layer": 15,
+    "kind": "attn",
+    "head": 5,
+    "act_ovr_idea": 0.04583175480365753
+   },
+   {
+    "layer": 7,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_idea": 0.04523192346096039
+   },
+   {
+    "layer": 6,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_idea": 0.04193104803562164
+   },
+   {
+    "layer": 9,
+    "kind": "mlp",
+    "head": -1,
+    "act_ovr_idea": 0.03685872256755829
+   },
+   {
+    "layer": 15,
+    "kind": "attn",
+    "head": 2,
+    "act_ovr_idea": 0.03489387035369873
+   }
+  ],
+  "moral": [
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 9,
+    "act_ovr_moral": 0.02743758261203766
+   },
+   {
+    "layer": 11,
+    "kind": "attn",
+    "head": 5,
+    "act_ovr_moral": 0.01892676204442978
+   },
+   {
+    "layer": 16,
+    "kind": "lin",
+    "head": 15,
+    "act_ovr_moral": 0.018567457795143127
+   },
+   {
+    "layer": 17,
+    "kind": "lin",
+    "head": 4,
+    "act_ovr_moral": 0.01791989803314209
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 2,
+    "act_ovr_moral": 0.01630920171737671
+   },
+   {
+    "layer": 7,
+    "kind": "attn",
+    "head": 2,
+    "act_ovr_moral": 0.01463000476360321
+   },
+   {
+    "layer": 16,
+    "kind": "lin",
+    "head": 26,
+    "act_ovr_moral": 0.014130868017673492
+   },
+   {
+    "layer": 13,
+    "kind": "lin",
+    "head": 14,
+    "act_ovr_moral": 0.013993104919791222
+   }
+  ]
+ },
+ "demand_territory": {
+  "n_items": 160,
+  "jaccard_with_domain_territory": {
+   "math": 0.09090909090909091,
+   "gpqa": 0.01694915254237288,
+   "planning": 0.22448979591836735,
+   "idea": 0.09090909090909091,
+   "moral": 0.1320754716981132
+  },
+  "overlap_axis_carriers_with_math_idea_carriers": 0.5666666666666667,
+  "top8_activity": [
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 12,
+    "demand_act_diff": 0.05851946584880352
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 11,
+    "demand_act_diff": 0.05561087448149919
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 2,
+    "demand_act_diff": 0.04814193211495876
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 3,
+    "demand_act_diff": 0.045044495910406115
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 9,
+    "demand_act_diff": 0.041932064760476354
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 10,
+    "demand_act_diff": 0.037569630052894355
+   },
+   {
+    "layer": 15,
+    "kind": "attn",
+    "head": 0,
+    "demand_act_diff": 0.031237536016851662
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 4,
+    "demand_act_diff": 0.023989986255764963
+   }
+  ],
+  "top8_axis": [
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 11,
+    "demand_axis_diff": 0.26313119363039733
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 10,
+    "demand_axis_diff": 0.23094159327447414
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 2,
+    "demand_axis_diff": 0.1560113615822047
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 9,
+    "demand_axis_diff": 0.15304182125255467
+   },
+   {
+    "layer": 19,
+    "kind": "mlp",
+    "head": -1,
+    "demand_axis_diff": 0.1405249266186729
+   },
+   {
+    "layer": 19,
+    "kind": "attn",
+    "head": 3,
+    "demand_axis_diff": 0.10855482905171812
+   },
+   {
+    "layer": 18,
+    "kind": "lin",
+    "head": 9,
+    "demand_axis_diff": 0.08065743102924898
+   },
+   {
+    "layer": 15,
+    "kind": "attn",
+    "head": 2,
+    "demand_axis_diff": 0.07890024136286229
+   }
+  ],
+  "sum_axis_shift_generate_minus_solve": 2.288469256204614
+ }
+}

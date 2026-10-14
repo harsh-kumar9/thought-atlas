@@ -136,3 +136,47 @@ coupling and magnitude effects (E3) appear only once reasoning starts. The brain
 operation does not transfer to this model. Figures: figures_taskset_varied/fig_neuro_taskset_timecourse, _codes.
 Note on statistics: the model is deterministic, so paired t over items is inflated for any instruction effect; effect
 sizes and the shuffled null carry the result.
+
+## D-61. All five domains (atlas, coupling, event-locked, ten-pair geometry)
+
+Data: the corpus traces of math, gpqa, planning, idea and moral (800 each, seeds 1-4), same extraction as E1.
+Outputs: analysis/atlas_components.csv, atlas_summary.json, fig_neuro_atlas5; coupling_summary.csv; events_lead.csv;
+geometry_pairs_L16.json.
+
+Where each domain sits on the Math-Idea axis (layer 19, mean over the first 2048 reasoning tokens): math -0.07,
+gpqa 1.49, planning 1.91, idea 3.26, moral 3.89. The axis orders the domains by how divergent their deliberation is,
+and moral sits beyond idea.
+
+Territories. For each domain, the 30 components that write most into the readout subspace for that domain relative
+to the other four (every-seed conjunction). They barely overlap: Jaccard 0.13 for math-gpqa, 0.11 for gpqa-planning
+and idea-moral, 0.05 or less for every other pair. Their make-up differs: math = late linear heads and the layer
+17-19 MLPs (median layer 17); gpqa = layer-19 full-attention heads with mid MLPs (median 13); planning = almost only
+layer-19 full-attention heads (28 of 30); idea = layer 6-9 MLPs, layer-11 head 0 and layer-15 heads (median 11.5);
+moral = layer 13-17 linear heads and layer-19 heads. Overlap with the Math-Idea gap carriers of E1 is 0.13-0.33, so
+"what distinguishes a domain" and "what carries the Math-Idea axis" are different sets. Verdict on the D-61
+prediction: wrong. gpqa and planning do not share Math's territory; each domain has its own, and the convergent trio
+is not one territory in component space even though it is close in centroid space (3.4-4.6 apart vs 6.3-7.8 for the
+pairs involving idea or moral). Caveat: one-vs-rest activity also reflects prompt format and length (the MCQ domains
+have option lists). The topic-controlled version settles it: on the same 160 stems (varied-filler task set, generation
+epoch), the generate-minus-solve territory is layer-19 full-attention heads 12, 11, 2, 3, 9, 10 and 4 plus layer-15
+head 0, and its axis carriers (layer-19 heads 11, 10, 2, 9, 3, the layer-19 MLP, layer-18 linear head 9, layer-15
+head 2) overlap the Math-Idea gap carriers at 0.57; the summed axis shift from solve to generate is +2.29, two thirds
+of the corpus gap. So the demand has one set of carriers, the late full-attention heads, while the domain territories
+above are format-laden (Jaccard of the demand territory with them: 0.02-0.22).
+
+Coupling (unsteered, hub and specific sets fixed from the Math-Idea map): hub x Idea-specific is -0.14 to -0.17 and
+hub x Math-specific +0.08 to +0.10 in every domain (moral +0.15), shuffled nulls within 0.01 of zero. The push-pull
+between the MLP hub and the Idea-carrying heads is a property of the model, not of the domain.
+
+Event-locked A2 lead (tokens, then the mean over 0-32 after onset): math 8 / +0.23 before subgoal, 8 / +0.20 before
+perspective shift, 8 / +0.15 before a question; planning 8 / +0.15 and 16 / +0.20; gpqa 16 / +0.16 before perspective
+shift, otherwise 0 with rises of +0.08 to +0.11; moral 24 / +0.03 before subgoal and nothing else; idea negative
+(dips of -0.12 before verification and conflict). Verdict: the A2 lead belongs to the convergent domains, as predicted,
+with gpqa weaker than math and planning; moral shows a lead without a rise; idea shows the opposite sign.
+
+Ten-pair geometry (layer 16, five domains): no straight line between centroids reaches a void ratio of 1.2. The
+maximum is 1.19 (idea to moral) and 1.18 (math to idea, idea to gpqa, idea to planning), and in every case the high
+values sit at the Idea end, which is Idea's own lower density (its centroid scores 1.18 against 0.94-1.00 for the
+others). Paths detour through gpqa and planning for every pair that involves idea or moral (path over straight 1.7 to
+8.1). Per the rule in the big-picture section, no extra steering pair is run; the budget goes to D-62 and D-63.
+

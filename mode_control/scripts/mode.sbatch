@@ -106,6 +106,7 @@ case "$STAGE" in
   freexa) XF_IN=data/v2/extract_free_atlas/in XF_OUT=data/v2/extract_free_atlas/out python -m mode_control.mc.extract_free extract --shard "${1:?shard}" --num-shards "${2:?n}" ;;
   vgen) RUN=${1:?run}; CONDS=${2:-}; python -m mode_control.mc.vsteer gen --run "$RUN" ${CONDS:+--conditions "$CONDS"} ;;
   budget) RUN=${1:?run}; python -m mode_control.mc.budget --run "$RUN" ;;
+  readiness) python -m mode_control.mc.readiness --arms "${1:?arms}" ${CUTS:+--cuts "$CUTS"} ${SMOKE:+--smoke "$SMOKE"} ;;   # D-62 forced-answer probe
   neuro) MODE=${1:?mode}; shift; python -m mode_control.mc.neuro_extract "$MODE" "$@" ;;   # D-55..D-58: smoke | corpus | prompts | taskset
   neuro_an) python -m mode_control.mc.neuro_analyze "${1:-all}" ;;
   neuro_sae) CMD=${1:?cmd}; shift; python -m mode_control.mc.neuro_sae "$CMD" "$@" ;;   # D-60 (fetch runs on ada, not in a job)

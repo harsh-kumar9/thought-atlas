@@ -18,6 +18,8 @@ Modes
   taskset  the instruction-delay prompts (demand x operation x delay x topic x item): generate 192 tokens, then
            teacher-force the whole sequence; spans (system, filler, task, generated) are stored per prompt
   smoke   four corpus traces and the sum-identity check (sum of component writes = residual projection)
+  states  --runs r --conditions c1,c2: the layer-16 residual every --stride tokens of each trace (prompt + first
+          --n-tokens reasoning tokens), for the steered-state density test (D-62) -> data/neuro/states/<run>__<cond>.npz
 
 Per trace the shard holds: comp_mean [C, k] (mean write over the window positions), comp_act [C] (RMS of the
 8-dim readout write), resid [T_win, 2, k] (residual projections at layers 16 and 19, every window position) and,
@@ -429,6 +431,55 @@ def run_taskset(model, tok, hooks: CompHooks, batch_gen: int, batch: int, flush:
     sh.flush()
 
 
+# ---------------------------------------------------------------- D-62: strided residual states of (steered) traces
+def run_states(model, tok, runs: list[str], conditions: list[str], stride: int, n_tokens: int, batch: int, limit: int | None, layer: int = 16):
+    import torch
+    out_dir = NEURO / "states"; out_dir.mkdir(parents=True, exist_ok=True)
+    dl = decoder_layers(model); store = {}
+    h = dl[layer].register_forward_hook(lambda m, a, o: store.__setitem__("h", _layer_output(o).detach()))
+    try:
+        for run in runs:
+            for cond in conditions:
+                out = out_dir / f"{run}__{cond}.npz"
+                if out.exists():
+                    print(f"[states] {run}/{cond}: exists, skipping"); continue
+                if not (DATA / "runs" / run / f"traces_{cond}.parquet").exists():
+                    print(f"[states] {run}/{cond}: no traces file yet, skipping"); continue
+                if (DATA / "runs" / run / f"partial_{cond}.parquet").exists():
+                    print(f"[states] {run}/{cond}: generation still in progress (partial file present), skipping"); continue
+                tr = _load_traces(run, [cond])
+                if limit: tr = tr.head(limit)
+                items = []
+                for r in tr.iter_rows(named=True):
+                    p_ = tok(render_prompt(tok, r["prompt"], system=r.get("system_prompt")), add_special_tokens=False)["input_ids"]
+                    t_ = tok(r["think_text"], add_special_tokens=False)["input_ids"][:n_tokens]
+                    if len(t_) >= stride:
+                        items.append((r, p_, t_))
+                items.sort(key=lambda x: len(x[1]) + len(x[2]))
+                H, off, meta = [], [0], []
+                t0 = time.time()
+                for i in range(0, len(items), batch):
+                    chunk = items[i:i + batch]
+                    inp, att, pad = _pad_batch(tok, [p_ + t_ for _, p_, t_ in chunk])
+                    with torch.no_grad():
+                        model(input_ids=inp.to(model.device), attention_mask=att.to(model.device), use_cache=False)
+                    for b, (r, p_, t_) in enumerate(chunk):
+                        pos = list(range(pad[b] + len(p_), pad[b] + len(p_) + len(t_), stride))
+                        H.append(store["h"][b, pos, :].float().cpu().numpy().astype(np.float16)); off.append(off[-1] + len(pos))
+                        meta.append({"trace_id": r["trace_id"], "condition": cond, "run": run, "instance_id": r["instance_id"], "task_type": r["task_type"], "seed": int(r["seed"]),
+                                     "hard_loop": int(bool(r.get("hard_loop"))), "soft_loop": int(bool(r.get("soft_loop"))), "answered": int(bool((r.get("answer_text") or "").strip())),
+                                     "n_new_tokens": int(r["n_new_tokens"]), "finish_reason": r.get("finish_reason") or ""})
+                    if (i // batch) % 20 == 0:
+                        print(f"[states] {run}/{cond}: {min(i + batch, len(items))}/{len(items)} traces, {time.time() - t0:.0f}s", flush=True)
+                if not H:
+                    continue
+                cols = {k: np.array([m[k] for m in meta]) for k in meta[0]}
+                np.savez(out, H=np.concatenate(H), off=np.array(off, np.int64), layer=layer, stride=stride, **cols)
+                print(f"[states] {run}/{cond}: {len(meta)} traces, {off[-1]} states -> {out.name}", flush=True)
+    finally:
+        h.remove()
+
+
 # ---------------------------------------------------------------- smoke
 def smoke(model, tok, hooks: CompHooks, D):
     import torch
@@ -466,7 +517,8 @@ def smoke(model, tok, hooks: CompHooks, D):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["smoke", "corpus", "prompts", "taskset"])
+    ap.add_argument("mode", choices=["smoke", "corpus", "prompts", "taskset", "states"])
+    ap.add_argument("--stride", type=int, default=32, help="states: token stride between stored residuals")
     ap.add_argument("--runs", default="corpus1_math_a,corpus1_math_b,corpus1_idea_a,corpus1_idea_b")
     ap.add_argument("--run", default="power1"); ap.add_argument("--conditions", default="baseline,prompt_checking,prompt_exploratory")
     ap.add_argument("--n-tokens", type=int, default=2048); ap.add_argument("--batch", type=int, default=4); ap.add_argument("--batch-gen", type=int, default=32)
@@ -476,6 +528,8 @@ def main():
     ap.add_argument("--varied-filler", action="store_true", help="taskset: one filler per item (D-56 amendment) -> data/neuro/taskset_varied")
     a = ap.parse_args()
     tok = load_tokenizer(); model = load_model()
+    if a.mode == "states":                                                          # no component hooks needed
+        run_states(model, tok, a.runs.split(","), a.conditions.split(","), a.stride, a.n_tokens, a.batch, a.limit); return
     D, dmeta = build_directions()
     hooks = CompHooks(model, D)
     _write_meta(hooks, dmeta)

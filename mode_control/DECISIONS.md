@@ -758,3 +758,47 @@ analogue has trial noise; the model has none. Fix: one filler per item, a seeded
 effect in the delay is then the paired difference within item (solve vs generate, checking vs exploratory, same filler).
 Run data/neuro/taskset_varied (job neuro_tsv); the fixed-filler run stays as the deterministic reference for the time
 course of the instruction span and the generation epoch, which are unaffected (the task text varies by item).
+
+## D-61 (ratified 2026-10-14, Harsh: "go ahead with D-61, launch the first job"): all five domains for the descriptive
+readouts, one more steering pair chosen by the geometry
+Question: do the Math-Idea findings (attention heads carry the domain contrast, MLPs are domain-general; the A2 lead
+before structured sentences; the exploratory push-pull) hold across math, gpqa, planning, idea and moral, and do domains
+have their own component territories or share one? Design: (1) component extraction (neuro_extract corpus) on the gpqa,
+planning and moral corpora (a+b, seeds 1-4; series for seed 1), joining the math and idea shards; (2) a five-domain map:
+per component the mean write per domain in the readout subspace and on the axis, one-vs-rest contrasts per domain with
+the |d| > 0.5 every-seed conjunction, and the overlap of each domain's top carriers with Math's; (3) coupling and
+event-locked averages per domain with the hub and specific sets fixed from the Math-Idea map; (4) sigctrl segment
+states for moral, then the line void ratio and data-path detour for all ten centroid pairs at layer 16; (5) one extra
+steering pair: the pair with the largest line void ratio, or Idea -> planning if none exceeds 1.2, same seven arms, two
+seeds, 32k, submitted only after (4) is read. Not done: all pairs (about 100 GPU-hours); E2 on idea or moral stems (no
+solve version of those items). Predictions, written now: the top carriers of gpqa and planning overlap Math's by more
+than half (one convergent territory) and Idea's and moral's do not; the A2 lead holds in gpqa and planning and not in
+idea or moral; no centroid pair reaches a line void ratio of 1.5.
+
+## D-62 (proposed 2026-10-14, built and queued on Harsh's "incorporate and continue"): steered-state density
+Question: does steering fail where it leaves the region of natural states? E5 showed the centroid line is not a void,
+so the Goodfire claim is re-posed on real trajectories. Measure: teacher-force every steered trace (prompt + first 2048
+reasoning tokens), take the layer-16 residual every 32 tokens, and score each state's 10-NN distance against the natural
+corpus sample (math, idea, gpqa, planning, moral; PCA-50; same reference as E5), divided by the data median. Per trace:
+mean and maximum ratio, share of states above 1.5, and the domain mix of the neighbours. Arms: the E5 line, path and
+random arms, the low-rank signature arms (sig_idea on Math, sig_math on Idea, A2) and the unsteered baselines, on the
+same tasks. Tests, written now: (i) within each arm and pooled, traces that loop have a higher mean ratio than traces
+that do not (Spearman of ratio with hard_loop, and a paired comparison of means); (ii) at matched norm (3.9) the
+signature and path arms have lower ratios than the line arm, and random at 7.8 is highest; (iii) the neighbours of
+Idea-ward steered Math states are Idea states when the trace stays coherent and no domain in particular when it loops.
+Code: neuro_extract.py states; neuro_geometry.py density.
+
+## D-63 (proposed 2026-10-14, built and queued as above): do the gap-carrying heads cause the behaviour?
+The component map (E1) is descriptive. Test: generate with the top eight Idea-ward carrier heads silenced (their slice
+of the attention output set to zero, which is the gate-closed state of this architecture), against the top eight
+Math-ward carriers and eight random heads matched by layer; unsteered baseline. Held-out Math and Idea tasks (40 per
+domain, excluding the corpus tasks), one seed, 4096-token budget and window, Track A + B with the frozen scores (mc.analyze).
+Predictions: silencing the Idea carriers cuts the Idea-minus-Math gap on the frozen score by at least 25%, mostly by
+moving Idea traces Math-ward (fewer perspective shifts and backtracks), with loops and answer rates unchanged; silencing
+the Math carriers moves Math traces Idea-ward by less (the steering asymmetry); the random set changes the gap by under
+10%. If the first holds, heads are a component-level unit of control. Code: common.HeadAblator, steer.py cond mode
+"ablate", neuro_ablate.py make; run abl1.
+D-61 outcome (2026-10-14): descriptive parts done (RESULTS_NEURO.md "D-61"). Prediction 1 wrong (each domain has its own
+territory; Jaccard <= 0.13), prediction 2 holds (A2 lead in math, planning, gpqa; not in idea; moral lead without a rise),
+prediction 3 holds (no line void above 1.19). No extra steering pair.
+

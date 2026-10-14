@@ -261,6 +261,35 @@ class Steerer:
         return _replace_output(output, h2)
 
 
+class HeadAblator:
+    """D-63: silences chosen heads of one decoder layer by zeroing their slice of the attention output before o_proj
+    (full attention, after the sigmoid gate) or out_proj (linear attention, after the gated norm): the gate-closed state
+    of this architecture. Applied on every position, prompt and generation. attach(layer) registers the pre-hook."""
+
+    def __init__(self, heads: list[int]):
+        self.heads = sorted(set(int(h) for h in heads)); self.mode = "ablate"
+        self.calls = 0; self.n_steered_positions = 0; self.n_late_positions = 0; self.nh = None; self.hd = None
+
+    def reset(self):
+        self.calls = 0; self.n_steered_positions = 0
+
+    def attach(self, layer):
+        if hasattr(layer, "self_attn"):
+            proj = layer.self_attn.o_proj; nh = proj.in_features // int(layer.self_attn.head_dim)
+        else:
+            proj = layer.linear_attn.out_proj; nh = int(layer.linear_attn.num_v_heads)
+        hd = proj.in_features // nh; self.nh, self.hd = nh, hd
+        assert max(self.heads) < nh, (self.heads, nh)
+        heads = self.heads
+
+        def pre(module, args):
+            x = args[0]; B, T = x.shape[:2]
+            self.calls += 1; self.n_steered_positions += T
+            x = x.reshape(B, T, nh, hd).clone(); x[:, :, heads, :] = 0
+            return (x.reshape(B, T, nh * hd),) + tuple(args[1:])
+        return proj.register_forward_pre_hook(pre)
+
+
 def orthonormal(U: np.ndarray) -> np.ndarray:
     """QR orthonormal basis with each column's sign fixed so that q_j · U_j > 0 (QR's sign is arbitrary)."""
     U = np.asarray(U, dtype=np.float64)

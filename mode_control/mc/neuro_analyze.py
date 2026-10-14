@@ -27,7 +27,9 @@ DIRS = ["dom16", "dom19"] + [f"sig16_{j}" for j in range(8)] + ["a2_16"]
 J16, J19, JA2, SIG = 0, 1, 10, slice(2, 10)
 SEEDS = (1, 2, 3, 4)
 TARGETS_SHOWN = ["future_verification", "future_backtracking", "future_subgoal", "future_Perspective_Shift"]
-DOM_COL = {"math": "#1b6ca8", "idea": "#c7521d", "gpqa": "#5e8c3a", "planning": "#8a5fb8"}
+DOM_COL = {"math": "#1b6ca8", "idea": "#c7521d", "gpqa": "#5e8c3a", "planning": "#8a5fb8", "moral": "#b08900"}
+DOMS5 = ["math", "gpqa", "planning", "idea", "moral"]
+CORPUS_RUNS = tuple(f"corpus1_{d}_{ab}" for d in DOMS5 for ab in "ab")
 
 
 # ---------------------------------------------------------------- loading
@@ -234,6 +236,90 @@ def cmd_map():
         ax.bar(g["layer"].to_numpy() + {"lin": -0.2, "attn": -0.2, "mlp": 0.2, "embed": 0}[kind], g["dom19_diff"].to_numpy(), width=0.4, color=col, label={"lin": "linear-attention heads", "attn": "full-attention heads", "mlp": "MLP", "embed": "embedding"}[kind])
     ax.axhline(0, color="k", lw=0.5); ax.set_xlabel("layer"); ax.set_ylabel("summed contrast"); ax.legend(frameon=False); _panel(ax, "d")
     fig.tight_layout(); _save(fig, "fig_neuro_map"); plt.close(fig)
+
+
+# ================================================================ D-61: five-domain atlas
+def cmd_atlas():
+    """Per component: mean write per domain (activity in the readout subspace, signed write on the layer-19 axis),
+    one-vs-rest contrasts with the every-seed conjunction, each domain's top carriers and their overlap with the Math-Idea
+    carriers, and where each domain sits on the axis. -> analysis/atlas_components.csv, atlas_summary.json, fig_neuro_atlas5"""
+    meta, resid, _ = load_shards("corpus")
+    if meta is None:
+        print("[atlas] no corpus shards"); return
+    C = comps(); OUT.mkdir(parents=True, exist_ok=True)
+    M, A = meta["comp_mean"], meta["comp_act"]; dom, seed = meta["task_type"], meta["seed"]
+    doms = [d for d in DOMS5 if (dom == d).any()]
+    print(f"[atlas] domains {doms}: " + ", ".join(f"{d} {int((dom == d).sum())}" for d in doms))
+    axis_pos = {d: float(np.mean([r[:, 1, J19].mean() for r, dd in zip(resid, dom) if dd == d])) for d in doms}
+    rows = []
+    for c in range(len(C)):
+        r = {"idx": c, **C[c]}
+        for d in doms:
+            r[f"act_{d}"] = float(A[dom == d, c].mean()); r[f"dom19_{d}"] = float(M[dom == d, c, J19].mean())
+            for nm, X in (("act", A[:, c]), ("dom19", M[:, c, J19])):
+                ds = [cohen_d(X[(dom == d) & (seed == s_)], X[(dom != d) & (seed == s_)]) for s_ in SEEDS]
+                r[f"{nm}_ovr_{d}"] = float(X[dom == d].mean() - X[dom != d].mean())
+                r[f"{nm}_ovr_conj_{d}"] = bool(all(abs(x) > D_MIN for x in ds) and len({np.sign(x) for x in ds}) == 1)
+        rows.append(r)
+    df = pl.DataFrame(rows); df.write_csv(OUT / "atlas_components.csv")
+    k = 30
+    top = {d: set(df.filter(pl.col(f"act_ovr_conj_{d}") & (pl.col(f"act_ovr_{d}") > 0)).sort(f"act_ovr_{d}", descending=True).head(k)["idx"].to_list()) for d in doms}
+    mi = pl.read_csv(OUT / "map_components.csv") if (OUT / "map_components.csv").exists() else None
+    carriers = set(mi.sort("dom19_diff", descending=True).head(k)["idx"].to_list()) if mi is not None else set()
+    jac = {a: {b: (len(top[a] & top[b]) / max(1, len(top[a] | top[b]))) for b in doms} for a in doms}
+    overlap_carriers = {d: len(top[d] & carriers) / max(1, len(top[d])) for d in doms}
+    kinds = {d: pl.DataFrame({"idx": sorted(top[d])}).join(df.select(["idx", "kind", "layer"]), on="idx").group_by("kind").len().to_dicts() for d in doms}
+    layer_med = {d: float(np.median([C[i]["layer"] for i in top[d]])) if top[d] else None for d in doms}
+    summary = {"domains": doms, "n_traces": {d: int((dom == d).sum()) for d in doms}, "axis_position_L19": axis_pos, "k_top": k,
+               "n_conj_act_ovr": {d: int(df[f"act_ovr_conj_{d}"].sum()) for d in doms}, "n_conj_dom19_ovr": {d: int(df[f"dom19_ovr_conj_{d}"].sum()) for d in doms},
+               "top_jaccard": jac, "overlap_with_math_idea_carriers": overlap_carriers, "top_kinds": kinds, "top_layer_median": layer_med,
+               "top8": {d: df.filter(pl.col("idx").is_in(list(top[d]))).sort(f"act_ovr_{d}", descending=True).head(8).select(["layer", "kind", "head", f"act_ovr_{d}"]).to_dicts() for d in doms}}
+    # topic-controlled demand territory: generate minus solve within item, generation epoch of the varied-filler task set
+    # (same stems, so prompt format and length are matched); compared with the Idea territory and the Math-Idea carriers
+    tv = load_shards("taskset_varied")[0]
+    if tv is not None:
+        Ag, Mg = tv["comp_act_gen"], tv["comp_mean_gen"][:, :, J19]; item, dem, op, dl = tv["item"], tv["demand"], tv["op"], tv["delay"]
+        items = sorted(set(item.tolist())); D_act = np.full((len(items), Ag.shape[1]), np.nan); D_ax = np.full((len(items), Ag.shape[1]), np.nan)
+        for q, it in enumerate(items):
+            g_, s_ = (item == it) & (dem == "generate"), (item == it) & (dem == "solve")
+            if g_.any() and s_.any():
+                D_act[q] = Ag[g_].mean(0) - Ag[s_].mean(0); D_ax[q] = Mg[g_].mean(0) - Mg[s_].mean(0)
+        dmean, dt = np.nanmean(D_act, 0), np.array([paired_t(D_act[:, c]) for c in range(Ag.shape[1])])
+        amean, at = np.nanmean(D_ax, 0), np.array([paired_t(D_ax[:, c]) for c in range(Ag.shape[1])])
+        df = df.with_columns(pl.Series("demand_act_diff", dmean), pl.Series("demand_act_t", dt), pl.Series("demand_axis_diff", amean), pl.Series("demand_axis_t", at))
+        df.write_csv(OUT / "atlas_components.csv")
+        top_dem = set(df.filter((pl.col("demand_act_t") > 4) & (pl.col("kind") != "embed")).sort("demand_act_diff", descending=True).head(k)["idx"].to_list())
+        top_dem_ax = set(df.filter((pl.col("demand_axis_t") > 4) & (pl.col("kind") != "embed")).sort("demand_axis_diff", descending=True).head(k)["idx"].to_list())
+        summary["demand_territory"] = {"n_items": len(items), "jaccard_with_domain_territory": {d: len(top_dem & top[d]) / max(1, len(top_dem | top[d])) for d in doms},
+                                       "overlap_axis_carriers_with_math_idea_carriers": len(top_dem_ax & carriers) / max(1, len(top_dem_ax)),
+                                       "top8_activity": df.filter(pl.col("idx").is_in(list(top_dem))).sort("demand_act_diff", descending=True).head(8).select(["layer", "kind", "head", "demand_act_diff"]).to_dicts(),
+                                       "top8_axis": df.filter(pl.col("idx").is_in(list(top_dem_ax))).sort("demand_axis_diff", descending=True).head(8).select(["layer", "kind", "head", "demand_axis_diff"]).to_dicts(),
+                                       "sum_axis_shift_generate_minus_solve": float(np.nansum(amean))}
+        print("[atlas] demand territory (generate - solve, same stems): Jaccard with domain territories", {d: round(v, 2) for d, v in summary["demand_territory"]["jaccard_with_domain_territory"].items()},
+              "| its axis carriers overlap the Math-Idea carriers:", round(summary["demand_territory"]["overlap_axis_carriers_with_math_idea_carriers"], 2))
+    (OUT / "atlas_summary.json").write_text(json.dumps(summary, indent=1))
+    print("[atlas] axis position per domain (layer 19):", {d: round(v, 2) for d, v in axis_pos.items()})
+    print("[atlas] top-30 territory overlap (Jaccard):"); [print("   ", a, {b: round(v, 2) for b, v in jac[a].items()}) for a in doms]
+    print("[atlas] overlap of each domain's top-30 with the Math-Idea gap carriers:", {d: round(v, 2) for d, v in overlap_carriers.items()})
+    print("[atlas] median layer of the top-30:", layer_med, "| kinds:", kinds)
+    plt = _mpl()
+    from matplotlib.colors import TwoSlopeNorm
+    fig, axs = plt.subplots(2, 3, figsize=(7.2, 5.0))
+    vmax = max(float(np.nanmax(np.abs(df[f"act_ovr_{d}"].to_numpy()))) for d in doms) or 1.0
+    for i, d in enumerate(doms[:5]):
+        ax = axs.flat[i]
+        G = comp_grid(df[f"act_ovr_{d}"].to_numpy(), C); mask = comp_grid(df[f"act_ovr_conj_{d}"].to_numpy().astype(float), C, fill=0.0) > 0
+        ax.imshow(np.ma.masked_invalid(np.where(mask, G, np.nan)), cmap="RdBu_r", norm=TwoSlopeNorm(0, -vmax, vmax), aspect="auto", origin="lower", interpolation="nearest")
+        ax.imshow(np.ma.masked_invalid(np.where(~mask, G, np.nan)), cmap="RdBu_r", norm=TwoSlopeNorm(0, -vmax, vmax), alpha=0.2, aspect="auto", origin="lower", interpolation="nearest")
+        ax.set_title(f"{d} vs rest (activity)"); ax.set_xlabel("layer"); ax.set_ylabel("head (32 MLP, 33 emb)"); _panel(ax, "abcde"[i])
+    ax = axs.flat[5]
+    Jm = np.array([[jac[a][b] for b in doms] for a in doms])
+    im_ = ax.imshow(Jm, cmap="Greys", vmin=0, vmax=1); ax.set_xticks(range(len(doms))); ax.set_yticks(range(len(doms))); ax.set_xticklabels(doms, rotation=45, fontsize=6); ax.set_yticklabels(doms, fontsize=6)
+    for a in range(len(doms)):
+        for b in range(len(doms)):
+            ax.text(b, a, f"{Jm[a, b]:.2f}", ha="center", va="center", fontsize=6, color="w" if Jm[a, b] > 0.5 else "k")
+    ax.set_title("overlap of top-30 territories (Jaccard)"); _panel(ax, "f")
+    fig.tight_layout(); _save(fig, "fig_neuro_atlas5"); plt.close(fig)
 
 
 # ================================================================ E2: task set
@@ -524,7 +610,10 @@ def cmd_coupling():
                 mrows.append({"task_type": dname, "condition": c, "set": "all_components", "n_pairs": len(pairs), "mean_shift": float(D_.mean()),
                               "mean_abs_d": float(np.abs(d_all).mean()), "max_abs_d": float(np.abs(d_all).max())})
         pl.DataFrame(mrows).write_csv(OUT / "coupling_magnitude.csv"); print("[coupling] magnitude code of the same sets (paired d vs baseline):"); print(pl.DataFrame(mrows))
-    plt = _mpl(); fig, axs = plt.subplots(1, 2, figsize=(7, 2.4))
+    plt = _mpl(); fig, axs = plt.subplots(1, 3, figsize=(7.2, 2.4), gridspec_kw={"width_ratios": [1.3, 1, 0.8]})
+    ax = axs[2]; sc = summ.filter((pl.col("mode") == "corpus") & ~pl.col("condition").str.ends_with("__null")).sort("task_type"); xs = np.arange(sc.height)
+    ax.bar(xs - 0.2, sc["z_idea"], 0.4, color=DOM_COL["idea"]); ax.bar(xs + 0.2, sc["z_math"], 0.4, color=DOM_COL["math"])
+    ax.set_xticks(xs); ax.set_xticklabels(sc["task_type"].to_list(), fontsize=5.5, rotation=45); ax.set_ylabel("unsteered coupling (z)"); ax.axhline(0, color="k", lw=0.4); _panel(ax, "c")
     ax = axs[0]; s = summ.filter(pl.col("mode") == "prompts"); xs = np.arange(s.height)
     ax.bar(xs - 0.2, s["z_idea"], 0.4, color=DOM_COL["idea"], label="hub x Idea-specific"); ax.bar(xs + 0.2, s["z_math"], 0.4, color=DOM_COL["math"], label="hub x Math-specific")
     labels = [a + "\n" + b.replace("prompt_", "").replace("__null", "\nnull") for a, b in zip(s["task_type"], s["condition"])]
@@ -538,13 +627,14 @@ def cmd_coupling():
 
 
 # ================================================================ E4: event-locked averages
-def cmd_events(runs=("corpus1_math_a", "corpus1_math_b", "corpus1_idea_a", "corpus1_idea_b"), W: int = 64, n_null: int = 10):
+def cmd_events(runs=CORPUS_RUNS, W: int = 64, n_null: int = 10):
     from .phenotype import _segments_with_offsets
     meta, resid, _ = load_shards("corpus")
     if meta is None:
         print("[events] no corpus shards"); return
     dm = dmeta(); tn = dm["target_names"]; tok = load_tokenizer(); OUT.mkdir(parents=True, exist_ok=True)
     tag = JUDGE_MODEL.replace("/", "_")
+    runs = [r for r in runs if (DATA / "runs" / r / "traces_baseline.parquet").exists() and r in set(meta["run"].tolist())]
     tb = pl.concat([pl.read_parquet(p) for r in runs for p in sorted((DATA / "runs" / r / "judge").rglob(f"trackB_full__{tag}*.parquet"))], how="diagonal_relaxed").unique(["trace_id", "seg_idx"], keep="last")
     tr = pl.concat([pl.read_parquet(p, columns=["trace_id", "reasoning_text_for_analysis"]) for r in runs for p in sorted((DATA / "runs" / r).glob("traces_baseline.parquet"))])
     rtext = dict(zip(tr["trace_id"].to_list(), tr["reasoning_text_for_analysis"].to_list()))
@@ -604,10 +694,10 @@ def cmd_events(runs=("corpus1_math_a", "corpus1_math_b", "corpus1_idea_a", "corp
     for s, nm in enumerate(["dom19", "dom16", "a2"]):
         for b, beh in enumerate(BEH):
             ax = axs[s, b]
-            for dom in ("math", "idea"):
+            for dom in [d for d in DOMS5 if d in set(df["task_type"].unique().to_list())]:
                 g = df.filter((pl.col("behaviour") == beh) & (pl.col("task_type") == dom) & (pl.col("signal") == nm)).sort("rel_token")
                 if not g.height: continue
-                ax.plot(g["rel_token"], g["diff"], color=DOM_COL[dom], lw=0.8, label=dom if (s == 0 and b == 0) else None); ax.fill_between(g["rel_token"], g["lo"], g["hi"], color=DOM_COL[dom], alpha=0.15, lw=0)
+                ax.plot(g["rel_token"], g["diff"], color=DOM_COL[dom], lw=0.8, label=dom if (s == 0 and b == 0) else None); ax.fill_between(g["rel_token"], g["lo"], g["hi"], color=DOM_COL[dom], alpha=0.12, lw=0)
             ax.axvline(0, color="k", lw=0.4); ax.axhline(0, color="grey", lw=0.4, ls=":"); ax.set_xlim(-W, W); ax.set_xticks([-W, 0, W]); ax.tick_params(labelsize=5, length=2, pad=1)
             if s == 0: ax.set_title(short[beh], fontsize=6, pad=2)
             if b == 0: ax.set_ylabel({"dom19": "domain axis, layer 19", "dom16": "domain axis, layer 16", "a2": "A2 direction, layer 16"}[nm], fontsize=5.5); _panel(ax, "abc"[s])
@@ -617,10 +707,11 @@ def cmd_events(runs=("corpus1_math_a", "corpus1_math_b", "corpus1_idea_a", "corp
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["map", "taskset", "coupling", "events", "all"])
+    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["map", "taskset", "coupling", "events", "atlas", "all"])
     ap.add_argument("--tag", default="", help="taskset: '' (fixed filler) or 'varied' (one filler per item)")
     a = ap.parse_args()
     if a.cmd in ("map", "all"): cmd_map()
+    if a.cmd in ("atlas", "all"): cmd_atlas()
     if a.cmd in ("events", "all"): cmd_events()
     if a.cmd in ("coupling", "all"): cmd_coupling()
     if a.cmd in ("taskset", "all"): cmd_taskset(a.tag)

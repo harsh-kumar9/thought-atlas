@@ -28,6 +28,52 @@ can cross a "void" where the model's behaviour breaks or jumps, while a path tha
 behaviour smoothly. Our own asymmetry looks like that: Math-ward steering of Idea tasks works, Idea-ward steering of
 Math tasks loops at the same dose (D-23, D-24, D-38).
 
+## Big picture (2026-10-14, after E1-E6 and before the steering results)
+
+What we are going for. One claim in three parts. Reasoning models carry a mode state: a low-dimensional variable,
+set by the task demand before any task content, that organises how the model deliberates (which behaviours it shows,
+how long it takes, whether it commits).
+1. It is real and readable. The demand sets it at the instruction (E2); it lives in a few readout directions; a small
+   set of late attention heads write it (E1), and the MLPs that execute deliberation are domain-general (E1 hub).
+2. It is controllable, and what control buys is efficiency and style, not capability. Moving it changes the behaviour
+   profile and the tokens to finish; accuracy moves only through finishing within budget (P1, D-36, D-41, F3).
+3. It fails in a specific way. Pushing a task toward a mode the model never uses for that task (Idea-mode on Math)
+   produces loops; the centroid-line geometry does not explain this (E5), so the explanation to test is that the
+   steered states leave the region where the model has natural states (D-62).
+F1 to F3 in the paper are the behaviour-level versions of these three; the neuro-style experiments are the
+mechanism-level versions.
+
+What the brain comparison is for. Not analogy for its own sake. Sakai and Passingham give a standard measurement set
+for a task set (delay-period activity, magnitude vs coupling codes, event-locked time courses, conjunction across
+subjects, contrast maps). Running the same measurements on the model gives a table of matches and mismatches, and the
+table is the result:
+
+| measurement | brain (Sakai and Passingham 2003) | model (Qwen3.5-9B, this work) |
+|---|---|---|
+| instruction sets a state before the content | yes, sustained in the delay | yes: AUROC 0.93 at the instruction, held in the readout subspace through a 256-token delay, decays on the single axis |
+| domain is a magnitude code in specific regions | yes (SFS/SPL vs IFG/STG) | yes: late attention heads; the top 10% of components carry 70% of the gap |
+| a domain-general region driven by the instruction | anterior PFC | the layer 11-19 MLPs: most active in the readout subspace, equal across domains |
+| operation is a coupling code in the delay, not a magnitude code | yes (backward raises APF-SFS and APF-IFG coupling) | no: nothing in the delay; once reasoning starts the divergent instruction changes both magnitude (d about 1) and coupling (z doubles) |
+| convergent vs divergent operation | both coded (forward vs backward symmetric) | asymmetric: checking barely registers, exploring restructures the whole system (push-pull between MLP hub and Idea heads) |
+| anticipation before an event | readiness-like activity before action | the A2 direction rises during the sentence before a structured sentence in Math; the domain axis reacts at onset |
+
+What this changes in the plan.
+1. The Goodfire question is re-posed on real trajectories (D-62). Centroid lines were the wrong object: no void, and
+   the line is mostly content (cosine 0.16 with the axis). The claim to test: steering fails when it creates states
+   with no natural neighbours. Measure the 10-NN density of the actual steered states (line, data path, low-rank
+   signature and random arms) against the natural corpus, per trace, and relate it to loops.
+2. The component map gets a causal test (D-63). Ablate the top Idea-carrying heads (gate closed) during generation,
+   against Math-carrying heads and layer-matched random heads, and see whether the gap and the behaviour profile move.
+   If they do, heads are a second unit of control next to the residual vector and the behaviour profile.
+3. The SAE line stops at the gate result. The extra steering pair of D-61 is kept only if the ten-pair geometry shows
+   a line void above 1.2.
+4. The E2 delay is not where the action is for an LLM: the state is set at the instruction and re-expressed at
+   generation. Keep the result, do not elaborate it.
+
+Paper figures from this line: the component atlas (E1 + D-61); the task-set time course (E2); coupling restructuring
+under the exploratory instruction with the brain-model table (E3); the event-locked A2 lead (E4); steered-state density
+vs loops with the three vector families (E5 + D-62); the head-ablation test (D-63).
+
 ## Mapping
 
 | Brain term (Sakai) | Our term |
@@ -222,4 +268,13 @@ top-64 vector approaches it. If the gate fails, E6 is reported as the gate resul
   checkpointed and relaunched as four single-GPU jobs with disjoint arms (nm_idea_a: line_s0p5, line_pm; _b: line_s1p0,
   curve_s0p5; _c: curve_n0p5, rand_n0p5; _d: rand_n1p0); vsteer resumes partial traces. Outcome script:
   mc/neuro_steer_eval.py (loops, answered, tokens, math accuracy, paired vs the shared baselines; fig_neuro_steer).
+- 2026-10-14 02:30 UTC, D-61 ratified. Jobs: neuro_corp5 (component extraction on gpqa, planning, moral corpora) and
+  sigacts_moral (moral segment states for the ten-pair geometry). Analysis code for the five-domain atlas follows; the
+  extra steering pair waits for the geometry read.
+- 2026-10-14 03:00 UTC: big-picture section added above; D-62 (steered-state density) and D-63 (head ablation)
+  logged and built; both queue behind the running steering and D-61 jobs.
+- 2026-10-14 03:40 UTC, D-61 done: axis positions math -0.07 < gpqa 1.49 < planning 1.91 < idea 3.26 < moral 3.89;
+  territories disjoint (Jaccard <= 0.13; planning = layer-19 heads, idea = early MLPs); push-pull coupling identical in
+  every domain; A2 lead in the convergent domains only; no centroid line void above 1.19 -> no extra steering pair.
+  D-62 (states) and D-63 (abl1) jobs queued behind the steering runs and another session's jobs.
 

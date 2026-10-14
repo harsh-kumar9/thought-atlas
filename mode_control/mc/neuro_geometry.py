@@ -131,6 +131,136 @@ def cmd_geometry(layer: int, n_sample: int, k_graph: int, k_smooth: int, seed: i
     print("[geometry] neighbour mix along the curve (math, idea, gpqa, planning) at s=0,.25,.5,.75,1:", [np.round(mix_curve[i], 2).tolist() for i in (0, 5, 10, 15, 20)])
 
 
+def cmd_pairs(layer: int, n_sample: int, k_graph: int, k_smooth: int, seed: int):
+    """D-61: the line void ratio and the data-path detour for every centroid pair over the domains with sigctrl acts
+    (math, idea, gpqa, planning, moral). -> data/neuro/geometry_pairs_L<l>.json"""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import dijkstra
+    from sklearn.decomposition import PCA
+    from sklearn.neighbors import NearestNeighbors
+    doms = [d for d in DOMS + ["moral"] if (SIG / f"corpus1_{d}_a__acts.npz").exists()]
+    rng = np.random.default_rng(seed)
+    X, dom, mus = [], [], {}
+    for d in doms:
+        H, mu, n = _states(d, layer, n_sample, rng); X.append(H); dom += [d] * len(H); mus[d] = mu
+    X = np.concatenate(X); dom = np.array(dom)
+    pca = PCA(n_components=50, random_state=0).fit(X); Z = pca.transform(X).astype(np.float32)
+    nn = NearestNeighbors(n_neighbors=k_graph + 1).fit(Z); dist, nbr = nn.kneighbors(Z); d10_med = float(np.median(dist[:, 10]))
+    rows_ = np.repeat(np.arange(len(Z)), k_graph); cols = nbr[:, 1:].ravel(); w = dist[:, 1:].ravel()
+    G = coo_matrix((np.concatenate([w, w]), (np.concatenate([rows_, cols]), np.concatenate([cols, rows_]))), shape=(len(Z), len(Z))).tocsr()
+    zmu = {d: pca.transform(mus[d][None])[0] for d in doms}
+    near = {d: int(np.argmin(np.linalg.norm(Z - zmu[d], axis=1))) for d in doms}
+    D_all = {d: dijkstra(G, directed=False, indices=near[d]) for d in doms}
+    def d10(pts):
+        dd, _ = nn.kneighbors(pca.transform(pts), n_neighbors=10); return dd[:, 9] / d10_med
+    s_grid = np.linspace(0, 1, 21)
+    out = {"layer": layer, "domains": doms, "pairs": []}
+    for i, a in enumerate(doms):
+        for b in doms[i + 1:]:
+            line = mus[a][None] + s_grid[:, None] * (mus[b] - mus[a])[None]
+            v = d10(line)
+            Zl = pca.transform(line); _, nb = nn.kneighbors(Zl[10:11], n_neighbors=k_smooth); mid_mix = {d: float((dom[nb[0]] == d).mean()) for d in doms}
+            straight = float(np.linalg.norm(mus[b] - mus[a])); graph_len = float(D_all[a][near[b]])
+            rec = {"a": a, "b": b, "straight": straight, "graph_path": graph_len, "detour_ratio": graph_len / max(straight, 1e-6),
+                   "void_line": v.tolist(), "void_max": float(v.max()), "void_mid": float(v[10]), "void_ends": [float(v[0]), float(v[-1])], "mid_neighbour_mix": mid_mix}
+            out["pairs"].append(rec)
+    out["pairs"].sort(key=lambda r: -r["void_max"])
+    NEURO.mkdir(parents=True, exist_ok=True); (NEURO / f"geometry_pairs_L{layer}.json").write_text(json.dumps(out, indent=1))
+    print(f"[pairs] layer {layer}, {len(doms)} domains, {len(out['pairs'])} pairs (sorted by the largest line void ratio):")
+    for r in out["pairs"]:
+        print(f"   {r['a']:8s} -> {r['b']:8s} straight {r['straight']:5.2f}  path/straight {r['detour_ratio']:4.2f}  void mid {r['void_mid']:.2f} max {r['void_max']:.2f} ends {r['void_ends'][0]:.2f}/{r['void_ends'][1]:.2f}  mid mix " + ", ".join(f"{k} {v:.2f}" for k, v in r["mid_neighbour_mix"].items() if v >= 0.1))
+
+
+def _reference(layer: int, n_sample: int, seed: int):
+    """Natural-state reference: PCA-50 and a 10-NN index over n_sample states per domain (every domain with sigctrl acts)."""
+    from sklearn.decomposition import PCA
+    from sklearn.neighbors import NearestNeighbors
+    doms = [d for d in DOMS + ["moral"] if (SIG / f"corpus1_{d}_a__acts.npz").exists()]
+    rng = np.random.default_rng(seed); X, dom = [], []
+    for d in doms:
+        H, _, _ = _states(d, layer, n_sample, rng); X.append(H); dom += [d] * len(H)
+    X = np.concatenate(X); dom = np.array(dom)
+    pca = PCA(n_components=50, random_state=0).fit(X); Z = pca.transform(X).astype(np.float32)
+    nn = NearestNeighbors(n_neighbors=50).fit(Z); dist, _ = nn.kneighbors(Z, n_neighbors=11)
+    return doms, dom, pca, nn, float(np.median(dist[:, 10]))
+
+
+def cmd_density(layer: int, n_sample: int, seed: int):
+    """D-62: 10-NN density of the actual steered states (data/neuro/states/*.npz) against the natural corpus, per trace,
+    related to loops. -> data/neuro/analysis/density_traces.csv, density_arms.csv, density_summary.json, fig_neuro_density"""
+    import polars as pl
+    from scipy.stats import spearmanr, mannwhitneyu
+    doms, dom, pca, nn, d10_med = _reference(layer, n_sample, seed)
+    files = sorted((NEURO / "states").glob("*.npz"))
+    if not files:
+        print("[density] no state files"); return
+    rows = []
+    for f in files:
+        z = np.load(f, allow_pickle=True)
+        if int(z["layer"]) != layer: continue
+        H = z["H"].astype(np.float32); off = z["off"]
+        Zs = pca.transform(H); dd, nb = nn.kneighbors(Zs, n_neighbors=50)
+        ratio = dd[:, 9] / d10_med
+        mix = np.stack([(dom[nb] == d).mean(1) for d in doms], axis=1)                     # [n_states, n_dom]
+        for i in range(len(z["trace_id"])):
+            r = ratio[off[i]:off[i + 1]]; m = mix[off[i]:off[i + 1]].mean(0)
+            if len(r) == 0: continue
+            rows.append({"run": str(z["run"][i]), "condition": str(z["condition"][i]), "trace_id": str(z["trace_id"][i]), "task_type": str(z["task_type"][i]),
+                         "instance_id": str(z["instance_id"][i]), "seed": int(z["seed"][i]), "hard_loop": int(z["hard_loop"][i]), "soft_loop": int(z["soft_loop"][i]),
+                         "answered": int(z["answered"][i]), "n_new_tokens": int(z["n_new_tokens"][i]), "n_states": int(len(r)),
+                         "ratio_mean": float(r.mean()), "ratio_max": float(r.max()), "ratio_last": float(r[-1]), "frac_above_1p5": float((r > 1.5).mean()),
+                         **{f"mix_{d}": float(m[j]) for j, d in enumerate(doms)}, "mix_top": doms[int(np.argmax(m))]})
+    df = pl.DataFrame(rows); out = NEURO / "analysis"; out.mkdir(parents=True, exist_ok=True); df.write_csv(out / "density_traces.csv")
+    arms = []
+    for (run, cond), g in df.group_by(["run", "condition"], maintain_order=True):
+        lo, no = g.filter(pl.col("hard_loop") == 1)["ratio_mean"].to_numpy(), g.filter(pl.col("hard_loop") == 0)["ratio_mean"].to_numpy()
+        rho = spearmanr(g["ratio_mean"].to_numpy(), g["hard_loop"].to_numpy()).correlation if g["hard_loop"].n_unique() > 1 else np.nan
+        pmw = mannwhitneyu(lo, no, alternative="greater").pvalue if len(lo) > 2 and len(no) > 2 else np.nan
+        arms.append({"run": run, "condition": cond, "n": g.height, "loop_rate": float(g["hard_loop"].mean()), "answered": float(g["answered"].mean()),
+                     "ratio_mean": float(g["ratio_mean"].mean()), "ratio_mean_sd": float(g["ratio_mean"].std() or 0), "ratio_max_mean": float(g["ratio_max"].mean()),
+                     "frac_above_1p5": float(g["frac_above_1p5"].mean()), "ratio_loop": float(lo.mean()) if len(lo) else np.nan, "ratio_noloop": float(no.mean()) if len(no) else np.nan,
+                     "spearman_ratio_loop": float(rho) if rho == rho else np.nan, "p_loop_gt_noloop": float(pmw) if pmw == pmw else np.nan,
+                     **{f"mix_{d}": float(g[f"mix_{d}"].mean()) for d in doms}})
+    A = pl.DataFrame(arms).sort(["run", "ratio_mean"]); A.write_csv(out / "density_arms.csv")
+    pooled = {}
+    for run, g in df.group_by("run"):
+        rr = spearmanr(g["ratio_mean"].to_numpy(), g["hard_loop"].to_numpy()).correlation if g["hard_loop"].n_unique() > 1 else np.nan
+        # loop rate by ratio bin, pooled over arms of the run
+        edges = [0, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0, 99]; bins = []
+        for a_, b_ in zip(edges, edges[1:]):
+            gg = g.filter((pl.col("ratio_mean") >= a_) & (pl.col("ratio_mean") < b_))
+            if gg.height: bins.append({"lo": a_, "hi": b_, "n": gg.height, "loop_rate": float(gg["hard_loop"].mean())})
+        pooled[str(run[0] if isinstance(run, tuple) else run)] = {"spearman_ratio_loop": float(rr) if rr == rr else None, "loop_rate_by_ratio_bin": bins}
+    (out / "density_summary.json").write_text(json.dumps({"layer": layer, "d10_median": d10_med, "domains": doms, "pooled": pooled}, indent=1))
+    pl.Config.set_tbl_width_chars(230); pl.Config.set_tbl_rows(60); pl.Config.set_fmt_float("mixed")
+    print(A.select(["run", "condition", "n", "loop_rate", "answered", "ratio_mean", "ratio_max_mean", "frac_above_1p5", "ratio_loop", "ratio_noloop", "spearman_ratio_loop", "mix_top" if False else "mix_idea", "mix_math"]).with_columns(pl.col(pl.Float64).round(3)))
+    print("[density] pooled Spearman(ratio, loop) and loop rate by ratio bin:", json.dumps(pooled, indent=None)[:1500])
+    # figure: per-arm mean ratio (points: traces; loops in red) and the pooled loop rate by ratio bin
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    plt.rcParams.update({"font.size": 7, "axes.labelsize": 7, "legend.fontsize": 6.5, "xtick.labelsize": 6, "ytick.labelsize": 6.5, "axes.spines.top": False, "axes.spines.right": False, "savefig.dpi": 300, "pdf.fonttype": 42})
+    runs = A["run"].unique().to_list()
+    fig, axs = plt.subplots(1, len(runs) + 1, figsize=(7.2, 2.6), gridspec_kw={"width_ratios": [2] * len(runs) + [1.1]})
+    rng = np.random.default_rng(0)
+    for k, run in enumerate(runs):
+        ax = axs[k]; a_ = A.filter(pl.col("run") == run).sort("ratio_mean"); conds = a_["condition"].to_list()
+        for j, c in enumerate(conds):
+            g = df.filter((pl.col("run") == run) & (pl.col("condition") == c))
+            x = j + rng.uniform(-0.25, 0.25, g.height); y = g["ratio_mean"].to_numpy(); lp = g["hard_loop"].to_numpy() == 1
+            ax.scatter(x[~lp], y[~lp], s=3, color="#1b6ca8", alpha=0.35, lw=0, rasterized=True); ax.scatter(x[lp], y[lp], s=4, color="#c7521d", alpha=0.7, lw=0, rasterized=True)
+            ax.plot([j - 0.3, j + 0.3], [y.mean(), y.mean()], color="k", lw=1)
+        ax.axhline(1.0, color="grey", lw=0.5, ls=":"); ax.set_xticks(range(len(conds))); ax.set_xticklabels([c.replace("_", " ") for c in conds], rotation=90)
+        ax.set_ylabel("mean 10-NN ratio of the trace's states"); ax.set_title(run); ax.text(-0.1, 1.05, "ab"[k], transform=ax.transAxes, fontsize=9, fontweight="bold")
+    ax = axs[-1]
+    for run, col in zip(runs, ("#1b6ca8", "#c7521d")):
+        b = pooled[run]["loop_rate_by_ratio_bin"]
+        ax.plot([(x["lo"] + min(x["hi"], 3)) / 2 for x in b], [x["loop_rate"] for x in b], marker="o", ms=3, color=col, label=run)
+    ax.set_xlabel("mean 10-NN ratio (bin centre)"); ax.set_ylabel("hard-loop rate"); ax.legend(frameon=False); ax.text(-0.15, 1.05, "c", transform=ax.transAxes, fontsize=9, fontweight="bold")
+    fig.tight_layout(); fd = NEURO / "figures"; fd.mkdir(parents=True, exist_ok=True)
+    fig.savefig(fd / "fig_neuro_density.pdf", bbox_inches="tight"); fig.savefig(fd / "fig_neuro_density.png", bbox_inches="tight"); print("[density] ->", fd / "fig_neuro_density.pdf")
+
+
 def _curve_point(g, t: float):
     s, C = g["curve_s"], g["curve"]
     return np.array([np.interp(t, s, C[:, j]) for j in range(C.shape[1])])
@@ -235,11 +365,13 @@ def cmd_figure(layer: int):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["geometry", "vectors", "runs", "figure"])
+    ap.add_argument("cmd", choices=["geometry", "vectors", "runs", "figure", "pairs", "density"])
     ap.add_argument("--layer", type=int, default=16); ap.add_argument("--n-sample", type=int, default=10000)
     ap.add_argument("--k-graph", type=int, default=15); ap.add_argument("--k-smooth", type=int, default=50); ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
     if a.cmd == "geometry": cmd_geometry(a.layer, a.n_sample, a.k_graph, a.k_smooth, a.seed)
+    elif a.cmd == "pairs": cmd_pairs(a.layer, a.n_sample, a.k_graph, a.k_smooth, a.seed)
+    elif a.cmd == "density": cmd_density(a.layer, a.n_sample, a.seed)
     elif a.cmd == "vectors": cmd_vectors(a.layer, a.seed + 11)
     elif a.cmd == "figure": cmd_figure(a.layer)
     else: cmd_runs(a.layer)

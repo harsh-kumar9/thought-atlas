@@ -5,7 +5,7 @@ traces parquet per condition: traces_<condition>.parquet (resumable per instance
 
 Condition spec keys:
   name              unique
-  mode              baseline | gamma | add | swap | random
+  mode              baseline | gamma | add | swap | random | target | ablate (D-63: "heads": [[layer, kind, head], ...])
   direction         key in directions npz, e.g. prompt_r1 | rawdom_r1 | prompt_r2   (not for baseline/random)
   layer, phase      which fitted direction (phase = center/mu source, e.g. mean32)
   gamma / alpha_sd  gamma for mode=gamma; alpha in units of baseline projection SD for mode=add
@@ -82,6 +82,13 @@ def build_steerers(cond: dict, dirs) -> list[tuple[int, Steerer]]:
     mode = cond["mode"]
     if mode in ("baseline", "prompt_only"):
         return []
+    if mode == "ablate":
+        # D-63: cond["heads"] = [[layer, kind, head], ...]; one ablator per layer, attached as a pre-hook on the projection
+        from .common import HeadAblator
+        by_layer: dict[int, list[int]] = {}
+        for l, _kind, h in cond["heads"]:
+            by_layer.setdefault(int(l), []).append(int(h))
+        return [(l, HeadAblator(hs)) for l, hs in sorted(by_layer.items())]
     if mode == "target":
         # signature controller: cond = {"map": "<npz under data/sigctrl>", "phi_star": [k] or "archetype:<name>", "gain": g, "lam": l, "mask": [k]}
         z = np.load(DATA / "sigctrl" / cond["map"], allow_pickle=True)
@@ -225,7 +232,7 @@ def generate_condition(model, tok, cond: dict, tasks: pl.DataFrame, dirs, *, out
         torch.manual_seed(seed); torch.cuda.manual_seed_all(seed)
         hooks = []
         for l, st in steerers:
-            st.reset(); hooks.append(layers[l].register_forward_hook(st))
+            st.reset(); hooks.append(st.attach(layers[l]) if hasattr(st, "attach") else layers[l].register_forward_hook(st))
         t0 = time.time()
         try:
             with torch.no_grad():

@@ -1072,3 +1072,153 @@ survive the correct grading: the picture prompt changes the method (31% of sampl
 solves are within noise. Steering along its direction: 66% unsteered, 55% at x2, 43% at x4, 68% random.
 
 Correction (2026-09-28): the "off the usual method" shares above used an arbitrary mode (polars group_by().first() after a sort). Tie-aware values: unprompted 5%, "work backwards" 14%, "try small cases" 18%, "draw a picture" 29%; steering: unsteered 5%, direction x2 9%, x4 13%, random 8%. See D-47 outcome.
+
+## Re-graded older runs (D-47 follow-up, 2026-10-07). These supersede the math accuracies above for power1, pilot3, sched1, sched1_d1, sigx_math.
+Free-text extraction (jobs 378510/378511) over 5,624 math traces, graded as in D-47 (`mc/regrade_report.py`,
+data/extract_free2/report.csv). The direct grader had missed 743 correct answers and credited 26 from unfinished traces.
+Paired change vs each run's unsteered arm (per-task mean over seeds, 95% task bootstrap); old direct-grader value in brackets.
+Unsteered levels: power1 65% (12k budget), sched1 59% (12k), sigx_math 57% (12k), pilot3 45% (4k).
+
+| run | arm | accuracy change |
+|---|---|---|
+| power1 | Idea-ward band +0.5 gap (sustained, layers 12-24) | **-20 (-29, -11)** [-13] |
+| power1 | Math-ward band -1 gap | -23 (-33, -13) [-13], 46% loops |
+| power1 | reflect gamma -1 / -3 at L19 | -3 (-11, +5) / -1 (-9, +8) [-1 / 0] |
+| power1 | random band | +3 (-4, +9) |
+| power1 | "explore" prompt / "check" prompt | **+12 (+5, +19)** [+9] / +5 (-1, +12) |
+| pilot3 | Idea-ward +1 / +2 gap at L19, band +0.25 / +0.5 gap (4k budget) | -13 / -20 / -15 / -23 |
+| sched1 | sustained Idea-ward, +2 gap at L19 | **-15 (-23, -8)** [-13] |
+| sched1 | sustained Math-ward, -2 gap at L19 | **+8 (+1, +14)** [+5, ns before] |
+| sched1 | explore -> check / check -> explore (switch at half length) | +7 (0, +13) / -7 (-13, +1) |
+| sched1 | random -> opposite | +5 (-2, +11) |
+| sched1_d1 (half dose) | Math-ward / Idea-ward / random schedule | +6 (0, +12) / -3 (-9, +4) / +9 (+3, +15) |
+| sigx_math | Idea A4 (low shift) same vector | **+19 (+13, +25)** [+11] |
+| sigx_math | Idea A3 same vector / absolute A3 profile | -16 (-24, -9) / -55 (-61, -48) |
+| sigx_math | random open / closed | -12 / -14 |
+
+What changes: (1) the cost of exploring on Math has a size now, about 15-20 points at a 12k budget, larger than the old
+grader showed; (2) sustained Math-ward steering along the rank-one direction now helps a little at 12k (+8 on sched1)
+instead of "unchanged", while the gamma reflection at L19 (power1) stays at zero; (3) the order effect stands: check ->
+explore sits about 12 points below explore -> check; (4) at half dose the random schedule also helps (+9), so small
+generic perturbations are not always harmful at 12k, and half-dose schedule contrasts should be read against it;
+(5) Idea A4 on Math is +19, close to A2's +24 on the same tasks.
+
+## Atlas re-graded (D-49, 2026-10-07): accuracy per model, free-text extraction, unfinished counts as wrong
+| model | math | gpqa | planning | security (WMDP) | math, canonical file |
+|---|---|---|---|---|---|
+| Llama-3.1-8B (anchor) | 45.8 | 27.2 | 49.2 | 40.4 | 39.6 |
+| R1-Distill-Llama-8B | 83.4 | 45.2 | 57.2 | 28.6 | 79.7 |
+| Gemma-4-E4B | 92.0 | 53.2 | 83.8 | 61.8 | 55.2 |
+| Gemma-4-12B | 97.0 | 61.6 | 89.4 | 56.2 | 45.8 |
+| Gemma-4-31B | 98.2 | 78.0 | 93.8 | 84.4 | 47.4 |
+| Qwen3.5-4B | 80.6 | 53.8 | 76.0 | 28.4 | 53.2 |
+| Qwen3.5-9B | 86.2 | 67.2 | 88.6 | 46.4 | 54.3 |
+| Qwen3.5-27B | 87.6 | 77.8 | 92.8 | 75.6 | 57.2 |
+500 tasks per cell. On finished traces the Qwen models are at 98-100% on math; their lower numbers here are truncation at
+65k tokens. The canonical file excludes unfinished traces, which is why its MCQ numbers are higher for the Qwen models
+(e.g. Qwen3.5-4B security 76% on the 36% of traces that finished). Any atlas outcome analysis (prefix monitor,
+timing-vs-level, paper RQ outcome models) built on the canonical math grades should be re-run on the new file.
+
+## D-51 Society of Thought crossover: Countdown side (2026-10-07; cd_countdown, 200 four-number tasks x 2 seeds, 32k budget)
+| arm (layer 16, norm 6.75) | 4k | 8k | 12k | 16k | 32k | loops | median tokens |
+|---|---|---|---|---|---|---|---|
+| unsteered | 0% | 5% | 22% | 44% | 62% | 36% | 18.5k |
+| A2 (structure) | 23% | 66% | **85%** | 90% | **93%** | 1% | 6.4k |
+| conv_down | 21% | 60% | 69% | 70% | 71% | 29% | 6.8k |
+| conv_up | 0% | 0% | **1%** | 3% | **7%** | 87% | 32.8k (cap) |
+| random | 0% | 2% | 6% | 15% | 24% | 73% | 32.8k (cap) |
+Paired vs unsteered at 32k: A2 +31 (+26, +36), conv_down +8.5 (+2.5, +15), conv_up -55 (-61, -49), random -38 (-44, -32).
+Accuracy among answered traces is 90-100% in every arm: on Countdown, as on Math, the score is set by whether the model
+commits to an answer before the budget. A typical conv_up trace finds a valid equation early and then keeps asking itself
+whether a simpler one exists until the budget ends. The pre-registered prediction (conversational-up helps Countdown) fails
+on Qwen3.5-9B at this dose; the dose follow-up (D-51b) and the Track B manipulation check are running.
+
+### D-51 Math side and the pre-registered contrast (cd_math + p1_budget arms, 199 tasks x 2 seeds, free-text grades)
+| arm | 12k | 32k | change at 12k | change at 32k | loops |
+|---|---|---|---|---|---|
+| unsteered | 56% | 86% | | | 9% |
+| A2 | 83% | 93% | +27 (+22, +32) | +7 (+3, +11) | 0.5% |
+| conv_down | 80% | 92% | +24 (+19, +29) | +6 (+2, +9) | 6% |
+| conv_up | 10% | 19% | -46 (-52, -40) | -68 (-73, -63) | 75% |
+| random | 49% | 79% | -7 (-13, -3) | -8 (-13, -2) | 16% |
+Pre-registered contrast at 12k, (conv_up - A2) on Countdown minus (conv_up - A2) on Math: -11 (-18, -5), the opposite
+sign to the prediction. No crossover. On both tasks more conversational behaviour costs accuracy and less of it helps
+(on Math about as much as A2). On Math the cost is specific to the direction: a random vector of the same norm costs 7
+points with 16% loops, conv_up 46 points with 75% loops. Reading so far: on Qwen3.5-9B the Society of Thought behaviours
+behave like exploration without a stopping rule, on a search task too. Still to come: the 0.25x / 0.5x doses (D-51b) and
+the Track B check that conv_up raises the four conversational rates.
+
+### D-51b dose follow-up on Countdown (post hoc; same 200 tasks x 2 seeds)
+| arm | norm | 12k | 32k | loops |
+|---|---|---|---|---|
+| unsteered | 0 | 22% | 62% | 37% |
+| conv_up 0.25x / random 0.25x | 1.7 | 11% / 19% | 49% / 57% | 51% / 44% |
+| conv_up 0.5x / random 0.5x | 3.4 | 4% / 15% | 32% / 48% | 68% / 52% |
+| conv_up 1x / random 1x | 6.75 | 1% / 6% | 7% / 24% | 92% / 76% |
+Paired conv_up minus random at the same norm, 32k: -7.5 (-14, -1.5) at 0.25x, -16 (-21.5, -11) at 0.5x, -17 (-21.5, -12.5)
+at 1x. Versus unsteered: -13 (-20, -6), -30 (-36, -24), -55. The harm grows with dose and is larger than a random push of
+the same size at every dose, so it is not a dose artefact. On Qwen3.5-9B, raising conversational behaviour does not help
+Countdown at any dose tried. (Math dose arms are being graded, job 379474.)
+
+### D-51 manipulation check on Math (Track B, seed 1, 199 tasks, 8k window; rate points x 100 vs unsteered)
+conv_up: Q&A +14.0 (+13.0, +15.1), perspective shift +6.6 (+5.9, +7.4), conflict +4.1 (+3.7, +4.5), reconciliation +1.5
+(+1.1, +1.9), verification -4.5, backtracking +1.4, subgoal -4.1. Unsteered rates: Q&A 9.7, shift 12.7, conflict 3.8,
+reconciliation 4.5. The vector raises all four conversational behaviours, as Society of Thought's positive steering did,
+and accuracy still falls by 46 points at 12k. A2's shift on the same tasks reproduces P1 (subgoal +7.4, Q&A -2.9,
+verification -3.3). Countdown and the conv_down / dose arms are being labelled.
+
+### D-51b dose follow-up on Math (cd_math, 199 tasks x 2 seeds, free-text grades)
+conv_up at 0.25x / 0.5x / 1x of A2's norm: -13 (-18, -8) / -23 (-29, -18) / -46 (-52, -40) at 12k; -8 (-13, -3) / -22 (-28, -16)
+/ -68 (-73, -63) at 32k. A full-norm random vector costs -7 at 12k, so even the quarter dose of conv_up is worse than a random
+push four times its size. The harm is monotone in dose on both tasks; there is no dose at which more conversational
+behaviour helps.
+
+## F1 minimal pairs (D-50), provisional: noise floor (second samples) still generating
+80 MATH-500 + 80 GPQA items x {solve_free, solve_mcq, generate, evaluate}; one sample each; Track B over the first 8k
+reasoning tokens (truncated traces included, D-50 note). Distances in the atlas log-ratio metric over the 8 behaviour rates.
+
+Within-item distance, mean over 160 items (95% item bootstrap), and topic distance between items at the same prompt type:
+| model | format (free vs MCQ) | solve vs generate | solve vs evaluate | generate vs evaluate | between items, other topic / same topic |
+|---|---|---|---|---|---|
+| Qwen3.5-9B | 0.69 (0.63, 0.76) | 0.92 (0.86, 0.99) | 0.75 (0.68, 0.82) | 1.00 | 1.00 / 0.87 |
+| Gemma-4-12B | 1.01 (0.92, 1.09) | 1.65 (1.55, 1.74) | 1.24 (1.12, 1.35) | 1.88 | 1.60 / 1.30 |
+| R1-Distill-Llama-8B | 0.87 (0.75, 1.00) | 0.81 (0.71, 0.93) | 0.91 (0.80, 1.02) | 0.97 | 2.09 / 1.38 |
+
+Each model's atlas domain classifier (8 domains, same 8k window, F1 items held out; CV accuracy Qwen 0.69, Gemma 0.66,
+R1 0.61) applied to the F1 traces, share predicted as each domain:
+- Qwen: math solve_free 56% math; math generate 0% math (code 30%, security 28%, moral 18%, gpqa 12%, idea 1%); math
+  evaluate 45% math; math MCQ 40% math, 20% gpqa, 18% planning. GPQA generate 9% gpqa (security 30%, moral 21%).
+- Gemma: math solve_free 62% math; math generate 26% math, 40% idea, 14% moral; GPQA generate 0% gpqa, 35% math, 28% idea.
+  GPQA MCQ 50% gpqa vs GPQA free 29%.
+- R1: math solve_free 65% math, math generate 54% math; GPQA traces are 50-54% gpqa under every prompt type.
+Prompt-time states (last prompt token, Qwen and R1; see the projection table): Qwen moves 0.55-0.6 of the Math->Idea gap for
+generate prompts and 0.03-0.07 for the MCQ format; R1's state moves with format as much as with demand.
+
+Reading against the D-50 predictions: (1) demand moves the profile more than format in Qwen and Gemma, not in R1; (2) generate
+prompts on math content leave the math class in Qwen (0% math) and become idea-like in Gemma (idea + moral 54% vs math 26%),
+but stay math in R1; (3) demand is readable at the prompt in Qwen, not in R1. So "deliberation follows task demand" holds
+for two of three models; R1-Distill's deliberation follows topic. In Qwen, "list approaches" does not look like idea
+generation either; it falls into no atlas domain. The noise floor decides whether the format distances (0.69-1.01) are
+above sampling noise.
+
+### F1 with the noise floor (D-50 amendment; second samples, seed 43, of every solve_free and generate prompt)
+Distance between two samples of the same prompt: Qwen 0.52 (solve) / 0.49 (generate), Gemma 0.78 / 1.00, R1 0.78 / 0.85. Effects
+are estimated from cross-sample pairs so both sides carry the same noise (format = d(solve_free s2, solve_mcq s1) minus the
+solve noise; demand = d(solve_free s2, generate s1) minus the mean of the two noises), 160 items, item bootstrap:
+| model | format excess | demand excess (generate) | demand minus format |
+|---|---|---|---|
+| Qwen3.5-9B | +0.15 (+0.08, +0.22) | +0.43 (+0.37, +0.49) | +0.26 (+0.18, +0.34) |
+| Gemma-4-12B | +0.23 (+0.13, +0.32) | +0.77 (+0.66, +0.88) | +0.65 (+0.51, +0.79) |
+| R1-Distill-Llama-8B | +0.10 (-0.03, +0.23) | +0.01 (-0.08, +0.09) | -0.06 (-0.19, +0.08) |
+F1 verdict: in Qwen3.5-9B and Gemma-4-12B the task's demand moves deliberation about three times as much as the answer format,
+and both are above sampling noise; the prompt-time state (Qwen) already carries the demand. In R1-Distill neither format nor
+demand moves the behaviour profile beyond noise; its traces are organised by topic (between-item distance 2.09 across topics
+vs 1.38 within). The format effect the CoT Encyclopedia reports is real but small next to demand in the two newer reasoning
+models.
+
+### D-51 manipulation check on Countdown (Track B seed 1, 200 tasks; points x 100 vs unsteered)
+Unsteered Countdown rates: Q&A 18.2, perspective shift 22.5, conflict 6.3, reconciliation 2.7, verification 22.5, subgoal 6.5,
+backward chaining 8.0. conv_up: Q&A +9.8 (+8.2, +11.4), shift +1.8 (+0.8, +2.8), conflict +0.9 (+0.5, +1.3), reconciliation
+-0.7 (-0.9, -0.4), verification -5.2. Dose-ordered: Q&A +2.4 at 0.25x, +5.4 at 0.5x. conv_down: Q&A -12.8, shift -6.7. Random
+vectors move Q&A by -3.5 at 1x and ~0 at 0.25x. The vector raises three of the four conversational behaviours on Countdown
+(all four on Math), mostly self-questioning, and accuracy falls at every dose.

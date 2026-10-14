@@ -13,7 +13,9 @@
 #SBATCH --open-mode=append
 #SBATCH --output=mode_control/outputs/%x_%j.log
 set -euo pipefail
-cleanup() { rc=$?; pkill -9 -P $$ 2>/dev/null || true; if [ "$rc" -ne 0 ]; then pkill -9 -u "$USER" -f "VLLM::EngineCore" 2>/dev/null || true; fi; }
+# On failure kill only processes on THIS job's GPU. (Until 2026-10-07 this ran `pkill -u $USER -f VLLM::EngineCore`, which
+# killed every vLLM engine of ours on the node, including healthy jobs that shared it; SLURM's cgroup cleanup handles the rest.)
+cleanup() { rc=$?; pkill -9 -P $$ 2>/dev/null || true; if [ "$rc" -ne 0 ]; then for p in $(nvidia-smi -i "${CUDA_VISIBLE_DEVICES:-0}" --query-compute-apps=pid --format=csv,noheader 2>/dev/null); do kill -9 "$p" 2>/dev/null || true; done; fi; }
 trap cleanup EXIT
 export OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false
 export HF_HOME=/ada1/u/harsh/.cache/huggingface HF_HUB_CACHE=/ada1/u/harsh/.cache/huggingface HF_HUB_DISABLE_XET=1 HF_HUB_OFFLINE=1
@@ -21,10 +23,13 @@ export XDG_CACHE_HOME=/ada1/u/harsh/.cache VLLM_CACHE_ROOT=/ada1/u/harsh/.cache/
 export TRITON_CACHE_DIR=/ada1/u/harsh/.cache/triton TORCHINDUCTOR_CACHE_DIR=/ada1/u/harsh/.cache/torchinductor
 export VLLM_USE_FLASHINFER_SAMPLER=0 VLLM_WORKER_MULTIPROC_METHOD=spawn VLLM_NO_USAGE_STATS=1 VLLM_DO_NOT_TRACK=1
 export XDG_CONFIG_HOME=/ada1/u/harsh/.config MPLCONFIGDIR=/ada1/u/harsh/.cache/matplotlib TMPDIR=/ada1/u/harsh/tmp
+# CUDA's JIT cache and flashinfer's workspace default to the NFS home; jobs hung for hours in rpc_wait on
+# /h/224/harsh/.nv/ComputeCache/index (2026-10-03, again 2026-10-07). Keep both on /ada1.
+export CUDA_CACHE_PATH=/ada1/u/harsh/.cache/nv/ComputeCache FLASHINFER_WORKSPACE_BASE=/ada1/u/harsh/.cache
 export PYTHONPATH=/ada1/u/harsh/thought-atlas:${PYTHONPATH:-}
 export MC_MODEL=${MC_MODEL:-qwen35_9b}
 if [ "$MC_MODEL" = qwen35_9b ]; then DD=mode_control/data; else DD=mode_control/data/$MC_MODEL; fi
-mkdir -p /ada1/u/harsh/.config /ada1/u/harsh/.cache/matplotlib /ada1/u/harsh/tmp
+mkdir -p /ada1/u/harsh/.config /ada1/u/harsh/.cache/matplotlib /ada1/u/harsh/tmp /ada1/u/harsh/.cache/nv/ComputeCache
 cd /ada1/u/harsh/thought-atlas
 pwd; hostname; date; nvidia-smi -L; echo "CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-}"
 USED=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits -i "${CUDA_VISIBLE_DEVICES:-0}" | head -1)
@@ -92,11 +97,18 @@ case "$STAGE" in
          MASTER_ADDR=127.0.0.1 MASTER_PORT=$((30000 + SLURM_JOB_ID % 10000)) VLLM_PORT=$((40000 + SLURM_JOB_ID % 10000)) \
          python -m src.generate.generate_traces --config mode_control/configs/exp_f1.yaml --gen-model "$M" --tasks-dir mode_control/data/f1/tasks \
            --out-dir mode_control/data/f1/traces --shard "$SH" --num-shards "$NS" ;;
+  f1gen2) M=${1:?model}   # D-50 noise floor: second sample (seed 43) of the solve_free and generate prompts
+         MASTER_ADDR=127.0.0.1 MASTER_PORT=$((30000 + SLURM_JOB_ID % 10000)) VLLM_PORT=$((40000 + SLURM_JOB_ID % 10000)) \
+         python -m src.generate.generate_traces --config mode_control/configs/exp_f1_s2.yaml --gen-model "$M" --tasks-dir mode_control/data/f1/tasks_s2 \
+           --out-dir mode_control/data/f1/traces_s2 ;;
   f1acts) MC_MODEL=${1:?model} python -m mode_control.mc.f1_pairs acts ;;
   freexg) XF_IN=${1:?in_dir} XF_OUT=${2:?out_dir} python -m mode_control.mc.extract_free extract --shard "${3:?shard}" --num-shards "${4:?n}" ;;
   freexa) XF_IN=data/v2/extract_free_atlas/in XF_OUT=data/v2/extract_free_atlas/out python -m mode_control.mc.extract_free extract --shard "${1:?shard}" --num-shards "${2:?n}" ;;
   vgen) RUN=${1:?run}; CONDS=${2:-}; python -m mode_control.mc.vsteer gen --run "$RUN" ${CONDS:+--conditions "$CONDS"} ;;
   budget) RUN=${1:?run}; python -m mode_control.mc.budget --run "$RUN" ;;
+  neuro) MODE=${1:?mode}; shift; python -m mode_control.mc.neuro_extract "$MODE" "$@" ;;   # D-55..D-58: smoke | corpus | prompts | taskset
+  neuro_an) python -m mode_control.mc.neuro_analyze "${1:-all}" ;;
+  neuro_sae) CMD=${1:?cmd}; shift; python -m mode_control.mc.neuro_sae "$CMD" "$@" ;;   # D-60 (fetch runs on ada, not in a job)
   *) echo "unknown stage $STAGE"; exit 2 ;;
 esac
 date

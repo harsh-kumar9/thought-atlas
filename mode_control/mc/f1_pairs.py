@@ -156,24 +156,27 @@ def cmd_tasks():
     ex = rows["math"][1]["prompt"]; print("[f1 tasks] example math solve_mcq:\n" + ex[-400:])
 
 
-def cmd_judge_in():
+def cmd_judge_in(suffix: str = ""):
     """Merged traces -> judge input with reasoning_text_for_analysis cut to the first WINDOW tokens of each model's tokenizer."""
     from transformers import AutoTokenizer
-    (F1 / "judge_in").mkdir(parents=True, exist_ok=True)
+    (F1 / f"judge_in{suffix}").mkdir(parents=True, exist_ok=True)
     for key, hf in GEN_MODELS.items():
-        p = F1 / "traces" / f"traces_{key}.parquet"
+        p = F1 / f"traces{suffix}" / f"traces_{key}.parquet"
         if not p.exists():
             print(f"[f1 judge_in] {key}: no merged traces yet"); continue
         tok = AutoTokenizer.from_pretrained(hf)
         t = pl.read_parquet(p)
         cut = []
-        for x in t["reasoning_text_for_analysis"].to_list():
+        # the atlas generator leaves reasoning_text_for_analysis empty when the budget ends inside <think>; the first 8k tokens of
+        # such a trace are still its opening reasoning, so fall back to think_text (D-50 note; finished-only is a robustness check)
+        src = [r if r else th for r, th in zip(t["reasoning_text_for_analysis"].to_list(), t["think_text"].to_list())]
+        for x in src:
             if not x:
                 cut.append(x); continue
             ids = tok(x, add_special_tokens=False)["input_ids"]
             cut.append(x if len(ids) <= WINDOW else tok.decode(ids[:WINDOW]))
         t = t.with_columns(pl.Series("reasoning_text_for_analysis", cut), pl.lit("baseline").alias("condition"))
-        t.write_parquet(F1 / "judge_in" / f"traces_{key}.parquet")
+        t.write_parquet(F1 / f"judge_in{suffix}" / f"traces_{key}.parquet")
         print(f"[f1 judge_in] {key}: {t.height} traces, {sum(1 for x in cut if x)} with reasoning text")
 
 
@@ -181,7 +184,7 @@ def cmd_acts():
     import torch
     from .common import GEN_MODEL_KEY, decoder_layers, load_model, load_tokenizer, render_prompt, _layer_output
     tok = load_tokenizer(); model = load_model(); dl = decoder_layers(model)
-    tasks = pl.concat([pl.read_parquet(F1 / "tasks" / f"{t}.parquet") for t in ("math", "gpqa")])
+    tasks = pl.concat([pl.read_parquet(F1 / "tasks" / f"{t}.parquet").with_columns(pl.col("difficulty_raw").cast(pl.Utf8)) for t in ("math", "gpqa")])
     got = {}
     hs = [l.register_forward_hook(lambda m, a, o, i=i: got.__setitem__(i, _layer_output(o)[0, -1].float().cpu().numpy())) for i, l in enumerate(dl)]
     H = np.zeros((tasks.height, len(dl), int(getattr(model.config, "text_config", model.config).hidden_size)), np.float16)
@@ -204,8 +207,12 @@ def cmd_acts():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["tasks", "judge_in", "acts"])
+    ap.add_argument("--suffix", default="", help='judge_in: "" for the main samples, "_s2" for the noise-floor samples')
     a = ap.parse_args()
-    {"tasks": cmd_tasks, "judge_in": cmd_judge_in, "acts": cmd_acts}[a.cmd]()
+    if a.cmd == "judge_in":
+        cmd_judge_in(a.suffix)
+    else:
+        {"tasks": cmd_tasks, "acts": cmd_acts}[a.cmd]()
 
 
 if __name__ == "__main__":

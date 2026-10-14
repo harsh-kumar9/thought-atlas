@@ -1,0 +1,132 @@
+{
+ "nm_toward_idea_line_s0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_idea",
+  "layer": 16,
+  "norm": 3.909363269805908,
+  "axis_proj": 0.6321744918823242,
+  "axis_proj_rel_gap": 0.5,
+  "s": 0.5
+ },
+ "nm_toward_idea_line_s1p0": {
+  "source": "neuro_geometry",
+  "direction": "toward_idea",
+  "layer": 16,
+  "norm": 7.818726539611816,
+  "axis_proj": 1.2643489837646484,
+  "axis_proj_rel_gap": 1.0,
+  "s": 1.0
+ },
+ "nm_toward_idea_curve_s0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_idea",
+  "layer": 16,
+  "norm": 7.560301275889234,
+  "axis_proj": 0.8801113228310928,
+  "axis_proj_rel_gap": 0.6960984143875586,
+  "s": 0.5
+ },
+ "nm_toward_idea_curve_n0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_idea",
+  "layer": 16,
+  "norm": 3.918564198805797,
+  "axis_proj": 0.4388659632305377,
+  "axis_proj_rel_gap": 0.3471082500685825,
+  "s": 0.1705,
+  "norm_matched_to": "line_s0p5"
+ },
+ "nm_toward_idea_line_pm": {
+  "source": "neuro_geometry",
+  "direction": "toward_idea",
+  "layer": 16,
+  "norm": 2.713944435119629,
+  "axis_proj": 0.4388660192489624,
+  "axis_proj_rel_gap": 0.34710830450057983,
+  "s": 0.3471082500685825,
+  "projection_matched_to": "curve_n0p5"
+ },
+ "nm_toward_idea_rand_n0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_idea",
+  "layer": 16,
+  "norm": 3.909363269805908,
+  "axis_proj": -0.01585637778043747,
+  "axis_proj_rel_gap": -0.012541140429675579,
+  "norm_matched_to": "line_s0p5"
+ },
+ "nm_toward_idea_rand_n1p0": {
+  "source": "neuro_geometry",
+  "direction": "toward_idea",
+  "layer": 16,
+  "norm": 7.818726539611816,
+  "axis_proj": 0.13312382996082306,
+  "axis_proj_rel_gap": 0.10529041290283203,
+  "norm_matched_to": "line_s1p0"
+ },
+ "nm_toward_math_line_s0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_math",
+  "layer": 16,
+  "norm": 3.909363269805908,
+  "axis_proj": -0.6321744918823242,
+  "axis_proj_rel_gap": -0.5,
+  "s": 0.5
+ },
+ "nm_toward_math_line_s1p0": {
+  "source": "neuro_geometry",
+  "direction": "toward_math",
+  "layer": 16,
+  "norm": 7.818726539611816,
+  "axis_proj": -1.2643489837646484,
+  "axis_proj_rel_gap": -1.0,
+  "s": 1.0
+ },
+ "nm_toward_math_curve_s0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_math",
+  "layer": 16,
+  "norm": 7.865579768149807,
+  "axis_proj": -0.38423784753565093,
+  "axis_proj_rel_gap": -0.30390173319993324,
+  "s": 0.5
+ },
+ "nm_toward_math_curve_n0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_math",
+  "layer": 16,
+  "norm": 3.918564034450195,
+  "axis_proj": -0.134803862900536,
+  "axis_proj_rel_gap": -0.10661918871414144,
+  "s": 0.1705,
+  "norm_matched_to": "line_s0p5"
+ },
+ "nm_toward_math_line_pm": {
+  "source": "neuro_geometry",
+  "direction": "toward_math",
+  "layer": 16,
+  "norm": 0.8336262106895447,
+  "axis_proj": -0.1348038762807846,
+  "axis_proj_rel_gap": -0.1066192016005516,
+  "s": 0.10661918871414144,
+  "projection_matched_to": "curve_n0p5"
+ },
+ "nm_toward_math_rand_n0p5": {
+  "source": "neuro_geometry",
+  "direction": "toward_math",
+  "layer": 16,
+  "norm": 3.909363269805908,
+  "axis_proj": -0.0037529058754444122,
+  "axis_proj_rel_gap": -0.002968251472339034,
+  "norm_matched_to": "line_s0p5"
+ },
+ "nm_toward_math_rand_n1p0": {
+  "source": "neuro_geometry",
+  "direction": "toward_math",
+  "layer": 16,
+  "norm": 7.818726539611816,
+  "axis_proj": -0.020247679203748703,
+  "axis_proj_rel_gap": -0.016014311462640762,
+  "norm_matched_to": "line_s1p0"
+ }
+}

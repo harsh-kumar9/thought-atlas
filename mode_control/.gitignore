@@ -1,2 +1,11 @@
-data/
+# Large run artifacts stay on the cluster (/ada1). Small analysis tables, maps and figures are tracked.
+data/**/*.parquet
+data/**/*.npz
+data/**/judge/
+data/**/*.tmp
 outputs/
+__pycache__/
+# per-window and per-position tables (regenerable from the shards on ada; the figures and summary tables are tracked)
+data/neuro/**/*_windows.csv
+data/neuro/**/taskset_timecourse.csv
+data/neuro/**/events_locked.csv

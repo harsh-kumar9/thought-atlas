@@ -622,3 +622,139 @@ answers, then nearby integers. The first build used the canonical predicted answ
 texts are skipped (453 of 500 eligible), since their "free" version would still show the options. Final set: 80 math
 (16 per level) and 80 GPQA items, 640 prompts; mode_control/data/f1/tasks. Generation config mode_control/configs/exp_f1.yaml
 (configs/exp.yaml with a 32k budget and 32-trace checkpoints).
+D-47 follow-up outcome (2026-10-07): the older runs are re-graded (jobs 378510/378511; RESULTS "Re-graded older runs").
+The "exploring costs math" claim now has a size: -20 (-29, -11) for the Idea-ward band on power1 at 12k, -15 (-23, -8)
+for sustained Idea-ward at L19 on sched1. Sustained Math-ward at L19 moves from "unchanged" to +8 (+1, +14).
+
+D-49 outcome (2026-10-07): atlas re-grade done (jobs 378517-378522). data/v2/perf/success_grades_freex.parquet is written next
+to the canonical file. Two findings and one grader fix.
+1. Math was badly under-graded in the atlas. On traces both files grade, the canonical file missed 14-248 correct answers
+   per model (its parser read "**", stray variables or whole equations as the answer). MATH-500 accuracy on finished traces
+   is 98-100% for Gemma-4-12B/31B and Qwen3.5-4B/9B/27B, 92% Gemma-4-E4B, 84% R1-Distill, 49% Llama-3.1-8B (canonical:
+   46-57% for the reasoning models). MCQ domains barely change on the same traces (0-6 flips per model).
+2. The two files differ in policy: the canonical file leaves unfinished traces ungraded (null), the free-text grades count
+   them as wrong (mode_control policy). Truncation is large in places (Qwen3.5-4B security 64% ungraded, Qwen3.5-9B 40%,
+   Gemma-4-12B 30%), so atlas accuracy depends heavily on this choice. The paper analysis has to state one policy and show
+   the other; I have not changed the paper pipeline.
+3. Hand check (42 flips: 10 per family from wrong->right, all 12 right->wrong; data/v2/extract_free_atlas/handcheck_sample.parquet):
+   28/30 wrong->right correct, 1 ambiguous (stray letter after a stated answer), 1 error (three options boxed, first credited);
+   6/12 right->wrong correct, 6 matcher misses ("cot x" vs "\cot x"; reordered sums). Fixes in mc/extract_free.py: bare
+   function names get their backslash, $-wrapped math_verify (reordered sums, sets), the repo's bare matchers only for
+   answers without variables (on "9a+11" vs "9a+12" they report a match), units stripped from numeric answers, thousands
+   separators only for a lone number (the old rule turned "(12,102)" into "12102"), and an MCQ answer that boxes several
+   options grades 0. 33 unit cases pass. All four extraction sets re-graded (previous grades kept as grades_v1.parquet):
+   math levels rise 1.5-2 points; MCQ unchanged except 3 multi-boxed planning traces. P1 contrasts unchanged (A2 +27 at
+   12k, +7 at 32k; SEAL +4; SEAL direction +17); old-run contrasts move by at most 1 point.
+D-50 note (2026-10-07): the atlas generator leaves reasoning_text_for_analysis empty when the budget ends inside <think>
+(98% of atlas "length" traces), so the atlas signatures and classifiers cover finished traces only. For F1 the judge input
+falls back to think_text cut to 8,192 tokens, as mode_control does for steered runs (Qwen: 76 of 640 F1 traces are
+truncated at 32k, 60 of them hard loops; R1: 12). Every F1 analysis is also reported on finished traces only.
+D-51 interim (2026-10-07, Countdown side only; Math side waits for the free-text grades of cd_math, job 378867): the
+pre-registered direction fails on Countdown. Unsteered Qwen3.5-9B solves 22% at 12k and 62% at 32k (36% of traces loop).
+A2 +63 at 12k, +31 at 32k (1% loops). conv_down +47 / +9. conv_up -21 / -55 (87% loops); random -17 / -38 (73% loops).
+More conversational behaviour does not help Countdown on this model; the commit-oriented directions do.
+D-51b (proposed, post hoc, added after seeing that result): at A2's norm even a random vector makes 73% of Countdown traces
+loop, so the full-dose conv_up arm cannot separate "conversational behaviour hurts" from "this dose breaks Countdown".
+Added conv_up at 0.25x and 0.5x on Countdown and Math, and random at 0.25x and 0.5x on Countdown (jobs 378870-378875).
+Reported as a follow-up, not as the pre-registered test.
+D-51 outcome, primary test (2026-10-07): failed in the pre-registered direction. Contrast at 12k = -11 (-18, -5). conv_up
+costs Math 46 points and Countdown 21 (55 at 32k); conv_down gains 24 on Math and 47 on Countdown at 12k. Dose follow-up
+and manipulation check pending before this is written as a finding.
+
+D-52 gate log (2026-10-07). Moral corpus done (corpus1_moral_{a,b}: 200 tasks x 4 seeds, 12k; 97% answered; Track B and quality
+judged). Domain profiles (data/transplant/profiles.json) reproduce the map's stored means exactly for math/gpqa/planning/idea
+(max diff 0.0000). Moral's profile: most subgoal setting (0.16 of segments) and reconciliation (0.08) of any domain, little
+checking (0.09). Signature vectors built (norm 6.75, same readout as A2; A2 rebuilt to cosine 1.000). Cosines worth knowing
+before the runs: sig_moral vs A2 0.88, sig_gpqa vs A2 -0.86, sig_math vs sig_idea -0.77, sig_math vs A2 0.12. Signature and
+dose arms submitted (jobs 379449-379473).
+H2a pre-registration written before any transplant outcome is graded: data/transplant/prereg.json,
+sha256 64bd7c50444282decea31d307b82379b9c8bc811c2b496839d0558c1e02b400d. Within-task slopes from the unsteered corpora
+(math graded by the free-text extraction, gpqa/planning by the MCQ grader, idea/moral by the quality judge; 47-194 tasks
+with varying outcome per domain). Prediction (i) = slopes x the readout-implied shift of each vector. The implied shifts are
+large (up to 30 rate points) so the predicted sizes are not meaningful (e.g. +1.86 accuracy); as stated in D-52 the tests are
+sign agreement and rank order. The idea slopes lean on backward chaining, which is nearly absent in idea traces, so idea
+predictions are weak by construction. Prediction (ii) (measured shifts) will be written by tx_analyze prereg_observed
+after Track B and before outcome grading.
+D-51b outcome, Countdown (2026-10-07): conv_up is worse than a norm-matched random vector at 0.25x, 0.5x and 1x (32k:
+-7.5, -16, -17 points) and below unsteered at every dose. The Society of Thought direction (more conversational behaviour
+helps Countdown) does not replicate on Qwen3.5-9B with a readout-defined conversational direction. Caveats for the paper:
+our direction is not their feature (SAE feature 30939, "surprise / realization" discourse marker, from an SAE on the layer-15
+residual stream of DeepSeek-R1-Distill-Llama-8B, arXiv 2601.10825), and their model is our R1-Distill condition. The direct
+test is their feature on R1-Distill with our Countdown tasks and budget curves; listed as a next step.
+D-50 amendment (2026-10-08, before reading the Qwen or Gemma F1 behaviour results): the within-item distances compare single
+samples, so a format or demand distance also contains sampling noise, and without a floor the comparison can mislead (R1:
+format 0.87, demand 0.81-0.91, all similar). Added a second sample (seed 43) of every solve_free and generate prompt for all
+three models (mode.sbatch f1gen2; data/f1/traces_s2). The noise floor is the distance between the two samples of the same
+prompt; format and demand effects are reported as excess over it.
+D-50 outcome (2026-10-12): with the noise floor, demand moves the profile more than format in Qwen3.5-9B (+0.43 vs +0.15) and
+Gemma-4-12B (+0.77 vs +0.23), both above noise; in R1-Distill neither moves it beyond noise and topic dominates. Predictions (1)
+and (3) hold for two of three models, as does (2) (generate prompts leave the math class in Qwen, become idea-like in Gemma).
+F1 for the paper: deliberation follows task demand in the two newer reasoning models; the distilled R1 follows topic.
+D-51 manipulation check (2026-10-12): conv_up raises Q&A, perspective shift and conflict on Countdown (reconciliation slightly
+down), with dose-ordered effects, and all four conversational rates on Math. The crossover failure is not a failed manipulation.
+D-48 note (2026-10-13): Harsh: "we can also schedule jobs with normal priority from now onwards, no more low priority".
+All new jobs go at the default --qos=ashton; the one pending low-priority job (390659, Track B for the main idea arms) was
+moved to ashton with scontrol. Low-priority jobs had been preempted repeatedly and waited up to ~16 h behind other users.
+
+## D-55 (proposed; Harsh asked on 2026-10-13 to design and run these, so they run, and he ratifies or amends): component map of the domain gap
+Question: which components write the Math-Idea axis, and is the pattern stable across seeds? Design in NEURO.md (E1). The
+residual stream is additive and each attention output is a sum over heads, so the projection of the layer-19 residual on
+the axis decomposes exactly into 581 per-component terms (token embedding, every head and MLP of layers 0-19). Data:
+corpus1 math and idea baseline traces (800 per domain, seeds 1-4), first 2048 reasoning tokens. Contrast = Idea minus Math
+mean write, conjunction = same sign and |t| > 2 in each of the four seeds (Sakai and Passingham's rule across subjects).
+Activity = RMS write into the 8-dim readout subspace at layer 16. Prediction P1 in NEURO.md.
+Code: mc/neuro_extract.py corpus, mc/neuro_analyze.py map. Output: data/neuro/analysis/map_components.csv, fig_neuro_map.
+
+## D-56 (proposed, runs as above): task set in an instruction delay
+Question: is the mode state set by the instruction before any task content, and is the operation (checking vs exploratory)
+coded by magnitude or by coupling? Design (E2): 80 math + 80 GPQA F1 stems x demand {solve, generate} x operation {none,
+checking, exploratory} x delay {0, 64, 256 neutral filler tokens}; system message = demand sentence (+ operation sentence
+= strategy_prompts paraphrase 0); user message = filler + the F1 prompt; 192 generated tokens; every position read.
+Measures: time courses aligned to instruction, task and generation onsets; demand AUROC per 8-token bin; per-component
+demand and operation t in the pre-task span; hub = most active components with no demand contrast, specific = the top
+demand-contrast components each way; coupling = Fisher z of hub x specific across the pre-task positions, paired over
+items, item-shuffled null and a within-item permutation. Prediction P2. The filler passage is fixed in neuro_extract.py.
+Code: neuro_extract.py taskset, neuro_analyze.py taskset.
+
+## D-57 (proposed, runs as above): coupling during reasoning
+Question: does the strategy prompt change hub-specific coupling during the task epoch, with the sets fixed from the
+corpus map? Data: power1 baseline, prompt_checking, prompt_exploratory (150 tasks per domain, seed 1), first 1536
+reasoning tokens. Paired over tasks against baseline; shuffled-pair null; 64-token windows. Prediction P3.
+Code: neuro_extract.py prompts, neuro_analyze.py coupling.
+
+## D-58 (proposed, runs as above): event-locked averages
+Question: does the axis move before a labelled sentence starts? Data: the corpus residual projections (D-55) and the
+Track B labels; onsets from the judge segmentation; window -64..+64, baseline -64..-33; null = random onsets, same count.
+Lead time = the longest run of significant 8-token bins ending at onset. Prediction P4. Code: neuro_analyze.py events.
+
+## D-59 (proposed, runs as above): geometry of the Math-Idea path and curve steering
+Question: does the straight line between the Math and Idea centroids cross a void, and does steering along the data
+path avoid the loops that Idea-ward linear steering of Math tasks produces? Design (E5): sigctrl segment states at layer
+16, PCA-50, k-NN geodesic (k = 15) smoothed over 50 neighbours; void ratio = 10-NN distance / median data 10-NN distance.
+Arms (fixed vectors at layer 16 in vLLM, 2 seeds, 32k budget): line s = 0.5, line projection-matched, line s = 1.0,
+curve s = 0.5, curve norm-matched to line 0.5, random at both norms; toward Idea on the 199 held-out Math tasks (p1_budget
+baseline and random shared) and toward Math on the 200 tx_idea keywords. Outcomes: loops, answered, tokens, Track B seed
+1, math accuracy (free-text extraction), idea originality/feasibility. Prediction P5. The steering arms are submitted only
+after the geometry result is read (no blind chain). Code: mc/neuro_geometry.py; runs nm_math, nm_idea.
+Caveat written now: a curve point is a mean of 50 neighbours, so its void ratio is biased low; the raw path nodes are
+reported next to it as the in-data reference, and the steering test is the real comparison.
+
+## D-60 (proposed, 2026-10-13, after Harsh pointed to Qwen-Scope): the axis and the path in the SAE basis
+Qwen released TopK sparse autoencoders for every layer of Qwen3.5-9B-Base (Qwen/SAE-Res-Qwen3.5-9B-Base-W64K-L0_50:
+65,536 features, 50 active, hooked on the decoder-layer output, the same 0-based convention as ours). They were trained
+on the Base model, so step 1 is a gate: FVU of the reconstruction on our instruct reasoning states at layer 16, per domain;
+pass if FVU < 0.35 everywhere. Then (2) the Idea-minus-Math difference in feature space and how many features carry half
+of the gap on the axis; (3) the SAE codes along the straight line and the data curve (E5): if the SAE shatters the path,
+the active set turns over between consecutive points (low Jaccard) while the behaviour readout moves smoothly; (4) two
+steering arms per direction from the top 8 and top 64 features of the difference, norm-matched to line s = 0.5, added to
+nm_math and nm_idea if the gate passes. The 27B instruct SAE (layer 16) is kept as a replication option, not used now:
+it would need the whole readout pipeline on the 27B first. Code: mc/neuro_sae.py.
+
+D-56 amendment (2026-10-14 ~00:00 UTC, after the first task-set run, data/neuro/taskset): with one fixed filler, every
+item in a condition sees identical pre-task text, so the delay activations are deterministic: no item variance, the
+demand AUROC per bin is 0 or 1, and the pre-task coupling equals its item-shuffled null (0.075 vs 0.075). The brain
+analogue has trial noise; the model has none. Fix: one filler per item, a seeded sample of 28 sentences from a pool of
+60 neutral sentences in random order, cut to the delay length (neuro_extract.FILLER_POOL, item_filler). The instruction
+effect in the delay is then the paired difference within item (solve vs generate, checking vs exploratory, same filler).
+Run data/neuro/taskset_varied (job neuro_tsv); the fixed-filler run stays as the deterministic reference for the time
+course of the instruction span and the generation epoch, which are unaffected (the task text varies by item).

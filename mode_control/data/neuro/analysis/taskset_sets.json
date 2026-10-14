@@ -1,0 +1,120 @@
+{
+ "hub": [
+  427
+ ],
+ "spec_idea": [
+  11,
+  12,
+  21,
+  4,
+  13,
+  19,
+  333,
+  566
+ ],
+ "spec_math": [
+  14,
+  32,
+  31,
+  419,
+  271,
+  341,
+  158,
+  453
+ ],
+ "delay_used": 256,
+ "hub_desc": [
+  {
+   "layer": 14,
+   "kind": "lin",
+   "head": 12
+  }
+ ],
+ "spec_idea_desc": [
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 10
+  },
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 11
+  },
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 20
+  },
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 3
+  },
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 12
+  },
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 18
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 1
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 2
+  }
+ ],
+ "spec_math_desc": [
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 13
+  },
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 31
+  },
+  {
+   "layer": 0,
+   "kind": "lin",
+   "head": 30
+  },
+  {
+   "layer": 14,
+   "kind": "lin",
+   "head": 4
+  },
+  {
+   "layer": 9,
+   "kind": "lin",
+   "head": 5
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 9
+  },
+  {
+   "layer": 5,
+   "kind": "lin",
+   "head": 8
+  },
+  {
+   "layer": 15,
+   "kind": "attn",
+   "head": 5
+  }
+ ],
+ "n_demand_coded": 579,
+ "n_op_coded": 563,
+ "n_both_coded": 562
+}

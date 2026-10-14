@@ -122,19 +122,33 @@ def norm_math(x: str) -> str:
     x = re.sub(r"\\frac\s*(\d)\s*(\d)", r"\\frac{\1}{\2}", x)
     x = re.sub(r"\\frac\s*(\d)\s*\{", r"\\frac{\1}{", x)
     x = re.sub(r"^[a-zA-Z]\s*(\\in|=)\s*", "", x)
-    x = re.sub(r"(\d),(\d{3})(?!\d)", r"\1\2", x)
+    if re.fullmatch(r"-?\d{1,3}(?:,\s?\d{3})+(?:\.\d+)?", x.strip()):     # thousands separators only for a lone number, not in "(2,12) \cup (12,102)"
+        x = re.sub(r",\s?", "", x)
+    x = re.sub(r"\{(\d{1,3}(?:,\d{3})+)\}", lambda m: "{" + m.group(1).replace(",", "") + "}", x)   # \frac{20,000}{\pi}
     x = re.sub(r"\^\s*\{?\\circ\}?|°", "", x)
+    x = re.sub(r"(?<![\\A-Za-z])(arcsin|arccos|arctan|sin|cos|tan|cot|sec|csc|log|ln)(?![A-Za-z])", r"\\\1", x)   # "cot x" -> "\cot x" (D-49 check)
     return x.strip()
 
 
 def math_correct(fa: str, ref) -> int:
+    """Formatting-normalised match, then math_verify on $-wrapped strings. The bare (unwrapped) repo matchers are used only for
+    answers without variables: on "9a+11" vs "9a+12" they parse a fragment and report a match (D-49 check)."""
     from src.perf.answer_grading import grade_math_answer, math_answers_equivalent
-    if grade_math_answer(fa, ref).get("success") == 1:
-        return 1
     a, r = norm_math(fa), norm_math(str(ref or ""))
-    if a and r and (a.replace(" ", "") == r.replace(" ", "") or grade_math_answer(a, r).get("success") == 1 or math_answers_equivalent(a, r)):
+    if not a or not r:
+        return 0
+    if a.replace(" ", "") == r.replace(" ", "") or math_answers_equivalent(f"${a}$", f"${r}$"):
         return 1
-    return 0
+    def unitless(x):              # "4 inches per second" -> "4", "12th grade" -> "12", "15\\mbox{ cm}^2" -> "15"; else unchanged
+        y = re.sub(r"\\(?:mbox|text|mathrm)\{\s*[A-Za-z][A-Za-z\s.]*\}(\^\{?\d\}?)?", "", x).strip()
+        m = re.fullmatch(r"(-?[\d.,]+(?:/\d+)?|-?\\frac\{\d+\}\{\d+\})\s*(?:st|nd|rd|th)?(?:\s*[A-Za-z][A-Za-z\s.]*(?:\^\d)?)?", y)
+        return m.group(1) if m else y
+    a, r = unitless(a), unitless(r)
+    if a.replace(" ", "") == r.replace(" ", ""):
+        return 1
+    if re.search(r"[A-Za-z]", re.sub(r"\\[A-Za-z]+", "", a + r)):
+        return 0
+    return int(grade_math_answer(a, r).get("success") == 1 or math_answers_equivalent(a, r))
 
 
 def grade_row(t: dict, e: dict | None) -> dict:
@@ -177,6 +191,9 @@ def grade_row(t: dict, e: dict | None) -> dict:
         if not grounded:
             return res | {"success": res["direct"], "grade_source": "fallback_ungrounded", "extracted": fa}
         return res | {"success": math_correct(fa_c, ref), "grade_source": "extracted", "extracted": fa}
+    boxed = {b.strip().upper() for b in re.findall(r"\\boxed\{\s*\(?([A-Ea-e])\)?\s*\}", ans_text)}
+    if len(boxed) > 1:                                                     # several options boxed: no single answer (D-49 check)
+        return res | {"success": 0, "grade_source": "ambiguous_multiple_boxed", "extracted": fa}
     letter = (extract_choice(fa, t.get("prompt") or "")[0] or fa.strip().strip("().*").upper()[:1])
     read = extract_choice(ans_text, t.get("prompt") or "")[0]
     tail = ans_text[-200:]

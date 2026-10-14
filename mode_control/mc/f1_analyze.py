@@ -163,13 +163,67 @@ def cmd_project(models: list[str]):
     pl.Config.set_tbl_rows(100); print(d.filter(pl.col("layer").is_in([3, 10, 16, 19, 25])))
 
 
+def cmd_noise(models: list[str], reps: int = 2000):
+    """D-50 amendment: second samples (seed 43) of the solve_free and generate prompts give a sampling-noise floor. For each item:
+    noise = d(sample 1, sample 2) of the same prompt; format = d(solve_free, solve_mcq); demand = d(solve_free, generate), all in
+    the atlas log-ratio metric. Excess = within-item distance minus the noise floor, item bootstrap."""
+    rows = []
+    rng = np.random.default_rng(0)
+    for m in models:
+        tok = _tok(m)
+        s2 = pl.read_parquet(F1 / "judge_in_s2" / f"traces_{m}.parquet")
+        tb = pl.concat([pl.read_parquet(p) for p in sorted((MC / "data/runs/f1/judge").rglob(f"trackB_full__{TAG}*.parquet"))], how="diagonal_relaxed")
+        tb = tb.filter(pl.col("trace_id").is_in(s2["trace_id"].to_list())).unique(["trace_id", "seg_idx"], keep="last")
+        if not tb.height:
+            print(f"[f1 noise] {m}: no labels for the second samples yet"); continue
+        r2 = _rates(s2, tb, tok).join(s2.select(["trace_id", "instance_id"]), on="trace_id")
+        r1 = pl.read_parquet(OUT / f"rates_{m}.parquet").filter(pl.col("source") == "f1")
+        P1 = {r["instance_id"]: np.array([r[c] for c in R]) for r in r1.iter_rows(named=True)}
+        P2 = {r["instance_id"]: np.array([r[c] for c in R]) for r in r2.iter_rows(named=True)}
+        items = sorted({i.split("::")[0] for i in P2})
+        rec = {"model": m}
+        def get(i, pt, d):
+            return d.get(f"{i}::{pt}")
+        cols = {}
+        for i in items:
+            sf1, sf2, g1, g2, mc1 = get(i, "solve_free", P1), get(i, "solve_free", P2), get(i, "generate", P1), get(i, "generate", P2), get(i, "solve_mcq", P1)
+            if any(x is None for x in (sf1, sf2, g1, g2, mc1)):
+                continue
+            cols.setdefault("noise_solve_free", []).append(dist(sf1, sf2))
+            cols.setdefault("noise_generate", []).append(dist(g1, g2))
+            cols.setdefault("format", []).append(dist(sf1, mc1))
+            cols.setdefault("demand_generate", []).append(dist(sf1, g1))
+            # cross-sample versions: the two prompt types from different samples, so both terms carry one sample's noise each
+            cols.setdefault("demand_generate_cross", []).append(dist(sf2, g1))
+            cols.setdefault("format_cross", []).append(dist(sf2, mc1))
+        A = {k: np.array(v) for k, v in cols.items()}
+        n = len(next(iter(A.values()))) if A else 0
+        rec["n_items"] = n
+        if not n:
+            continue
+        idx = [rng.integers(0, n, n) for _ in range(reps)]
+        def stat(f):
+            v = f(np.arange(n)); bs = np.array([f(ix) for ix in idx]); return float(v), float(np.quantile(bs, 0.025)), float(np.quantile(bs, 0.975))
+        for k in A:
+            rec[k], rec[f"{k}_lo"], rec[f"{k}_hi"] = stat(lambda ix, k=k: A[k][ix].mean())
+        rec["format_excess"], rec["format_excess_lo"], rec["format_excess_hi"] = stat(lambda ix: (A["format_cross"][ix] - A["noise_solve_free"][ix]).mean())
+        rec["demand_excess"], rec["demand_excess_lo"], rec["demand_excess_hi"] = stat(lambda ix: (A["demand_generate_cross"][ix] - 0.5 * (A["noise_solve_free"][ix] + A["noise_generate"][ix])).mean())
+        rec["demand_minus_format"], rec["dmf_lo"], rec["dmf_hi"] = stat(lambda ix: (A["demand_generate_cross"][ix] - A["format_cross"][ix]).mean())
+        rows.append(rec)
+        print(f"[f1 noise] {m}: {n} items; noise sf {rec['noise_solve_free']:.2f} gen {rec['noise_generate']:.2f}; format {rec['format_cross']:.2f} "
+              f"(excess {rec['format_excess']:+.2f} [{rec['format_excess_lo']:+.2f},{rec['format_excess_hi']:+.2f}]); demand {rec['demand_generate_cross']:.2f} "
+              f"(excess {rec['demand_excess']:+.2f} [{rec['demand_excess_lo']:+.2f},{rec['demand_excess_hi']:+.2f}]); demand-format {rec['demand_minus_format']:+.2f} [{rec['dmf_lo']:+.2f},{rec['dmf_hi']:+.2f}]")
+    if rows:
+        pl.DataFrame(rows).write_csv(OUT / "noise_floor.csv")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["profiles", "distances", "classify", "project"])
+    ap.add_argument("cmd", choices=["profiles", "distances", "classify", "project", "noise"])
     ap.add_argument("--models", default="qwen35_9b,gemma4_12b,reasoner")
     a = ap.parse_args()
     ms = a.models.split(",")
-    {"profiles": cmd_profiles, "distances": cmd_distances, "classify": cmd_classify, "project": cmd_project}[a.cmd](ms)
+    {"profiles": cmd_profiles, "distances": cmd_distances, "classify": cmd_classify, "project": cmd_project, "noise": cmd_noise}[a.cmd](ms)
 
 
 if __name__ == "__main__":

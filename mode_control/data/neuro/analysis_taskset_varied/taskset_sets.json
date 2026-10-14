@@ -1,0 +1,162 @@
+{
+ "hub": [
+  215,
+  579,
+  479,
+  116,
+  443,
+  324,
+  529,
+  231
+ ],
+ "spec_idea": [
+  563,
+  497,
+  447,
+  566,
+  323,
+  575,
+  450,
+  567
+ ],
+ "spec_math": [
+  572,
+  448,
+  335,
+  453,
+  480,
+  341,
+  232,
+  381
+ ],
+ "delay_used": 256,
+ "hub_desc": [
+  {
+   "layer": 6,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 15
+  },
+  {
+   "layer": 16,
+   "kind": "lin",
+   "head": 14
+  },
+  {
+   "layer": 3,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 14,
+   "kind": "lin",
+   "head": 28
+  },
+  {
+   "layer": 10,
+   "kind": "lin",
+   "head": 25
+  },
+  {
+   "layer": 17,
+   "kind": "lin",
+   "head": 31
+  },
+  {
+   "layer": 7,
+   "kind": "attn",
+   "head": 15
+  }
+ ],
+ "spec_idea_desc": [
+  {
+   "layer": 18,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 16,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 14,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 2
+  },
+  {
+   "layer": 10,
+   "kind": "lin",
+   "head": 24
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 11
+  },
+  {
+   "layer": 15,
+   "kind": "attn",
+   "head": 2
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 3
+  }
+ ],
+ "spec_math_desc": [
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 8
+  },
+  {
+   "layer": 15,
+   "kind": "attn",
+   "head": 0
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 3
+  },
+  {
+   "layer": 15,
+   "kind": "attn",
+   "head": 5
+  },
+  {
+   "layer": 16,
+   "kind": "lin",
+   "head": 15
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 9
+  },
+  {
+   "layer": 7,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 12,
+   "kind": "mlp",
+   "head": -1
+  }
+ ],
+ "n_demand_coded": 550,
+ "n_op_coded": 567,
+ "n_both_coded": 538
+}

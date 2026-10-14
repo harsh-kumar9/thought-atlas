@@ -1,0 +1,32 @@
+{
+ "layer": 16,
+ "repo": "Qwen/SAE-Res-Qwen3.5-9B-Base-W64K-L0_50",
+ "k": 50,
+ "n_per_domain": 12000,
+ "math": {
+  "fvu": 0.36735081672668457,
+  "cos_recon": 0.9397351741790771,
+  "mean_norm": 34.77809524536133,
+  "n_active_features": 28317
+ },
+ "idea": {
+  "fvu": 0.41475722193717957,
+  "cos_recon": 0.9327477216720581,
+  "mean_norm": 36.901390075683594,
+  "n_active_features": 22550
+ },
+ "gpqa": {
+  "fvu": 0.3739509880542755,
+  "cos_recon": 0.9384974837303162,
+  "mean_norm": 34.92726135253906,
+  "n_active_features": 30800
+ },
+ "planning": {
+  "fvu": 0.4180835485458374,
+  "cos_recon": 0.9351029992103577,
+  "mean_norm": 35.064903259277344,
+  "n_active_features": 23434
+ },
+ "features_alive_any_domain": 41325,
+ "pass": false
+}

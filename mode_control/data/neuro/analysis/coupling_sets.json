@@ -1,0 +1,134 @@
+{
+ "hub": [
+  572,
+  447,
+  348,
+  569
+ ],
+ "spec_idea": [
+  567,
+  563,
+  540,
+  450,
+  575,
+  341,
+  430,
+  565
+ ],
+ "spec_math": [
+  497,
+  464,
+  414,
+  530,
+  335,
+  451,
+  343,
+  340
+ ],
+ "hub_desc": [
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 8
+  },
+  {
+   "layer": 14,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 11,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 5
+  }
+ ],
+ "spec_idea_desc": [
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 3
+  },
+  {
+   "layer": 18,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 18,
+   "kind": "lin",
+   "head": 9
+  },
+  {
+   "layer": 15,
+   "kind": "attn",
+   "head": 2
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 11
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 9
+  },
+  {
+   "layer": 14,
+   "kind": "lin",
+   "head": 15
+  },
+  {
+   "layer": 19,
+   "kind": "attn",
+   "head": 1
+  }
+ ],
+ "spec_math_desc": [
+  {
+   "layer": 16,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 15,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 13,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 17,
+   "kind": "mlp",
+   "head": -1
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 3
+  },
+  {
+   "layer": 15,
+   "kind": "attn",
+   "head": 3
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 11
+  },
+  {
+   "layer": 11,
+   "kind": "attn",
+   "head": 8
+  }
+ ]
+}

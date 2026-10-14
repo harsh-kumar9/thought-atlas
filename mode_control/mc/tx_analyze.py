@@ -84,7 +84,9 @@ def cmd_stage_judge(run: str):
         t = pl.read_parquet(p).filter(pl.col("seed") == 1)
         todo = t.filter(~pl.col("trace_id").is_in(list(done)))
         if todo.height:
-            t.write_parquet(out / p.name)
+            todo.write_parquet(out / p.name)                 # only what still needs labels
+        elif (out / p.name).exists():
+            (out / p.name).unlink()
         print(f"[stage_judge] {run}/{p.stem}: {t.height} seed-1 traces, {todo.height} not yet labelled")
 
 

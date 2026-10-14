@@ -1222,3 +1222,128 @@ backward chaining 8.0. conv_up: Q&A +9.8 (+8.2, +11.4), shift +1.8 (+0.8, +2.8),
 -0.7 (-0.9, -0.4), verification -5.2. Dose-ordered: Q&A +2.4 at 0.25x, +5.4 at 0.5x. conv_down: Q&A -12.8, shift -6.7. Random
 vectors move Q&A by -3.5 at 1x and ~0 at 0.25x. The vector raises three of the four conversational behaviours on Countdown
 (all four on Math), mostly self-questioning, and accuracy falls at every dose.
+
+## D-52 transplant matrix: convergent targets (2026-10-14; graded after prediction (ii), sha 74d79b22)
+Accuracy change vs unsteered at a 12k budget (32k in brackets), pp, paired over tasks, 95% task bootstrap. 199-200 tasks x 2 seeds
+for the main arms; the 0.5x / 1.5x dose arms are 100 tasks, seed 1. Free-text grades for math, MCQ grader for gpqa/planning.
+Unsteered at 12k: math 56%, gpqa 35%, planning 71%.
+| arm (norm 6.75 unless noted) | math | gpqa | planning |
+|---|---|---|---|
+| sig_math | **+35.7** (+8.8) | **+33.8** (-4.0) | **+20.8** (+3.0) |
+| sig_gpqa | -45.2 (-74.9) | -31.2 (-68.0), own | -64.8 (-82.8) |
+| sig_planning | -5.3 (-3.8) | 0.0 (-8.0) | +7.5 (-3.0), own |
+| sig_idea | -47.0 (-77.4) | -33.0 (-71.2) | -68.0 (-85.8) |
+| sig_moral | +12.1 (-3.8) | +3.5 (-11.8) | +2.2 (-5.2) |
+| idea + half A2 ("commit") | -21.1 (-36.2) | -24.2 (-51.0) | |
+| A2 (math archetype) | +26.9 (+7.0) | +25.0 (-0.5) | +15.2 (+0.8) |
+| own best archetype | | gpqa_A4 +37.5 (+2.2) | planning_A2 +19.5 (+2.2) |
+| RL bias from zero | +25.4 (+10.8) | +24.8 (+3.8) | +14.8 (+1.2) |
+| SEAL direction at A2's dose | +16.6 (+4.5) | +22.0 (-6.5) | +13.0 (-2.5) |
+| prompt "think ... math problem" | +13.3 (+2.0) | +16.8 (-2.5) | +10.2 (0.0) |
+| prompt "think ... brainstorm a research idea" | +22.4 (+6.0) | +24.2 (+1.8) | +11.5 (+1.5) |
+| random | -7.3 (-7.5) | -11.2 (-24.5) | -9.2 (-10.2) |
+Doses are monotone: sig_math helps at 0.5x, 1x and 1.5x on all three targets; sig_idea and sig_gpqa hurt more with dose
+(math 0.5x/1x/1.5x: idea -15.5/-47/-53.5, gpqa -27.5/-45/-55.5). Accuracy among answered traces stays 88-100% in every arm;
+the changes come from finishing within the budget, as in P1/P2.
+What this says before the divergent targets are in: (1) one profile, Math's (more checking, fewer perspective shifts, conflicts
+and backtracks), is the most efficient on all three convergent targets, beating each domain's own signature and matching or
+beating its own best archetype; (2) a domain's natural signature is not its best one: amplifying GPQA's (more self-questioning,
+less subgoal setting) costs GPQA 31 points at 12k; (3) the Moral signature, close to A2 in readout space (cosine 0.88), helps
+much less than A2 (+12 vs +27 on math), so readout cosine alone does not predict the effect; (4) adding half of A2 to the Idea
+signature halves its damage (H2b mechanism direction); (5) "brainstorm" as a system prompt helps convergent tasks (+11 to +24),
+not yet explained.
+
+## D-62 forced-answer readiness probe (2026-10-14): the answer is usually there, the model does not stop
+
+Setup (mc/readiness.py, data/readiness/{math,countdown}): every trace of p1_budget (unsteered, A2, random), p4_eval3 (RL from
+zero, step 60) and p4_eval2 (A2 + RL), 199 Math tasks x 2 seeds, cut at k generated tokens; the think block is closed and
+"The final answer is $\boxed{" appended; 48 greedy tokens, no steering; graded with the D-47 normalisation. A trace that had
+closed its think block before k keeps its own answer and grade. R(k) = share of traces with a correct answer at k. Same on
+Countdown (cd_countdown unsteered and A2; "<answer>" forcing). Gate: 48/48 and 40/40 forced continuations parsed.
+
+### Math, R(k) per trace (398 per cell) and share of traces that had finished by k
+| arm | 512 | 1k | 2k | 4k | 8k | 12k | finished by 4k / 12k | own accuracy at 4k / 12k (P1) |
+|---|---|---|---|---|---|---|---|---|
+| unsteered | 45.5 | 67.3 | 78.9 | 87.4 | 93.5 | 95.0 | 27% / 58% | 22 / 54 |
+| A2 | 39.4 | 64.1 | 78.6 | 87.2 | 91.2 | 92.5 | 54% / 88% | 45 / 81 |
+| random | 41.2 | 64.8 | 78.9 | 87.4 | 92.7 | 96.0 | 24% / 51% | 21 / 47 |
+| RL from zero | 47.0 | 74.6 | 85.4 | 91.5 | 95.0 | 96.7 | 49% / 84% | 43 / 79 |
+| A2 + RL | 38.2 | 65.1 | 82.9 | 88.4 | 92.7 | 94.2 | 68% / 94% | 60 / 87 |
+
+Paired against unsteered (per task, seeds averaged, 95% task bootstrap), points:
+| arm | 512 | 1k | 2k | 4k | 8k | 12k |
+|---|---|---|---|---|---|---|
+| A2 | -6.0 (-10.3, -2.0) | -3.3 (-7.0, +0.8) | -0.3 | -0.3 | -2.3 (-5.0, +0.3) | -2.5 (-5.3, +0.3) |
+| random | -4.3 (-7.8, -0.8) | -2.5 | 0.0 | 0.0 | -0.8 | +1.0 |
+| RL from zero | +1.5 | +7.3 (+3.3, +11.6) | +6.5 (+3.3, +10.1) | +4.0 (+1.8, +6.8) | +1.5 | +1.8 |
+| A2 + RL | -7.3 (-11.8, -3.0) | -2.3 | +4.0 (0.0, +8.3) | +1.0 | -0.8 | -0.8 |
+
+Unsteered traces still thinking at 12k (167 of 398, 42%): a forced answer is right in 35% of them at 512 tokens, 41% at 1k,
+56% at 2k, 71% at 4k, 84% at 8k and 89% at 12k.
+
+### Countdown, R(k) (400 per cell)
+| arm | 1k | 2k | 4k | 8k | 12k | finished by 12k | own accuracy at 12k / 32k (D-51) |
+|---|---|---|---|---|---|---|---|
+| unsteered | 60.0 | 73.3 | 79.3 | 84.5 | 85.5 | 24% | 22 / 62 |
+| A2 | 56.8 | 69.3 | 80.8 | 88.3 | 90.5 | 86% | 85 / 93 |
+Paired A2 minus unsteered: -3.3 (-7.8, +1.3) at 1k, -4.0 (-8.5, +0.5) at 2k, +1.5 at 4k, +3.8 (-0.3, +7.5) at 8k, +5.0 (+1.0,
++9.0) at 12k. Unsteered traces still thinking at 12k (303 of 400): a forced answer is right in 51% at 1k, 73% at 4k, 81% at 12k.
+
+### Against the pre-registered predictions
+1. Holds. Among unsteered Math traces unanswered at 12k, readiness at 4k is 71% (prediction: at least 50%). Most of what
+   looks like "needs more thinking" is "has the answer and keeps going".
+2. Holds, with one deviation in the other direction. A2 never reaches correct answers sooner than unsteered: the paired
+   difference is within a point at 2k and 4k and negative elsewhere (-6 at 512, -2.5 at 12k). A2 commits sooner (54% of its
+   traces finished by 4k against 27%), it does not solve sooner. The -6 at 512 says a lower bound also commits before the
+   answer is ready on some problems, which is the 93-against-97 slip of P1 seen from the other side.
+3. Fails. RL from zero does reach correct answers sooner: +7 at 1k, +6.5 at 2k, +4 at 4k, CIs clear of zero. The RL bias is
+   a commitment change plus a small solving change, which A2 is not; it fits RL-zero being the best arm at 32k.
+
+### What this changes in the story
+The budget curves of P1 and P2 counted a trace cut by the budget as wrong. A forced answer at the budget (s1-style budget
+forcing) recovers most of that: unsteered Qwen3.5-9B forced at 4k scores 87% on the same held-out tasks, against 22% for its
+own stopping, 45% for A2 and 60% for A2 + RL at 4k; forced at 12k it scores 95%, against A2's 81% and RL-zero's 79% by
+their own stopping, and about the same as unsteered given 32k (85%) or A2 given 32k (92%). On Countdown, forcing at 4k gives
+79% against the model's own 62% at 32k. So the accuracy-at-budget gains of steering are gains in commitment, and a hard
+cutoff with a forced answer gets them too, and more. What steering and the RL bias still do that forcing does not: the model
+stops on its own at 5-7k tokens with no cutoff to choose and almost no loops (9% to 0.5%), and RL-zero reaches the right
+answer a little sooner. The paper's efficiency claim has to be stated against budget forcing, not only against the model's
+own stopping; the mechanism claim (the profile is a commitment policy) is strengthened.
+
+## D-65b second judge, interim (2026-10-14): p1_budget arms under Qwen3.5-27B
+Setup: Track B re-run with Qwen/Qwen3.5-27B (thinking off, same prompts, guided JSON, config exp_mode_chunk20_j27.yaml) on the
+seed-1 traces of p1_budget unsteered, A2 and random (597 traces, 162,821 segments labelled by both judges; 20 segments of one
+unsteered trace failed the Qwen conversational parse and are dropped). Outputs: judge/trackB2_*/ per run; data/judge2/.
+
+Segment-level agreement (unsteered arm; Cohen's kappa, positive rate under gemma / Qwen):
+| behaviour | kappa | gemma | Qwen |
+|---|---|---|---|
+| Q&A | 0.74 | 0.104 | 0.107 |
+| perspective shift | 0.57 | 0.119 | 0.069 |
+| conflict | 0.69 | 0.043 | 0.029 |
+| reconciliation | 0.37 | 0.047 | 0.016 |
+| verification | 0.60 | 0.219 | 0.129 |
+| backtracking | 0.63 | 0.017 | 0.016 |
+| subgoal | 0.66 | 0.069 | 0.078 |
+| backward chaining | 0.32 | 0.002 | 0.001 |
+The A2 and random arms give the same picture (kappa 0.61-0.79 for the six frequent behaviours). The Qwen judge calls
+verification, perspective shift, conflict and reconciliation less often than gemma; Q&A, subgoal and backtracking rates match.
+
+Behaviour shifts of A2 vs unsteered under each judge (points per 100 sentences, 95% CI):
+| behaviour | gemma | Qwen |
+|---|---|---|
+| subgoal | +7.4 (+6.4, +8.3) | +5.4 (+4.5, +6.3) |
+| Q&A | -2.9 (-3.6, -2.1) | -2.9 (-3.8, -2.0) |
+| verification | -3.3 (-4.4, -2.3) | +0.0 (-0.9, +1.0) |
+| conflict | -0.9 | -0.7 |
+| reconciliation | -1.4 | -0.3 |
+| perspective shift | +0.8 (ns) | +0.1 |
+Shift-vector cosine 0.91; size under Qwen 0.70 of gemma's. The random arm: cosine 0.96, every sign agrees, pass.
+
+Verdict against the D-65b rule (cosine > 0.8 and the same signs on subgoal, Q&A and verification): A2 fails on verification.
+What is judge-robust: A2 raises subgoal setting and cuts self-questioning (and conflict). What is not: the verification cut,
+which only gemma sees. The paper states the efficient profile as "more subgoal structure, less self-questioning"; the
+verification part, and the P1 reading that A2's answered-accuracy slip comes from less checking, are carried by one judge
+until the human gold set (D-65a) decides. The D-62 readiness result gives the slip a judge-free explanation (A2 commits before
+the answer is ready on some problems). Still to label under Qwen: tx_idea (baseline, sig_math) and cd_countdown (baseline,
+conv_up), jobs 395760-395763.

@@ -79,6 +79,8 @@ case "$STAGE" in
          python -m mode_control.mc.vsteer sealvec --name sealdir_L17_n6p75 --layer-out 16 --norm 6.75
          python -m mode_control.mc.vsteer check --a2 ol_math_A2 --seal seal_L23 ;;
   vcheck) python -m mode_control.mc.vsteer check --a2 ol_math_A2 --seal "${1:-seal_L23}" ;;
+  judgeB2) RUN=${1:?run}; GLOB=${2:?glob}; J2=${JUDGE2:-Qwen/Qwen3.5-27B}; JD="$DD/runs/$RUN/judge/trackB2_${3:-sub}"; mkdir -p "$JD"   # D-65b second-family judge
+         python -m src.judge.run_judge --config "${JCFG:-mode_control/configs/exp_mode_chunk20_j27.yaml}" --judge-model "$J2" --track B --traces-glob "$GLOB" --out-dir "$JD" --track-b-limit 0 ;;
   judgeB) RUN=${1:?run}; GLOB=${2:?glob}; JD="$DD/runs/$RUN/judge/trackB_${3:-sub}"; mkdir -p "$JD"   # Track B only, fixed dir so a requeue resumes
          python -m src.judge.run_judge --config "${JCFG:-mode_control/configs/exp_mode.yaml}" --judge-model google/gemma-4-31B-it --track B --traces-glob "$GLOB" --out-dir "$JD" --track-b-limit 0 ;;
   rltrain) RUN=${1:?run}; shift; python -m mode_control.mc.rlbias train --run "$RUN" "$@" ;;
@@ -106,7 +108,7 @@ case "$STAGE" in
   freexa) XF_IN=data/v2/extract_free_atlas/in XF_OUT=data/v2/extract_free_atlas/out python -m mode_control.mc.extract_free extract --shard "${1:?shard}" --num-shards "${2:?n}" ;;
   vgen) RUN=${1:?run}; CONDS=${2:-}; python -m mode_control.mc.vsteer gen --run "$RUN" ${CONDS:+--conditions "$CONDS"} ;;
   budget) RUN=${1:?run}; python -m mode_control.mc.budget --run "$RUN" ;;
-  readiness) python -m mode_control.mc.readiness --arms "${1:?arms}" ${CUTS:+--cuts "$CUTS"} ${SMOKE:+--smoke "$SMOKE"} ;;   # D-62 forced-answer probe
+  readiness) python -m mode_control.mc.readiness --arms "${1:?arms}" ${CUTS:+--cuts "$CUTS"} ${SMOKE:+--smoke "$SMOKE"} ${TAG:+--tag "$TAG"} ;;   # D-62 forced-answer probe
   neuro) MODE=${1:?mode}; shift; python -m mode_control.mc.neuro_extract "$MODE" "$@" ;;   # D-55..D-58: smoke | corpus | prompts | taskset
   neuro_an) python -m mode_control.mc.neuro_analyze "${1:-all}" ;;
   neuro_sae) CMD=${1:?cmd}; shift; python -m mode_control.mc.neuro_sae "$CMD" "$@" ;;   # D-60 (fetch runs on ada, not in a job)

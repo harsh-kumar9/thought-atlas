@@ -1,3 +1,5 @@
+<!-- Shared log, append-only. Several sessions write here at once (2026-10-14: paper-story session D-62 to D-67; mechanism session D-55 to D-61, D-68, D-69). Append on ada; never overwrite this file from a mirror; grep for the highest D-number before taking one. -->
+
 # Decisions
 
 Status: proposed = my default, running with it until you say otherwise; ratified = you agreed.
@@ -775,7 +777,7 @@ solve version of those items). Predictions, written now: the top carriers of gpq
 than half (one convergent territory) and Idea's and moral's do not; the A2 lead holds in gpqa and planning and not in
 idea or moral; no centroid pair reaches a line void ratio of 1.5.
 
-## D-62 (proposed 2026-10-14, built and queued on Harsh's "incorporate and continue"): steered-state density
+## D-68 (proposed 2026-10-14, built and queued on Harsh's "incorporate and continue"): steered-state density
 Question: does steering fail where it leaves the region of natural states? E5 showed the centroid line is not a void,
 so the Goodfire claim is re-posed on real trajectories. Measure: teacher-force every steered trace (prompt + first 2048
 reasoning tokens), take the layer-16 residual every 32 tokens, and score each state's 10-NN distance against the natural
@@ -788,7 +790,7 @@ signature and path arms have lower ratios than the line arm, and random at 7.8 i
 Idea-ward steered Math states are Idea states when the trace stays coherent and no domain in particular when it loops.
 Code: neuro_extract.py states; neuro_geometry.py density.
 
-## D-63 (proposed 2026-10-14, built and queued as above): do the gap-carrying heads cause the behaviour?
+## D-69 (proposed 2026-10-14, built and queued as above): do the gap-carrying heads cause the behaviour?
 The component map (E1) is descriptive. Test: generate with the top eight Idea-ward carrier heads silenced (their slice
 of the attention output set to zero, which is the gate-closed state of this architecture), against the top eight
 Math-ward carriers and eight random heads matched by layer; unsteered baseline. Held-out Math and Idea tasks (40 per
@@ -802,3 +804,167 @@ D-61 outcome (2026-10-14): descriptive parts done (RESULTS_NEURO.md "D-61"). Pre
 territory; Jaccard <= 0.13), prediction 2 holds (A2 lead in math, planning, gpqa; not in idea; moral lead without a rise),
 prediction 3 holds (no line void above 1.19). No extra steering pair.
 
+
+D-69 outcome (2026-10-14, run abl1, 40 tasks per domain, 4096 budget): zero-ablation of the eight Idea-carrier heads or
+the eight Math-carrier heads breaks generation on both domains (hard loops 83-93%, nothing answered, every trace to the
+budget), while eight layer-matched random heads cost nothing (loops 0%, answered 8-15% vs baseline 13-25% at this short
+budget). The carriers are load-bearing for coherence, so the prediction cannot be tested this way; the judge is not run
+on abl1 (it would label loops). Finding kept: the heads that write the domain axis are heads the model cannot generate
+without, unlike random heads of the same layers.
+
+## D-69b (proposed 2026-10-14, built and queued): directional ablation of the carrier heads
+Replace zero-ablation by removing only each head's write along the layer-19 axis: project the head's input to o_proj /
+out_proj off u_h = W_O[:, h]^T d (common.HeadAblator with direction), so <write_h, d> = 0 at every position and the
+rest of the head's output is untouched. Arms (run abl2, same tasks and budget as abl1): baseline; dabl_idea8, dabl_idea16
+(top carriers toward Idea); dabl_math8, dabl_math16; dabl_rand8, dabl_rand16 (layer-matched); neutralize_sus_L19
+(gamma = 0 sustained on the whole residual at layer 19, the ceiling). Predictions: loops stay at baseline in every
+directional arm; the Idea-minus-Math gap on the frozen score falls in proportion to the removed share of the gap (top 8
+heads carry about 30%, top 16 about 45%), with the ceiling arm largest; random sets change it by under 10%. If the
+directional arms leave the gap unchanged while the ceiling moves it, the carriers' axis writes are not where the
+behaviour is set and the axis is re-written downstream.
+
+D-68 interim (2026-10-14, density on the arms extracted so far; final after the runs end): the 10-NN ratio does not
+separate looping from coherent traces (within-arm Spearman -0.17 to +0.10; arm means 1.04-1.14 everywhere), so "steered
+states leave the data cloud" is not what fails. What separates the arms is the vector family and the task domain: on
+Idea tasks the low-rank Math signature (norm 6.75) has 0% loops against 32% at baseline, while the raw line toward Math
+loops 75% at norm 3.9 and 95% at 7.8 and random 92%; on Math tasks the raw line toward Idea is harmless at 3.9 (10%)
+and breaks at 7.8 (59%), the low-rank Idea signature at 6.75 loops 90%, A2 0.5%. Prediction (i) of D-68 fails;
+(ii) is reversed on Math and holds on Idea; (iii) partly: raw-line Idea states move toward Math neighbours (mix 0.15
+vs 0.01) and loop, the signature-steered states stay among Idea neighbours and do not.
+D-68 interim, second reading (fig_neuro_density, density_summary.json): the relation is inverted. Looping traces have
+LOWER 10-NN ratios than coherent ones (pooled loop rate by ratio bin: Idea tasks 0.85 below 1.0, 0.54-0.58 at 1.0-1.25,
+0.18 above 1.25; Math tasks 0.44, 0.27, 0.21, 0.13), and on Math the two arms that loop most (sig_idea, idea_commit) have
+the lowest arm means (1.03-1.04 vs 1.05 baseline, 1.07 A2). Repetitive text produces generic states with many natural
+neighbours. So steering failure here is collapse into a dense attractor, not an excursion into a void; the Goodfire
+picture does not describe it. To be confirmed on the complete arms after the runs finish.
+
+
+<!-- D-62 to D-67 were written by the parallel paper-story session (tmp/DECISIONS_append.md, 02:08 UTC) and ratifications (tmp/decisions_ratify.md, 02:38 UTC); restored here on 2026-10-14 04:55 UTC after a whole-file push from the mechanism session overwrote them. The mechanism line uses D-55 to D-61 and D-68, D-69, D-69b. -->
+
+
+## D-62 (proposed): forced-answer readiness probe, is the efficiency gain a stopping gain?
+Question: when A2 (or the RL bias) lifts accuracy at a tight budget, was the right answer already in the unsteered
+trace, so that the gain is earlier commitment, or does the steered trace solve problems the unsteered one does not?
+Design: the DEER-style forced answer. For every trace in p1_budget (baseline, ol_math_A2, ol_random) and p4_eval3
+(rl_zeroT_s60) and p4_eval2 (rl_a2initT_s60), 199 tasks x 2 seeds, cut the generated reasoning at k in {512, 1024,
+2048, 4096, 8192, 12288} tokens, close the think block and append "The final answer is $\boxed{", then generate at
+most 48 tokens greedily with no steering (one reader for every arm). A trace that had already closed its think block
+before k keeps its own answer and grade. Readiness R(k) = share of tasks whose answer at k is correct. Grader: the D-47
+free-text normalisation (mc.extract_free.math_correct) on the boxed content. Same recipe on cd_countdown (baseline, A2)
+with "<answer>" as the forcing string.
+Predictions, written before the run: (1) among unsteered traces unanswered at 12k, R(4096) is at least 0.5: the answer
+is usually there by 4k; (2) R_A2(k) - R_unsteered(k) is within 5 points at every k <= 4096, i.e. A2 does not reach
+answers sooner, it commits sooner; (3) RL-from-zero matches A2 on (2). If (2) fails with A2 ahead by more than 10
+points at k <= 2048, the steering changes the solving, not only the stopping, and the paper says so.
+Cost: about 12k short generations, under an hour on one GPU. Code: mc/readiness.py (written 2026-10-14, not yet run;
+sbatch stage `readiness`). Output: data/readiness/<run>__<cond>.parquet and data/readiness/summary.csv.
+
+## D-63 (proposed): pairwise comparative judging for idea quality
+Question: the LiveIdeaBench rubric sits near its ceiling (unsteered 8.6 originality, 7.3 feasibility of 10), so "no arm
+improves both" could be a floor effect of the instrument. Pairwise comparison removes the ceiling.
+Design: for each keyword and each steered arm, show the judge the unsteered idea and the steered idea in random order
+(both orders, separate calls) and ask two questions in separate calls: "Which research idea is more original (novel,
+surprising, not an obvious extension of existing work)?" and "Which research idea is more feasible (could a competent
+group carry it out with realistic resources, methods and data)?", answered with A, B or tie. Score per arm and axis =
+win rate minus loss rate over keywords, paired bootstrap CI. Frontier test = any arm with a positive net win on both
+axes. Judges: gemma-4-31B-it (primary) and Qwen3.5-27B-Instruct (second family). Runs: tx_idea (all arms, 200
+keywords), power1 (reflect gamma -1/-3, prompts), sched1 (sustained explore/check and the schedules). Prompt text to be
+ratified with this entry. Cost: about 20k short judge calls per judge, 1-2 GPU-hours each. Code: to write after
+ratification (mc/pairwise_judge.py), reusing src.judge.vllm_engine.
+
+## D-64 (proposed; supersedes the sketch in D-54): Gemma-4-12B core cells, the second model
+Question: do the causal claims (F2-F4) hold in another lineage?
+Steps: (1) HF loading of the unified checkpoint for hooks (transformers 5.10 has the class; find the text-tower decoder
+layers and extend common.decoder_layers; smoke the per-layer hook with the vLLM plugin as the generation engine);
+(2) readout corpus = the atlas Gemma-4-12B traces for math, gpqa, planning, idea (300 tasks per domain, Track B labels
+exist; segment states at three candidate layers around 0.4-0.5 depth, pick by within-domain CV R^2 as in D-33); (3) fit
+the rank-8 map, archetypes, the own efficient archetype on math and gpqa; (4) arms on the held-out 200 tasks per
+domain, fixed vectors in vLLM, 2 seeds, 32k budget, budget curves, Track B on seed 1: unsteered, own archetype, the
+Gemma Math vector on GPQA, norm-matched random, sig_math on idea, sig_idea on math, conv_up and conv_down on
+Countdown; (5) idea quality by the rubric and by D-63 if ratified.
+Predictions, written now: same signs as Qwen in every cell (efficiency gain at 12k that shrinks at 32k; random harmful;
+structure on ideas costs originality; conversational up hurts Countdown); sizes free. If Gemma's own archetype keeps
+verification (as RL-zero did on Qwen), that is reported as the lineage difference, not as a failure.
+Cost: about 30 GPU-hours generation, 15 GPU-hours judging, two to three days wall clock on both boxes.
+
+## D-65 (proposed): label validity, human gold and a second judge
+(a) Human gold. 480 segments: 8 behaviours x judge label (positive, negative) x 4 sources (atlas Qwen3.5-9B math and
+idea unsteered; p1_budget A2 on math; sigx_idea Math-A2 on idea) x up to 8 per cell (rare positives capped at what
+exists), shown with the 5 preceding segments, blind to source, condition and judge label; two coders (Harsh and one
+lab member), Cohen's kappa per behaviour against the judge, and inverse-probability-weighted sensitivity and
+specificity for the population. Steered sources are in so that the judge is validated on the text the interventions
+produce (loops scored as backtracking is the known failure). Sampler: mc/gold_sample.py (written 2026-10-14); draft
+sample at data/gold/{gold_items.parquet, coding_sheet.csv, answer_key.csv}. Numbers (480, 5 segments of context, two
+coders) are proposals.
+(b) Second judge. Track B with Qwen3.5-27B-Instruct (configs/judges/candidates.yaml, cross-family) on the seed-1 traces
+of p1_budget {baseline, ol_math_A2, ol_random}, tx_idea {baseline, sig_math}, cd_countdown {baseline, conv_up}; report
+every headline behaviour shift under both judges and the cosine between the two shift vectors. Pass: cosine above 0.8
+and the same signs on subgoal, Q&A and verification. Cost: about 1,400 traces, 4-6 GPU-hours.
+
+## D-66 (proposed, optional): a second distilled model on F1
+Question: is "deliberation follows topic, not demand" a property of distilled reasoners or of R1-Distill-Llama-8B?
+Design: the D-50 minimal pairs (640 prompts plus the 320 second samples) on DeepSeek-R1-Distill-Qwen-7B (same
+distillation, other base) and, if cheap, an SFT-only open reasoner (OpenThinker-7B); Track B on 8k; the same three
+analyses. Prediction: distilled models show demand excess within noise and topic distance above it, as R1-Distill did.
+Cost: about 4 GPU-hours per model.
+
+## D-67 (proposed, optional): the Society of Thought crossover on their model
+Our conv_up is a readout-defined direction on Qwen3.5-9B; theirs is an SAE feature (30939, "surprise" discourse marker,
+layer 15 of DeepSeek-R1-Distill-Llama-8B). The direct test: their feature on their model with our 200 Countdown tasks,
+budget curves and random control, if the SAE and feature are public; otherwise a difference-of-means "surprise marker"
+direction on R1-Distill. Only then is "more conversation does not help search" a counter-claim rather than a
+model-specific result.
+
+
+D-62 ratified (2026-10-14, Harsh: "go ahead with D-62 and D-65, run the readiness probe. follow your best judgment").
+Changes to the design before the run: the finished-before-cut grade falls back to the repo grader on the trace's own answer
+text when no D-47 grade exists (counts in the job log); a built-in gate runs the first 8 traces of the baseline arm and
+stops the job (exit 2, samples in data/readiness/<tag>/samples.txt) if under 60% of the forced continuations parse, so a
+bad forcing string cannot waste the run; outputs go under data/readiness/<tag>/ (tags math, countdown). Jobs: 395510
+(readiness_math: p1_budget baseline, ol_math_A2, ol_random; p4_eval3 rl_zeroT_s60; p4_eval2 rl_a2initT_s60; cuts 512 to
+12288) and 395512 (readiness_cd: cd_countdown baseline, ol_math_A2; cuts 1024 to 12288). CPU dry run passed.
+
+D-65 ratified (2026-10-14, same message). (a) Sample redrawn with the same seed (506 items, identical to the draft) plus
+per-cell sampling probabilities (data/gold/cell_sizes.csv; answer_key.csv carries sampling_prob) and the full preceding
+trace (gold_items.parquet, context_full). Coder instructions with the judge's verbatim definitions: data/gold/CODING_GUIDE.md.
+Scorer: mc/gold_score.py (kappa per behaviour vs judge and between coders, IPW sensitivity and specificity, by source).
+Coders: Harsh plus one lab member, to be named. (b) Second judge = Qwen/Qwen3.5-27B (the cached hybrid model; the judge
+engine renders with enable_thinking=False; the Instruct id in candidates.yaml is not cached). Stage judgeB2 in mode.sbatch,
+config exp_mode_chunk20_j27.yaml (max_num_seqs 128 for the GDN cache), outputs under judge/trackB2_<tag>/ so no gemma
+analysis can pick them up (tx_analyze and gold_sample match the gemma tag or judge_model). Seed-1 inputs for tx_idea
+(baseline, sig_math) and cd_countdown (baseline, conv_up) staged into judge_in_j27/ (the stage_judge dirs only keep arms
+gemma has not finished). Jobs 395513-395515 (p1_budget baseline, A2, random), 395516-395517 (tx_idea), 395518-395519
+(cd_countdown). Analysis: mc/judge2_compare.py (segment kappa judge vs judge; windowed rates, paired shifts and the shift
+cosine under each judge; pass = cosine > 0.8 and same signs on subgoal, Q&A, verification).
+
+
+D-69b gate (2026-10-14 05:25 UTC, run abl2 generated, job 395656): directional ablation keeps generation coherent in every
+arm (hard loops 0-2.5%, answered within 0.1 of baseline, mean length within 300 tokens of baseline, both domains), unlike
+the zero-ablation of D-69. Track A + B judge and mc.analyze submitted (job 395935); the frozen-score gap per arm is the test.
+D-52 prediction (ii) written 2026-10-14 05:29 UTC, before any transplant outcome was graded: data/transplant/prereg_observed.json,
+sha256 74d79b22081512b477cbf9848808c89aae8204f3d7394e24ce463d9c1421dc85 (142 target x outcome x arm cells; slopes from
+prereg.json times the Track B shifts in data/transplant/shifts.csv). Every arm on every target has seed-1 labels. Outcome
+grading starts after this entry: math free-text grades and budget curves (tx_math/gpqa/planning), quality judge (tx_idea/moral).
+D-52 integrity note (2026-10-14): prediction (ii) was written at 05:29:49 UTC (sha256 74d79b22...). A wait script from the
+paper-story session, started before it knew this session was active, re-ran `tx_analyze shifts` and `prereg_observed` and
+rewrote shifts.csv, shift_cosines.csv, prereg_observed.json and .sha256 at 05:31:36-05:31:40 (file hash now d6e4faea...,
+created_utc 05:31:40Z). Same code, same Track B inputs, no outcome inputs. Check (read-only, /ada1/u/harsh/tmp/verify_prereg2.py):
+the current file with created_utc set back to 2026-10-14T05:29:49Z hashes exactly to 74d79b22081512b477cbf9848808c89aae8204f3d7394e24ce463d9c1421dc85,
+so all 142 cells are byte-identical to the file written before grading. Timestamp-free hash 3bdf62ad7b2f... Math outcome grading
+started 05:30:29, after the original write. The H2a tests use these cells.
+
+D-62 outcome (2026-10-14 06:40 UTC; RESULTS "D-62 forced-answer readiness probe"): prediction 1 holds (71% of unsteered
+Math traces unanswered at 12k have the right answer by 4k), prediction 2 holds (A2 never reaches answers sooner than
+unsteered; it commits sooner), prediction 3 fails (RL from zero reaches answers sooner by 4-7 points at 1-4k). Consequence
+for the paper: forced answering at the budget (s1-style) recovers more accuracy-at-budget than any steering arm (unsteered
+forced at 4k 87%, at 12k 95%), so the efficiency claim must be stated against budget forcing; steering's own contribution is
+self-stopping without a cutoff and no loops, and the mechanism reading (commitment policy) is strengthened. Jobs 395758, 395759.
+
+D-59 outcome (2026-10-14 08:50 UTC; runs nm_math, nm_idea complete, 14 arms; RESULTS_NEURO.md "E5"): the data path does not
+help in either direction. Math, toward Idea: line s=0.5 (norm 3.9) harmless (loops 0.10 vs 0.09, accuracy -0.01 ns);
+norm-matched path 0.26 loops, accuracy -0.18; path s=0.5 (7.6) 0.90 loops; line s=1.0 (7.8) 0.59; random 0.14 / 0.30 at
+3.9 / 7.8. Idea, toward Math: norm-matched path and projection-matched line both at baseline (0.29, 0.33 vs 0.32); line
+s=0.5 0.75; everything at norm >= 6.75 above 0.87. The only coherent steer is the low-rank Math signature on Idea (0.00
+loops, -12.9k tokens, s_all -5.7); the low-rank Idea signature on Math breaks (0.90). P5 second half fails; the result
+is "coherent control is low-rank and convergent-ward". Pending: Track B on the new arms (tb_nm_math 396462, tb_nm_idea
+395936), free-text Math grades (freex_nm0/1 396463/4), quality judge on Idea (q_nm_idea 395937), final density (D-68).

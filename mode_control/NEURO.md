@@ -39,7 +39,7 @@ how long it takes, whether it commits).
    profile and the tokens to finish; accuracy moves only through finishing within budget (P1, D-36, D-41, F3).
 3. It fails in a specific way. Pushing a task toward a mode the model never uses for that task (Idea-mode on Math)
    produces loops; the centroid-line geometry does not explain this (E5), so the explanation to test is that the
-   steered states leave the region where the model has natural states (D-62).
+   steered states leave the region where the model has natural states (D-68).
 F1 to F3 in the paper are the behaviour-level versions of these three; the neuro-style experiments are the
 mechanism-level versions.
 
@@ -58,11 +58,11 @@ table is the result:
 | anticipation before an event | readiness-like activity before action | the A2 direction rises during the sentence before a structured sentence in Math; the domain axis reacts at onset |
 
 What this changes in the plan.
-1. The Goodfire question is re-posed on real trajectories (D-62). Centroid lines were the wrong object: no void, and
+1. The Goodfire question is re-posed on real trajectories (D-68). Centroid lines were the wrong object: no void, and
    the line is mostly content (cosine 0.16 with the axis). The claim to test: steering fails when it creates states
    with no natural neighbours. Measure the 10-NN density of the actual steered states (line, data path, low-rank
    signature and random arms) against the natural corpus, per trace, and relate it to loops.
-2. The component map gets a causal test (D-63). Ablate the top Idea-carrying heads (gate closed) during generation,
+2. The component map gets a causal test (D-69). Ablate the top Idea-carrying heads (gate closed) during generation,
    against Math-carrying heads and layer-matched random heads, and see whether the gap and the behaviour profile move.
    If they do, heads are a second unit of control next to the residual vector and the behaviour profile.
 3. The SAE line stops at the gate result. The extra steering pair of D-61 is kept only if the ten-pair geometry shows
@@ -72,7 +72,7 @@ What this changes in the plan.
 
 Paper figures from this line: the component atlas (E1 + D-61); the task-set time course (E2); coupling restructuring
 under the exploratory instruction with the brain-model table (E3); the event-locked A2 lead (E4); steered-state density
-vs loops with the three vector families (E5 + D-62); the head-ablation test (D-63).
+vs loops with the three vector families (E5 + D-68); the head-ablation test (D-69).
 
 ## Mapping
 
@@ -271,10 +271,15 @@ top-64 vector approaches it. If the gate fails, E6 is reported as the gate resul
 - 2026-10-14 02:30 UTC, D-61 ratified. Jobs: neuro_corp5 (component extraction on gpqa, planning, moral corpora) and
   sigacts_moral (moral segment states for the ten-pair geometry). Analysis code for the five-domain atlas follows; the
   extra steering pair waits for the geometry read.
-- 2026-10-14 03:00 UTC: big-picture section added above; D-62 (steered-state density) and D-63 (head ablation)
+- 2026-10-14 03:00 UTC: big-picture section added above; D-68 (steered-state density) and D-69 (head ablation)
   logged and built; both queue behind the running steering and D-61 jobs.
 - 2026-10-14 03:40 UTC, D-61 done: axis positions math -0.07 < gpqa 1.49 < planning 1.91 < idea 3.26 < moral 3.89;
   territories disjoint (Jaccard <= 0.13; planning = layer-19 heads, idea = early MLPs); push-pull coupling identical in
   every domain; A2 lead in the convergent domains only; no centroid line void above 1.19 -> no extra steering pair.
-  D-62 (states) and D-63 (abl1) jobs queued behind the steering runs and another session's jobs.
+  D-68 (states) and D-69 (abl1) jobs queued behind the steering runs and another session's jobs.
+- 2026-10-14 03:30 UTC: D-69 zero-ablation breaks generation for the carrier heads (not for random heads); judge not run;
+  D-69b directional ablation built (run abl2) and queued. D-68 interim: neighbour density does not track loops; the
+  vector family x task domain does (low-rank Math signature fixes Idea loops; raw lines and the Idea signature break).
+- 2026-10-14 04:40 UTC: density relation inverted (loops = denser states); logged under D-68 interim. Waiting on the
+  steering runs (post-run stages, final density, E5 table) and abl2 (D-69b).
 

@@ -262,13 +262,17 @@ class Steerer:
 
 
 class HeadAblator:
-    """D-63: silences chosen heads of one decoder layer by zeroing their slice of the attention output before o_proj
+    """D-69: silences chosen heads of one decoder layer by zeroing their slice of the attention output before o_proj
     (full attention, after the sigmoid gate) or out_proj (linear attention, after the gated norm): the gate-closed state
     of this architecture. Applied on every position, prompt and generation. attach(layer) registers the pre-hook."""
 
-    def __init__(self, heads: list[int]):
+    def __init__(self, heads: list[int], direction=None):
+        """direction = None: zero the heads (D-69; breaks generation for the carrier heads). direction = unit vector d
+        [d_model] (D-69b): remove only each head's write along d by projecting the head's input off
+        u_h = W_O[:, h]^T d / |.|, so <write_h, d> = 0 at every position and everything else the head does stays."""
         self.heads = sorted(set(int(h) for h in heads)); self.mode = "ablate"
-        self.calls = 0; self.n_steered_positions = 0; self.n_late_positions = 0; self.nh = None; self.hd = None
+        self.direction = None if direction is None else np.asarray(direction, np.float32)
+        self.calls = 0; self.n_steered_positions = 0; self.n_late_positions = 0; self.nh = None; self.hd = None; self.removed = 0.0
 
     def reset(self):
         self.calls = 0; self.n_steered_positions = 0
@@ -281,13 +285,29 @@ class HeadAblator:
         hd = proj.in_features // nh; self.nh, self.hd = nh, hd
         assert max(self.heads) < nh, (self.heads, nh)
         heads = self.heads
+        if self.direction is None:
+            def pre(module, args):
+                x = args[0]; B, T = x.shape[:2]
+                self.calls += 1; self.n_steered_positions += T
+                x = x.reshape(B, T, nh, hd).clone(); x[:, :, heads, :] = 0
+                return (x.reshape(B, T, nh * hd),) + tuple(args[1:])
+            return proj.register_forward_pre_hook(pre)
+        import torch
+        W = proj.weight.detach().float()                                                      # [d_model, nh*hd]
+        d = torch.as_tensor(self.direction, device=W.device)
+        M = (W.T @ d).view(nh, hd)[heads]                                                     # m_h = W_O[:, h]^T d   [k, hd]
+        U = (M / (M.norm(dim=-1, keepdim=True) + 1e-9)).to(torch.float32)                    # unit vectors in each head's input space
 
-        def pre(module, args):
+        def pre_dir(module, args):
             x = args[0]; B, T = x.shape[:2]
             self.calls += 1; self.n_steered_positions += T
-            x = x.reshape(B, T, nh, hd).clone(); x[:, :, heads, :] = 0
+            x = x.reshape(B, T, nh, hd).clone()
+            xs = x[:, :, heads, :].float()                                                    # [B, T, k, hd]
+            coef = (xs * U).sum(-1, keepdim=True)
+            self.removed += float(coef.abs().sum())
+            x[:, :, heads, :] = (xs - coef * U).to(x.dtype)
             return (x.reshape(B, T, nh * hd),) + tuple(args[1:])
-        return proj.register_forward_pre_hook(pre)
+        return proj.register_forward_pre_hook(pre_dir)
 
 
 def orthonormal(U: np.ndarray) -> np.ndarray:

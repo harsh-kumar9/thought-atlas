@@ -5,7 +5,7 @@ traces parquet per condition: traces_<condition>.parquet (resumable per instance
 
 Condition spec keys:
   name              unique
-  mode              baseline | gamma | add | swap | random | target | ablate (D-63: "heads": [[layer, kind, head], ...])
+  mode              baseline | gamma | add | swap | random | target | ablate (D-69: "heads": [[layer, kind, head], ...])
   direction         key in directions npz, e.g. prompt_r1 | rawdom_r1 | prompt_r2   (not for baseline/random)
   layer, phase      which fitted direction (phase = center/mu source, e.g. mean32)
   gamma / alpha_sd  gamma for mode=gamma; alpha in units of baseline projection SD for mode=add
@@ -83,12 +83,15 @@ def build_steerers(cond: dict, dirs) -> list[tuple[int, Steerer]]:
     if mode in ("baseline", "prompt_only"):
         return []
     if mode == "ablate":
-        # D-63: cond["heads"] = [[layer, kind, head], ...]; one ablator per layer, attached as a pre-hook on the projection
+        # D-69: cond["heads"] = [[layer, kind, head], ...]; one ablator per layer, attached as a pre-hook on the projection
         from .common import HeadAblator
         by_layer: dict[int, list[int]] = {}
         for l, _kind, h in cond["heads"]:
             by_layer.setdefault(int(l), []).append(int(h))
-        return [(l, HeadAblator(hs)) for l, hs in sorted(by_layer.items())]
+        d = None
+        if cond.get("direction"):                                                    # D-69b: directional ablation along the axis
+            d = dirs[f"{cond['direction']}|{int(cond['layer'])}|{cond.get('phase', 'mean32')}"][:, 0].astype(np.float32)
+        return [(l, HeadAblator(hs, direction=d)) for l, hs in sorted(by_layer.items())]
     if mode == "target":
         # signature controller: cond = {"map": "<npz under data/sigctrl>", "phi_star": [k] or "archetype:<name>", "gain": g, "lam": l, "mask": [k]}
         z = np.load(DATA / "sigctrl" / cond["map"], allow_pickle=True)

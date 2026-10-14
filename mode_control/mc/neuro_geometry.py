@@ -186,7 +186,7 @@ def _reference(layer: int, n_sample: int, seed: int):
 
 
 def cmd_density(layer: int, n_sample: int, seed: int):
-    """D-62: 10-NN density of the actual steered states (data/neuro/states/*.npz) against the natural corpus, per trace,
+    """D-68: 10-NN density of the actual steered states (data/neuro/states/*.npz) against the natural corpus, per trace,
     related to loops. -> data/neuro/analysis/density_traces.csv, density_arms.csv, density_summary.json, fig_neuro_density"""
     import polars as pl
     from scipy.stats import spearmanr, mannwhitneyu
@@ -223,39 +223,40 @@ def cmd_density(layer: int, n_sample: int, seed: int):
                      **{f"mix_{d}": float(g[f"mix_{d}"].mean()) for d in doms}})
     A = pl.DataFrame(arms).sort(["run", "ratio_mean"]); A.write_csv(out / "density_arms.csv")
     pooled = {}
-    for run, g in df.group_by("run"):
+    df = df.with_columns((pl.col("run") + ":" + pl.col("condition")).alias("arm"))
+    for (tt,), g in df.group_by(["task_type"]):
         rr = spearmanr(g["ratio_mean"].to_numpy(), g["hard_loop"].to_numpy()).correlation if g["hard_loop"].n_unique() > 1 else np.nan
-        # loop rate by ratio bin, pooled over arms of the run
         edges = [0, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0, 99]; bins = []
         for a_, b_ in zip(edges, edges[1:]):
             gg = g.filter((pl.col("ratio_mean") >= a_) & (pl.col("ratio_mean") < b_))
             if gg.height: bins.append({"lo": a_, "hi": b_, "n": gg.height, "loop_rate": float(gg["hard_loop"].mean())})
-        pooled[str(run[0] if isinstance(run, tuple) else run)] = {"spearman_ratio_loop": float(rr) if rr == rr else None, "loop_rate_by_ratio_bin": bins}
-    (out / "density_summary.json").write_text(json.dumps({"layer": layer, "d10_median": d10_med, "domains": doms, "pooled": pooled}, indent=1))
+        pooled[str(tt)] = {"spearman_ratio_loop": float(rr) if rr == rr else None, "loop_rate_by_ratio_bin": bins}
+    (out / "density_summary.json").write_text(json.dumps({"layer": layer, "d10_median": d10_med, "domains": doms, "pooled_by_task_domain": pooled}, indent=1))
     pl.Config.set_tbl_width_chars(230); pl.Config.set_tbl_rows(60); pl.Config.set_fmt_float("mixed")
-    print(A.select(["run", "condition", "n", "loop_rate", "answered", "ratio_mean", "ratio_max_mean", "frac_above_1p5", "ratio_loop", "ratio_noloop", "spearman_ratio_loop", "mix_top" if False else "mix_idea", "mix_math"]).with_columns(pl.col(pl.Float64).round(3)))
-    print("[density] pooled Spearman(ratio, loop) and loop rate by ratio bin:", json.dumps(pooled, indent=None)[:1500])
-    # figure: per-arm mean ratio (points: traces; loops in red) and the pooled loop rate by ratio bin
+    print(A.select(["run", "condition", "n", "loop_rate", "answered", "ratio_mean", "ratio_max_mean", "frac_above_1p5", "ratio_loop", "ratio_noloop", "spearman_ratio_loop", "mix_idea", "mix_math"]).with_columns(pl.col(pl.Float64).round(3)))
+    print("[density] pooled by task domain:", json.dumps(pooled)[:1200])
+    # figure: one panel per task domain (arms = run:condition), traces as points (loops in red), plus loop rate by ratio bin
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    plt.rcParams.update({"font.size": 7, "axes.labelsize": 7, "legend.fontsize": 6.5, "xtick.labelsize": 6, "ytick.labelsize": 6.5, "axes.spines.top": False, "axes.spines.right": False, "savefig.dpi": 300, "pdf.fonttype": 42})
-    runs = A["run"].unique().to_list()
-    fig, axs = plt.subplots(1, len(runs) + 1, figsize=(7.2, 2.6), gridspec_kw={"width_ratios": [2] * len(runs) + [1.1]})
+    plt.rcParams.update({"font.size": 7, "axes.labelsize": 7, "legend.fontsize": 6.5, "xtick.labelsize": 5.5, "ytick.labelsize": 6.5, "axes.spines.top": False, "axes.spines.right": False, "savefig.dpi": 300, "pdf.fonttype": 42})
+    tds = sorted(df["task_type"].unique().to_list())
+    fig, axs = plt.subplots(1, len(tds) + 1, figsize=(7.2, 2.8), gridspec_kw={"width_ratios": [2.2] * len(tds) + [1.1]})
     rng = np.random.default_rng(0)
-    for k, run in enumerate(runs):
-        ax = axs[k]; a_ = A.filter(pl.col("run") == run).sort("ratio_mean"); conds = a_["condition"].to_list()
-        for j, c in enumerate(conds):
-            g = df.filter((pl.col("run") == run) & (pl.col("condition") == c))
+    for k, tt in enumerate(tds):
+        ax = axs[k]; sub = df.filter(pl.col("task_type") == tt)
+        arms_ = sub.group_by("arm").agg(pl.col("ratio_mean").mean().alias("m")).sort("m")["arm"].to_list()
+        for j, c in enumerate(arms_):
+            g = sub.filter(pl.col("arm") == c)
             x = j + rng.uniform(-0.25, 0.25, g.height); y = g["ratio_mean"].to_numpy(); lp = g["hard_loop"].to_numpy() == 1
-            ax.scatter(x[~lp], y[~lp], s=3, color="#1b6ca8", alpha=0.35, lw=0, rasterized=True); ax.scatter(x[lp], y[lp], s=4, color="#c7521d", alpha=0.7, lw=0, rasterized=True)
+            ax.scatter(x[~lp], y[~lp], s=2.5, color="#1b6ca8", alpha=0.3, lw=0, rasterized=True); ax.scatter(x[lp], y[lp], s=3.5, color="#c7521d", alpha=0.6, lw=0, rasterized=True)
             ax.plot([j - 0.3, j + 0.3], [y.mean(), y.mean()], color="k", lw=1)
-        ax.axhline(1.0, color="grey", lw=0.5, ls=":"); ax.set_xticks(range(len(conds))); ax.set_xticklabels([c.replace("_", " ") for c in conds], rotation=90)
-        ax.set_ylabel("mean 10-NN ratio of the trace's states"); ax.set_title(run); ax.text(-0.1, 1.05, "ab"[k], transform=ax.transAxes, fontsize=9, fontweight="bold")
+        ax.axhline(1.0, color="grey", lw=0.5, ls=":"); ax.set_xticks(range(len(arms_))); ax.set_xticklabels([c.replace("_", " ").replace(":", "\n") for c in arms_], rotation=90)
+        ax.set_ylabel("mean 10-NN ratio of the trace's states"); ax.set_title(f"{tt} tasks (red = hard loop)"); ax.text(-0.1, 1.05, "ab"[k], transform=ax.transAxes, fontsize=9, fontweight="bold")
     ax = axs[-1]
-    for run, col in zip(runs, ("#1b6ca8", "#c7521d")):
-        b = pooled[run]["loop_rate_by_ratio_bin"]
-        ax.plot([(x["lo"] + min(x["hi"], 3)) / 2 for x in b], [x["loop_rate"] for x in b], marker="o", ms=3, color=col, label=run)
+    for tt, col in zip(tds, ("#c7521d", "#1b6ca8")):
+        b = pooled[tt]["loop_rate_by_ratio_bin"]
+        ax.plot([(x["lo"] + min(x["hi"], 3)) / 2 for x in b], [x["loop_rate"] for x in b], marker="o", ms=3, color=col, label=f"{tt} tasks")
     ax.set_xlabel("mean 10-NN ratio (bin centre)"); ax.set_ylabel("hard-loop rate"); ax.legend(frameon=False); ax.text(-0.15, 1.05, "c", transform=ax.transAxes, fontsize=9, fontweight="bold")
     fig.tight_layout(); fd = NEURO / "figures"; fd.mkdir(parents=True, exist_ok=True)
     fig.savefig(fd / "fig_neuro_density.pdf", bbox_inches="tight"); fig.savefig(fd / "fig_neuro_density.png", bbox_inches="tight"); print("[density] ->", fd / "fig_neuro_density.pdf")

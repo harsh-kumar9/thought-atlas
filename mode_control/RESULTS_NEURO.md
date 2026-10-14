@@ -78,18 +78,64 @@ sentence), not for the domain axis, which reacts rather than anticipates. Caveat
 sentence, so a lead is a predictive state, not a silent readiness signal; sentence offsets carry a few tokens of
 tokenisation slop. Figure: fig_neuro_events.
 
-## E5. Geometry of the Math-Idea path (D-59), before the steering arms
+## E5. Geometry of the Math-Idea path (D-59): geometry, then the steering arms
 
-Layer 16, 10k segment states per domain (math, idea, gpqa, planning), PCA-50. Straight line between the Math and Idea
-centroids: length 7.8; data path through the 15-NN graph: 23.0, detouring through GPQA and planning states (at s = 0.5
-the 50 nearest states are 72% GPQA, 24% planning, 4% Math, 0% Idea). Void ratio (10-NN distance over the data median)
-along the line: 0.96 at the Math end, 1.07 at the midpoint, 1.12 at the Idea end, 1.25 at s = 1.5; along the smoothed
-path 0.63-0.96 (biased low, the raw nodes average 0.87). The centroid difference is nearly orthogonal to the prompt
-axis at this layer (cosine 0.16; 1.26 of the 7.8 lies on the axis).
+Geometry (layer 16, 10k segment states per domain, PCA-50). Straight line between the Math and Idea centroids: length
+7.8; data path through the 15-NN graph: 23.0, detouring through gpqa and planning states (at s = 0.5 the 50 nearest
+states are 72% gpqa, 24% planning, 4% math, 0% idea). Void ratio (10-NN distance over the data median) along the
+line: 0.96 at the Math end, 1.07 at the midpoint, 1.12 at the Idea end; along the smoothed path 0.63-0.96 (biased low;
+the raw nodes average 0.87). The centroid difference is nearly orthogonal to the prompt axis at this layer (cosine
+0.16; 1.26 of the 7.8 lies on the axis). With moral added, no pair of the ten has a line void above 1.19, and the
+high values sit at the Idea end of every pair, which is Idea's own lower density (D-61). First half of P5: not
+supported; the straight line between centroids is inside the cloud.
 
-Verdict on the first half of P5: not supported. By this density measure the straight line between the centroids is
-inside the cloud, not a void. The steering comparison (line vs path at matched norm, both directions) is the real test
-and runs as designed; results pending. Figure: fig_neuro_atlas_L16.
+Steering arms (fixed vectors at layer 16 in vLLM, 199 held-out Math tasks and 200 Idea keywords, 2 seeds, 32k budget;
+paired against the shared unsteered baselines; analysis/steer_outcomes.csv, steer_paired.csv, fig_neuro_steer).
+Track B on seed 1 of the new arms and the free-text Math grades are still queued; the accuracy column below is the
+direct grader applied to every arm alike, and the Track B column exists only for the borrowed arms.
+
+Math tasks, toward Idea (hard-loop rate; change in accuracy vs baseline, 95% CI; Idea-likeness shift where labelled):
+
+| arm | norm | on the axis (gap units) | hard loops | d accuracy | d s_all |
+|---|---|---|---|---|---|
+| unsteered | 0 | 0 | 0.09 | 0 | 0 |
+| line s = 0.5 | 3.9 | +0.50 | 0.10 | -0.01 (-0.07, +0.06) | pending |
+| line, projection-matched | 2.7 | +0.35 | 0.11 | -0.04 (-0.10, +0.02) | pending |
+| line s = 1.0 (the Idea centroid) | 7.8 | +1.00 | 0.59 | -0.43 (-0.50, -0.36) | pending |
+| data path, norm-matched | 3.9 | +0.35 | 0.26 | -0.18 (-0.25, -0.12) | pending |
+| data path s = 0.5 | 7.6 | +0.70 | 0.90 | -0.57 (-0.63, -0.52) | pending |
+| random | 3.9 | 0 | 0.14 | -0.04 (-0.10, +0.02) | pending |
+| random | 6.75 | 0 | 0.16 | -0.08 (-0.14, -0.02) | +0.6 |
+| random | 7.8 | 0 | 0.30 | -0.15 (-0.21, -0.10) | pending |
+| Idea signature, low-rank | 6.75 | (readout) | 0.90 | -0.56 (-0.62, -0.50) | +4.0 |
+| Idea signature + half A2 | 6.75 | (readout) | 0.46 | -0.23 (-0.29, -0.16) | +1.3 |
+| A2, low-rank | 6.75 | (readout) | 0.005 | +0.09 (+0.03, +0.15) | -0.1 |
+
+Idea tasks, toward Math (hard-loop rate; change in loops and in tokens vs baseline; Idea-likeness shift where labelled):
+
+| arm | norm | on the axis (gap units) | hard loops | d loops | d tokens | d s_all |
+|---|---|---|---|---|---|---|
+| unsteered | 0 | 0 | 0.32 | 0 | 0 | 0 |
+| line, projection-matched | 0.8 | -0.11 | 0.33 | +0.01 (-0.06, +0.07) | +0.4k | pending |
+| line s = 0.5 | 3.9 | -0.50 | 0.75 | +0.43 (+0.36, +0.50) | +13.1k | pending |
+| line s = 1.0 (the Math centroid) | 7.8 | -1.00 | 0.96 | +0.64 (+0.59, +0.69) | +18.1k | pending |
+| data path, norm-matched | 3.9 | -0.11 | 0.29 | -0.03 (-0.10, +0.03) | +1.3k (ns) | pending |
+| data path s = 0.5 | 7.9 | -0.30 | 0.98 | +0.66 (+0.61, +0.71) | +18.1k | pending |
+| random | 3.9 | 0 | 0.66 | +0.34 (+0.28, +0.39) | +8.8k | pending |
+| random | 6.75 | 0 | 0.92 | +0.60 (+0.54, +0.66) | +17.3k | +11.1 |
+| random | 7.8 | 0 | 0.87 | +0.55 (+0.50, +0.61) | +14.7k | pending |
+| Math signature, low-rank | 6.75 | (readout) | 0.00 | -0.32 (-0.37, -0.27) | -12.9k | -5.7 |
+
+Verdict on the second half of P5: the data path does not help in either direction. On Math it is worse than the
+straight line at the same norm (loops 0.26 vs 0.10, accuracy -0.18 vs -0.01) and worse than a random vector at the
+full norm (0.90 vs 0.30); on Idea the norm-matched path leaves everything at baseline, and so does the line at the
+same axis projection, so the path's extra norm is off-axis content that is harmless on Idea and harmful on Math. What
+the arms show instead: every raw-space vector (line, path, random) breaks Idea tasks from norm 3.9 up and Math tasks
+from norm 7 up, regardless of direction; the one vector that steers coherently is the low-rank Math signature on Idea
+tasks (loops 0.32 to 0.00, 13k fewer tokens, Idea-likeness down 5.7 logits of a 16-logit gap, backtracking -0.08 and
+verification and subgoal +0.07 to +0.09); the low-rank Idea signature on Math breaks like a raw vector (0.90 loops).
+Coherent control is low-rank and convergent-ward. The density test (D-68) says why the raw vectors fail is not
+"leaving the manifold": looping traces sit in denser regions than coherent ones.
 
 ## E6. The axis in the SAE basis (D-60)
 
@@ -178,5 +224,5 @@ Ten-pair geometry (layer 16, five domains): no straight line between centroids r
 maximum is 1.19 (idea to moral) and 1.18 (math to idea, idea to gpqa, idea to planning), and in every case the high
 values sit at the Idea end, which is Idea's own lower density (its centroid scores 1.18 against 0.94-1.00 for the
 others). Paths detour through gpqa and planning for every pair that involves idea or moral (path over straight 1.7 to
-8.1). Per the rule in the big-picture section, no extra steering pair is run; the budget goes to D-62 and D-63.
+8.1). Per the rule in the big-picture section, no extra steering pair is run; the budget goes to D-68 and D-69.
 

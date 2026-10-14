@@ -19,7 +19,7 @@ Modes
            teacher-force the whole sequence; spans (system, filler, task, generated) are stored per prompt
   smoke   four corpus traces and the sum-identity check (sum of component writes = residual projection)
   states  --runs r --conditions c1,c2: the layer-16 residual every --stride tokens of each trace (prompt + first
-          --n-tokens reasoning tokens), for the steered-state density test (D-62) -> data/neuro/states/<run>__<cond>.npz
+          --n-tokens reasoning tokens), for the steered-state density test (D-68) -> data/neuro/states/<run>__<cond>.npz
 
 Per trace the shard holds: comp_mean [C, k] (mean write over the window positions), comp_act [C] (RMS of the
 8-dim readout write), resid [T_win, 2, k] (residual projections at layers 16 and 19, every window position) and,
@@ -431,7 +431,7 @@ def run_taskset(model, tok, hooks: CompHooks, batch_gen: int, batch: int, flush:
     sh.flush()
 
 
-# ---------------------------------------------------------------- D-62: strided residual states of (steered) traces
+# ---------------------------------------------------------------- D-68: strided residual states of (steered) traces
 def run_states(model, tok, runs: list[str], conditions: list[str], stride: int, n_tokens: int, batch: int, limit: int | None, layer: int = 16):
     import torch
     out_dir = NEURO / "states"; out_dir.mkdir(parents=True, exist_ok=True)

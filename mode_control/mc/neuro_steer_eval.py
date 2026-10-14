@@ -96,6 +96,46 @@ def paired(df: pl.DataFrame, ref: str = "baseline", reps: int = 2000) -> pl.Data
     return pl.DataFrame(out).sort("condition")
 
 
+def trackb_scores(run: str, tr: pl.DataFrame, window: int = 8192) -> pl.DataFrame | None:
+    """Frozen Idea-likeness scores (s_all, s_cog, s_conv) and the eight rates for every seed-1 trace of the run and its
+    borrowed arms, from the Track B labels in each run's judge directories (the new arms: judge/trackB_s1; the borrowed
+    arms: their own runs' judge dirs). Returns None until labels exist."""
+    from .common import JUDGE_MODEL, load_tokenizer
+    from .phenotype import score_with_frozen, windowed_amounts
+    tag = JUDGE_MODEL.replace("/", "_")
+    runs = [run] + [brun for brun, _ in RUNS[run][0]]
+    paths = [p for r in runs for p in sorted((DATA / "runs" / r / "judge").rglob(f"trackB_full__{tag}*.parquet"))]
+    if not paths:
+        return None
+    tb = pl.concat([pl.read_parquet(p) for p in paths], how="diagonal_relaxed").unique(["trace_id", "seg_idx"], keep="last")
+    sub = tr.filter((pl.col("seed") == 1) & pl.col("trace_id").is_in(tb["trace_id"].unique().to_list()))
+    if not sub.height:
+        return None
+    fz = json.loads((DATA / "phenotype" / f"frozen_w{window}.json").read_text())
+    amt = windowed_amounts(sub, tb, window=window, tok=load_tokenizer())
+    if not amt.height:
+        return None
+    sc = score_with_frozen(amt, fz).join(sub.select(["trace_id", "condition", "instance_id", "task_type"]), on="trace_id")
+    return sc
+
+
+def trackb_report(run: str, sc: pl.DataFrame) -> pl.DataFrame:
+    from .common import BEH
+    cols = ["s_all", "s_cog", "s_conv"] + [f"{b}__rate" for b in BEH]
+    task = sc.group_by(["condition", "instance_id"]).agg([pl.col(c).mean() for c in cols])
+    base = task.filter(pl.col("condition") == "baseline").drop("condition")
+    rng = np.random.default_rng(0); out = []
+    for (c,), g in task.filter(pl.col("condition") != "baseline").group_by(["condition"]):
+        j = g.join(base, on="instance_id", suffix="_ref"); rec = {"run": run, "condition": c, "n_tasks": j.height}
+        for m in cols:
+            d = (j[m] - j[f"{m}_ref"]).to_numpy().astype(float)
+            if not len(d): continue
+            bs = np.array([d[rng.integers(0, len(d), len(d))].mean() for _ in range(1000)])
+            rec.update({f"d_{m}": float(d.mean()), f"d_{m}_lo": float(np.quantile(bs, 0.025)), f"d_{m}_hi": float(np.quantile(bs, 0.975))})
+        rec["baseline_s_all"] = float(j["s_all_ref"].mean()); out.append(rec)
+    return pl.DataFrame(out).sort("condition")
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--runs", default="nm_math,nm_idea"); a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True); FIG.mkdir(parents=True, exist_ok=True)
@@ -122,6 +162,13 @@ def main():
         n_full = int(summ["n"].max())
         summ = summ.join(pl.DataFrame(meta), on="condition").with_columns(pl.lit(run).alias("run"), (pl.col("n") < n_full).alias("partial")).sort("path", "norm")
         pr = paired(df).with_columns(pl.lit(run).alias("run"))
+        sc = trackb_scores(run, tr)
+        if sc is not None:
+            tbr = trackb_report(run, sc); tbr.write_csv(OUT / f"steer_trackb_{run}.csv")
+            print(f"\n[steer] {run} Track B (seed 1): Idea-likeness s_all and rate shifts vs baseline, paired over tasks")
+            print(tbr.select(["condition", "n_tasks", "baseline_s_all", "d_s_all", "d_s_all_lo", "d_s_all_hi", "d_backtracking__rate", "d_verification__rate", "d_Perspective_Shift__rate", "d_subgoal__rate"]).with_columns(pl.col(pl.Float64).round(3)))
+        else:
+            print(f"[steer] {run}: no Track B labels yet (run scripts/neuro_postrun.sh)")
         summ_all.append(summ); pair_all.append(pr)
         pl.Config.set_tbl_width_chars(230); pl.Config.set_tbl_rows(40); pl.Config.set_fmt_float("mixed")
         print(f"\n[steer] {run} (grades: {df['grade_source'].value_counts().to_dicts() if 'grade_source' in df.columns else 'n/a'})")

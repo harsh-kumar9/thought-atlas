@@ -1347,3 +1347,150 @@ verification part, and the P1 reading that A2's answered-accuracy slip comes fro
 until the human gold set (D-65a) decides. The D-62 readiness result gives the slip a judge-free explanation (A2 commits before
 the answer is ready on some problems). Still to label under Qwen: tx_idea (baseline, sig_math) and cd_countdown (baseline,
 conv_up), jobs 395760-395763.
+
+## D-52 transplant matrix: divergent targets, H2a, H2b (2026-10-14; graded after prediction (ii), sha 74d79b22)
+Idea target: 200 fresh LiveIdeaBench keywords, quality judge (originality and feasibility 1-10, quality = mean / 10). Moral
+target: 200 held-out MoReBench dilemmas, rubric score 0-1. 32k budget, 2 seeds. Unsteered: idea answers 68% (32% loop), moral 96%.
+Change in quality among answered traces vs unsteered (paired over tasks; n tasks with an answer in both arms):
+| arm | idea quality | idea originality | idea feasibility | moral quality |
+|---|---|---|---|---|
+| sig_math | -0.018 (-0.026, -0.011), n=170 | -0.27 (-0.36, -0.18) | -0.09 (-0.24, +0.07) | -0.047 (-0.055, -0.039) |
+| sig_moral | -0.036 (-0.044, -0.029), n=169 | -0.15 | -0.58 | -0.040 (-0.047, -0.033), own |
+| sig_planning | -0.008 (-0.016, +0.002), n=129 | -0.22 | +0.07 | +0.009 (+0.002, +0.016) |
+| sig_gpqa | no answers (n=1) | | | +0.033 (n=102 of 200; selected) |
+| sig_idea | no answers (own) | | | n=11 |
+| prompt "brainstorm" | +0.008 (+0.001, +0.015) | +0.02 | +0.15 | +0.002 |
+| prompt "math problem" | -0.013 | +0.13 | -0.39 | -0.060 |
+| random | n=12 | | | -0.007 |
+Loops % / answered % at 32k (both seeds), by target:
+| arm | math | gpqa | planning | idea | moral |
+|---|---|---|---|---|---|
+| unsteered | 10/88 | 7/91 | 4/97 | 32/68 | 4/96 |
+| sig_math | 0/100 | 0/100 | 0/100 | 0/100 | 0/100 |
+| sig_moral | 10/87 | 5/91 | 2/98 | 9/92 | 0/100 |
+| sig_planning | 14/85 | 16/84 | 7/95 | 53/49 | 6/94 |
+| sig_gpqa | 86/12 | 94/6 | 94/6 | 100/0 | 66/36 |
+| sig_idea | 91/9 | 98/2 | 97/4 | 100/0 | 97/4 |
+| idea + half A2 | 46/52 | 74/26 | | | |
+| random | 18/80 | 41/58 | 16/86 | 97/3 | 21/80 |
+Reading. No domain is helped by amplifying its own signature: GPQA -31 at 12k, idea never answers, moral -0.04, planning +7.5
+(the only own-signature gain, smaller than math's +21 on planning). What a signature vector does is set mostly by one property
+that is the same on every target: whether it makes the model commit (math's signature: 0% loops everywhere) or keep going
+(idea's and gpqa's: 66-100% loops everywhere). Commit-type vectors help where the budget binds (convergent targets, +21 to +36
+at 12k) and cost a little depth on open-ended ones (idea originality -0.27, moral rubric -0.05 among answered).
+
+H2a, pre-registered tests over the 20 off-diagonal signature cells (primary outcome: accuracy at 12k; quality among answered for
+idea and moral):
+| prediction | sign agreement | binomial p (one-sided) | mean within-target Spearman | per target (math, gpqa, planning, moral, idea) |
+|---|---|---|---|---|
+| (i) slopes x readout-implied shift | 12/20 | 0.25 | 0.28 | 0.8, 0.8, 1.0, -0.4, -0.8 |
+| (ii) slopes x measured shift | **15/20** | **0.021** | **0.72** | 1.0, 1.0, 1.0, 0.8, -0.2 |
+Prediction (ii) passes; (i) does not. Once the behaviour shift a vector makes on a target is measured, that target's own
+observational slopes predict the outcome change, perfectly by rank on the three convergent targets. The weak link is the
+readout's guess of the shift, not the slopes. Idea is the miss on both, as flagged in the pre-registration (its slopes lean on
+backward chaining, which idea traces almost never show).
+
+H2b: as worded (divergent sources loop in convergent targets), mixed: idea's signature loops everywhere (91-98% on convergent
+targets), moral's does not (2-10%), and gpqa's, a convergent source, loops everywhere too. Looping follows the vector's
+commit component, not the source domain's type. Mechanism half: adding half of A2 to idea's signature roughly halves the
+loops on math (91 -> 46%) and cuts them on gpqa (98 -> 74%), and halves the accuracy cost on math (-47 -> -21).
+
+## D-53 F3: behaviour shift vs residual direction (29 vector cells on math, gpqa, planning; accuracy change at 12k)
+| predictor | R^2 |
+|---|---|
+| target's slopes x measured shift (prediction ii) | 0.81 |
+| measured shift projected on A2's shift on the same target | 0.62 |
+| residual-stream cosine of the vector with A2 | 0.22 |
+| projection + residual cosine | 0.63 (residual coefficient -0.03) |
+The behaviour shift carries the prediction; where the vector points in the residual stream adds nothing once the shift is
+known. On GPQA and planning, SEAL's direction at A2's dose and the zero-start RL bias, both near-orthogonal to A2 in the residual
+stream, give +22 / +25 (gpqa) and +13 / +15 (planning) at 12k, close to A2's +25 / +15.
+
+## D-63 pairwise idea judging, interim (2026-10-14, gemma-4-31B-it judge; Qwen3.5-27B pass queued)
+Setup (mc/pairwise_judge.py; data/pairwise/): each steered idea against the unsteered idea for the same keyword and seed, two
+questions (more original / more feasible) in separate calls, both orders, A/B/tie under guided JSON. Net win per arm = mean
+over keywords of (+1 steered wins, -1 unsteered wins, 0 tie), orders and seeds averaged; 95% keyword bootstrap. Pairs with an
+empty idea on either side are skipped (tx_idea 2,725 of 4,200 pairs, mostly arms that loop; power1 1,057; sched1 1,339).
+Ties are rare (1-6%); position bias is visible (an A-first advantage of 0.1-0.2) and cancels across the two orders.
+
+Net wins (originality / feasibility), 95% CI:
+| run | arm | originality | feasibility | keywords |
+|---|---|---|---|---|
+| power1 | Math-ward band add -1 gap | -0.54 (-0.64, -0.45) | +0.37 (+0.26, +0.48) | ~120 |
+| power1 | centroid swap band | -0.52 (-0.59, -0.44) | +0.45 (+0.38, +0.53) | ~140 |
+| power1 | reflect gamma -1 / -3 at L19 | -0.26 / -0.33 | +0.08 / +0.09 (CIs touch 0) | ~140 |
+| power1 | checking prompt | -0.06 (ns) | +0.10 (+0.00, +0.19) | ~140 |
+| power1 | exploratory prompt | +0.35 (+0.24, +0.45) | -0.04 (ns) | ~140 |
+| power1 | Idea-ward band +0.5 gap | +0.16 (+0.08, +0.25) | -0.08 (ns) | ~100 |
+| power1 | random band | -0.01 | -0.09 (ns) | ~120 |
+| sched1 | sustained explore / sustained check | +0.21 / -0.22 | -0.13 / +0.12 | ~150 |
+| sched1 | the four schedules and the random schedule | -0.05 to +0.01 | -0.10 to +0.05 | ~180 |
+| tx_idea | sig_math (commit transplant), x0.5 / x1 / x1.5 | -0.27 / -0.54 / -0.69 | -0.04 / -0.04 / +0.01 (all ns) | 70-170 |
+| tx_idea | sig_planning x1 | -0.45 (-0.59, -0.32) | +0.12 (ns) | 107 |
+| tx_idea | sig_moral x1 / x1.5 | -0.08 / -0.05 (ns) | -0.56 / -0.86 | 163 / 59 |
+| tx_idea | "think like a math problem" prompt | +0.46 (+0.35, +0.56) | -0.16 (-0.29, -0.04) | 158 |
+| tx_idea | "brainstorm a research idea" prompt | 0.00 | +0.18 (+0.05, +0.30) | 141 |
+| tx_idea | sig_gpqa, sig_idea | 1-10 keywords answered; not interpretable | | |
+
+Verdicts.
+1. No frontier expansion under the ceiling-free instrument: no arm is positive with a clear CI on both axes. The D-28/D-63
+   negative stands and is now a result, not a floor effect: effects are 0.2-0.7 in net-win units where the 1-10 rubric
+   showed 0.1-0.3 points near its ceiling.
+2. The rank-one explore/check axis trades: Math-ward pushes lose originality and gain feasibility (band -0.54 / +0.37, swap
+   -0.52 / +0.45; sustained check -0.22 / +0.12), Idea-ward pushes gain originality and lose a little feasibility
+   (exploratory prompt +0.35 / -0.04; sustained explore +0.21 / -0.13). Schedules sit at zero on both.
+3. The low-rank commit transplant (sig_math) is a pure loss on ideas: originality falls with dose (-0.27, -0.54, -0.69) and
+   feasibility does not move. The moral signature costs feasibility (-0.56, -0.86) without buying originality.
+4. One surprise: the "think about this the way you would think about a math problem" instruction makes ideas more original
+   (+0.46) at a small feasibility cost, the opposite of the Math vector. A prompt and a vector built from the same domain do
+   different things to ideas; the vector carries commitment, the instruction carries something else (to read qualitatively
+   and to check under the second judge before it goes in the paper).
+
+## D-65b second judge, final (2026-10-14): tx_idea and cd_countdown arms under Qwen3.5-27B
+Same setup as the interim section; 81,215 (tx_idea) and 224,331 (cd_countdown) segments labelled by both judges, 400 traces each.
+
+Behaviour shifts vs unsteered under each judge (points per 100 sentences, 95% CI):
+| run, arm | behaviour | gemma | Qwen |
+|---|---|---|---|
+| tx_idea, sig_math (commit transplant) | subgoal | +8.6 (+7.9, +9.4) | +12.9 (+11.5, +14.3) |
+| | verification | +7.2 (+6.3, +8.2) | +7.6 (+6.7, +8.4) |
+| | Q&A | +2.9 (+2.1, +3.6) | +3.7 (+2.7, +4.6) |
+| | backtracking | -8.4 (-9.8, -7.2) | -5.0 (-6.3, -3.8) |
+| | perspective shift | -2.2 (-3.8, -0.5) | -3.9 (-5.7, -2.1) |
+| | conflict | -2.1 (-3.0, -1.2) | +0.7 (+0.0, +1.4) |
+| cd_countdown, conv_up | Q&A | +9.8 (+8.2, +11.4) | +7.4 (+6.2, +8.6) |
+| | perspective shift | +1.8 (+0.8, +2.9) | +4.6 (+3.9, +5.3) |
+| | conflict | +0.9 (+0.4, +1.3) | +1.3 (+0.8, +1.6) |
+| | verification | -5.2 (-6.5, -3.9) | -5.4 (-6.5, -4.2) |
+| | subgoal | +1.8 (+1.2, +2.4) | +2.0 (+1.5, +2.5) |
+Shift-vector cosines: sig_math on ideas 0.92 (Qwen size 1.14 of gemma), conv_up on Countdown 0.94 (0.90); both pass the rule.
+
+Verdict over the four steered arms: three pass (random on math, the commit transplant on ideas, conversational-up on Countdown);
+A2 on math fails on one behaviour only (the verification cut is gemma-only; subgoal and Q&A agree). So every headline
+behaviour claim except "A2 cuts verification on Math" holds under a second judge family, and the Countdown manipulation check
+(D-51) is judge-robust. The judge also agrees that the commit transplant raises verification on ideas (+7 under both), so the
+Math-on-Idea profile is "more subgoals and checking, less backtracking and shifting". Human gold (D-65a) still decides the
+Math verification question.
+
+## D-63 pairwise idea judging, final (2026-10-14): both judges
+Second judge Qwen3.5-27B (thinking off, same prompts, guided JSON; job 396998) on the same pairs. Over the 50 arm x axis cells
+with at least 40 keywords, the two judges' net wins correlate at 0.96 and agree in sign in 90% of cells (every disagreement is
+a cell within a few hundredths of zero). Qwen calls ties far more often (28% against 1-6%), so its net wins are smaller in
+size with the same order. Neither judge finds a frontier expansion: no arm is positive on both axes with a CI clear of zero.
+Key arms under both judges (net win originality / feasibility; gemma then Qwen):
+| run | arm | originality gemma | originality Qwen | feasibility gemma | feasibility Qwen |
+|---|---|---|---|---|---|
+| power1 | band_add_minus_sus | -0.54 (-0.64, -0.45) | -0.54 (-0.63, -0.46) | +0.37 (+0.26, +0.48) | +0.28 (+0.17, +0.39) |
+| power1 | band_swap_sus | -0.52 (-0.59, -0.44) | -0.52 (-0.60, -0.45) | +0.45 (+0.38, +0.53) | +0.38 (+0.30, +0.46) |
+| power1 | prompt_exploratory | +0.35 (+0.24, +0.45) | +0.38 (+0.28, +0.48) | -0.04 (-0.14, +0.06) | -0.29 (-0.40, -0.18) |
+| power1 | prompt_checking | -0.06 (-0.14, +0.03) | -0.08 (-0.17, +0.01) | +0.10 (+0.00, +0.19) | +0.09 (+0.01, +0.18) |
+| power1 | band_add_plus_half_sus | +0.16 (+0.08, +0.25) | +0.16 (+0.08, +0.25) | -0.08 (-0.18, +0.01) | -0.12 (-0.19, -0.04) |
+| sched1 | sus_idea_L19 | +0.21 (+0.11, +0.29) | +0.26 (+0.18, +0.36) | -0.13 (-0.24, -0.03) | -0.14 (-0.24, -0.03) |
+| sched1 | sus_math_L19 | -0.22 (-0.30, -0.14) | -0.27 (-0.35, -0.20) | +0.12 (+0.03, +0.20) | +0.09 (+0.01, +0.17) |
+| sched1 | idea_then_math_L19 | +0.01 (-0.08, +0.09) | -0.02 (-0.10, +0.05) | -0.10 (-0.19, -0.01) | -0.11 (-0.19, -0.03) |
+| tx_idea | sig_math | -0.54 (-0.64, -0.45) | -0.55 (-0.64, -0.47) | -0.04 (-0.15, +0.08) | -0.15 (-0.27, -0.04) |
+| tx_idea | sig_math_x1p5 | -0.69 (-0.83, -0.54) | -0.67 (-0.83, -0.50) | +0.01 (-0.20, +0.23) | -0.26 (-0.46, -0.04) |
+| tx_idea | sig_planning | -0.45 (-0.59, -0.32) | -0.40 (-0.53, -0.26) | +0.12 (-0.03, +0.27) | -0.00 (-0.16, +0.15) |
+| tx_idea | sig_moral | -0.08 (-0.20, +0.03) | -0.07 (-0.17, +0.04) | -0.56 (-0.67, -0.45) | -0.50 (-0.61, -0.40) |
+| tx_idea | prompt_math | +0.46 (+0.35, +0.56) | +0.47 (+0.37, +0.57) | -0.16 (-0.29, -0.04) | -0.17 (-0.29, -0.06) |
+| tx_idea | prompt_idea | -0.00 (-0.11, +0.11) | -0.02 (-0.13, +0.08) | +0.18 (+0.05, +0.30) | +0.28 (+0.15, +0.40) |

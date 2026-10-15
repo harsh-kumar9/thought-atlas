@@ -51,6 +51,10 @@ def cmd_profiles(models: list[str]):
         md = [json.loads(x) for x in fr[meta_col].to_list()]
         fr = fr.with_columns(pl.Series("item", [d["f1_item"] for d in md]), pl.Series("topic", [d["topic"] for d in md]),
                              pl.Series("ptype", [d["ptype"] for d in md]), pl.lit("f1").alias("source")).drop(meta_col)
+        if not (V2 / "traces" / f"traces_{m}.parquet").exists():        # D-66 models have no atlas traces
+            fr.write_parquet(OUT / f"rates_{m}.parquet")
+            print(f"[f1 profiles] {m}: {fr.height} F1 traces with labels ({fr.group_by('ptype').len().sort('ptype').rows()}), no atlas traces")
+            continue
         at = pl.read_parquet(V2 / "traces" / f"traces_{m}.parquet", columns=["trace_id", "instance_id", "task_type", "reasoning_text_for_analysis"])
         atb = (pl.scan_parquet(V2 / "judge" / f"trackB_full__{TAG}.parquet").filter(pl.col("trace_id").is_in(at["trace_id"].to_list()))
                .filter(pl.col("context_mode") == "full").collect())
@@ -110,6 +114,8 @@ def cmd_classify(models: list[str]):
     for m in models:
         df = pl.read_parquet(OUT / f"rates_{m}.parquet").drop_nulls(R)
         at = df.filter(pl.col("source") == "atlas"); f1 = df.filter(pl.col("source") == "f1")
+        if not at.height:
+            print(f"[f1 classify] {m}: no atlas traces, skipped"); continue
         f1_items = set(f1["item"].unique())
         train = at.filter(~pl.col("item").is_in(list(f1_items)))                 # no F1 item leaks into training
         X, y = train.select(R).to_numpy(), train["topic"].to_numpy()
@@ -138,11 +144,11 @@ def cmd_project(models: list[str]):
     rows = []
     for m in models:
         dd = MC / "data" if m == "qwen35_9b" else MC / "data" / m
-        A = np.load(next(p for p in (dd / "acts" / "stageA_k64.npz", dd / "acts" / "stageA_k192.npz") if p.exists()), allow_pickle=True)
+        A = np.load(next(p for p in (dd / "acts" / "stageA_k64.npz", dd / "acts" / "stageA_k192.npz", F1 / f"stageA_{m}.npz") if p.exists()), allow_pickle=True)
         ph = A["phases"].tolist().index("last_prompt"); tt = A["task_type"]
         Z = np.load(F1 / f"acts_{m}.npz", allow_pickle=True); H = Z["H"].astype(np.float32)
-        dirs = next(p for p in sorted((dd / "directions").glob("directions_w4096*.npz"), reverse=True))
-        D = np.load(dirs)
+        dirs = next(iter(sorted((dd / "directions").glob("directions_w4096*.npz"), reverse=True)), None) if (dd / "directions").exists() else None
+        D = np.load(dirs) if dirs else type("NoDirs", (), {"files": []})()     # no explore-check direction for D-66 models
         for l in range(H.shape[1]):
             a = A["acts"][:, l, ph, :].astype(np.float32); mu_m, mu_i = a[tt == "math"].mean(0), a[tt == "idea"].mean(0)
             u = mu_i - mu_m; gap = float(u @ u)

@@ -282,4 +282,8 @@ top-64 vector approaches it. If the gate fails, E6 is reported as the gate resul
   vector family x task domain does (low-rank Math signature fixes Idea loops; raw lines and the Idea signature break).
 - 2026-10-14 04:40 UTC: density relation inverted (loops = denser states); logged under D-68 interim. Waiting on the
   steering runs (post-run stages, final density, E5 table) and abl2 (D-69b).
+- 2026-10-14 09:40 UTC, D-69b: directional ablation of 8 or 16 carrier heads leaves the gap at 13.6-13.7 (baseline
+  13.3); random 13.4-14.4; projecting the axis out of the whole residual at L19 gives 11.7 (12%). Heads write the axis
+  but do not decide the behaviour; the axis is re-written downstream. E5 arms done (RESULTS_NEURO "E5"). Pending:
+  Track B and Math grades on the E5 arms, Idea quality, final density.
 

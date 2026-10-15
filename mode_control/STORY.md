@@ -1,4 +1,4 @@
-# The story (draft, 2026-10-14)
+# The story (draft, 2026-10-14; revised 2026-10-14 evening after D-52, D-53, D-62, D-65b)
 
 What this is: the paper we can write from the atlas, the mode-control runs and the neuro-style readouts; what in the
 literature it rests on; where it is new; what is still missing and how we fill it. Pending decisions are D-62 to D-67
@@ -10,20 +10,21 @@ ratified yet.
 Reasoning models deliberate differently depending on what the task asks for: solve it, generate options, or judge an
 answer. That difference is set before the first thinking token and lives in a low-dimensional internal state we can
 read and push. The main direction of the state runs from exploring (perspective shifts, backtracking, conflict) to
-committing (verification, subgoals). Pushing it needs sustained input; a pulse does nothing. What a push buys depends on
-the task. On tasks with one right answer, the committing end buys efficiency: the same accuracy with a third to a half
-of the tokens and almost no runaway traces, but no gain once the budget is generous, and a small loss of accuracy on
-the problems it does answer. On open tasks the same pushes trade originality for feasibility, and nothing we tried moves
-ideas off that line. The unit of control is the behaviour profile, not the vector: four unrelated residual directions
-(our readout archetype, SEAL's direction, a vector RL learned from zero, and an Idea-domain archetype) produce the same
-profile and similar gains, while a random vector of the same size hurts. RL on a steering bias converges on the profile,
-not on the vector.
+committing (verification, subgoals). Pushing it needs sustained input; a pulse does nothing. What transfers between
+domains is the commit component, not domain identity: the Math signature is the best transplant on every convergent
+target and makes every target finish, amplifying a domain's own signature helps none of them, and divergent signatures
+loop everywhere. On tasks with one right answer the commit end buys finishing, not solving: the answer is usually in the
+trace already, and a forced answer at the budget recovers as much accuracy as any steering arm or more, so what steering
+adds is that the model stops on its own, without a cutoff and without loops, and the RL bias also reaches answers a little
+sooner. On open tasks every push trades originality for feasibility. The unit of control is the behaviour profile, not
+the vector: the measured behaviour shift predicts the outcome change (R^2 0.81 over 29 cells; the residual cosine adds
+nothing), four unrelated residual directions give one profile, and RL on a steering bias lands on it.
 
 ## Thesis in one line
 
-Task demand sets a deliberation mode. The mode is a controllable internal state with an explore-commit axis. Turning it
-toward commit buys efficiency on convergent tasks and costs originality on divergent ones. The model, the prompt and RL
-all converge on a behaviour profile, not on a direction.
+Task demand sets a deliberation mode. The mode is a controllable internal state whose main axis runs from exploring to
+committing. Turning it toward commit makes the model finish on tasks with one answer (which a forced stop also buys) and
+costs originality on open ones. What a push does is predicted by the behaviour profile it produces, not by the vector.
 
 ## Why this and not the descriptive atlas
 
@@ -186,3 +187,45 @@ models: set by demand, turned from inside". "What steering reasoning buys".
 Running: nm_math (E5, Idea-ward line against curve on Math), nm_idea_a-d (E5, Math-ward on ideas), neuro_corp5 (D-61,
 five-domain component map), tb_tx_idea_main (last transplant Track B). Pending: sigacts_moral (D-61 geometry). After
 tb_tx_idea_main: tx_analyze shifts and prereg_observed run on their own (outputs/tx_after_tb.log), then stop.
+
+## Updates, 2026-10-14 evening
+
+D-52 transplant matrix (peer session; RESULTS "D-52 ..."): the F2 sentence "each domain's signature is tuned to its own
+demand" is not supported. No domain is helped by amplifying its own signature (gpqa -31 at 12k, idea never answers, moral
+-0.04; planning +7.5 is the only gain). Math's signature is the best transplant on every convergent target (+36 math, +34
+gpqa, +21 planning at 12k) and makes all five targets finish (0% loops); idea's and gpqa's signatures loop on every
+target (66-100%). On open targets the commit profile costs a little depth (idea originality -0.27, moral rubric -0.05
+among answered). H2a: the within-task slopes times the measured Track B shift predict the outcome sign in 15 of 20 cells
+(p = 0.021), mean within-target Spearman 0.72; the readout-implied shift does not (12 of 20). H2b: looping follows the
+vector's commit component, not the source domain; idea + half A2 halves loops and the math cost. F2 restated: signatures
+differ mainly in how they trade commitment against exploration, and observational slopes predict the effect of a measured
+shift.
+
+D-53 (peer session): behaviour-shift prediction of the accuracy change, R^2 0.81 over 29 cells; the residual cosine with
+A2 (0.22 alone) adds nothing. F4 holds.
+
+D-62 readiness probe (RESULTS "D-62"): the answer is usually there; unsteered Math forced at 4k scores 87% and at 12k
+95% against 22% and 54% by its own stopping; A2 commits sooner but never reaches answers sooner; RL from zero reaches
+them sooner by 4-7 points at 1-4k. F3 restated: the accuracy-at-budget gains of steering are gains in commitment that a
+forced stop also buys; steering's own contribution is self-stopping without a cutoff, no loops, and (for the RL bias) a
+small solving gain. The paper compares against budget forcing.
+
+D-65b second judge, interim (RESULTS "D-65b"): kappa 0.60-0.79 for the six frequent behaviours; A2's shift keeps its shape
+(cosine 0.91) with subgoal up and self-questioning down under both judges, but the verification cut is gemma-only. The
+efficient profile is stated as "more subgoal structure, less self-questioning" until the human gold set decides on
+verification.
+
+Open: D-63 (pairwise idea judging) and D-64 (Gemma-4-12B) are running (D-63 job queued; D-64 corpus staged, smoke queued).
+D-65a needs a second coder.
+
+D-63 pairwise idea judging, interim (gemma judge; RESULTS "D-63"): no frontier expansion with the ceiling removed. The rank-one
+axis trades (Math-ward band -0.54 originality / +0.37 feasibility; exploratory prompt +0.35 / -0.04); the commit transplant is a
+pure originality loss (-0.27 to -0.69 with dose, feasibility flat); schedules sit at zero. Surprise to check under the second
+judge: the "think like a math problem" instruction raises originality (+0.46) where the Math vector lowers it.
+
+D-65b final: the second judge family agrees with gemma on every headline shift except "A2 cuts verification on Math" (the
+commit transplant on ideas, cosine 0.92; conversational-up on Countdown, cosine 0.94; random, 0.96). Segment kappa 0.60-0.79
+on the six frequent behaviours.
+
+D-63 final: both judge families agree (net-win correlation 0.96, signs 90%); no frontier expansion anywhere; the "think like a
+math problem" instruction's originality gain (+0.46 gemma) holds under Qwen too, so the prompt-vs-vector split on ideas is real.

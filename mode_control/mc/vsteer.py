@@ -31,7 +31,7 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 
-from .common import DATA, DECODE, GEN_MODEL_KEY, MODEL_ID, decoder_layers, json_hash, render_prompt
+from .common import DATA, DECODE, GEN_MODEL_KEY, MODEL_ID, MODELS, canon_text, decoder_layers, json_hash, render_prompt
 
 os.environ.setdefault("VLLM_ENABLE_V1_MULTIPROCESSING", "0")          # hooks and _S must live in this process
 VS = DATA / "vsteer"
@@ -235,10 +235,12 @@ def _install(model):
         def hook(mod, args, out):
             if _S["v"] is None or _S["layer"] != idx:
                 return None
-            h, res = out
+            bare = torch.is_tensor(out)                      # Gemma-4 layers return one tensor (D-64); Qwen returns (h, residual)
+            h, res = (out, None) if bare else out
             if _S["rule"] == "all":
                 _S["n_steered"] += h.shape[0]
-                return ((h.float() + _S["v"]).to(h.dtype), res)
+                hv = (h.float() + _S["v"]).to(h.dtype)
+                return hv if bare else (hv, res)
             ids = _S["ids"]
             if ids is None or ids.shape[0] != h.shape[0]:
                 _S["n_mismatch"] += 1
@@ -258,7 +260,7 @@ def _install(model):
                 return None
             _S["n_steered"] += n
             h = h.clone(); h[mask] = (h[mask].float() + _S["v"]).to(h.dtype)
-            return (h, res)
+            return h if bare else (h, res)
         return hook
     for i, lay in enumerate(layers):
         lay.register_forward_hook(make(i))
@@ -279,10 +281,16 @@ def _set_steer(llm, tok, vec: dict | None, rule: str = "all", coef: float = 1.0)
 def build_vllm(max_model_len: int, gpu_mem: float = 0.88, max_num_seqs: int = 256, hooks: bool = True):
     """hooks=False: plain engine with CUDA graphs and torch.compile, for runs with no steering vector."""
     from vllm import LLM
+    max_num_seqs = int(os.environ.get("VSTEER_MAX_NUM_SEQS", max_num_seqs))      # D-64: Gemma runs cap concurrency at 64
     kw = dict(enforce_eager=True, compilation_config={"mode": 0}) if hooks else {}
+    from .common import MODELS
+    if MODELS[GEN_MODEL_KEY]["loader"] == "gemma4":                                   # D-64: as the atlas engine builds it
+        from src.judge.vllm_engine import _allow_heterogeneous_config
+        kw.update(trust_remote_code=True, hf_overrides=_allow_heterogeneous_config)
+    elif MODELS[GEN_MODEL_KEY]["loader"] == "qwen35":                               # text-only models (R1-Distill) take no mm limits (D-67)
+        kw["limit_mm_per_prompt"] = {"image": 0, "video": 0}
     llm = LLM(model=MODEL_ID, dtype="bfloat16", max_model_len=max_model_len, gpu_memory_utilization=gpu_mem,
-              max_num_seqs=max_num_seqs, max_num_batched_tokens=8192, enable_prefix_caching=False, seed=0,
-              limit_mm_per_prompt={"image": 0, "video": 0}, **kw)
+              max_num_seqs=max_num_seqs, max_num_batched_tokens=8192, enable_prefix_caching=False, seed=0, **kw)
     if hooks:
         n = llm.apply_model(_install)
         print(f"[vllm] hooks installed on {n} layers", flush=True)
@@ -468,8 +476,9 @@ def cmd_gen(run: str, conds_filter: str | None, flush_s: float):
                 text = tok.decode(gen_ids, skip_special_tokens=False) if prev else g.text
                 for t in (tok.eos_token, tok.pad_token, "<|im_end|>"):
                     if t and text.endswith(t): text = text[: -len(t)]
+                text = canon_text(text) if MODELS[GEN_MODEL_KEY]["loader"] == "causal_lm" else text   # D-67 byte-BPE repair; identity otherwise
                 finish = "stop" if g.finish_reason == "stop" else "length"
-                parsed = parse_generation_detailed(text, "reasoning", finish_reason=finish)
+                parsed = parse_generation_detailed(canon_text(text), "reasoning", finish_reason=finish)   # canon_text is identity for Qwen
                 think, answer = parsed["think_text"], parsed["answer_text"]
                 completed = is_completed(kind="reasoning", finish_reason=finish, has_close_tag=parsed["close_tag_count"] > 0 or parsed["parse_status"] == "direct_answer_no_close", has_answer=bool(answer))
                 rtext = None

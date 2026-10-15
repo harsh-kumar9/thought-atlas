@@ -968,3 +968,201 @@ s=0.5 0.75; everything at norm >= 6.75 above 0.87. The only coherent steer is th
 loops, -12.9k tokens, s_all -5.7); the low-rank Idea signature on Math breaks (0.90). P5 second half fails; the result
 is "coherent control is low-rank and convergent-ward". Pending: Track B on the new arms (tb_nm_math 396462, tb_nm_idea
 395936), free-text Math grades (freex_nm0/1 396463/4), quality judge on Idea (q_nm_idea 395937), final density (D-68).
+
+D-69b outcome (2026-10-14 09:40 UTC, run abl2 judged, job 395935; RESULTS_NEURO.md "D-69 and D-69b"): prediction fails.
+Gap on s_all: baseline 13.25 (12.2-14.3); 8 / 16 Idea carriers with the axis write removed 13.74 / 13.57; Math carriers
+14.62 / 15.48; random 14.42 / 13.43; axis projected out of the whole residual at L19 (ceiling) 11.68 (12% attenuation).
+Loops 0-2% everywhere. The carriers write the axis; the behaviour does not depend on their axis write, which is
+re-established downstream; even the full readout direction is a weak lever against removal (control needed the
+sustained overshoot of D-24). Heads are not a unit of control; the map locates the write, not the decision.
+
+D-63 ratified (2026-10-14, Harsh: "go ahead with D-63 and D-64 too"). Implementation: mc/pairwise_judge.py, sbatch stage
+`pairwise` (env JUDGE selects the judge). Prompt as in the D-63 entry: system "You compare two research ideas written for the
+same keyword. Judge only the idea text, not its length or formatting. Answer with a JSON object and nothing else."; user =
+keyword, Idea A, Idea B, one question (originality: "more original (novel, surprising, not an obvious extension of existing
+work)"; feasibility: "more feasible (a competent research group could carry it out with realistic resources, methods and
+data)"; "Answer tie only if they are equally ..."), guided JSON {"winner": A|B|tie}, temperature 0, ideas cut at 6,000
+characters. Pairs: every non-baseline arm against the run's unsteered idea for the same keyword and sampling seed; both
+orders; pairs with an empty answer on either side skipped and counted. Score per keyword = mean over orders and seeds of
+(+1 steered wins, -1 unsteered wins, 0 tie); net win = mean over keywords, 2000-draw keyword bootstrap. Frontier expansion
+= net win positive with CI clear of zero on both axes. Position bias and tie rate reported. Runs: tx_idea (18 arms), power1
+(8), sched1 (7). Judges: gemma-4-31B-it first, Qwen3.5-27B second. Reads tx_idea traces only (the peer session was told).
+
+D-64 ratified (2026-10-14, same message). Stage plan, one gate at a time:
+ 1. Corpus and split (CPU, mc/gemma_stage.py, MC_MODEL=gemma4_12b): atlas Gemma-4-12B traces with full-context Track B
+    labels, per domain (math, gpqa, planning, idea) a seeded shuffle of instance ids (seed 20261014), readout = 300 tasks,
+    held-out = the rest (~190); runs/atlas_<dom>/ in the mode_control layout; held-out task rows copied from data/v2/tasks.
+ 2. Smoke (GPU, mc/gemma_smoke.py): HF Gemma4UnifiedForConditionalGeneration loads, the text decoder layers are found
+    (48 expected), teacher-forced hooks give residual norms at candidate layers; vLLM with the unified plugin generates
+    with the steering hook installed (zero vector reproduces the unsteered text; a random vector at the dose changes it;
+    steered-event counts match); the canonical think parse works on Gemma output.
+ 3. Readout (GPU, sigacts with LAYERS=16,20,24,28,32, window 8192, 80 segments per trace), fit (CPU, ranks 1-8, lambdas
+    as D-33), layer picked by within-domain CV R^2 among 20-28 (0.4-0.6 depth, the Qwen rule), mapfit at rank 8, demeaned as
+    the Qwen map; archetypes (k = 4 PAM per domain); own efficient archetype per domain = the archetype with the largest
+    predicted accuracy gain from the within-task slopes (success_dir rule, as for gpqa_A4 and planning_A2).
+ 4. Dose: open-loop norm = 0.125 x the median residual norm at the chosen layer (the Qwen dose was 6.75 against |h| ~ 54,
+    i.e. 12.5%); random control norm-matched.
+ 5. Arms (vsteer, 2 seeds, 32k, budget curves; Track B seed 1 with gemma-4-31B): per domain unsteered, own archetype,
+    random; Gemma Math vector on gpqa; sig_math on idea; sig_idea on math; conv_up and conv_down on Countdown (cd tasks).
+ Predictions as in the D-64 entry (same signs as Qwen; sizes free; a kept verification is a lineage note, not a failure).
+ Code changes outside new modules, all guarded by MC_MODEL == gemma4_12b so the Qwen path is byte-for-byte unchanged:
+ common.MODELS gains the gemma4_12b entry; load_model has a gemma4 loader branch; render_prompt renders Gemma through the
+ atlas thinking spec (system "<|think|>", enable_thinking) instead of asserting the Qwen "<think>" suffix; a canon_text()
+ helper (identity for Qwen) normalises Gemma's channel delimiters before vsteer's parser. The peer session is told.
+D-52 outcome (2026-10-14; RESULTS "D-52 transplant matrix" sections). H2a: prediction (ii) passes as pre-registered (15/20 signs,
+p = 0.021; mean within-target Spearman 0.72; 1.0 on math, gpqa, planning; 0.8 moral; -0.2 idea). Prediction (i) fails (12/20,
+p = 0.25; Spearman 0.28). H2b as worded is mixed: looping follows the vector's commit component (idea's and gpqa's signatures loop
+on every target, moral's and math's do not), not the source domain's type; adding half of A2 to the idea signature halves its
+loops and its accuracy cost on math. Main reading for F2: no domain is helped by amplifying its own signature, and one
+commit-type profile (math's) makes every target finish, which pays where the budget binds and costs a little depth on
+open-ended tasks. The F2 sentence "each domain's signature is tuned to its own demand" is not supported and should not be
+written; the supported version is "signatures differ mainly in how they trade commitment against exploration, and a target's
+own observational slopes predict the effect of a measured shift".
+D-53 outcome (2026-10-14): F3 supported. Over 29 vector cells on math/gpqa/planning, the behaviour-shift prediction explains
+R^2 0.81 of the 12k accuracy change; residual cosine with A2 explains 0.22 alone and adds nothing to the shift (coefficient
+-0.03). SEAL's direction and the zero-start RL bias reproduce A2's gains on gpqa and planning from near-orthogonal directions.
+
+D-64 stage 2 outcome (2026-10-14 15:40 UTC, job 396927, data/gemma4_12b/smoke.json): passed. HF loads the unified checkpoint;
+48 text decoder layers (Gemma4UnifiedTextDecoderLayer), hidden 3840; median residual norms 227 (L16), 234 (L20), 260 (L24),
+217 (L28), 157 (L32). vLLM through the unified plugin with the steering hook: a zero vector counts steered events and
+reproduces the unsteered text exactly; the canonical parse of Gemma's channel delimiters works. Rendered prompts carry the
+thinking switch twice ("<|think|>\n<|think|>You are a helpful assistant."), exactly as the atlas corpus was generated.
+Amendment to stage 4 (dose): the Qwen rule (12.5% of the median residual norm) does not transfer. A random Gaussian vector at
+that norm (32.5 at L24) turned every generation into garbage, where on Qwen the same relative dose costs 7 points and 16%
+loops. Gemma's residual norm is dominated by a few large dimensions, so a norm fraction is not a comparable dose. New rule:
+the open-loop norm of every signature vector is set by the readout calibration (the D-35 recipe: the norm at which the
+readout-predicted profile shift covers the archetype gap, as for A2), and the random control is norm-matched to it; before
+the arms, a random-norm sweep (norms 1, 2, 4, 8, 16 at the chosen layer, 20 held-out math prompts, 2 seeds) reports the
+loop and garbage rate so the matched norm is known to sit in the coherent range. Stage 3 submitted: sigacts on atlas_math,
+atlas_gpqa, atlas_planning, atlas_idea at layers 16, 20, 24, 28, 32 (window 8192, 80 segments per trace), one job per domain.
+
+D-63 interim outcome (2026-10-14 16:20 UTC, job 396928, gemma judge; RESULTS "D-63 pairwise idea judging, interim"): no frontier
+expansion under pairwise judging; the rank-one axis trades originality against feasibility with large net wins (up to -0.54 /
++0.45); the low-rank commit transplant costs originality with no feasibility gain; the "think like a math problem" prompt raises
+originality (+0.46), opposite to the Math vector. Second judge pass (Qwen3.5-27B) submitted as job 396998; the frontier verdict
+is final once both judges agree on the signs.
+
+D-66 ratified (2026-10-14, Harsh: "go ahead with D-66 and D-67 too"). Run by the transplant session (the F1 pipeline and the
+hashed files under data/f1/ are its line); this session takes nothing of D-66. Its design notes are logged by that session
+under D-66 when it starts.
+
+D-67 ratified (2026-10-14, same message). Design, written before any run:
+Feature. The Society of Thought steering used the public Llama Scope SAE for the layer-15 residual stream of Llama-3.1-8B
+(fnlp/Llama3_1-8B-Base-LXR-8x, "L15R-8x", 32,768 features, hook blocks.15.hook_resid_post), applied to
+DeepSeek-R1-Distill-Llama-8B, feature 30939 ("a discourse marker for surprise, realization, or acknowledgment"), steered as
+h' = h + s d_30939 at layer 15 with s in {-10, -5, 0, 5, 10} (they report 27.1% -> 54.8% at s = +10 and 23.8% at -10 on
+1,024 Countdown problems, Gemini-judged; |s| = 15 was dropped as over-steering). We use the same SAE file, the same feature
+and the same decoder direction, added at the output of decoder layer 15 (0-based) through vsteer; deviation: vsteer's "all"
+rule also steers the prompt tokens (about 60 of them), which their generation-step rule did not.
+Arms (run data/reasoner/runs/sot_countdown, MC_MODEL=reasoner, our 200 four-number Countdown tasks and TinyZero prompt from
+cd_countdown, 2 seeds, 32k budget, shared decoding): baseline; f30939 at s = +10, +5, -10; two random SAE features at
+s = +10 (seeded draw from the 32k, excluding 30939); a Gaussian direction at the norm of 10 d_30939. Outcomes: accuracy by
+budget (4k to 32k; 32k with the model's own stopping is primary, since their setup had no tight budget), loops, tokens;
+Track B on seed 1 as the manipulation check (the four conversational rates under +10 vs baseline).
+Predictions, written now. Replication = the +10 arm beats baseline at 32k with a CI clear of zero and the -10 arm does not;
+the random-feature arms sit between. Our prior from D-51 on Qwen3.5-9B (conversational-up hurts at every dose) says the
+opposite; the two are stated side by side and the result decides whether "more conversation does not help search" is a
+model-specific finding or a counter-claim. A positive replication on R1-Distill with a negative result on Qwen would make the
+Society of Thought effect lineage-dependent, which is itself a finding.
+D-66 start (2026-10-14, transplant session). Models: DeepSeek-R1-Distill-Qwen-7B (key r1qwen7b) and, as the SFT-only open reasoner,
+OpenThinker3-7B (key openthinker3_7b; Qwen2.5-7B-Instruct base, SFT only on OpenThoughts3) instead of OpenThinker-7B: newer, same
+family of open data. Its chat template adds no thinking tags, so the first 32-trace checkpoint of its generation job is the gate:
+the atlas r1 parser must find the think block in most traces, else the job is stopped and a ThinkingSpec added. Both use the
+atlas r1 thinking spec, the D-50 tasks (640 prompts, data/f1/tasks), 32k budget, and the noise-floor second samples (seed 43,
+data/f1/tasks_s2), Track B on 8k (exp_mode_chunk20). Analyses: within-item distances with the noise floor (f1_analyze noise; the
+test of the D-66 prediction) and the prompt-time Math->Idea projection from a prompt-only Stage A over 200 atlas math + 200 idea
+prompts (f1_pairs stagea). The atlas domain classifier is not run: these models have no atlas traces. Code: GEN_MODELS and
+common.MODELS entries, configs exp_f1*.yaml gen_models entries, mode.sbatch stage f1stagea, atlas-optional f1_analyze. All jobs at
+QoS ashton.
+
+D-67 amendment (2026-10-14, before any generation): the Llama Scope L15R-8x SAE normalises activations dataset-wise
+(dataset_average_activation_norm 10.8125 at layer 15, scaled to sqrt(4096)), so a strength s inside the SAE's space equals
+s x 0.169 x d in raw residual units. The paper's h' = h + s d does not name the space. The literal raw reading at s = 10 adds a
+vector of norm 18.3 (|d_30939| = 1.83) to residuals whose typical norm is about 11, which cannot be what produced a working
+model, so the normalised reading (raw norm 3.1 at s = 10, about 30% of the residual norm) is primary and the literal one is
+kept as one dose-check arm (f30939_p10raw). Random SAE features and the Gaussian control are at the normalised s = 10
+norm. Arms: baseline, f30939_p10, f30939_p5, f30939_m10, f30939_p10raw, randfeata_p10, randfeatb_p10, gauss_n10d; run
+data/reasoner/runs/sot_countdown; vsteer gen in two jobs. Decoder row norms: mean 1.54, feature 30939 1.83.
+
+D-68 outcome (2026-10-14, all 24 arms; RESULTS_NEURO.md "D-68"): (i) fails and is reversed: looping traces sit in denser
+regions (pooled loop rate falls from 0.37 to 0.13 on Math and 0.80 to 0.18 on Idea across the ratio bins; within-arm
+Spearman -0.17 to +0.16); (ii) holds on Idea, reversed on Math; (iii) wrong both ways: the coherent steers (low-rank
+signatures) barely move the neighbour mix, the raw line moves states toward the other domain's neighbours and loops.
+Failure = collapse into a repetitive attractor inside the cloud. E5 arms with extraction grades: accuracy 0.86 unsteered,
+0.85 line at norm 3.9, 0.63 path at 3.9, 0.39 line at 7.8, 0.08 path at 7.6, 0.09 Idea signature, 0.94 A2 (RESULTS_NEURO "E5").
+
+D-64 stage 3 outcome (2026-10-14 19:30 UTC). Readout extraction on the atlas corpus: 11,345 (math), 22,464 (gpqa), 22,951
+(planning), 14,583 (idea) segment states at layers 16, 20, 24, 28, 32 (data/gemma4_12b/sigctrl). Within-domain 5-fold CV
+R^2 at rank 8: 0.125 / 0.130 / 0.139 / 0.146 / 0.142 by layer (rho 0.34-0.37; Qwen: 0.18-0.19 at every layer); domain-
+demeaned: 0.070 / 0.076 / 0.086 / 0.092 / 0.089 (Qwen: 0.08). Layer 28 by the pre-registered rule (best CV R^2 among the
+0.4-0.6 depth layers; layer 24 is within 0.007). Map: map_corpusG_dm8_L28_r8 (rank 8, lambda 1e5, domain-demeaned, as the
+Qwen map). Archetypes: k = 4 PAM per domain (data/gemma4_12b/sigctrl/archetypes.json). Own-archetype rule amended: the atlas
+has one trace per task, so the slopes are between tasks (rates z-scored across tasks, outcome = re-graded correctness,
+difficulty as a covariate, task bootstrap; mc/gemma_success.py) rather than within tasks. Dose sweep built at layer 28
+(random Gaussian at norms 1, 2, 4, 8, 16; 20 held-out math tasks x 2 seeds, 8k budget; run gdose_math).
+
+D-64 stage 4 outcome (2026-10-14 20:30 UTC): own archetypes by the 12k-budget slopes with the tie-break "larger cluster when
+the top two overlap, then the 8k outcome": math_A1 (verification -0.15, subgoal +0.06 vs the math mean; math_A4, an
+11-trace question-heavy cluster, tied within CI), gpqa_A1 (verification -0.07, conflict -0.02; clear winner), planning_A3
+(Q&A -0.03, verification +0.05; tied with A4 at 12k, clearly ahead at 8k). Dose calibration (mc/gemma_calib.py): the
+controller's open-loop direction G g with G = diag(sd) W (W^T W + lam I)^-1 rebuilt Qwen's A2 exactly (cosine 1.000); A2 at
+6.75 implies a readout coverage of 1.26 of its gap; every Gemma vector takes the norm that implies the same coverage under
+the Gemma map: own_math_A1 12.0, own_gpqa_A1 5.7, own_planning_A3 5.2, sig_math 6.4, sig_idea 10.5, conv_up / conv_down
+21.1 (2.4-10% of the layer-28 residual norm 217; Qwen's A2 was 12.5% of 54). Random controls norm-matched per vector.
+Dose sweep resubmitted (job 397150) with the random norms 1-16 and own_math_A1 at 0.5x, 1x, 2x, 4x of its calibrated norm;
+the arms (mc/gemma_runs.py: g_math, g_gpqa, g_planning, g_idea, g_countdown) are written but not submitted until the sweep
+is read; if 1x is outside the coherent range the vectors are rescaled by one common factor and the change logged.
+
+D-65b outcome, final (2026-10-14 21:00 UTC; RESULTS "D-65b second judge, final"): 3 of 4 steered arms pass the pre-set rule
+(random on math, sig_math on ideas cosine 0.92, conv_up on Countdown cosine 0.94); A2 on math passes on subgoal and Q&A and
+fails on verification (gemma -3.3, Qwen 0.0). The paper states the efficient profile as "more subgoal structure, less
+self-questioning" and labels the verification cut as single-judge until D-65a. Jobs 395513-395515, 395760-395763.
+
+D-63 outcome, final (2026-10-14 21:30 UTC; RESULTS "D-63 pairwise idea judging, final"): no frontier expansion under either
+judge family; the originality-feasibility trade-off along the rank-one axis, the pure originality loss of the commit transplant
+and the originality gain of the "think like a math problem" instruction all hold under both judges (net-win correlation 0.96,
+sign agreement 90%). The negative is a result, not a ceiling effect. Still to read qualitatively: why the math instruction
+raises originality where the Math vector lowers it.
+
+D-64 stage 4b outcome, dose sweep (job 397150; 20 held-out math tasks x 2 seeds, 8k budget, layer 28): random Gaussian
+directions are harmless at norms 1 and 2 (loops 0%, finished 0.82-0.88, accuracy 0.45 = unsteered), break at 4 (53% hard
+loops, accuracy 0.30) and give garbage at 8 and 16. The own_math_A1 direction is coherent at 0.5x, 1x and 2x of its
+calibrated norm 12 (loops 0-3%, finished 0.82-0.88, accuracy 0.47-0.50 against 0.45) and degrades at 4x (norm 48: finished
+0.75, accuracy 0.40, longer traces). So the readout directions tolerate about ten times the norm that breaks a random
+direction, and the calibrated norms (5.2-21.1) stand. Consequence for the controls: the pre-registered norm-matched random
+arms sit above the coherent random range and will mostly measure breakage; they are kept, and every run gains rand_n2, a
+Gaussian direction at norm 2 (the largest coherent random norm), as the generic-perturbation control that can be read.
+Countdown also gets conv_up_x0.5 and conv_down_x0.5 (norm 10.6) since the conversational direction was not swept.
+Stage 5 submitted: g_math, g_gpqa, g_planning, g_idea (200 held-out tasks each), g_countdown (the 200 cd tasks), 2 seeds,
+32k budget, fixed vectors at layer 28, one vgen job per run.
+D-66 gate (2026-10-15): OpenThinker3-7B has 32,768 positions (Qwen2.5-7B base), so it generates with configs/exp_f1_ot.yaml and
+exp_f1_s2_ot.yaml (generation.max_model_len 32768, everything else as exp_f1*; mode.sbatch f1gen/f1gen2 take F1CFG/F1CFG2). Its
+template adds no thinking tag; the model writes "<think> ... </think>" itself. First shard (320 traces): the atlas r1 parser finds
+the block in all 320 (314 closed, 6 cut by the budget, which keep their think text); gate passed. For Stage A, render_prompt
+appends "<think>" for models whose registry entry sets think_prefix (OpenThinker only; Qwen and R1 renderings unchanged, checked).
+R1-Distill-Qwen-7B: generation, noise floor and Stage A done; Track B running.
+
+D-67 note (2026-10-15 14:30 UTC): the first grading pass scored 0 in every arm because vsteer stored R1-Distill's text with
+raw byte-level BPE markers (the Llama tokenizer path; "Ġ" for space, "Ċ" for newline), so the Countdown grader could not
+read the <answer> tags although 84% of baseline traces answered. The atlas generator has always applied
+src.generate.repair_byte_bpe to this model; the steering path never did. Fix: the stored sot_countdown traces are repaired in
+place with that helper (originals kept as *.raw.parquet), grading and the seed-1 judge inputs are redone from the repaired
+text, and canon_text now applies the same repair for the causal_lm loader (identity for Qwen and Gemma). The four Track B
+jobs submitted on the garbled text (398405-398408) were cancelled before they ran.
+
+D-64 stage 5 restart (2026-10-15 14:30 UTC): all five Gemma runs (398149-398153) died in their unsteered arm after 357-383
+of 400 traces with "Triton Error [CUDA]: an illegal memory access" inside the TRITON_ATTN backend that vLLM forces for
+Gemma-4's mixed head sizes (256 / 512), at the 32k budget under eager mode (the dose sweep at 8k and the smoke ran clean).
+Deviation from the plan: the Gemma arms rerun at a 16k budget (budget curves 4k to 16k; the 12k primary outcome is
+unchanged; 32k is not reported for Gemma) with the engine's concurrency capped at 64 sequences (VSTEER_MAX_NUM_SEQS). The
+partial 32k traces were deleted so the rerun cannot resume onto a different budget. If the 16k runs crash the same way, the
+next step is a shorter budget or the non-eager engine with the vectors applied through a different hook.
+
+D-59 Track B outcome (2026-10-15; seed 1, all 14 arms labelled; RESULTS_NEURO.md "E5"): toward Idea on Math nothing
+coherent moves far (line at half gap +0.8 logits of 16, no loops; path at the same norm +0.9 with 0.26 loops; the 4-7
+logit shifts of the full-norm arms are labels on looping text). Toward Math on ideas the low-rank Math signature (-5.7,
+0% loops) and the norm-matched data path (-4.8, loops at baseline, backtracking -0.05, perspective shift -0.06) both
+work; the straight line at the same norm gives -2.0 and loops 0.75. So the manifold claim holds Idea-to-Math only (the
+path runs through gpqa and planning states) and fails Math-to-Idea. Rule over all 24 arms: coherent control is
+convergent-ward, by signature or by data path; divergent-ward control is small when coherent and destructive when large.
+Random vectors raise the Idea score only through loops (+2.4 to +11.1 at 66-92% loops). E5 and D-68 are complete.

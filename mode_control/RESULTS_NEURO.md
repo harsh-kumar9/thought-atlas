@@ -91,51 +91,78 @@ supported; the straight line between centroids is inside the cloud.
 
 Steering arms (fixed vectors at layer 16 in vLLM, 199 held-out Math tasks and 200 Idea keywords, 2 seeds, 32k budget;
 paired against the shared unsteered baselines; analysis/steer_outcomes.csv, steer_paired.csv, fig_neuro_steer).
-Track B on seed 1 of the new arms and the free-text Math grades are still queued; the accuracy column below is the
-direct grader applied to every arm alike, and the Track B column exists only for the borrowed arms.
+Math accuracy is the free-text extraction grade (D-47) on every arm alike, all traces, unfinished counted wrong; Idea
+originality and feasibility are the quality judge (1-10), paired on the traces that produced an idea in both arms (n
+given). Idea-likeness (s_all, the frozen 8-behaviour score; + = Idea-like) is the Track B shift on seed 1, paired over tasks; the
+Math-Idea gap on it is about 16 logits. Shifts in arms that loop heavily are labels on degenerate text and are read
+with the loop column next to them.
 
-Math tasks, toward Idea (hard-loop rate; change in accuracy vs baseline, 95% CI; Idea-likeness shift where labelled):
+Math tasks, toward Idea (hard-loop rate; accuracy and its change vs baseline, 95% CI; Idea-likeness shift where labelled):
 
-| arm | norm | on the axis (gap units) | hard loops | d accuracy | d s_all |
-|---|---|---|---|---|---|
-| unsteered | 0 | 0 | 0.09 | 0 | 0 |
-| line s = 0.5 | 3.9 | +0.50 | 0.10 | -0.01 (-0.07, +0.06) | pending |
-| line, projection-matched | 2.7 | +0.35 | 0.11 | -0.04 (-0.10, +0.02) | pending |
-| line s = 1.0 (the Idea centroid) | 7.8 | +1.00 | 0.59 | -0.43 (-0.50, -0.36) | pending |
-| data path, norm-matched | 3.9 | +0.35 | 0.26 | -0.18 (-0.25, -0.12) | pending |
-| data path s = 0.5 | 7.6 | +0.70 | 0.90 | -0.57 (-0.63, -0.52) | pending |
-| random | 3.9 | 0 | 0.14 | -0.04 (-0.10, +0.02) | pending |
-| random | 6.75 | 0 | 0.16 | -0.08 (-0.14, -0.02) | +0.6 |
-| random | 7.8 | 0 | 0.30 | -0.15 (-0.21, -0.10) | pending |
-| Idea signature, low-rank | 6.75 | (readout) | 0.90 | -0.56 (-0.62, -0.50) | +4.0 |
-| Idea signature + half A2 | 6.75 | (readout) | 0.46 | -0.23 (-0.29, -0.16) | +1.3 |
-| A2, low-rank | 6.75 | (readout) | 0.005 | +0.09 (+0.03, +0.15) | -0.1 |
-
-Idea tasks, toward Math (hard-loop rate; change in loops and in tokens vs baseline; Idea-likeness shift where labelled):
-
-| arm | norm | on the axis (gap units) | hard loops | d loops | d tokens | d s_all |
+| arm | norm | on the axis (gap units) | hard loops | accuracy | d accuracy | d s_all |
 |---|---|---|---|---|---|---|
-| unsteered | 0 | 0 | 0.32 | 0 | 0 | 0 |
-| line, projection-matched | 0.8 | -0.11 | 0.33 | +0.01 (-0.06, +0.07) | +0.4k | pending |
-| line s = 0.5 | 3.9 | -0.50 | 0.75 | +0.43 (+0.36, +0.50) | +13.1k | pending |
-| line s = 1.0 (the Math centroid) | 7.8 | -1.00 | 0.96 | +0.64 (+0.59, +0.69) | +18.1k | pending |
-| data path, norm-matched | 3.9 | -0.11 | 0.29 | -0.03 (-0.10, +0.03) | +1.3k (ns) | pending |
-| data path s = 0.5 | 7.9 | -0.30 | 0.98 | +0.66 (+0.61, +0.71) | +18.1k | pending |
-| random | 3.9 | 0 | 0.66 | +0.34 (+0.28, +0.39) | +8.8k | pending |
-| random | 6.75 | 0 | 0.92 | +0.60 (+0.54, +0.66) | +17.3k | +11.1 |
-| random | 7.8 | 0 | 0.87 | +0.55 (+0.50, +0.61) | +14.7k | pending |
-| Math signature, low-rank | 6.75 | (readout) | 0.00 | -0.32 (-0.37, -0.27) | -12.9k | -5.7 |
+| unsteered | 0 | 0 | 0.09 | 0.86 | 0 | 0 |
+| line s = 0.5 | 3.9 | +0.50 | 0.10 | 0.85 | -0.01 (-0.06, +0.04) | +0.83 (+0.53, +1.12) |
+| line, projection-matched | 2.7 | +0.35 | 0.11 | 0.85 | -0.01 (-0.06, +0.03) | +0.54 (+0.27, +0.82) |
+| line s = 1.0 (the Idea centroid) | 7.8 | +1.00 | 0.59 | 0.39 | -0.47 (-0.55, -0.40) | +7.26 (+6.16, +8.49) |
+| data path, norm-matched | 3.9 | +0.35 | 0.26 | 0.63 | -0.23 (-0.29, -0.17) | +0.87 (+0.61, +1.15) |
+| data path s = 0.5 | 7.6 | +0.70 | 0.90 | 0.08 | -0.78 (-0.83, -0.73) | +6.26 (+5.59, +6.93) |
+| random | 3.9 | 0 | 0.14 | 0.81 | -0.06 (-0.11, -0.01) | +0.14 (-0.14, +0.42) |
+| random | 6.75 | 0 | 0.16 | 0.79 | -0.08 (-0.13, -0.02) | +0.6 |
+| random | 7.8 | 0 | 0.30 | 0.63 | -0.23 (-0.28, -0.18) | +0.36 (+0.06, +0.71) |
+| Idea signature, low-rank | 6.75 | (readout) | 0.90 | 0.09 | -0.77 (-0.82, -0.73) | +4.0 |
+| Idea signature + half A2 | 6.75 | (readout) | 0.46 | 0.50 | -0.36 (-0.43, -0.30) | +1.3 |
+| A2, low-rank | 6.75 | (readout) | 0.005 | 0.94 | +0.07 (+0.03, +0.11) | -0.1 |
 
-Verdict on the second half of P5: the data path does not help in either direction. On Math it is worse than the
-straight line at the same norm (loops 0.26 vs 0.10, accuracy -0.18 vs -0.01) and worse than a random vector at the
-full norm (0.90 vs 0.30); on Idea the norm-matched path leaves everything at baseline, and so does the line at the
-same axis projection, so the path's extra norm is off-axis content that is harmless on Idea and harmful on Math. What
-the arms show instead: every raw-space vector (line, path, random) breaks Idea tasks from norm 3.9 up and Math tasks
-from norm 7 up, regardless of direction; the one vector that steers coherently is the low-rank Math signature on Idea
-tasks (loops 0.32 to 0.00, 13k fewer tokens, Idea-likeness down 5.7 logits of a 16-logit gap, backtracking -0.08 and
-verification and subgoal +0.07 to +0.09); the low-rank Idea signature on Math breaks like a raw vector (0.90 loops).
-Coherent control is low-rank and convergent-ward. The density test (D-68) says why the raw vectors fail is not
-"leaving the manifold": looping traces sit in denser regions than coherent ones.
+Idea tasks, toward Math (hard-loop rate; change in loops and in tokens vs baseline; originality and feasibility vs
+baseline, paired, with n; Idea-likeness shift where labelled):
+
+| arm | norm | on the axis | hard loops | d loops | d tokens | d originality | d feasibility | d s_all |
+|---|---|---|---|---|---|---|---|---|
+| unsteered (8.5 / 7.3) | 0 | 0 | 0.32 | 0 | 0 | 0 | 0 | 0 |
+| line, projection-matched | 0.8 | -0.11 | 0.33 | +0.01 (-0.06, +0.07) | +0.4k | -0.15 (-0.26, -0.06), n 200 | +0.17 (-0.01, +0.33) | -1.59 (-2.83, -0.40) |
+| line s = 0.5 | 3.9 | -0.50 | 0.75 | +0.43 (+0.36, +0.50) | +13.1k | -0.83 (-1.03, -0.62), n 63 | +0.73 (+0.40, +1.06) | -1.98 (-3.35, -0.72) |
+| line s = 1.0 (the Math centroid) | 7.8 | -1.00 | 0.96 | +0.64 (+0.59, +0.69) | +18.1k | too few ideas | | -2.49 (-4.67, -0.32) |
+| data path, norm-matched | 3.9 | -0.11 | 0.29 | -0.03 (-0.10, +0.03) | +1.3k (ns) | -0.15 (-0.27, -0.04), n 204 | +0.13 (-0.03, +0.28) | -4.80 (-5.87, -3.64) |
+| data path s = 0.5 | 7.9 | -0.30 | 0.98 | +0.66 (+0.61, +0.71) | +18.1k | too few ideas | | +0.29 (-1.41, +1.94) |
+| random | 3.9 | 0 | 0.66 | +0.34 (+0.28, +0.39) | +8.8k | +0.13 (+0.01, +0.25), n 115 | -0.23 (-0.40, -0.05) | +2.39 (+0.82, +3.99) |
+| random | 6.75 | 0 | 0.92 | +0.60 (+0.54, +0.66) | +17.3k | n 10 | | +11.1 |
+| random | 7.8 | 0 | 0.87 | +0.55 (+0.50, +0.61) | +14.7k | -0.19 (-0.37, 0.00), n 43 | -0.02 | +6.41 (+4.59, +8.00) |
+| Math signature, low-rank | 6.75 | (readout) | 0.00 | -0.32 (-0.37, -0.27) | -12.9k | -0.26 (-0.35, -0.17), n 272 | -0.14 (-0.30, +0.01) | -5.7 |
+
+Verdict on the second half of P5, with the labels in: it depends on the direction. Toward Idea (on Math) nothing
+coherent moves the profile far. The straight line at half the gap gives +0.8 logits of a 16-logit gap with no loops and
+no accuracy cost; the data path at the same norm gives the same +0.9 but loops 0.26 and loses 23 accuracy points; the
+arms that move the score by 4 to 7 logits (line at the full gap, path at s = 0.5, the low-rank Idea signature) loop
+59-90%, so those shifts are labels on degenerate text. Toward Math (on ideas) two vectors work and the straight line
+does not: the low-rank Math signature (-5.7, 0% loops, 13k fewer tokens) and the data path at matched norm (-4.8 with
+loops at the baseline rate, backtracking -0.05 and perspective shift -0.06, originality -0.15, feasibility +0.13),
+while the line at the same norm gives -2.0 and loops 0.75, and the projection-matched line -1.6. So Goodfire's claim
+holds in one direction: following the data path from Idea toward Math, which runs through the gpqa and planning
+states, moves ideas toward the convergent profile without breaking them, where the straight line breaks; from Math
+toward Idea the path is worse than the line. Every raw-space vector at norm 6.75 or more breaks both domains, and
+random vectors make ideas look more Idea-like by the score only because their loops are labelled as exploration
+(+2.4 to +11.1 with 66-92% loops). The rule across all 24 arms: coherent control is convergent-ward, by the low-rank
+signature or by the data path; divergent-ward control is small when coherent and destructive when large, whatever
+the vector family. On ideas every coherent Math-ward push sits on the originality-feasibility line of F3 (path and
+projection-matched line -0.15 originality, +0.13 to +0.17 feasibility; the Math signature -0.26 / -0.14). The density
+test (D-68) says why the raw vectors fail is not "leaving the manifold": looping traces sit in denser regions than
+coherent ones.
+
+## D-68. Steered-state density, final (all 24 arms; analysis/density_arms.csv, density_summary.json, fig_neuro_density)
+
+Layer-16 residual every 32 tokens of every trace, scored by 10-NN distance against a five-domain reference (10k states
+per domain, PCA-50), per-trace mean, related to hard loops. Arm means run 1.03-1.15 with no separation by family;
+within every arm the Spearman correlation between a trace's mean ratio and its looping is between -0.17 and +0.16;
+pooled by task domain the loop rate falls as the ratio rises (Math 0.37, 0.31, 0.26, 0.13 across the bins 0.9-1.0,
+1.0-1.1, 1.1-1.25, 1.25-1.5; Idea 0.80, 0.62, 0.58, 0.18). Neighbour domain mix: Idea-ward raw lines on Math stay among
+Math and gpqa neighbours (Idea share 0.5-2%); Math-ward raw lines on Idea reach Math neighbours only at the full norm
+(15%) and loop; the low-rank signatures leave the mix almost unchanged (Math signature on Idea: Idea share 0.80 vs
+0.89) while changing behaviour the most. Verdict: prediction (i) fails and is reversed (looping states are denser,
+not sparser); (ii) holds on Idea (signature and path below the line at matched norm) and is reversed on Math; (iii)
+is wrong in both directions (coherent steers do not move the states toward the other domain's neighbours; the raw
+line does, and loops). Steering failure here is collapse into a repetitive attractor inside the data cloud. The
+Goodfire manifold picture does not describe it.
 
 ## E6. The axis in the SAE basis (D-60)
 
@@ -225,4 +252,38 @@ maximum is 1.19 (idea to moral) and 1.18 (math to idea, idea to gpqa, idea to pl
 values sit at the Idea end, which is Idea's own lower density (its centroid scores 1.18 against 0.94-1.00 for the
 others). Paths detour through gpqa and planning for every pair that involves idea or moral (path over straight 1.7 to
 8.1). Per the rule in the big-picture section, no extra steering pair is run; the budget goes to D-68 and D-69.
+
+## D-69 and D-69b. Do the gap-carrying heads cause the behaviour?
+
+Zero-ablation (D-69, run abl1; 40 held-out tasks per domain, 4096 budget): silencing the eight Idea-carrier heads
+(layer-19 heads 3, 11, 1, 2; layer-18 linear head 9; layer-15 head 2; layer-11 head 9; layer-14 linear head 15) or the
+eight Math-carrier heads breaks generation on both domains (hard loops 0.83-0.93, nothing answered, every trace to the
+budget), while eight layer-matched random heads cost nothing (loops 0). The carriers are load-bearing for coherence.
+
+Directional ablation (D-69b, run abl2; same tasks and budget): remove only each carrier head's write along the
+layer-19 axis, at every position, keeping the rest of the head. Loops 0-2% in every arm; answered and lengths at
+baseline. Idea-minus-Math gap on the frozen score (mc.analyze; 40 + 40 tasks, bootstrap CI):
+
+| arm | gap | 95% CI | attenuation |
+|---|---|---|---|
+| unsteered | 13.25 | 12.2 to 14.3 | 0 |
+| 8 Idea carriers, axis write removed | 13.74 | 12.7 to 14.9 | -0.04 |
+| 16 Idea carriers | 13.57 | 12.4 to 14.8 | -0.02 |
+| 8 Math carriers | 14.62 | 13.4 to 15.8 | -0.10 |
+| 16 Math carriers | 15.48 | 13.9 to 17.5 | -0.17 |
+| 8 random heads, layer-matched | 14.42 | 12.9 to 16.1 | -0.09 |
+| 16 random heads | 13.43 | 12.2 to 14.8 | -0.01 |
+| whole residual, axis projected out at layer 19 (ceiling) | 11.68 | 10.7 to 12.8 | 0.12 |
+
+The paired shifts per domain are within noise for every head arm (s_all shifts of -0.4 to +0.2 on Math, +0.2 to
++1.8 on Idea, CIs crossing zero except the Math-carrier arms on Idea, which move Idea traces further Idea-ward); the
+ceiling arm moves Idea traces -2.0 and Math traces -0.4.
+
+Verdict: the prediction fails. Removing the axis write of the heads that carry 30-45% of the gap at the write leaves
+the behaviour gap untouched, and removing the whole axis at layer 19 at every position attenuates it by only 12%.
+The gap the heads write is re-established downstream (the layer 17-19 MLPs are the largest axis writers in both
+domains), and the behaviour is not set by the axis reading at layer 19. Control needed an overshoot (sustained
+gamma = -3 gave 54%, D-24), not a removal. Heads are not a unit of control here; the component map says where the
+axis is written, not where the behaviour is decided. This is the operational form of "readout is not control" in
+the component domain, next to the vector-level form in F4.
 

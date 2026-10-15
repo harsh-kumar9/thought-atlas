@@ -204,6 +204,10 @@ def cmd_outcomes():
                 base = task.filter(pl.col("condition") == "baseline").drop("condition")
                 for c in sorted(set(task["condition"].unique()) - {"baseline"}):
                     j = task.filter(pl.col("condition") == c).join(base, on="instance_id", suffix="_b").drop_nulls()
+                    if j.height == 0:                     # no task with a scored answer in both arms (e.g. every trace loops)
+                        rows.append({"target": dom, "outcome": y if mode == "answered" else f"{y}_with_unanswered_0", "budget": 32768, "arm": c,
+                                     "n_tasks": 0, "base": None, "arm_mean": None, "delta": None, "lo": None, "hi": None})
+                        continue
                     m, lo, hi = _boot((j["v"] - j["v_b"]).to_numpy().astype(float))
                     rows.append({"target": dom, "outcome": y if mode == "answered" else f"{y}_with_unanswered_0", "budget": 32768, "arm": c,
                                  "n_tasks": j.height, "base": float(j["v_b"].mean()), "arm_mean": float(j["v"].mean()), "delta": m, "lo": lo, "hi": hi})
@@ -226,6 +230,8 @@ def cmd_h2a():
         sd = pre["domains"][dom][y]["outcome_sd"]
         for r in o.iter_rows(named=True):
             a = r["arm"]
+            if r["delta"] is None:                # arm with no scored task in both arms (reported in outcomes.csv, not testable)
+                continue
             pi = pre["domains"][dom][y]["pred_implied"].get(a.replace("sealdir_matched", "sealdir_L17_n6p75").replace("rl_zeroT_s60", "rl_zero8k_T_s60"), {}).get("pred")
             cells.append({"target": dom, "arm": a, "source": a[4:] if a.startswith("sig_") and "_x" not in a else None, "observed": r["delta"],
                           "observed_sd": r["delta"] / sd if sd else None, "pred_implied": pi, "pred_observed": pobs.get((dom, y, a)),
@@ -292,7 +298,9 @@ def cmd_f3():
         v, va = np.array([s[f"d_{b}"][0] for b in BEH]), np.array([sa[f"d_{b}"][0] for b in BEH])
         rows.append({"target": r["target"], "arm": r["arm"], "d_acc_12k": r["delta"], "x_beh": obs.get((r["target"], r["arm"])),
                      "x_proj": float(v @ va / (va @ va)), "x_res": float(unit(load_vec(VEC_OF[r["arm"]])) @ a2)})
-    df = pl.DataFrame(rows).drop_nulls(); df.write_csv(TX / "f3_cells.csv")
+    df = pl.DataFrame(rows).drop_nulls()
+    df = df.filter(pl.all_horizontal([pl.col(c).is_finite() for c in ("d_acc_12k", "x_beh", "x_proj", "x_res")]))
+    df.write_csv(TX / "f3_cells.csv")
     y = df["d_acc_12k"].to_numpy(); res = {"n_cells": df.height}
     for name, cols in {"behaviour (slopes x shift)": ["x_beh"], "shift projected on A2's shift": ["x_proj"], "residual cosine with A2": ["x_res"],
                        "projection + residual cosine": ["x_proj", "x_res"]}.items():

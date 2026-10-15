@@ -34,7 +34,8 @@ GEN = ("Do not solve this problem. Instead, list several genuinely different way
        "what each approach would involve.\n\nProblem:\n{stem}")
 EVAL = ("Here is a problem and a proposed final answer. Decide whether the proposed answer is correct. Reason it through, then "
         "end with your verdict: Correct or Incorrect.\n\nProblem:\n{stem}\n\nProposed answer: {ans}")
-GEN_MODELS = {"qwen35_9b": "Qwen/Qwen3.5-9B", "gemma4_12b": "google/gemma-4-12B-it", "reasoner": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B"}
+GEN_MODELS = {"qwen35_9b": "Qwen/Qwen3.5-9B", "gemma4_12b": "google/gemma-4-12B-it", "reasoner": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+              "r1qwen7b": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "openthinker3_7b": "open-thoughts/OpenThinker3-7B"}   # D-66
 
 
 def _h(s: str) -> int:
@@ -204,15 +205,41 @@ def cmd_acts():
     print(f"[f1 acts] {H.shape} -> {F1 / f'acts_{GEN_MODEL_KEY}.npz'}")
 
 
+def cmd_stagea(n_per: int = 200, seed: int = SEED):
+    """D-66: last-prompt-token states of atlas Math and Idea prompts (no generation) for a model without a Stage A, so the
+    prompt-time Math->Idea projection can be run. -> data/f1/stageA_<model>.npz (acts [n, L, 1, d], phases ["last_prompt"])."""
+    import torch
+    from .common import GEN_MODEL_KEY, decoder_layers, load_model, load_tokenizer, render_prompt, _layer_output
+    tok = load_tokenizer(); model = load_model(); dl = decoder_layers(model)
+    rng = np.random.default_rng(seed); rows = []
+    for t in ("math", "idea"):
+        d = pl.read_parquet(TASKS_DIR / f"{t}.parquet")
+        rows += [d.row(int(i), named=True) for i in sorted(rng.choice(d.height, min(n_per, d.height), replace=False))]
+    got = {}
+    hs = [l.register_forward_hook(lambda m, a, o, i=i: got.__setitem__(i, _layer_output(o)[0, -1].float().cpu().numpy())) for i, l in enumerate(dl)]
+    H = np.zeros((len(rows), len(dl), 1, int(getattr(model.config, "text_config", model.config).hidden_size)), np.float16)
+    try:
+        for n, r in enumerate(rows):
+            ids = tok(render_prompt(tok, r["prompt"]), add_special_tokens=False)["input_ids"]
+            with torch.no_grad():
+                model(input_ids=torch.tensor([ids], device=model.device), logits_to_keep=1)
+            H[n, :, 0] = np.stack([got[i] for i in range(len(dl))]).astype(np.float16)
+    finally:
+        for h in hs: h.remove()
+    np.savez(F1 / f"stageA_{GEN_MODEL_KEY}.npz", acts=H, task_type=np.array([r["task_type"] for r in rows]), phases=np.array(["last_prompt"]),
+             instance_id=np.array([r["instance_id"] for r in rows]))
+    print(f"[f1 stagea] {H.shape} -> {F1 / f'stageA_{GEN_MODEL_KEY}.npz'}")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["tasks", "judge_in", "acts"])
+    ap.add_argument("cmd", choices=["tasks", "judge_in", "acts", "stagea"])
     ap.add_argument("--suffix", default="", help='judge_in: "" for the main samples, "_s2" for the noise-floor samples')
     a = ap.parse_args()
     if a.cmd == "judge_in":
         cmd_judge_in(a.suffix)
     else:
-        {"tasks": cmd_tasks, "acts": cmd_acts}[a.cmd]()
+        {"tasks": cmd_tasks, "acts": cmd_acts, "stagea": cmd_stagea}[a.cmd]()
 
 
 if __name__ == "__main__":

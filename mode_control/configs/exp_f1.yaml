@@ -18,6 +18,16 @@ gen_models:
     kind: reasoning
     analysis_source: think_text
     thinking_style: r1            # <-- add (defaults to r1 if kind=reasoning, but be explicit)
+  r1qwen7b:                       # D-66: DeepSeek-R1-Distill-Qwen-7B (same distillation, Qwen2.5 base)
+    hf_id: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: r1
+  openthinker3_7b:                # D-66: SFT-only open reasoner (OpenThoughts3 data, Qwen2.5-7B-Instruct base)
+    hf_id: open-thoughts/OpenThinker3-7B
+    kind: reasoning
+    analysis_source: think_text
+    thinking_style: r1
   anchor:                         # historical key: Llama-3.1-8B-Instruct
     hf_id: meta-llama/Llama-3.1-8B-Instruct
     kind: non_reasoning

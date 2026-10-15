@@ -20,6 +20,9 @@ MODELS = {
     "qwen35_9b": {"hf_id": "Qwen/Qwen3.5-9B", "loader": "qwen35"},
     "qwen35_4b": {"hf_id": "Qwen/Qwen3.5-4B", "loader": "qwen35"},
     "reasoner": {"hf_id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B", "loader": "causal_lm"},
+    "gemma4_12b": {"hf_id": "google/gemma-4-12B-it", "loader": "gemma4"},   # D-64 second model; atlas thinking spec "gemma4"
+    "r1qwen7b": {"hf_id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "loader": "causal_lm"},          # D-66 F1 second distilled model
+    "openthinker3_7b": {"hf_id": "open-thoughts/OpenThinker3-7B", "loader": "causal_lm", "think_prefix": "<think>"},             # D-66 SFT-only open reasoner
 }
 GEN_MODEL_KEY = os.environ.get("MC_MODEL", "qwen35_9b")
 MODEL_ID = MODELS[GEN_MODEL_KEY]["hf_id"]
@@ -71,6 +74,8 @@ def load_model(model_id: str = MODEL_ID, device: str = "cuda:0"):
     import torch
     if MODELS[GEN_MODEL_KEY]["loader"] == "qwen35":
         from transformers import Qwen3_5ForConditionalGeneration as Cls
+    elif MODELS[GEN_MODEL_KEY]["loader"] == "gemma4":
+        from transformers import Gemma4UnifiedForConditionalGeneration as Cls   # D-64
     else:
         from transformers import AutoModelForCausalLM as Cls
     model = Cls.from_pretrained(model_id, dtype=torch.bfloat16, attn_implementation="sdpa", device_map={"": device})
@@ -96,11 +101,32 @@ def decoder_layers(model):
 def render_prompt(tok, user_prompt: str, system: str | None = None) -> str:
     """Chat-template rendering identical to the generation contract (thinking enabled), plus an
     optional system message carrying a strategy instruction. The template ends with '<think>\\n'."""
+    if MODELS[GEN_MODEL_KEY]["loader"] == "gemma4":                                  # D-64: the atlas generator's rendering
+        from src.generate.thinking_spec import build_messages, get_spec, template_kwargs
+        spec = get_spec("gemma4")
+        msgs = build_messages(user_prompt, spec)
+        if system:
+            msgs[0]["content"] = spec.system_prefix + system
+        return tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True, **template_kwargs(spec))
     msgs = ([{"role": "system", "content": system}] if system else []) + \
            [{"role": "user", "content": user_prompt}]
     out = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True, enable_thinking=True)
+    if MODELS[GEN_MODEL_KEY].get("think_prefix") and not out.endswith("<think>\n"):      # D-66: template without a thinking tag
+        return out + MODELS[GEN_MODEL_KEY]["think_prefix"]
     assert out.endswith("<think>\n"), "unexpected chat template: thinking prefix missing"
     return out
+
+
+def canon_text(text: str) -> str:
+    """Generated text with the think block in canonical <think>...</think> form. Identity for Qwen and R1; for
+    Gemma-4 the atlas normaliser rewrites the channel delimiters (D-64)."""
+    if MODELS[GEN_MODEL_KEY]["loader"] == "causal_lm":                                 # D-67: vLLM returns byte-level BPE text for the Llama tokenizer
+        from src.generate.repair_byte_bpe import repair
+        return repair(text)
+    if MODELS[GEN_MODEL_KEY]["loader"] != "gemma4":
+        return text
+    from src.generate.thinking_spec import get_spec, normalize_to_canonical
+    return normalize_to_canonical(text, get_spec("gemma4"))
 
 
 def _layer_output(output):

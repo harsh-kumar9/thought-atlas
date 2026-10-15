@@ -70,7 +70,7 @@ case "$STAGE" in
   similarity) RUN=${1:?run}; python -m mode_control.mc.similarity --run "$RUN" ;;
   complementarity) RUN=${1:?run}; python -m mode_control.mc.complementarity --run "$RUN" ${ARMS:+--arms "$ARMS"} --no-embed ;;
   similarity_arms) RUN=${1:?run}; python -m mode_control.mc.similarity --run "$RUN" --arms "${ARMS:?arms}" ;;
-  sigacts) RUNS=${1:?runs}; python -m mode_control.mc.signature_ctrl extract --runs "$RUNS" --batch "${BATCH:-2}" ;;
+  sigacts) RUNS=${1:?runs}; python -m mode_control.mc.signature_ctrl extract --runs "$RUNS" --batch "${BATCH:-2}" ${LAYERS:+--layers "$LAYERS"} ;;
   sigfit) RUNS=${1:?runs}; TAG=${2:-v1}; python -m mode_control.mc.signature_ctrl fit --runs "$RUNS" --tag "$TAG" --lams "${LAMS:-10,100,1000,10000}" --ranks "${RANKS:-1,2,4,8}" ${DEMEAN:+--demean-domain} ;;
   sigeval) RUN=${1:?run}; python -m mode_control.mc.sigeval --run "$RUN" ;;
   mapfit) RUNS=${1:?runs}; TAG=${2:?tag}; python -m mode_control.mc.signature_ctrl mapfit --runs "$RUNS" --tag "$TAG" --layer "${LAYER:-16}" --rank "${RANK:-8}" --lam "${LAM:-100000}" ${DEMEAN:+--demean-domain} ;;
@@ -97,18 +97,21 @@ case "$STAGE" in
            --traces-glob "$DD/runs/$RUN/traces_$C.parquet" --out-dir "$DD/runs/$RUN/judge/quality_$C" ;;
   f1gen) M=${1:?model}; SH=${2:?shard}; NS=${3:?nshards}   # D-50: atlas generator on the minimal-pair tasks, one replica per job
          MASTER_ADDR=127.0.0.1 MASTER_PORT=$((30000 + SLURM_JOB_ID % 10000)) VLLM_PORT=$((40000 + SLURM_JOB_ID % 10000)) \
-         python -m src.generate.generate_traces --config mode_control/configs/exp_f1.yaml --gen-model "$M" --tasks-dir mode_control/data/f1/tasks \
+         python -m src.generate.generate_traces --config ${F1CFG:-mode_control/configs/exp_f1.yaml} --gen-model "$M" --tasks-dir mode_control/data/f1/tasks \
            --out-dir mode_control/data/f1/traces --shard "$SH" --num-shards "$NS" ;;
   f1gen2) M=${1:?model}   # D-50 noise floor: second sample (seed 43) of the solve_free and generate prompts
          MASTER_ADDR=127.0.0.1 MASTER_PORT=$((30000 + SLURM_JOB_ID % 10000)) VLLM_PORT=$((40000 + SLURM_JOB_ID % 10000)) \
-         python -m src.generate.generate_traces --config mode_control/configs/exp_f1_s2.yaml --gen-model "$M" --tasks-dir mode_control/data/f1/tasks_s2 \
+         python -m src.generate.generate_traces --config ${F1CFG2:-mode_control/configs/exp_f1_s2.yaml} --gen-model "$M" --tasks-dir mode_control/data/f1/tasks_s2 \
            --out-dir mode_control/data/f1/traces_s2 ;;
+  f1stagea) MC_MODEL=${1:?model} python -m mode_control.mc.f1_pairs stagea ;;   # D-66: prompt-only Stage A for the F1 projection
   f1acts) MC_MODEL=${1:?model} python -m mode_control.mc.f1_pairs acts ;;
   freexg) XF_IN=${1:?in_dir} XF_OUT=${2:?out_dir} python -m mode_control.mc.extract_free extract --shard "${3:?shard}" --num-shards "${4:?n}" ;;
   freexa) XF_IN=data/v2/extract_free_atlas/in XF_OUT=data/v2/extract_free_atlas/out python -m mode_control.mc.extract_free extract --shard "${1:?shard}" --num-shards "${2:?n}" ;;
   vgen) RUN=${1:?run}; CONDS=${2:-}; python -m mode_control.mc.vsteer gen --run "$RUN" ${CONDS:+--conditions "$CONDS"} ;;
   budget) RUN=${1:?run}; python -m mode_control.mc.budget --run "$RUN" ;;
   readiness) python -m mode_control.mc.readiness --arms "${1:?arms}" ${CUTS:+--cuts "$CUTS"} ${SMOKE:+--smoke "$SMOKE"} ${TAG:+--tag "$TAG"} ;;   # D-62 forced-answer probe
+  pairwise) python -m mode_control.mc.pairwise_judge --runs "${1:?runs}" --judge "${JUDGE:-google/gemma-4-31B-it}" ${ARMS:+--arms "$ARMS"} ${SMOKE:+--smoke "$SMOKE"} ;;   # D-63
+  gsmoke) python -m mode_control.mc.gemma_smoke ;;   # D-64 stage 2 (MC_MODEL=gemma4_12b)
   neuro) MODE=${1:?mode}; shift; python -m mode_control.mc.neuro_extract "$MODE" "$@" ;;   # D-55..D-58: smoke | corpus | prompts | taskset
   neuro_an) python -m mode_control.mc.neuro_analyze "${1:-all}" ;;
   neuro_sae) CMD=${1:?cmd}; shift; python -m mode_control.mc.neuro_sae "$CMD" "$@" ;;   # D-60 (fetch runs on ada, not in a job)

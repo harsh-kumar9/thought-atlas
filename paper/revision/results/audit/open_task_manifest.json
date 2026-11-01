@@ -1,0 +1,70 @@
+{
+  "inputs": [
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sched1/traces_baseline.parquet",
+      "sha256": "e43e4b2dc8ecd28fab74a769ee44f50b110ea09fdd28eaa225162ed3842fcf46"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sched1/traces_sus_math_L19.parquet",
+      "sha256": "43d9038331c792969b780e3be530a106f6013a7216739aa973c4c0e17731cbe9"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/sched1__google_gemma-4-31B-it.parquet",
+      "sha256": "ede884eb32274a6df2a118ca3dfa65373c8da9d3f63594e41cfc6f5e746869ac"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/sched1__Qwen_Qwen3.5-27B.parquet",
+      "sha256": "0694d3b64b05cb6b5081ae0409c0e519bd8dda5a10bad6a92f73b2ce5ac09bdc"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sched1/traces_baseline.parquet",
+      "sha256": "e43e4b2dc8ecd28fab74a769ee44f50b110ea09fdd28eaa225162ed3842fcf46"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sched1/traces_sus_idea_L19.parquet",
+      "sha256": "dede697fc602a298edb36a72447a5f3d02559fb3509a3c09e11d6c236443b8d0"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/sched1__google_gemma-4-31B-it.parquet",
+      "sha256": "ede884eb32274a6df2a118ca3dfa65373c8da9d3f63594e41cfc6f5e746869ac"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/sched1__Qwen_Qwen3.5-27B.parquet",
+      "sha256": "0694d3b64b05cb6b5081ae0409c0e519bd8dda5a10bad6a92f73b2ce5ac09bdc"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_idea/traces_baseline.parquet",
+      "sha256": "06cae869e14881612fc2c2e34410acb9d098d3a800e00b8bfa76db6a815b4ae2"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_idea/traces_sig_math.parquet",
+      "sha256": "88a009527dba404950d58a4d2b75b6d1901038d505d069990592b3fb846d5284"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/tx_idea__google_gemma-4-31B-it.parquet",
+      "sha256": "7feef34e29d4e8303012fd12321127118042a068a794edab882a642741084ff2"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/tx_idea__Qwen_Qwen3.5-27B.parquet",
+      "sha256": "ff041cd9d643081504e5e05ccccdf822268acbf7b81018f2a1edeec039f0d8a8"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_idea/traces_baseline.parquet",
+      "sha256": "06cae869e14881612fc2c2e34410acb9d098d3a800e00b8bfa76db6a815b4ae2"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_idea/traces_prompt_math.parquet",
+      "sha256": "7621be7b71cac059c10607a90d672e557acfac6e285fb010b37f16aa6e3725ab"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/tx_idea__google_gemma-4-31B-it.parquet",
+      "sha256": "7feef34e29d4e8303012fd12321127118042a068a794edab882a642741084ff2"
+    },
+    {
+      "file": "/ada1/u/harsh/thought-atlas/mode_control/data/pairwise/tx_idea__Qwen_Qwen3.5-27B.parquet",
+      "sha256": "ff041cd9d643081504e5e05ccccdf822268acbf7b81018f2a1edeec039f0d8a8"
+    }
+  ],
+  "script_sha256": "689e8937a983d2fe5ebef4ed184514fcd2d8bd941644a76efb30e82f31a6b3ed",
+  "interpretation": "Actual saved attempts, restricted to idea tasks. Pair eligibility is nonempty final text in both arms; keyword and generation-row counts differ with two seeds."
+}

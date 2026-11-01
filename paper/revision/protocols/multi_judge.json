@@ -1,0 +1,16 @@
+{
+  "status": "Frozen before new judge outputs were inspected",
+  "purpose": "Test robustness of textual-event measurements and key behavioral contrasts across judge families; not independent human validity",
+  "judges": ["Gemma4-31B-it", "Qwen3.5-27B", "Llama-3.1-8B-Instruct"],
+  "judge_selection": "Three distinct cached model families; heterogeneous capacities disclosed. No majority-vote gold standard.",
+  "prompts": "Unchanged repository indexed-sentence Kim and Gandhi templates, hashed in sample manifest",
+  "sample_seed": 20261101,
+  "sample": "All seven atlas models and eight domains; random attempts plus unfinished enrichment with known union inclusion probabilities; paired intervention and matched-demand samples",
+  "window": "First 2048 units of the Qwen3.5-9B tokenizer for all models; empty and shorter prefixes retained in coverage accounting",
+  "blinding": "Prompts and reasoning text only. Original labels, outcome scores, treatment names, and generator names withheld; text may reveal its source.",
+  "primary_analysis": ["Pairwise label agreement and prevalence differences with trace-cluster uncertainty", "Domain-specific disagreement", "Inverse-inclusion-weighted domain profiles with per-judge-valid and common-valid-segment sensitivity", "Paired intervention shifts separately under each judge", "Solve/generate/evaluate/MCQ contrasts separately under each judge"],
+  "analysis_clarification": "Before GPU annotation began, removed an unimplemented unweighted first-draw sensitivity from the analysis inventory. Weighted union-sample rates remain primary; the frozen sample and annotation templates are unchanged.",
+  "missingness": "Parse failures are missing, never negative labels. Report failure rates per judge and domain; common-valid and all-available sensitivities.",
+  "pilot": "One trace per source, generator, and domain before full run. Inspect schema completion and absence of silent all-zero or truncated output; do not select a judge by agreement with Gemma.",
+  "scope_limit": "Fixed-prefix robustness sample does not replace the full-trace atlas or establish exhaustive psychological processes. Rare-label coverage and uncertainty are reported."
+}

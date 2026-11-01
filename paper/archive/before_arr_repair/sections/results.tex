@@ -1,0 +1,78 @@
+\section{Domain Signatures and Trajectories}
+\label{sec:signatures}
+\begin{figure*}[t]
+\centering\includegraphics[width=.95\textwidth,height=.55\textheight,keepaspectratio]{figures/fig01_signatures.pdf}
+\caption{\textbf{Amounts and timing progressively identify domain.} (A) Equal-model mean label prevalence, separating conversational labels \citep{kim2026society} from cognitive operations \citep{gandhi2025habits}; labels can co-occur across both families. (B) Cumulative held-out log-loss reduction from uniform eight-domain prediction (zero; 3-bit loss). Gray diamonds use only log token/segment counts. Open markers add amounts; filled markers add timing. Blue circles and ochre squares match the families in A. Whiskers are pointwise 95\% bootstrap intervals for cumulative gains, not the increments. The paired tests for each increment meet the stored interval/FDR criteria in all 14 model--family comparisons.}
+\label{fig:signatures}
+\end{figure*}
+\subsection{Both amount and timing distinguish domains}
+Operation amounts improve held-out domain prediction beyond length in all 14 model-by-annotation-group tests. Timing adds information beyond amount in all 14 tests (Figure~\ref{fig:signatures}). Median gains are 0.756 bits per trace for amount and 0.078 for timing. Amount gains range from 0.306 to 1.134 bits; timing gains range from 0.035 to 0.176. The timing effect is smaller, but recurs across every tested checkpoint and label group. Adding eight shuffled timing features instead slightly worsens prediction (median mean gain $-0.014$ bits); real timing exceeds this matched control in all 14 comparisons with Bonferroni-adjusted bootstrap intervals (Appendix~\ref{app:random-timing}). Thus, domain differences concern where operations occur as well as how often they appear.
+
+Selected contrasts make these signatures interpretable. Idea generation exceeds math in perspective shifts by 16.9 percentage points (pp) and backtracking by 9.1 pp, with both directions consistent across all seven models. Planning exceeds moral reasoning in verification by 18.7 pp; math exceeds planning in subgoals by 9.0 pp, again in all seven models. These are descriptive contrasts chosen to explain the profiles, not additional multiplicity-adjusted discoveries.
+
+Similarity is also structured. GPQA and cybersecurity are closest in the eight-rate representation (2.21 pp RMS difference; prompt-bootstrap interval [2.00, 2.44]). Moral and safety are mutual nearest neighbors, while math is closest to code. Idea generation is comparatively distant; its nearest-neighbor identity is unstable under prompt resampling. Shared formats can contribute, particularly for multiple-choice domains. The similarity map describes this measurement space, rather than establishing semantic equivalence (Appendix~\ref{app:similarity}).
+
+\begin{figure*}[t]
+\centering\includegraphics[width=.90\textwidth,height=.44\textheight,keepaspectratio]{figures/fig02_trajectories.pdf}
+\caption{\textbf{Temporal allocation differs across domains.} Thick curves are equal-model means of per-trace prevalence in relative-position bins; thin curves show all seven models and are not confidence intervals. Math and planning increasingly emphasize verification. Idea generation emphasizes alternatives and mid-trace revision. Each operation is plotted independently; curves do not imply exclusive states or observed transitions.}
+\label{fig:trajectories}
+\end{figure*}
+\subsection{The same operation serves different functions}
+In math, verification rises from 9.9\% of segments in the early third to 27.4\% in the late third, while subgoals decline from 17.4\% to 9.6\%. The verification increase occurs in all seven models. Planning similarly increases verification (16.1\% to 30.3\%), but starts from a much lower subgoal rate. Idea generation instead has high early and middle perspective-shift prevalence (33.7\% and 35.0\%), falling to 19.9\% late; backtracking peaks in the middle third at 14.0\% (Figure~\ref{fig:trajectories}). Individual curves reveal heterogeneity that the mean alone would hide.
+
+Outcome-blind Qwen3.5-9B examples clarify these labels. We select traces near domain-median profiles within the central half of token lengths. A math trace repeatedly checks its parameterization; a planning trace checks rover locations and action preconditions. A moral trace uses subgoals to structure advice around decision criteria. An idea trace rejects agronomy proposals as too familiar or vague and revises them. Thus, a subgoal can organize a response, and backtracking can revise a candidate rather than repair a formal error. These are reproducible illustrations, not an independent qualitative validation study (Appendix~\ref{app:examples}).
+
+\begin{figure}[t]
+\centering\includegraphics[width=\columnwidth]{figures/fig03_task_demand.pdf}
+\caption{\textbf{Matched changes in demand and format.} (A) Profile-distance contrasts beyond their repeated-sample noise references. (B) Raw paired demand-minus-format contrast, not the subtraction of the noise-adjusted quantities in A. Stored 95\% item-bootstrap intervals use 160 problems per model, except 159 for DeepSeek-R1-Distill-Qwen-7B. Demand responsiveness varies substantially across checkpoints.}
+\label{fig:demand}
+\end{figure}
+\subsection{Task demand changes profiles, unevenly across models}
+Changing instructions while holding problems fixed alters the profiles beyond repeat-sampling noise for four of five models. The noise-adjusted demand distance is 0.429 [0.371, 0.488] for Qwen3.5-9B and 0.774 [0.656, 0.879] for Gemma4-12B-it, compared with 0.009 [$-0.076$, 0.095] for DeepSeek-R1-Distill-Llama-8B. Demand also exceeds format in the raw paired contrast for Qwen3.5-9B, Gemma4-12B-it, and OpenThinker3-7B. Neither DeepSeek distill has an interval excluding zero for that contrast (Figure~\ref{fig:demand}). This supports responsiveness to instructions in some checkpoints, rather than a purely topical account of every domain difference. It does not isolate the effects of training recipes.
+
+\paragraph{Task information does not establish outcome prediction.}
+None of the 94 estimable native within-model/domain outcome cells passes the primary corrected FDR gate for adding the signature block. Some pooled associations remain in secondary analyses. Domain identification, residual outcome prediction, and intervention effects answer different questions; we therefore retain this null rather than treating domain separability as evidence that a signature is beneficial.
+
+\section{Changing Reasoning Profiles}
+\label{sec:interventions}
+\subsection{Interventions and evaluation}
+All main intervention results use Qwen3.5-9B. A rank-eight ridge readout at decoder-layer output 16 maps standardized activations to 16 targets: eight future-operation rates and eight rates over the next four segments, within an 8,192-token window. Its regularized inverse $G$ maps target changes to residual directions. A source-domain vector is
+\begin{equation}
+v_s=6.75\,\frac{G(\mu_s-\bar\mu)}{\|G(\mu_s-\bar\mu)\|_2},
+\label{eq:transfer}
+\end{equation}
+where $\mu_s$ is the domain's mean target profile and $\bar\mu$ equally averages math, GPQA, planning, idea, and moral profiles. The vector is added at all prompt and generated positions. Equal residual norm does not imply equal behavioral dose. A separate intervention, A2, targets a selected within-math archetype relative to the math mean; it is not the domain-average math vector.
+
+Objective evaluations use 199 math or 200 GPQA/planning tasks and two decoding seeds, paired by task and seed. We report accuracy at 12,288 and 32,768 tokens, alongside answer availability. Intervals bootstrap tasks after averaging seeds. Natural-completion outcomes use current extraction grades for completed traces and stored direct grades for truncated prefixes. A separate forced-answer protocol interrupts reasoning, adds an answer cue, and permits up to 48 unsteered greedy tokens; completed responses retain their answer. Intervention behavior shifts use paired seed-1 annotations in the first 8,192 reasoning tokens. Details and additional estimates appear in Appendix~\ref{app:methods}.
+
+\begin{figure}[t]
+\centering\includegraphics[width=\columnwidth]{figures/fig04_cross_domain_transfer.pdf}
+\caption{\textbf{Asymmetric, budget-dependent cross-domain transfer on Qwen3.5-9B.} Rows identify the source profile; columns identify the target task. Cells report accuracy changes from the paired unsteered baseline in percentage points. Black outlines mark same-domain cells. All vectors use Equation~\ref{eq:transfer}. These domain-average targets are distinct from A2. Selected paired intervals appear in Table~\ref{tab:transfer}; the matrix is exploratory and its cells share baselines.}
+\label{fig:transfer}
+\end{figure}
+\subsection{Cross-domain benefits depend on direction and budget}
+At 12,288 tokens, the math-profile vector improves GPQA accuracy by 33.8 pp [27.8, 40.3] and planning by 20.8 pp [15.8, 26.3]. Transfer also occurs toward math: the moral-profile vector improves math by 12.1 pp [6.5, 17.8]. However, the GPQA-profile vector reduces math accuracy by 45.2 pp, and the idea-profile vector reduces it by 47.0 pp. Source and target roles are not interchangeable (Figure~\ref{fig:transfer}).
+
+Matching domains is not a reliable selection rule. The GPQA-average vector hurts GPQA by 31.2 pp; planning's own vector improves planning by 7.5 pp, less than the point estimate for the math vector. This does not contradict benefits from a selected within-domain archetype: archetypes and domain means are different targets. Nor does it show that domain knowledge has been transferred. The intervention changes residual activations along a direction constructed from measured profiles.
+
+The longer cutoff changes the interpretation. At 32,768 tokens, math-to-GPQA is $-4.0$ pp and math-to-planning is $+3.0$ pp; moral-to-math is $-3.8$ pp, with an interval including zero. The restricted-budget gains therefore do not establish a general increase in eventual accuracy. Improved completion or efficiency is a plausible contributor, which motivates the comparison between natural and forced answering below.
+
+\subsection{Atlas-guided steering and reward learning converge behaviorally}
+We compare A2 with a bias learned from a binary reward for answering math correctly within 8,192 generated tokens. Base-model weights remain frozen. Only the layer-16 bias is optimized for 60 steps, from zero or from A2, with 16 prompts and eight completions per prompt per step. Training uses 301 math items disjoint from the 199 evaluation items. There is one training seed per initialization. Evaluation is rescored with current grades; the historical training reward and archetype selection are unchanged.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=.95\textwidth,height=.47\textheight,keepaspectratio]{figures/fig05_steering_and_rl.pdf}
+\caption{\textbf{Atlas-guided steering and bias-only RL on Qwen3.5-9B.} (A) Eight-operation shifts in paired first-8,192-token windows. Q: questioning; P: perspective shift; C: conflict; R: reconciliation; V: verification; B: backtracking; S: subgoals; K: backward chaining. (B) Similarity to A2 in residual-vector and mean behavior-change space; connecting lines pair the two measures. (C) Natural-completion accuracy with current extraction grades. (D) Forced-answer differences with 95\% task-paired intervals; symbols and colors match C. A2+RL is included only in C--D.}
+\label{fig:rl}
+\end{figure*}
+The zero-start RL vector has residual cosine approximately $-0.02$ with A2, but cosine 0.938 between their mean eight-rate behavioral shifts. Both increase subgoals and reduce question--answer turns, conflict, and reconciliation. Removing subgoals, the largest component, leaves a descriptive cosine of 0.822. Verification differs: it falls by 3.3 pp under A2 but only 0.4 pp under zero-start RL (Figure~\ref{fig:rl}). These similarities concern aggregate annotations, not recovered circuits or established mediation.
+
+At 8,192 tokens, natural-completion accuracy is 43.7\% unsteered, 73.6\% with A2, 67.3\% with zero-start RL, and 81.9\% with A2-initialized RL. At 32,768, the corresponding values are 86.4\%, 93.5\%, 97.2\%, and 94.5\%. Mean token use at the longer cutoff declines from 13,164 unsteered to 6,666 with A2, 7,100 with zero-start RL, and 4,690 with A2-initialized RL. These operating points do not establish a budget-independent best arm.
+
+Forced answering distinguishes the interventions further. Zero-start RL improves accuracy by 7.3 pp [3.3, 11.6] at 1,024 tokens and 6.5 pp [3.3, 10.1] at 2,048; A2 does not show comparable improvements at those cutoffs. Thus, the intervention effects cannot all be summarized by the same stopping explanation. This protocol nevertheless supplies an answer cue and additional computation, so its performance is not an instantaneous readout of latent knowledge. The atlas reveals behavioral convergence while the outcome protocols expose differences not captured by average profiles.
+
+
+\subsection{Objective-task benefits can have open-task costs}
+On idea generation, the math-profile vector lowers pairwise originality preference under both Gemma4-31B-it and Qwen3.5-27B judges (net preferences $-0.544$ and $-0.554$). A math-style instruction instead raises originality preference ($+0.457$ and $+0.470$), while lowering feasibility preference under both judges. The two interventions cannot be treated as equivalent implementations of mathematical thinking. Selected checking and exploration vectors also differ by objective (Figure~\ref{fig:ideas}).
+
+Quality is conditional on producing an answer. The math-vector and math-prompt pairwise comparisons cover 170 and 158 of 200 keywords, respectively, with eligibility varying by decoding seed. In the separate rubric evaluation, assigning zero to unanswered attempts raises aggregate originality for the math vector even though originality decreases among paired answers. Both endpoints are relevant: an intervention may produce more answers while making those answers less original. Appendix~\ref{app:open} reports coverage and distinguishes pairwise preference from rubric scores.

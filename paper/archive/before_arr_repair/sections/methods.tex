@@ -1,0 +1,20 @@
+\section{Measuring Task-Dependent Signatures}
+\label{sec:methods}
+\subsection{Atlas and annotations}
+The primary analysis contains 21,803 traces with valid sentence annotations from seven models: DeepSeek-R1-Distill-Llama-8B; Gemma4-E4B-it, Gemma4-12B-it, and Gemma4-31B-it; and Qwen3.5-4B, Qwen3.5-9B, and Qwen3.5-27B. The larger generation release contains 27,904 traces on 3,488 prompts, including a Llama-3.1-8B-Instruct answer-only anchor excluded from the reasoning comparison. Table~\ref{tab:benchmarks} details the eight benchmark domains. Most have 500 prompts; code has 175 and safety has 313. The configuration uses one generation seed per prompt/model, temperature 0.6, top-$p$ 0.95, and top-$k$ 20. The reasoning generation cap is 65,536 tokens, subject to available context.
+
+We segment reasoning with the repository's ThinkARM-derived splitter \citep{li2025thinkarm}. Gemma4-31B-it assigns eight binary labels: question--answering, perspective shift, perspective conflict, reconciliation, verification, backtracking, subgoal setting, and backward chaining. Labels may co-occur. The first four form the conversational group; the latter four form the cognitive-operation group. These names organize analyses, rather than asserting a psychological partition.
+
+Annotations are obtained with preceding reasoning context and with isolated segments. The primary features use contextual labels, retaining segments whose required annotations parse in both conditions. Context agreement is a sensitivity measure, not independent label validation. The annotated population is predominantly completed traces, so the atlas does not characterize all unfinished attempts. Appendix~\ref{app:methods} gives the measurement and selection details.
+
+\subsection{Amount, timing, and domain identification}
+For trace $i$, operation $b$, and valid segments $\mathcal V_i$, amount is
+\begin{equation}
+a_{ib}=|\mathcal V_i|^{-1}\sum_{s\in\mathcal V_i} y_{isb}.
+\end{equation}
+We separately compute prevalence in early, middle, and late thirds of normalized sentence position. Dividing each phase prevalence by their sum gives shares $q_{ibp}$; all shares are zero if the operation is absent. The timing features are $q_{ib,\mathrm{middle}}-q_{ib,\mathrm{early}}$ and $q_{ib,\mathrm{late}}-q_{ib,\mathrm{early}}$.
+
+Within each model and annotation group, ridge multinomial logistic regression predicts the eight domains using five prompt-disjoint folds. Nested specifications contain log token/segment counts, then four amounts, then eight timing contrasts. Preprocessing uses training folds only. We report held-out log-score gains in bits per trace, with stored 95\% bootstrap intervals and Benjamini--Hochberg adjustment. Support requires a positive interval lower bound and $q<.05$. Descriptive domain means weight traces equally within model/domain and then models equally. Similarity uses within-model RMS differences across eight rates, averaged over models. Temporal figures use ten position bins and show individual-model curves; these are marginal prevalences, not transition probabilities.
+
+\subsection{Matched task-demand study}
+We hold 80 math and 80 GPQA problems fixed while changing instructions to solve, generate approaches, or evaluate an answer. A free-response versus multiple-choice comparison tests format. The displayed contrast compares generating approaches with solving, alongside repeated-generation noise references. It includes Qwen3.5-9B, Gemma4-12B-it, DeepSeek-R1-Distill-Llama-8B, DeepSeek-R1-Distill-Qwen-7B, and OpenThinker3-7B. Rates use the first 8,192 reasoning tokens. Profile distance is the mean absolute log$_2$ ratio of smoothed rates ($\epsilon=.005$). Item-bootstrap intervals describe matched contrasts. Because the noise-adjusted demand and format quantities use different repeat references, their raw paired difference is reported separately.

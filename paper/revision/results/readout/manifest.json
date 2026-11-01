@@ -1,0 +1,90 @@
+{
+  "stage": "prepared",
+  "runs": [
+    "corpus1_math_a",
+    "corpus1_math_b",
+    "corpus1_idea_a",
+    "corpus1_idea_b",
+    "corpus1_gpqa_a",
+    "corpus1_gpqa_b",
+    "corpus1_planning_a",
+    "corpus1_planning_b"
+  ],
+  "rows": 251420,
+  "prompts": 800,
+  "traces": 3200,
+  "layer": 16,
+  "rank": 8,
+  "ridge": 100000.0,
+  "fold_seed": 20261101,
+  "historical_map_sha256": "2eefee7b1bc8adb211dc18e8da6d76124d14f84a374abb621e5b378745d3c9e7",
+  "historical_domain_mean_max_error": 0.0,
+  "inputs": [
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_math_a__acts.npz",
+      "sha256": "b4db92f5f78fd196fd9cb314f70881b03a6146f504f6446509212548cff338b0"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_math_a__meta.parquet",
+      "sha256": "8e9cf695184a1925a343456d4a2b62143b40896a1003514272759d4f3849693d"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_math_b__acts.npz",
+      "sha256": "b8267fbd736bd51cf167a9c75d49da55cd0d6da47fb6d01d80b95b4e9ad9e3d9"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_math_b__meta.parquet",
+      "sha256": "53ab8fbf3214d54fa91790c2e291369ac28d515bdf3483c04eb069cd4821897d"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_idea_a__acts.npz",
+      "sha256": "cccad7b443c656fd70722ce2e50e3c79420c0226f03b6ec2c7725360b8bc13e8"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_idea_a__meta.parquet",
+      "sha256": "3d6b8ef6d189c9809668dcc946c51e2622b2e30d1a4fe60867b76736bab2685c"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_idea_b__acts.npz",
+      "sha256": "9a120a32d0d5f1300d629ffc17a72e19a5390e3cf83634dd2342bd51d421b0f1"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_idea_b__meta.parquet",
+      "sha256": "530e64d0612f0abbe73dc7039a599dee426788bb081a6ac57b22ea6906c1875d"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_gpqa_a__acts.npz",
+      "sha256": "1cc332d0203eaf758181bd847317197e7d31aba65d557b99421c34e6c32341bb"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_gpqa_a__meta.parquet",
+      "sha256": "d4b64394e34b13c853487b041790b953c92255474c44404934f0961cc70e2d40"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_gpqa_b__acts.npz",
+      "sha256": "8921cbe044cb08381380ce0da53576e231394cfe6203ee157df6672007468928"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_gpqa_b__meta.parquet",
+      "sha256": "d658fae728915a3612938c8eb1cbe4a01c6b0b26b004f4ac18da3e448bec3bbd"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_planning_a__acts.npz",
+      "sha256": "43d7252235d8a00cf2e8f959abe08ade28e8bc50f90f3834cd11c9f5d239534e"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_planning_a__meta.parquet",
+      "sha256": "d3008c3524151a9140ad2308899eaeddc38de0f7df8a1d127595cc9fb23be085"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_planning_b__acts.npz",
+      "sha256": "28ba9b6574a76ec0cd99d958cc46007a761e42ea8a292332cb7a0856142c8905"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/sigctrl/corpus1_planning_b__meta.parquet",
+      "sha256": "05bbba9e52003dd3359715df687baf0d8643c9c15cb02e8813718b7d8249c9a6"
+    }
+  ],
+  "script_sha256": "22961f0799c96091ea1c8daf84c02ee229958471347de15ca5924653853b0ca7",
+  "interpretation": "Retrospective validation at a previously selected setting; no historical map modified."
+}

@@ -1,0 +1,76 @@
+\section{Detailed experimental methods}\label{app:methods}
+\subsection{Study components and atlas population}
+We distinguish three data collections: an observational atlas, a matched-instruction study, and intervention experiments. The current atlas release contains 27,904 generated traces from eight model conditions on 3,488 prompts. The primary reasoning analysis uses 21,803 traces with at least one valid annotated segment from seven conditions: DeepSeek-R1-Distill-Llama-8B; Gemma4-E4B-it, Gemma4-12B-it, and Gemma4-31B-it; and Qwen3.5-4B, Qwen3.5-9B, and Qwen3.5-27B. The answer-only Llama-3.1-8B-Instruct anchor is excluded from this comparison because its text channel and generation protocol differ.
+
+The eight benchmark domains are math, code, GPQA science questions, planning, moral reasoning, idea generation, safety, and cybersecurity. There are 500 prompts in each domain except code (175) and safety (313), with one atlas generation seed per prompt/model. Availability of valid reasoning annotations varies by model and domain. The labeled population is predominantly completed traces, so analyses of these features do not estimate behavior for all unfinished attempts.
+
+
+\subsection{Segmentation and behavioral annotation}
+Reasoning text is segmented with the repository's ThinkARM-derived sentence splitter \citep{li2025thinkarm}. Each segment receives eight binary, potentially overlapping labels: question--answering, perspective shift, perspective conflict, reconciliation, verification, backtracking, subgoal setting, and backward chaining \citep{kim2026society,gandhi2025habits}. The atlas annotations use Gemma4-31B-it in full-context and isolated-segment conditions. The primary full-context features retain segments whose required annotations parse in both conditions; invalid labels are excluded from denominators. Agreement between these contexts measures sensitivity to context, not independent semantic validity.
+
+For trace $i$, let $\mathcal V_i$ be its valid segments and $y_{isb}\in\{0,1\}$ the label for operation $b$ on segment $s$. Operation amount is
+\begin{equation}
+a_{ib}=\frac{1}{|\mathcal V_i|}\sum_{s\in\mathcal V_i}y_{isb}.
+\end{equation}
+Segment position is $s/(n_i-1)$, with position zero for a single segment. We compute prevalence $r_{ibp}$ within early, middle, and late thirds, and normalize within each operation:
+\begin{equation}
+\begin{aligned}
+q_{ibp}&=\frac{r_{ibp}}{\sum_{p'}r_{ibp'}},\\
+t_{ib}&=\big(q_{ib,M}-q_{ib,E},\ q_{ib,L}-q_{ib,E}\big).
+\end{aligned}
+\end{equation}
+Here $E$, $M$, and $L$ denote early, middle, and late phases. All three shares are zero when the operation is absent. These timing contrasts enter the predictive analysis after amount. For visualization we separately compute marginal prevalence in ten relative-position bins; traces are equally weighted within each model/domain/bin, followed by equal weighting of models. Empty trace bins are omitted. Relative position is not absolute elapsed time, and these marginal curves do not identify transition probabilities.
+
+\subsection{Testing signatures and describing domain similarity}
+Within each model, we predict the eight domains using ridge multinomial logistic regression, separately for the four conversational and four cognitive-operation labels. Nested specifications contain (i) log token and valid-segment counts, (ii) those controls plus four amounts, and (iii) those features plus eight conditional-timing contrasts. Five fixed prompt-disjoint folds prevent an instance from appearing in training and evaluation. Preprocessing is fitted on the training fold, and the slope penalty is fixed at one. Held-out log-score differences are reported in bits per trace. Bootstrap intervals and Benjamini--Hochberg adjustment are applied within the stored analysis families; support requires a positive interval lower bound and adjusted $q<.05$.
+
+Figure~\ref{fig:signatures}B reports $3-\mathrm{NLL}/\ln 2$ relative to uniform eight-domain prediction, with mean held-out NLL in nats. Length-only fits include intercepts and domain-frequency information. Pointwise 95\% percentile intervals jointly resample the reproduced frozen predictions (1,000 within-domain prompt bootstraps). Adjacent differences recover the increments, whose inference uses the original paired tests.
+
+Descriptive domain distances are computed within model as the root-mean-square difference between the eight domain-mean rates, then averaged across the seven models. A standardized-rate sensitivity changes the weight assigned to rare operations. These distances are not equivalence tests. For the new descriptive intervals, 1,000 bootstrap samples resample prompts within domain with shared multiplicities across models; models are treated as fixed. Selected pairwise contrasts remain exploratory and are not presented as newly multiplicity-corrected tests.
+
+Qualitative examples hold model identity fixed at Qwen3.5-9B. Within each domain, selection is restricted to the central 50\% of token lengths, then chooses the trace nearest the domain-median eight-rate profile after scaling by model-wide standard deviations. Outcomes are not used. Reconstructed sentences and segment counts are checked against the annotation table. These examples illustrate label interpretation rather than independently validating it.
+
+\subsection{Matched random-feature control}
+\label{app:random-timing}
+\begin{figure*}[t]
+\centering\includegraphics[width=.95\textwidth]{figures/figA3_random_timing_control.pdf}
+\caption{\textbf{Timing helps; matched random features hurt.} Both conditions add eight predictors to the same length-plus-amount classifier. Colored markers show observed timing; crosses average 100 shuffled timing blocks. Zero denotes no gain over length plus amount. Whiskers are pointwise 95\% bootstrap intervals; control intervals include prompt and finite-randomization uncertainty, conditional on the fitted predictors. The paired timing-minus-control contrasts also remain positive with Bonferroni intervals across all 14 comparisons; they are evaluated directly, not by interval overlap.}
+\label{fig:random-timing}
+\end{figure*}
+We test whether adding predictors alone explains the timing increment. For each model and annotation family, 100 randomizations jointly shuffle the eight-column timing block across prompts, independently in each training and held-out partition. Shuffling is across domains, preserving each partition's timing distribution and within-block dependencies while breaking its correspondence with domain, length, and amount. Base features, targets, prompt folds, training-only standardization, and ridge penalty are unchanged. Each randomized classifier is refitted. This is a dimension-matched negative control, not an exact conditional permutation test.
+
+Across the 14 cells, observed timing gains are $0.035$--$0.176$ bits per trace (median $0.078$); mean randomized gains are $-0.019$--$-0.012$ (median $-0.014$). All 1,400 randomized fits have negative held-out gains. Timing-minus-mean-control advantages range from $0.050$ to $0.191$ bits. We jointly bootstrap prompts within domain and randomization draws 10,000 times, holding fitted predictions fixed. All 14 Bonferroni-adjusted percentile intervals exclude zero; the smallest lower bound is $0.025$ bits. Figure~\ref{fig:random-timing} shows the incremental scale because random-control endpoints nearly overlap the amount endpoints on Figure~\ref{fig:signatures}'s cumulative scale.
+
+\subsection{Matched task-demand manipulation}
+The matched study holds 80 math and 80 GPQA problems fixed while varying instructions to solve, generate approaches, or evaluate a proposed answer. A free-response versus multiple-choice comparison tests output format. Five models are included: Qwen3.5-9B, Gemma4-12B-it, DeepSeek-R1-Distill-Llama-8B, DeepSeek-R1-Distill-Qwen-7B, and OpenThinker3-7B. Repeated samples of solve and generate prompts provide a generation-noise reference. Rates use the first 8,192 reasoning tokens.
+
+For rate vectors $a$ and $b$, profile distance is $\frac18\sum_j|\log_2((a_j+\epsilon)/(b_j+\epsilon))|$, with $\epsilon=.005$. Demand and format contrasts use matched items and stored item-bootstrap intervals. Their noise-adjusted versions use different repeat-sampling references; the raw paired demand-minus-format contrast is therefore shown separately. Differences between checkpoints do not isolate the causal effect of their training recipes.
+
+\subsection{Atlas-guided interventions and cross-domain transfer}
+The principal intervention model is Qwen3.5-9B. A reduced-rank ridge readout at decoder-layer output 16 maps standardized activations to 16 behavioral targets: eight rates over future segments and eight over the next four segments, using an 8,192-token reasoning window. The retained readout has rank eight. Its regularized inverse defines a map $G$ from changes in target behavior to residual-space directions.
+
+For the domain-average transfer experiment, let $\mu_s$ denote the source domain's mean 16-dimensional target profile and $\bar\mu$ the equally weighted mean across math, GPQA, planning, idea, and moral profiles. The intervention is
+\begin{equation}
+\begin{aligned}
+v_s&=6.75\,\frac{G(\mu_s-\bar\mu)}{\|G(\mu_s-\bar\mu)\|_2},\\
+h'_{16}&=h_{16}+v_s.
+\end{aligned}
+\end{equation}
+The same source vector is applied on different target tasks. Dose sensitivities use 0.5 and 1.5 times the reference norm. In the implementation, $G=\mathrm{diag}(\sigma)W(W^\top W+\lambda I)^{-1}$, with $\lambda=10^{-3}\mathrm{tr}(W^\top W)/16$. This construction differs from the A2 archetype direction, which targets a selected math archetype relative to the math mean. Archetypes were selected from a prior corpus and evaluated through pilots; A2 is not the average math signature or a prospectively established optimum.
+
+Fixed open-loop vectors are added at all positions, including prompt and generated positions. The objective-task comparisons use 199 math or 200 GPQA/planning tasks with two decoding seeds, paired by task and seed. The domain-average matrix compares each intervention with the same target's unsteered baseline. Same-domain cells, cross-domain cells, and both 12,288- and 32,768-token cutoffs are shown explicitly. The supplied intervals bootstrap tasks after averaging decoding seeds. Contrasts share baselines and are not independent replications; the plotted cell intervals are not a new multiplicity-adjusted family. The term \emph{cross-domain transfer} does not imply a statistical crossover or rank reversal between interventions.
+
+Intervention behavior shifts are calculated from paired seed-1 annotations within the first 8,192 reasoning tokens, not whole-trace atlas profiles. Responses ending before that limit contribute their observed window. Readout targets and observed shifts are separate quantities, so manipulation checks accompany outcome evaluations. Random-vector and SEAL-derived controls provide additional comparisons; norm matching alone does not make interventions equivalent.
+
+\subsection{Reward learning and forced-answer evaluation}
+In the RL comparison, base-model weights remain frozen and only one layer-16 residual bias is optimized. The reward is one for a correct answer within 8,192 generated tokens and zero otherwise. Each of 60 steps samples 16 prompts and eight completions per prompt. The advantage subtracts the within-prompt mean reward without dividing by its standard deviation; the summed token-log-probability loss uses a constant prompt/group/budget denominator. Adam uses learning rate $2\times10^{-3}$. We compare zero initialization with initialization from A2. The training set has 301 math items, disjoint from the 199 evaluation items. There is one training seed per initialization and two evaluation decoding seeds. Only the temperature-corrected training runs are included.
+
+Natural-completion accuracy is evaluated at multiple token cutoffs alongside answer availability and token usage. A separate forced-answer protocol interrupts a trace, supplies an answer cue, and allows up to 48 additional greedy tokens without steering during this continuation. Already completed responses retain their own answer. This measures performance under an answer-elicitation intervention, not instantaneous latent knowledge. Paired differences are bootstrapped over tasks.
+
+The historical RL reward and archetype selection used the earlier grading implementation. The paper's natural-completion summaries reconcile completed traces with the current extraction-based grades while retaining stored direct grades for cutoff-truncated prefixes. Rescoring evaluation does not alter the original training objective. Bias-vector cosine and cosine between mean eight-rate changes are descriptive similarities; neither establishes behavioral mediation.
+
+\subsection{Outcome versions and open-task evaluation}
+The corrected atlas uses the explicit corrected objective-grade release for math, GPQA, planning, and security; code execution and open-task rubrics retain their existing endpoints. Missing outcomes are not converted to successes or failures except where the corrected objective protocol explicitly scores unfinished attempts as zero. Native within-model/domain outcome models are maintained as a separate analysis from domain prediction.
+
+For idea generation, pairwise comparisons against unsteered answers assess originality and feasibility using Gemma4-31B-it and Qwen3.5-27B, with both presentation orders. Net preference is the fraction favoring the intervention minus the fraction favoring baseline; ties contribute zero. Quality comparisons use keywords with answers in both arms, so completion and sample coverage must be reported alongside quality. These selected interventions come from different experiment families and should not be treated as a single exhaustive Pareto frontier.
+

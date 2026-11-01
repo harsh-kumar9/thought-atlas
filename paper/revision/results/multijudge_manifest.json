@@ -1,0 +1,23 @@
+{
+  "seed": 20261101,
+  "rows": 1381,
+  "sources": {
+    "atlas": 805,
+    "demand": 320,
+    "intervention": 256
+  },
+  "judges": {
+    "gemma": "google/gemma-4-31B-it",
+    "qwen": "Qwen/Qwen3.5-27B",
+    "llama": "meta-llama/Llama-3.1-8B-Instruct"
+  },
+  "sampling": "12 simple-random atlas attempts per model/domain plus independent 4 unfinished draws; union inclusion probabilities retained. Interventions and demands sampled by shared problem.",
+  "prefix": "first 2048 Qwen3.5-9B tokenizer units, identical text for all judges; shorter traces retained",
+  "prompts": {
+    "kim": "61bff44555b4e2866245d94886d1fb352bf57ee6b95196161470a5373907f2e9",
+    "gandhi": "60c8a1e8f19e57eaba8629707dd095acc882aca6497c6c95a00e3e1302cc99ff"
+  },
+  "blinded_input_sha256": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+  "estimand": "Multi-judge robustness on a fixed-prefix sample, not human validity or exact replication of whole-trace signatures.",
+  "completion": "Unfinished attempts included; empty prefixes reported, never silently converted to all-zero labels."
+}

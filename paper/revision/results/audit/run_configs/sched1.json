@@ -1,0 +1,131 @@
+{
+  "run": "sched1",
+  "window": 8192,
+  "max_new_tokens": 12288,
+  "n_per_domain": 200,
+  "task_seed": 20260905,
+  "seeds": [
+    1
+  ],
+  "directions": "directions_w8192_v2w8192.npz",
+  "layer_selection": null,
+  "derived": {
+    "rms_reflect": 3.4957401752471924,
+    "prompt_shift_proj": 1.9851065874099731,
+    "proj_sd": 1.8787387609481812,
+    "proj_mean_math": -1.5378156900405884,
+    "proj_mean_idea": 1.9625030755996704
+  },
+  "conditions": [
+    {
+      "name": "baseline",
+      "mode": "baseline"
+    },
+    {
+      "name": "sus_idea_L19",
+      "mode": "add",
+      "alpha_gap": 2.0,
+      "layer": 19,
+      "phase": "mean32",
+      "sustained": true,
+      "direction": "prompt_r1"
+    },
+    {
+      "name": "sus_math_L19",
+      "mode": "add",
+      "alpha_gap": -2.0,
+      "layer": 19,
+      "phase": "mean32",
+      "sustained": true,
+      "direction": "prompt_r1"
+    },
+    {
+      "name": "idea_then_math_L19",
+      "mode": "add",
+      "schedule": {
+        "early": 2.0,
+        "late": -2.0,
+        "switch": {
+          "type": "baseline_frac",
+          "frac": 0.5,
+          "min": 512,
+          "max": 6144
+        }
+      },
+      "layer": 19,
+      "phase": "mean32",
+      "sustained": true,
+      "direction": "prompt_r1"
+    },
+    {
+      "name": "math_then_idea_L19",
+      "mode": "add",
+      "schedule": {
+        "early": -2.0,
+        "late": 2.0,
+        "switch": {
+          "type": "baseline_frac",
+          "frac": 0.5,
+          "min": 512,
+          "max": 6144
+        }
+      },
+      "layer": 19,
+      "phase": "mean32",
+      "sustained": true,
+      "direction": "prompt_r1"
+    },
+    {
+      "name": "random_then_opp_L19",
+      "mode": "random",
+      "rank": 1,
+      "seed": 7,
+      "schedule": {
+        "early": 2.0,
+        "late": -2.0,
+        "switch": {
+          "type": "baseline_frac",
+          "frac": 0.5,
+          "min": 512,
+          "max": 6144
+        }
+      },
+      "layer": 19,
+      "phase": "mean32",
+      "sustained": true,
+      "direction": "prompt_r1"
+    },
+    {
+      "name": "idea_then_math_fix_L19",
+      "mode": "add",
+      "schedule": {
+        "early": 2.0,
+        "late": -2.0,
+        "switch": {
+          "type": "fixed",
+          "tokens": 2048
+        }
+      },
+      "layer": 19,
+      "phase": "mean32",
+      "sustained": true,
+      "direction": "prompt_r1"
+    },
+    {
+      "name": "math_then_idea_fix_L19",
+      "mode": "add",
+      "schedule": {
+        "early": -2.0,
+        "late": 2.0,
+        "switch": {
+          "type": "fixed",
+          "tokens": 2048
+        }
+      },
+      "layer": 19,
+      "phase": "mean32",
+      "sustained": true,
+      "direction": "prompt_r1"
+    }
+  ]
+}

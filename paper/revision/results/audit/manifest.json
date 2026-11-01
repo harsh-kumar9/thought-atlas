@@ -1,0 +1,1041 @@
+{
+  "sources": [
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_math_a/tasks.parquet",
+      "bytes": 59498,
+      "sha256": "1c5c1848b5984468ef941dc2b5b7d3b4e3931474a5396795396d8a736842114e",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_math_a/run.json",
+      "bytes": 568,
+      "sha256": "b0e6f13f3aea3cccffcbb91cfde3ad22870cd009b167698c5c63a8fa580b22e0",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_math_b/tasks.parquet",
+      "bytes": 59498,
+      "sha256": "1c5c1848b5984468ef941dc2b5b7d3b4e3931474a5396795396d8a736842114e",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_math_b/run.json",
+      "bytes": 568,
+      "sha256": "b75fdf74492088fd8f4794b0acf3b231a10202a0586a8f9e04d58bfb59f1d1d0",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_idea_a/tasks.parquet",
+      "bytes": 9480,
+      "sha256": "81d03f14a70c4028cc26f40e567ffeda94c11d5ebe60247b6843cfd5aba91540",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_idea_a/run.json",
+      "bytes": 568,
+      "sha256": "094d8a004e1a27c9ac98e8f401af1b38d11e771ade1bacfa5df9563b13d652fd",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_idea_b/tasks.parquet",
+      "bytes": 9480,
+      "sha256": "81d03f14a70c4028cc26f40e567ffeda94c11d5ebe60247b6843cfd5aba91540",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_idea_b/run.json",
+      "bytes": 568,
+      "sha256": "372404c89a4570a0443b6167b91ae1f4a8eaeb31fb4e4ea7dc997a861e3eaf97",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_gpqa_a/tasks.parquet",
+      "bytes": 56024,
+      "sha256": "948c658c8259f0e0ba16c60643d045f7a91ae5a816e3f2e86d3ad83a7a338977",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_gpqa_a/run.json",
+      "bytes": 568,
+      "sha256": "9c778d590ba33204035b48238943eeaa281282b9f594a7e895b4013341b40832",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_gpqa_b/tasks.parquet",
+      "bytes": 56024,
+      "sha256": "948c658c8259f0e0ba16c60643d045f7a91ae5a816e3f2e86d3ad83a7a338977",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_gpqa_b/run.json",
+      "bytes": 568,
+      "sha256": "558dc8c306e46cff27ac2207d726f118f24dbf699b81342d19d66005a0a9ec9d",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_planning_a/tasks.parquet",
+      "bytes": 52315,
+      "sha256": "a9ad3ca94713fcc5eb290d73ff78d4e3f554c64e30e71db100fdbba1270c83ed",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_planning_a/run.json",
+      "bytes": 576,
+      "sha256": "b7beeaad62abb5d306aa3d1a8d29336495ceb215834d6960a2f5054152e8023e",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_planning_b/tasks.parquet",
+      "bytes": 52315,
+      "sha256": "a9ad3ca94713fcc5eb290d73ff78d4e3f554c64e30e71db100fdbba1270c83ed",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_planning_b/run.json",
+      "bytes": 576,
+      "sha256": "7b03836567c776219a1858bab5fb7dc1231e71c0d80714166a99f2d1542447e4",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_moral_a/tasks.parquet",
+      "bytes": 393231,
+      "sha256": "2294ff529b2d9ceec0cff1acd681f277049227cffd3c6f2a632f9eb5084036e0",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_moral_a/run.json",
+      "bytes": 409,
+      "sha256": "b3177d1ff927f3404fda09d8339beff68419a5b26e6c3a56eea511cccddff57d",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_moral_b/tasks.parquet",
+      "bytes": 393231,
+      "sha256": "2294ff529b2d9ceec0cff1acd681f277049227cffd3c6f2a632f9eb5084036e0",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/corpus1_moral_b/run.json",
+      "bytes": 409,
+      "sha256": "91c1387e55f7e591375b9a4fa105ea7a34f73a0ac2d49f2c69231a6cdb1e3bfe",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot_math/tasks.parquet",
+      "bytes": 16605,
+      "sha256": "e9c9fc993e52434706820398d99bc24d5293ec0f8753d324fffd24244d3f962d",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot_math/run.json",
+      "bytes": 9686,
+      "sha256": "21e27e1790453622555b310b28b1f8252c90ed7838132c046b817330d73a03af",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot_idea/tasks.parquet",
+      "bytes": 4817,
+      "sha256": "0a296d5d76643a0d3fdc662200b8140b3b1964918eb8064cdf0ac2614d488493",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot_idea/run.json",
+      "bytes": 7598,
+      "sha256": "bc1d280b767d6c1b94a623f0c11a8c0049488bc2db6800f2964c79ec3f356dfc",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot2_math/tasks.parquet",
+      "bytes": 16605,
+      "sha256": "e9c9fc993e52434706820398d99bc24d5293ec0f8753d324fffd24244d3f962d",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot2_math/run.json",
+      "bytes": 11587,
+      "sha256": "458abfb9addccc5da1276c0784e27d2fae188c31fc5f8d65d9fa449e7fbeaa30",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot2_idea/tasks.parquet",
+      "bytes": 4817,
+      "sha256": "0a296d5d76643a0d3fdc662200b8140b3b1964918eb8064cdf0ac2614d488493",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot2_idea/run.json",
+      "bytes": 9499,
+      "sha256": "a6f9e2c315278723ad2fe7df02000cf5c6ee581537143973af1710bb7ea565e7",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot3_math/tasks.parquet",
+      "bytes": 64963,
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sigpilot3_math/run.json",
+      "bytes": 11384,
+      "sha256": "77e7f3715f4eb31b651cfb61aa15d28598bc02559fc6edfbdbe00f11480d4353",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_sealval/tasks.parquet",
+      "bytes": 32571,
+      "sha256": "b960e0d798ce7a30279520409e2dde9abd416d165c903a32a8924f12af6f52f8",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_sealval/run.json",
+      "bytes": 741,
+      "sha256": "4490cc5886a611878fbe7ebc5a521869f854a714795db98ae4831477591e6a92",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/tasks.parquet",
+      "bytes": 64963,
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/run.json",
+      "bytes": 717,
+      "sha256": "2132e6c945083dba9f6ccd105b716830c4e3a2310edbf4763478eb92614bb75c",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/tasks.parquet",
+      "bytes": 60382,
+      "sha256": "c51bac3623798348dbab3e934f3c9bd07a854cd0af9c17e94dee92ff6ecf5820",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/run.json",
+      "bytes": 607,
+      "sha256": "2b5028e7e8dd76ba9c3b51fd1c786a2887618778ab2c0b463101b6205ae80d6f",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/tasks.parquet",
+      "bytes": 51745,
+      "sha256": "93d919715865f0e91a05685d8436ec616d25467fe0a08b3055fba3cd6f1ec7f7",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/run.json",
+      "bytes": 627,
+      "sha256": "69734a82c9989f02cf31156b0d3863b1a0420b7bb0243abfa05139b26371eac2",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval2/tasks.parquet",
+      "bytes": 64963,
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval2/run.json",
+      "bytes": 277,
+      "sha256": "449bb4c41f20f0c69193504cf5279946a9826714fd405983b4e08554f5952e38",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/tasks.parquet",
+      "bytes": 64963,
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/run.json",
+      "bytes": 384,
+      "sha256": "719c5523a25eeb8db4dee5c5c5d6653267c87adbafab62083e27730f4ade606d",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/tasks.parquet",
+      "bytes": 64963,
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/run.json",
+      "bytes": 3126,
+      "sha256": "de1bcffafd3084d8baa3969a8dc759fcc20f265c885ddd2ea8d1dcd605f22c1c",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/tasks.parquet",
+      "bytes": 60382,
+      "sha256": "c51bac3623798348dbab3e934f3c9bd07a854cd0af9c17e94dee92ff6ecf5820",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/run.json",
+      "bytes": 3387,
+      "sha256": "34f1ca80f6ddfa2d4de6b24ca3b319bfaafc00129174945dee843762b17cb0f2",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/tasks.parquet",
+      "bytes": 51745,
+      "sha256": "93d919715865f0e91a05685d8436ec616d25467fe0a08b3055fba3cd6f1ec7f7",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/run.json",
+      "bytes": 3281,
+      "sha256": "a9686448eee8533a72c04c058f33793ff30db6d3e9a61b20ff6df0a2c0ffb9bb",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_idea/tasks.parquet",
+      "bytes": 9388,
+      "sha256": "b6b3990d3741a48e8f592fb00eb028de319a6bf5ad82f0e54981e3efa566c0dd",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_idea/run.json",
+      "bytes": 3124,
+      "sha256": "b5be8973894a4d3a924914457e7f4f445f9d37f964c67940e8933ee348f6e19e",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_moral/tasks.parquet",
+      "bytes": 381104,
+      "sha256": "52814abd13c30561df6ec734ef72ae6f6eb0cdef4034f9ce63dba63740e070e2",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_moral/run.json",
+      "bytes": 3126,
+      "sha256": "988678d0b2d41a4c804332d747d48c8ba792b7fbb18f8686f3eaba932c6e97f2",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/cd_countdown/tasks.parquet",
+      "bytes": 10212,
+      "sha256": "e2f5a850cc063ed9dac57e17f092cf06c80d8ac99ac324542a44c3f9044e046a",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/cd_countdown/run.json",
+      "bytes": 1413,
+      "sha256": "2f04f94dfb15152a7f6521849142a5a30ad30d0e8d218c052095daa2f8960e28",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/cd_math/tasks.parquet",
+      "bytes": 64963,
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/cd_math/run.json",
+      "bytes": 829,
+      "sha256": "5d7294e78c60ffe03a88c54eb9ed3c4a503603c6789792d0f2e1cffef902b534",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/power1/tasks.parquet",
+      "bytes": 51600,
+      "sha256": "1b538bac080c02860fc3b3f741561de5be2bc2f600d834080b7abad327d86074",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/power1/run.json",
+      "bytes": 2277,
+      "sha256": "f3e43826d7201fe1cc86d49c52cbca28bdfb2ed4a44f9d2a0e839cee6094a323",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sched1/tasks.parquet",
+      "bytes": 65176,
+      "sha256": "24440e8039b6f1517486c31dda6e65cd945e828373d385b559f52f8c016f93d3",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/sched1/run.json",
+      "bytes": 2720,
+      "sha256": "4bab9a3e61b31ea21a4021d7ebcefcd9e2e13ead02e9823fe44d5dab64cf2955",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/rlbias/zero8k_T/config.json",
+      "bytes": 134,
+      "sha256": "47112da51b5cf260308877d54f7260c7cf1065f952493df4d8499a9333ba0fa4",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/rlbias/zero8k_T/metrics.jsonl",
+      "bytes": 21172,
+      "sha256": "80d98cbc6596baf120421a45137c56f14946ae8980967b6dad2dda55965358f1",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/rlbias/a2init8k_T/config.json",
+      "bytes": 140,
+      "sha256": "a3fb687e81cca52655b6d2174cdf142d1465c39beb3fe41c55b712e70f54a028",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/rlbias/a2init8k_T/metrics.jsonl",
+      "bytes": 20876,
+      "sha256": "eeb1e022d41b164f6da578c3b55f46edc72f3a90bac10c9aae099e46b06a4256",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free/grades.parquet",
+      "bytes": 324876,
+      "sha256": "005054d06b12306c9d0ece9493d1938f9e8465087f5fc324633cca188328b851",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free2/grades.parquet",
+      "bytes": 131815,
+      "sha256": "b5ad79c66ff76113f2b175a87a39553bf18cc6ee76efc652f81656b230581c24",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free3/grades.parquet",
+      "bytes": 20299,
+      "sha256": "dfc709d972a648f9191835e1b7a282f1a84db3e46b16d13452dcad3b73fdb89e",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_cd/grades.parquet",
+      "bytes": 20453,
+      "sha256": "528318284cfd50190e35d471a2e83d16600671ea4827f64f4cfd39beffc72ac3",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_cd2/grades.parquet",
+      "bytes": 20461,
+      "sha256": "eae7ddbaf5c6d983b923a1f2b0680c96075db5659d3c22ceadf85cbb89105c5d",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_nm/grades.parquet",
+      "bytes": 63042,
+      "sha256": "299c1ab30513bfc728e88e7ecfdb5689ce771524747238742cd1379262c39694",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_tx/grades.parquet",
+      "bytes": 99942,
+      "sha256": "021786aba71f82489f8aae3c993fd29a787648f0356ca5ca0442da41799a0a09",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/analysis/budget_outcomes.parquet",
+      "bytes": 23646,
+      "sha256": "634526bb5843db594a4983783638841defe2d8f672ce6d96088cc5bff4cf5e2f",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_baseline.parquet",
+      "bytes": 12005964,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_concise.parquet",
+      "bytes": 9918802,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_ol_math_A2.parquet",
+      "bytes": 8018879,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_ol_random.parquet",
+      "bytes": 12265453,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_seal.parquet",
+      "bytes": 11073625,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_sealdir_matched.parquet",
+      "bytes": 7940198,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval2/analysis/budget_outcomes.parquet",
+      "bytes": 7797,
+      "sha256": "3a0ead35bcfb9d2c9fe0becc78254a10d248ef51147e8fa8add5deda538e92a4",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval2/traces_rl_a2initT_s60.parquet",
+      "bytes": 5809962,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/analysis/budget_outcomes.parquet",
+      "bytes": 11337,
+      "sha256": "ef9460f64eeb0c4a70858d5ff2d3865e72b6abf3374f0ed7166fba6afc626e26",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/traces_rl_zeroT_s30.parquet",
+      "bytes": 8916132,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/traces_rl_zeroT_s60.parquet",
+      "bytes": 8163034,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/analysis/budget_outcomes.parquet",
+      "bytes": 44551,
+      "sha256": "b4c683ebad642ffcce3ad9ccce3d89a2c0e859f7f9842a47568001eec9291f7a",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_idea_commit.parquet",
+      "bytes": 10570515,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_prompt_idea.parquet",
+      "bytes": 10037717,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_prompt_math.parquet",
+      "bytes": 10015149,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_gpqa.parquet",
+      "bytes": 11469767,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_gpqa_x0p5.parquet",
+      "bytes": 3482801,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_gpqa_x1p5.parquet",
+      "bytes": 1912706,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_idea.parquet",
+      "bytes": 7674341,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_idea_x0p5.parquet",
+      "bytes": 2911573,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_idea_x1p5.parquet",
+      "bytes": 1013775,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_math.parquet",
+      "bytes": 5240117,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_math_x0p5.parquet",
+      "bytes": 2071758,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_math_x1p5.parquet",
+      "bytes": 996849,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_moral.parquet",
+      "bytes": 12513294,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_moral_x0p5.parquet",
+      "bytes": 3132872,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_moral_x1p5.parquet",
+      "bytes": 3566483,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_planning.parquet",
+      "bytes": 11950535,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_planning_x0p5.parquet",
+      "bytes": 3139740,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_math/traces_sig_planning_x1p5.parquet",
+      "bytes": 3034181,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_baseline.parquet",
+      "bytes": 12005964,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_ol_math_A2.parquet",
+      "bytes": 8018879,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_ol_random.parquet",
+      "bytes": 12265453,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/traces_rl_zeroT_s60.parquet",
+      "bytes": 8163034,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_sealdir_matched.parquet",
+      "bytes": 7940198,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/analysis/budget_outcomes.parquet",
+      "bytes": 18710,
+      "sha256": "aa4edc7ea4dcf79c38c5134e4e810fc14e56c049b4386f2f5cfd34e0a2fe4116",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_baseline.parquet",
+      "bytes": 18289000,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_ol_gpqa_A4.parquet",
+      "bytes": 7812727,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_ol_math_A2.parquet",
+      "bytes": 13818459,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_ol_random.parquet",
+      "bytes": 15599516,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/analysis/budget_outcomes.parquet",
+      "bytes": 56851,
+      "sha256": "d89f79e5684e5ddc8638afa54d99b1b18519a50f9e56c13a8dbb09f7ffedc350",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_idea_commit.parquet",
+      "bytes": 12439538,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_prompt_idea.parquet",
+      "bytes": 13705658,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_prompt_math.parquet",
+      "bytes": 14374657,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_rl_zeroT_s60.parquet",
+      "bytes": 13655149,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sealdir_matched.parquet",
+      "bytes": 11537998,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_gpqa.parquet",
+      "bytes": 10820151,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_gpqa_x0p5.parquet",
+      "bytes": 3964129,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_gpqa_x1p5.parquet",
+      "bytes": 1553933,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_idea.parquet",
+      "bytes": 7177334,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_idea_x0p5.parquet",
+      "bytes": 3639125,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_idea_x1p5.parquet",
+      "bytes": 931732,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_math.parquet",
+      "bytes": 7556501,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_math_x0p5.parquet",
+      "bytes": 3026462,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_math_x1p5.parquet",
+      "bytes": 1393569,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_moral.parquet",
+      "bytes": 19420040,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_moral_x0p5.parquet",
+      "bytes": 4923848,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_moral_x1p5.parquet",
+      "bytes": 4702938,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_planning.parquet",
+      "bytes": 15414471,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_planning_x0p5.parquet",
+      "bytes": 4255909,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_gpqa/traces_sig_planning_x1p5.parquet",
+      "bytes": 3124774,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_baseline.parquet",
+      "bytes": 18289000,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_ol_gpqa_A4.parquet",
+      "bytes": 7812727,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_ol_math_A2.parquet",
+      "bytes": 13818459,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_gpqa/traces_ol_random.parquet",
+      "bytes": 15599516,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/analysis/budget_outcomes.parquet",
+      "bytes": 20414,
+      "sha256": "f1ed80f7adc85f5751df04952b7a38ee4e50e3cee5932ba8a642a124149a08b3",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_baseline.parquet",
+      "bytes": 12169458,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_ol_math_A2.parquet",
+      "bytes": 8658238,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_ol_planning_A2.parquet",
+      "bytes": 5820939,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_ol_random.parquet",
+      "bytes": 11982567,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/analysis/budget_outcomes.parquet",
+      "bytes": 56310,
+      "sha256": "381082ca3d0d093c8e69f215340ea4f5654c710834102093a2429e5ff063a912",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_prompt_idea.parquet",
+      "bytes": 10249409,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_prompt_math.parquet",
+      "bytes": 10786281,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_rl_zeroT_s60.parquet",
+      "bytes": 8066907,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sealdir_matched.parquet",
+      "bytes": 6371236,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_gpqa.parquet",
+      "bytes": 8241801,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_gpqa_x0p5.parquet",
+      "bytes": 3300776,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_gpqa_x1p5.parquet",
+      "bytes": 1168573,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_idea.parquet",
+      "bytes": 6365997,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_idea_x0p5.parquet",
+      "bytes": 2902971,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_idea_x1p5.parquet",
+      "bytes": 800464,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_math.parquet",
+      "bytes": 4758816,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_math_x0p5.parquet",
+      "bytes": 2068289,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_math_x1p5.parquet",
+      "bytes": 915622,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_moral.parquet",
+      "bytes": 13314458,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_moral_x0p5.parquet",
+      "bytes": 3237028,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_moral_x1p5.parquet",
+      "bytes": 3818218,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_planning.parquet",
+      "bytes": 10068095,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_planning_x0p5.parquet",
+      "bytes": 2894819,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/tx_planning/traces_sig_planning_x1p5.parquet",
+      "bytes": 2201327,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_baseline.parquet",
+      "bytes": 12169458,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_ol_math_A2.parquet",
+      "bytes": 8658238,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_ol_planning_A2.parquet",
+      "bytes": 5820939,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p2_planning/traces_ol_random.parquet",
+      "bytes": 11982567,
+      "sha256": null,
+      "hash_status": "metadata only; not a content identity"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/mc/rlbias.py",
+      "bytes": 9430,
+      "sha256": "75824643e304c9098e585dc526cbf69933c2d5688c283a2b095b04904f6fde8a",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/mc/archetypes.py",
+      "bytes": 5457,
+      "sha256": "20c11ee92af3d8674c0a31f5c0572b85937098f34377e7d2a85bfdfdbbf3c883",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/mc/signature_ctrl.py",
+      "bytes": 15728,
+      "sha256": "de5db46bdce2f9421ba68abd4886daf54e4027307b91142b4d421a41a41c5f17",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/src/judge/prompts/kim_per_sentence.txt",
+      "bytes": 1639,
+      "sha256": "61bff44555b4e2866245d94886d1fb352bf57ee6b95196161470a5373907f2e9",
+      "hash_status": "sha256"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/src/judge/prompts/gandhi_per_sentence.txt",
+      "bytes": 1710,
+      "sha256": "60c8a1e8f19e57eaba8629707dd095acc882aca6497c6c95a00e3e1302cc99ff",
+      "hash_status": "sha256"
+    }
+  ],
+  "script_sha256": "cb7374116bedbe27f6c053178f44b156bb5f585c9c5d2f4e3f716298bc10b5f1",
+  "training_reward_audit": "Exact historical training reward errors not recoverable from aggregate metrics/checkpoints; per-rollout records absent in inspected RL directories.",
+  "selection_status": "Prompt overlaps computed; chronology and outcome access require decision-log reconciliation.",
+  "grade_policy": "Current extraction grades for completed traces; historical direct grades for cutoff-truncated prefixes.",
+  "paired_bootstrap_repair": {
+    "seed": "SHA256 key: 20261101|target|condition|budget|metric",
+    "group_order": "sorted target/condition/budget and instance_id",
+    "reps": 2000,
+    "point_estimates_unchanged": true,
+    "script_sha256": "b298f94e3a15c4887186dbeafdea8edebf930efb4dea2ccfc4c8f254d476189a"
+  }
+}

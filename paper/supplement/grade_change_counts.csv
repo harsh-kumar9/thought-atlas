@@ -1,0 +1,9 @@
+run,cutoff_rows,changed_cutoff_rows,changed_unique_traces,changed_unique_problems
+p1_budget,14328,0,0,0
+p4_eval2,2388,46,9,5
+p4_eval3,4776,92,17,5
+tx_math,37044,0,0,0
+p2_gpqa,9600,0,0,0
+tx_gpqa,39600,0,0,0
+p2_planning,9600,0,0,0
+tx_planning,37200,0,0,0

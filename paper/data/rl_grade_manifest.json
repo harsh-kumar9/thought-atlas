@@ -1,0 +1,82 @@
+{
+  "audit": [
+    {
+      "run": "p1_budget",
+      "rows": 4776,
+      "completed_rows_with_current_grade": 3451,
+      "changed_cutoff_outcomes": 0
+    },
+    {
+      "run": "p4_eval3",
+      "rows": 2388,
+      "completed_rows_with_current_grade": 1915,
+      "changed_cutoff_outcomes": 47
+    },
+    {
+      "run": "p4_eval2",
+      "rows": 2388,
+      "completed_rows_with_current_grade": 2127,
+      "changed_cutoff_outcomes": 46
+    }
+  ],
+  "grade_policy": "current extraction grade for traces ending by cutoff; stored direct grade for truncated prefixes",
+  "source_sha256": "ce908c14abe77a70c6d93d6401ed38514b8ccae8654d4618ba23cdd3c3eae294",
+  "inputs": [
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_baseline.parquet",
+      "sha256": "1f3cd282096ec860f1e436246396186a5d7e041de2e1f9652d4fe009647b00cf"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/traces_ol_math_A2.parquet",
+      "sha256": "353b17493641ea247f7be55faaa2f4a96065693c20054c98bc9e8787e305d08c"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p1_budget/analysis/budget_outcomes.parquet",
+      "sha256": "634526bb5843db594a4983783638841defe2d8f672ce6d96088cc5bff4cf5e2f"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/traces_rl_zeroT_s60.parquet",
+      "sha256": "7ef2c557f899a189a03d2090565bb0ca4ecfe0b04aa356636a45c9876607b53f"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval3/analysis/budget_outcomes.parquet",
+      "sha256": "ef9460f64eeb0c4a70858d5ff2d3865e72b6abf3374f0ed7166fba6afc626e26"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval2/traces_rl_a2initT_s60.parquet",
+      "sha256": "a3c47b23578a96af0d3108fc0b96de63c88d0672340f6d26c1f5001b7c8d0fe7"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/runs/p4_eval2/analysis/budget_outcomes.parquet",
+      "sha256": "3a0ead35bcfb9d2c9fe0becc78254a10d248ef51147e8fa8add5deda538e92a4"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free/grades.parquet",
+      "sha256": "005054d06b12306c9d0ece9493d1938f9e8465087f5fc324633cca188328b851"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free2/grades.parquet",
+      "sha256": "b5ad79c66ff76113f2b175a87a39553bf18cc6ee76efc652f81656b230581c24"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free3/grades.parquet",
+      "sha256": "dfc709d972a648f9191835e1b7a282f1a84db3e46b16d13452dcad3b73fdb89e"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_cd/grades.parquet",
+      "sha256": "528318284cfd50190e35d471a2e83d16600671ea4827f64f4cfd39beffc72ac3"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_cd2/grades.parquet",
+      "sha256": "eae7ddbaf5c6d983b923a1f2b0680c96075db5659d3c22ceadf85cbb89105c5d"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_nm/grades.parquet",
+      "sha256": "299c1ab30513bfc728e88e7ecfdb5689ce771524747238742cd1379262c39694"
+    },
+    {
+      "path": "/ada1/u/harsh/thought-atlas/mode_control/data/extract_free_tx/grades.parquet",
+      "sha256": "021786aba71f82489f8aae3c993fd29a787648f0356ca5ca0442da41799a0a09"
+    }
+  ]
+}

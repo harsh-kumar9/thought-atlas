@@ -1,0 +1,46 @@
+{
+  "run": "p1_budget",
+  "engine": "vllm",
+  "tasks_from": "sigpilot3_math",
+  "seeds": [
+    1,
+    2
+  ],
+  "max_new_tokens": 32768,
+  "window": 8192,
+  "conditions": [
+    {
+      "name": "baseline",
+      "mode": "baseline"
+    },
+    {
+      "name": "ol_math_A2",
+      "mode": "vector",
+      "vector": "ol_math_A2",
+      "positions": "all"
+    },
+    {
+      "name": "ol_random",
+      "mode": "vector",
+      "vector": "ol_random",
+      "positions": "all"
+    },
+    {
+      "name": "seal",
+      "mode": "vector",
+      "vector": "seal_L26",
+      "positions": "seal"
+    },
+    {
+      "name": "sealdir_matched",
+      "mode": "vector",
+      "vector": "sealdir_L17_n6p75",
+      "positions": "all"
+    },
+    {
+      "name": "concise",
+      "mode": "baseline",
+      "system": "Be concise."
+    }
+  ]
+}

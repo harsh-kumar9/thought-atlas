@@ -1,0 +1,126 @@
+{
+  "updated_utc": "2026-11-01T04:08:20.557143+00:00",
+  "scope": "Authorized ARR evidence repair; not submission-ready",
+  "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+  "historical_repository": "/ada1/u/harsh/thought-atlas",
+  "historical_vectors": "Frozen, not replaced",
+  "completed": {
+    "coverage_provenance": "Complete against saved artifacts; historical per-run source hashes and rollout rewards unavailable.",
+    "readout": "Nine corrected validation fits complete: five prompt-disjoint folds plus four held domains. Mean skill 7.61% / 3.43% against different references; historical map frozen.",
+    "intervention_fidelity": "75 source-target-dose cells; paired shifts, fixed-map predictions, intended contrasts, cosine/projection uncertainty.",
+    "behavior_similarity": "Joint prompt bootstrap, 1024/2048/4096/8192 windows, magnitude ratios, disjoint-baseline halves, and selected-duration sensitivity.",
+    "matched_demand": "All solve-MCQ, generate, and evaluate conditions; operation-level changes and three smoothing values plus absolute-rate sensitivity.",
+    "within_trace_timing": "14 cells x100 exact joint-label position randomizations; 10000 bootstrap replicates. All 14 Bonferroni intervals positive.",
+    "creativity": "Idea-only task membership repaired for checking/exploration; actual attempted, answered, and paired denominators exported.",
+    "outcome_null": "112 candidate /94 eligible test specification and full estimates included."
+  },
+  "jobs": {
+    "judge_pilots": {
+      "gemma": 430419,
+      "qwen": 430420,
+      "llama": 430421
+    },
+    "judge_full": {
+      "gemma": 430477,
+      "qwen": 430478,
+      "llama": 430479
+    },
+    "judge_analysis": 430486,
+    "elicitation": {
+      "math": 430436,
+      "gpqa": 430437,
+      "planning": 430438
+    },
+    "elicitation_analysis": 430487,
+    "rl_smoke": 430457,
+    "rl_zero_seeds_0_1_2": [
+      430480,
+      430481,
+      430482
+    ],
+    "rl_a2_seeds_0_1_2": [
+      430483,
+      430484,
+      430485
+    ],
+    "rl_evaluation": {
+      "baseline": 430524,
+      "a2": 430525,
+      "zero_seed0": 430526,
+      "zero_seed1": 430527,
+      "zero_seed2": 430528,
+      "ol_math_A2_seed0": 430529,
+      "ol_math_A2_seed1": 430530,
+      "ol_math_A2_seed2": 430531,
+      "analysis": 430532
+    }
+  },
+  "gpu_status": "All GPU jobs pending at latest check; pilots/smoke wait for Priority, full studies and CPU analyses wait for successful dependencies. No new GPU result has been observed.",
+  "gpu_policy": "ashton_low, one GPU, 15-minute jobs with checkpoints/requeue; no unrelated jobs changed",
+  "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
+  "code_files": {
+    "scripts/analyze_elicitation.py": "1fca5acfec41e9f2c72bc22707c045abbf962879aee5a9e2d020f5289b4ad944",
+    "scripts/analyze_existing.py": "0b63d22a4ed06f316a95bbcdb38b4b15116826d0a977963dce57e4c3121a8de3",
+    "scripts/analyze_multijudge.py": "369c2a5f54835718610f28287dbffe169d859661e1ae205358a929440ed069d0",
+    "scripts/analyze_rl_evaluation.py": "70866b13be159895aab56814c1d75a7bc29dbac8265aa10f2629b937fdb602f9",
+    "scripts/audit_existing.py": "b298f94e3a15c4887186dbeafdea8edebf930efb4dea2ccfc4c8f254d476189a",
+    "scripts/behavior.sbatch": "b878647caef5d4263b39f120df0f5a1958e8c699cc4de8793f2a16561d26e4fe",
+    "scripts/elicitation.py": "3cea57d77cf6266a1038bd06b14366653d0718c28f853ea4984632e3adc5d01e",
+    "scripts/elicitation.sbatch": "939d49fb4b74b16bee88ff1b62d9a7f7097a174925967394358102ee2a48d94f",
+    "scripts/export_behavior.py": "ecae9cdbbd82f59bf82d4185471e22d9247371d6eb803b68d345644c8c6f2785",
+    "scripts/judge.sbatch": "24aa6900344fab4323c34bd7fc8b8bf7c5691d29050c5bef8915e86487919c0f",
+    "scripts/multijudge.py": "c3597e8c8d2815462867ab2a984c928952ed3c951008670d51e051197966aa1d",
+    "scripts/open_task_audit.py": "689e8937a983d2fe5ebef4ed184514fcd2d8bd941644a76efb30e82f31a6b3ed",
+    "scripts/postprocess.sbatch": "04dc48d9233ab16b1aa4f880538eea3f6a33b2697a0667044297c7ffaf1abfbe",
+    "scripts/readout.sbatch": "4c51ae2eef4979006109635dc4b84059be3b2e596f5b33dd836f51a1c3fd6f08",
+    "scripts/readout_validation.py": "22961f0799c96091ea1c8daf84c02ee229958471347de15ca5924653853b0ca7",
+    "scripts/rl_evaluate.py": "9db9a592c4f7763437e9c40ac427836cc01f368415023873a03afac7b3d00b32",
+    "scripts/rl_evaluate.sbatch": "47919c7e6347d61b24aba1c52839ab700ecd4d149ed835a598ea1a5407b0fd2f",
+    "scripts/rl_repair.py": "f92905eeab04635994041c65a41ec2d7d45f433bb716ae1c1dfa2b1544de6672",
+    "scripts/rl_repair.sbatch": "51d58d1b96ac6fe097f8f231460a130acfc8e4069861f99039a7950af925d1c7",
+    "scripts/within_trace_timing.py": "a8c2849df918b97f31e5ed73809ba96779a34899d894689b50cefb5e24fba248",
+    "tests/test_budget_pairing.py": "3078434d7dd2f8e80e25a5635676f18946b464cddafc68d369cd0256adde7240",
+    "tests/test_elicitation.py": "1a26b599428eb8bc4f2b81d6c2f9e1e01fbbe7729bd6246e7299e0f0b518da47",
+    "tests/test_elicitation_analysis.py": "3007027e3e888a73f291523f81a2f4500a4d91003f9c856a24fc5d0c1f69d29c",
+    "tests/test_multijudge_analysis.py": "0f89aa41b200de8d12cf916793611070dfd4b5899a89bacdb188e93b24c72b11",
+    "tests/test_readout_validation.py": "6285f084989c90bd6608db099e6e09d95b5122031d2f3cc3c848d5f0ce80f0af",
+    "tests/test_rl_repair.py": "4390a06aea600b9994c2718c832b2fa9b10dc666f941e946c5f641199fedc95c",
+    "tests/test_within_trace_timing.py": "4ec66e22465822a988cf9b30331381dedaca66cff9d320d46bfb44a1f4491049",
+    "protocols/multi_judge.json": "7fa26627efd15af8eb0624148c6908bc63b748833ac14543a86eac487f848666"
+  },
+  "readout_jobs": {
+    "failed_prepare": 430409,
+    "repaired_prepare": 430416,
+    "folds": 430410,
+    "summary": 430445
+  },
+  "recoveries": [
+    "Readout 24-vs-16 target preparation repaired before fitting.",
+    "Behavior export shell-array invocation repaired; successful array430435.",
+    "Within-trace numerical work complete; NumPy integer metadata serialization repaired without refitting.",
+    "Elicitation completion gate now requires completed response, not just exhausted generation cap.",
+    "Paired natural-completion bootstrap now uses sorted task IDs and keyed random streams. All 426 point estimates reproduced; finite-bootstrap intervals regenerated deterministically."
+  ],
+  "known_findings": [
+    "Historical CV mixed repeated prompts and used full-data preprocessing; new validation corrects both.",
+    "Final199 math items reused in earlier controller comparison; not fresh after all design decisions.",
+    "Temperature variable shadowing in inspected RL source; exact historical executed version unproven.",
+    "Historical pairwise creativity summary mixed math and idea rows for checking/exploration; current summary restricted to idea IDs."
+  ],
+  "outstanding": [
+    "Inspect schema/gradient pilot results and repair any runtime incompatibility before full jobs.",
+    "Complete multi-judge and matched-budget studies; integrate their outputs into figures and text.",
+    "Complete corrected RL training and fixed-step60 evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
+    "A fresh holdout is needed for a prospective selection claim; no such claim made.",
+    "Resolve unrecoverable historical training-reward uncertainty by replication rather than retroactive inference."
+  ],
+  "github": "Push rejected by automatic approval review; do not retry without explicit destination authorization. Local branch codex/arr-evidence-repair retained.",
+  "manuscript": "Revised and compiled locally and on Overleaf:22 pages, conclusion on page8; final delivery verification in paper/validation.json.",
+  "tests": {
+    "local": "18 passed, 1 skipped because torch unavailable",
+    "ada": "19 passed including PyTorch temperature/gradient regression",
+    "gpu_execution": "Smoke jobs still pending; passing CPU tests does not validate model-engine runtime."
+  },
+  "gpu_status_checked_utc": "2026-11-01T04:08:20.557143+00:00",
+  "artifact_status": "Final local PDF and Overleaf verified:22 pages; source bundle and 21 active remote text files verified. GPU-dependent findings remain pending."
+}

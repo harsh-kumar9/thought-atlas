@@ -1,0 +1,9 @@
+{
+  "seed": 20261101,
+  "bootstrap_reps": 2000,
+  "fidelity": "Intended 16-target contrast, fixed-map predicted change, and achieved paired change. Projection is descriptive, not mediated causal effect.",
+  "dose": "Identical 100 tasks and seed 1 at all doses; intervals exploratory.",
+  "duration": "Maximum prefix windows; all-three-reach-window sensitivity conditions on post-treatment duration.",
+  "shared_baseline": "Joint item bootstrap retains pairing. Disjoint-half sensitivity uses separate baseline observations; its percentiles describe random splits, not a CI.",
+  "demand": "Includes evaluation condition; alternative smoothing and absolute-rate distances; no repeat-noise correction for evaluation condition."
+}

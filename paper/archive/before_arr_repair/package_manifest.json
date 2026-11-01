@@ -1,0 +1,33 @@
+{
+  "archive": "thought-atlas-overleaf.zip",
+  "sha256": "c6e4daa7b6e1d5681acb9f131e9ae55e448946fc58178f2b55bdd36f78759fcf",
+  "files": [
+    "main.tex",
+    "references.bib",
+    "README.md",
+    "acl.sty",
+    "acl_natbib.bst",
+    "sections/abstract.tex",
+    "sections/appendix.tex",
+    "sections/discussion.tex",
+    "sections/experimental_details.tex",
+    "sections/introduction.tex",
+    "sections/limitations.tex",
+    "sections/methods.tex",
+    "sections/related_work.tex",
+    "sections/results.tex",
+    "sections/results_scaffold.tex",
+    "tables/models.tex",
+    "tables/open_quality.tex",
+    "tables/transfer.tex",
+    "figures/fig01_signatures.pdf",
+    "figures/fig02_trajectories.pdf",
+    "figures/fig03_task_demand.pdf",
+    "figures/fig04_cross_domain_transfer.pdf",
+    "figures/fig05_steering_and_rl.pdf",
+    "figures/fig06_open_task_tradeoffs.pdf",
+    "figures/figA1_domain_similarity.pdf",
+    "figures/figA2_trace_examples.pdf",
+    "figures/figA3_random_timing_control.pdf"
+  ]
+}

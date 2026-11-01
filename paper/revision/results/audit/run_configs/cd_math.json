@@ -1,0 +1,41 @@
+{
+  "run": "cd_math",
+  "engine": "vllm",
+  "seeds": [
+    1,
+    2
+  ],
+  "max_new_tokens": 32768,
+  "window": 8192,
+  "tasks_from": "sigpilot3_math",
+  "borrow": "p1_budget:baseline,ol_math_A2,ol_random",
+  "conditions": [
+    {
+      "name": "conv_up",
+      "mode": "vector",
+      "vector": "conv_up",
+      "positions": "all"
+    },
+    {
+      "name": "conv_down",
+      "mode": "vector",
+      "vector": "conv_down",
+      "positions": "all"
+    },
+    {
+      "name": "conv_up_x0p25",
+      "mode": "vector",
+      "vector": "conv_up_x0p25",
+      "positions": "all",
+      "note": "D-51 dose follow-up (post hoc)"
+    },
+    {
+      "name": "conv_up_x0p5",
+      "mode": "vector",
+      "vector": "conv_up_x0p5",
+      "positions": "all",
+      "note": "D-51 dose follow-up (post hoc)"
+    }
+  ],
+  "decision": "D-51"
+}

@@ -1,0 +1,224 @@
+{
+  "project_url": "https://www.overleaf.com/project/6ae66af2dc9a0493439722d8",
+  "title": "Thought Atlas \u2014 Paper",
+  "recorded_utc": "2026-11-01T02:11:52.754101+00:00",
+  "main_document": "main.tex",
+  "compiler": "pdfLaTeX",
+  "synchronization": "Separate copies; no automatic two-way sync. Inspect/download and reconcile remote edits before replacing files.",
+  "initial_uploaded_archive_sha256": "81f75d503814ebf5a862e82ea986ffbd9fbd4aaed0ea44e6f4bfab1b91a938cc",
+  "subsequent_uploaded_files": [
+    "figures/figA3_random_timing_control.pdf",
+    "sections/results.tex",
+    "sections/experimental_details.tex",
+    "README.md"
+  ],
+  "delivered_source_archive": "thought-atlas-overleaf.zip",
+  "delivered_source_archive_sha256": "c6e4daa7b6e1d5681acb9f131e9ae55e448946fc58178f2b55bdd36f78759fcf",
+  "delivered_files": [
+    {
+      "file": "main.tex",
+      "sha256": "d4f8174095aeb1f2d8f711e4bb7d0e79e5858ef4788efad52e5888f89721bb44"
+    },
+    {
+      "file": "references.bib",
+      "sha256": "eb7c360be8b4ec080d27b080453ab91954068038519707b16497de67a6e045c7"
+    },
+    {
+      "file": "README.md",
+      "sha256": "e03be09b662222463422c593fe549c901242f5111642a24272389a59b623652d"
+    },
+    {
+      "file": "acl.sty",
+      "sha256": "19dfeddc2c0e448f3926a0bef048a9db3f3611b46265b760caabd7ada4f361de"
+    },
+    {
+      "file": "acl_natbib.bst",
+      "sha256": "6fbb306202290f4b68e74ac1460a8b27398500cb6dfeb4492e74c457eae7cd1e"
+    },
+    {
+      "file": "sections/abstract.tex",
+      "sha256": "dcb37d5f6a2e9ec94ddd1fef0fe9cdbf92c89cc9889ec4d6d9a9af725f045595"
+    },
+    {
+      "file": "sections/appendix.tex",
+      "sha256": "11533f56186782be498de875e803edc32177a174e23ab51c4a9f93d26850934c"
+    },
+    {
+      "file": "sections/discussion.tex",
+      "sha256": "f5ddc8e1cc71e7ee2b4e83490951fbb0cae977483840d99f5bb27819cd3a7209"
+    },
+    {
+      "file": "sections/experimental_details.tex",
+      "sha256": "88f7c4fedfab26ef43d0642b71c02ff3cde446cb3bc8e05a92a79d2ceb091663"
+    },
+    {
+      "file": "sections/introduction.tex",
+      "sha256": "90c3ca0aaba0f4cea68df7f177f50f30092a0e47483276c3d0f55f57b83f5ee1"
+    },
+    {
+      "file": "sections/limitations.tex",
+      "sha256": "331df641aeae16aecc2dc7109de7b59fc0b1541a154b5692fdbd4e14dfd9c60b"
+    },
+    {
+      "file": "sections/methods.tex",
+      "sha256": "d176833141061a817476354cf2b6274ce1c9c610413ed82bcd5193e57928f4f9"
+    },
+    {
+      "file": "sections/related_work.tex",
+      "sha256": "e4dc6fb2536643c2389d0867be269f6d0666f33fd50699ea3f236227d9b0f0a8"
+    },
+    {
+      "file": "sections/results.tex",
+      "sha256": "f0f3cf05c503ead893780dee511978330a81a8f649d929585b4ac1b54b743bf4"
+    },
+    {
+      "file": "sections/results_scaffold.tex",
+      "sha256": "20e08de58f44edd8a756ba8762135e0faa60036d3a065fec252dd6c4866745f8"
+    },
+    {
+      "file": "tables/models.tex",
+      "sha256": "5cd228a993b273ff8f3a8e23ea94b239b55c420caa4f93f20f84ae59990b27b6"
+    },
+    {
+      "file": "tables/open_quality.tex",
+      "sha256": "15e43eb281271103d33412faea232c78a7fc57f20ddff3d50d691c78d41e12cd"
+    },
+    {
+      "file": "tables/transfer.tex",
+      "sha256": "d6a274dcf191e19d95af987fa939c60e9675f11e28f23c9ef96106e3b7f13f44"
+    },
+    {
+      "file": "figures/fig01_signatures.pdf",
+      "sha256": "634dfd94acea50ef2994715c2de5c42551c9400b3d3fa61f28a90dadc588163c"
+    },
+    {
+      "file": "figures/fig02_trajectories.pdf",
+      "sha256": "daaf07c9c2ddaa5319cd5eb41828b5821c701adee063ccaf15448209c2ef8e50"
+    },
+    {
+      "file": "figures/fig03_task_demand.pdf",
+      "sha256": "9fecedf708fe88ea813903373be0f9f59033d88d05be717252723c529e561fd3"
+    },
+    {
+      "file": "figures/fig04_cross_domain_transfer.pdf",
+      "sha256": "59e489fe5b459c08a86e871540f2a4fae3fddd5941df011e78beb529fed98388"
+    },
+    {
+      "file": "figures/fig05_steering_and_rl.pdf",
+      "sha256": "e80c93c154da533c87cd7fa9b409e438338e18d2b2bbf3f504aecf50cf080451"
+    },
+    {
+      "file": "figures/fig06_open_task_tradeoffs.pdf",
+      "sha256": "fdf9af3a9d9281da5e4dba18e8dd1dd7f2852f1349902d95229dea407e10370a"
+    },
+    {
+      "file": "figures/figA1_domain_similarity.pdf",
+      "sha256": "3f6cc01748a217757b191a031c342d17fb166afa85f18b750e199964c86ae20c"
+    },
+    {
+      "file": "figures/figA2_trace_examples.pdf",
+      "sha256": "a916030021611857138428a6ff0bdd0ea9727e50d0c98f906f03b3250b35027f"
+    },
+    {
+      "file": "figures/figA3_random_timing_control.pdf",
+      "sha256": "89530405f0c69629462f8a6ce91d0ca5c64871d1fbeb3130ee172946468b0417"
+    }
+  ],
+  "downloaded_compiled_pdf": "archive/figures_before_restyle/paper.pdf",
+  "downloaded_compiled_pdf_sha256": "cf22194051d2b3e23c18616393d89ff55cebf14191bc291cc566fc5d65d6b374",
+  "proof_screenshot": "../output/pdf/overleaf-future-directions-proof.png",
+  "revision": "Explicit future-work hypotheses and targeted limitations; existing findings, numerical results, and figures unchanged.",
+  "remote_unused_files": "Ten root-level duplicate section uploads, three duplicate figure PDFs in sections/, and an empty figures/tables folder remain unused. Automatic approval review blocked duplicate deletion; cleanup was canceled.",
+  "remote_text_verification": [
+    {
+      "file": "main.tex",
+      "matches": true,
+      "characters": 785
+    },
+    {
+      "file": "README.md",
+      "matches": true,
+      "characters": 8170,
+      "verified_utc": "2026-11-01T02:11:52.754101+00:00"
+    },
+    {
+      "file": "references.bib",
+      "matches": true,
+      "characters": 9633,
+      "verified_utc": "2026-11-01T02:04:58.297196+00:00"
+    },
+    {
+      "file": "sections/abstract.tex",
+      "matches": true,
+      "characters": 1505,
+      "verified_utc": "2026-11-01T02:04:58.297196+00:00"
+    },
+    {
+      "file": "sections/appendix.tex",
+      "matches": true,
+      "characters": 11096,
+      "verified_utc": "2026-10-31T23:44:42.569812+00:00"
+    },
+    {
+      "file": "sections/discussion.tex",
+      "matches": true,
+      "characters": 3909,
+      "verified_utc": "2026-11-01T02:11:52.754101+00:00"
+    },
+    {
+      "file": "sections/experimental_details.tex",
+      "matches": true,
+      "characters": 13880,
+      "verified_utc": "2026-11-01T00:07:01.719502+00:00"
+    },
+    {
+      "file": "sections/introduction.tex",
+      "matches": true,
+      "characters": 3332,
+      "verified_utc": "2026-11-01T02:04:58.297196+00:00"
+    },
+    {
+      "file": "sections/limitations.tex",
+      "matches": true,
+      "characters": 4688,
+      "verified_utc": "2026-11-01T02:11:52.754101+00:00"
+    },
+    {
+      "file": "sections/methods.tex",
+      "matches": true,
+      "characters": 3881
+    },
+    {
+      "file": "sections/related_work.tex",
+      "matches": true,
+      "characters": 3339,
+      "verified_utc": "2026-11-01T02:04:58.297196+00:00"
+    },
+    {
+      "file": "sections/results.tex",
+      "matches": true,
+      "characters": 14222,
+      "verified_utc": "2026-11-01T02:04:58.297196+00:00"
+    },
+    {
+      "file": "sections/results_scaffold.tex",
+      "matches": true,
+      "characters": 105
+    }
+  ],
+  "local_compiled_pdf": "../output/pdf/thought-atlas-arr-draft.pdf",
+  "local_compiled_pdf_sha256": "0af5378e9517914be35eaf7ccfbbdb65b1cba751553963b99308ee72267cd103",
+  "local_pdf_compiler": "Tectonic 0.17.0",
+  "download_note": "Most recent Overleaf binary download is the pre-redesign version in the archive. The current PDF was exported locally from synchronized source because browser download was blocked by organization policy.",
+  "final_overleaf_compile": "Successful; 18-page preview with revised discussion, future-work hypotheses, and conclusion on page 8.",
+  "remote_text_verified_this_revision": [
+    "sections/discussion.tex",
+    "sections/limitations.tex",
+    "README.md"
+  ],
+  "synchronized_files_this_revision": [
+    "sections/discussion.tex",
+    "sections/limitations.tex",
+    "README.md"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "run": "p2_gpqa",
+  "engine": "vllm",
+  "domains": [
+    "gpqa"
+  ],
+  "n_per_domain": 200,
+  "task_seed": 20260923,
+  "exclude_runs": [
+    "corpus1_gpqa_a"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "max_new_tokens": 32768,
+  "window": 8192,
+  "conditions": [
+    {
+      "name": "baseline",
+      "mode": "baseline"
+    },
+    {
+      "name": "ol_math_A2",
+      "mode": "vector",
+      "vector": "ol_math_A2",
+      "positions": "all"
+    },
+    {
+      "name": "ol_random",
+      "mode": "vector",
+      "vector": "ol_random",
+      "positions": "all"
+    },
+    {
+      "name": "ol_gpqa_A4",
+      "mode": "vector",
+      "vector": "ol_gpqa_A4",
+      "positions": "all"
+    }
+  ]
+}

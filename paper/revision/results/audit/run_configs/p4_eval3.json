@@ -1,0 +1,25 @@
+{
+  "run": "p4_eval3",
+  "engine": "vllm",
+  "tasks_from": "sigpilot3_math",
+  "seeds": [
+    1,
+    2
+  ],
+  "max_new_tokens": 32768,
+  "window": 8192,
+  "conditions": [
+    {
+      "name": "rl_zeroT_s30",
+      "mode": "vector",
+      "vector": "rl_zero8k_T_s30",
+      "positions": "all"
+    },
+    {
+      "name": "rl_zeroT_s60",
+      "mode": "vector",
+      "vector": "rl_zero8k_T_s60",
+      "positions": "all"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+\section{Provenance, Measurement, and Intervention Audit}
+\label{app:audit}
+\subsection{Population and missingness}
+\begin{table*}[t]
+\centering\small\input{tables/coverage}
+\caption{Atlas inclusion, out of 3,488 attempted generations per reasoning model. ``Usable'' means at least one segment passes both contextual and isolated parsing checks. ``Unfinished'' counts unfinished attempts within the usable population. The last column is the fraction of annotated segments retained, not coverage of unannotated text. The companion \protect\path{coverage.csv} reports all 56 model--domain denominators, including attempted, completed, annotated, usable, and excluded counts.}
+\label{tab:coverage}
+\end{table*}
+Completion and annotation inclusion are distinct. The 24,416 reasoning attempts yield 21,803 usable traces, of which 46 are unfinished. Table~\ref{tab:coverage} reports the model totals. Missing annotation rows and entirely invalid annotations are counted separately; absence from the annotation table does not identify whether a failure occurred during generation, staging, or judging. High retention among annotated segments cannot establish representativeness of traces that were never annotated. The fixed-prefix multi-judge protocol below explicitly samples from attempted generations.
+
+\subsection{Fitting, selection, and evaluation populations}
+\begin{table*}[t]
+\centering\small
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule Component & Verified source or procedure & Independence and scope\\\midrule
+Behavioral readout & 800 prompts, 3,200 traces, 251,420 segment states; four domains, 200 prompts and four generations each. Stored domain means reproduced exactly. & Math, GPQA, and planning fitting prompts have zero ID or normalized-text overlap with their evaluation sets.\\
+Domain contrasts & Five 16-target means; moral corpus added for profile estimation. Equal-domain reference mean; same saved map. & Reference estimation and readout fitting are separate steps; no target-specific dose calibration.\\
+A2 archetype & Four medoids per domain; math pool filtered by historical correctness. Saved pilots compare A2 and A4 at multiple gains, with random controls. & Two 40-item pilots exclude final math items. Later comparisons reuse the 199-item evaluation set.\\
+Layer, rank, dose & Layer 16, rank eight, ridge $10^5$; open-loop norm 6.75 after readout comparisons and causal pilots. & Historically selected settings; new validation is retrospective, not nested selection.\\
+Reward-trained biases & 301 training prompts; one run per initialization. Saved configurations, metrics, and vectors retained. & No overlap with 199 evaluation items; training includes readout and SEAL-validation prompts. Per-rollout rewards and per-run source hashes absent.\\
+Final evaluations & 199 math, 200 GPQA, 200 planning items; two decoding seeds, shared baselines verified by run fingerprint. & Holdout from specified fitting/pilot sets, but not a fresh test after every intervention-design decision.\\
+\bottomrule
+\end{tabularx}
+\caption{Verified provenance and the resulting inferential boundaries. Membership is checked against saved task files; chronological notes are supporting records, not an immutable preregistration.}
+\label{tab:provenance}
+\end{table*}
+The historical readout is identified by matching its stored domain means to all eight fitting shards with maximum absolute discrepancy zero. Input and map hashes accompany the audit. Prompt IDs and whitespace-normalized text establish the exclusions in Table~\ref{tab:provenance}. The 199 math problems were already used to compare open-loop and closed-loop A2 before the longer-budget study, so that study is not a fresh replication of intervention selection. SEAL layer selection uses a separate 101-item validation set. These distinctions prevent the 301/199 RL split from being mistaken for independence from every earlier decision.
+
+\paragraph{What A2 denotes.}
+Each corpus trace is represented by 24 rates: eight overall, eight first-half, and eight second-half rates. The saved construction requires completion, no hard-loop flag, and at least 20 valid segments; math additionally requires success under the historical grader. Coordinates are standardized within domain, and four Euclidean PAM medoids are formed, subsampling to at most 600 candidates with seed zero. A medoid's eight overall rates are repeated into the future and next-four target blocks. A2 is one selected math medoid, characterized by more subgoals and less verification/self-questioning relative to the math reference. The saved first pilot tests A2 and A4 at gains one and two; the second tests open and closed control at gains two and three. A2's later selection is outcome-informed. Regrading evaluation does not determine which medoid a newly graded construction would select.
+
+\subsection{Readout validation}
+The historical fitting source partitions by trace ID, allowing repeated generations of the same prompt in different folds, and estimates activation normalization and domain target means before partitioning. Those scores are not used as clean held-out validation. The revised analysis groups all generations and positions of a prompt, fits activation normalization and domain reference means on training data only, and fixes the historical layer, rank, and ridge. Five prompt folds test within-domain prediction. Four leave-domain-out fits use the training grand mean for an unseen domain; held-out target labels never define its reference. Mean squared errors first average positions within trace and traces within prompt. The reported skill is $1-\mathrm{MSE}_{\rm readout}/\mathrm{MSE}_{\rm reference}$, with prompt-bootstrap intervals. The saved intervention map is unchanged. This validates prediction separately from the manipulation checks below.
+\IfFileExists{tables/readout_result.tex}{\input{tables/readout_result}}{\draftnote{Prompt-disjoint readout validation is running; no new score is claimed here.}}
+
+\subsection{Grading and historical RL implementation}
+The earlier deterministic grader could misread formatting or match fragments of mathematical expressions. Corrected evaluation uses reference-blind free-text extraction, checks that the extracted answer is grounded in the final response, and applies formatting-normalized mathematical equivalence. Unfinished attempts score zero. Reconciling the two saved step-60 evaluations changes 47 cutoff rows for the zero-start vector and 46 for the A2-initialized vector: nine traces and five unique problems in each run. These are evaluation corrections, not counts of affected training rewards. The saved aggregate training logs cannot recover the latter.
+
+The inspected training source binds a log-probability closure to a variable named \texttt{T}, initially the sampling temperature, then reassigns \texttt{T} to sequence length before calling that closure. This is a source-level defect, although the absence of per-run source hashes prevents proving the precise executed version. Consequently, the paper retains the saved vectors as fixed historical interventions and does not claim that their behavioral shifts are a reproducible consequence of correctly implemented RL. The replication implementation passes temperature explicitly, uses the corrected extraction reward, and saves every rollout, extraction, reward, gradient checkpoint, and optimizer state. Its results remain separate from historical evaluation.
+
+\begin{table*}[t]
+\centering\small\input{tables/outcome_spec}
+\caption{Eligible outcome-prediction tests and distribution of held-out increments. Ranges describe estimates across eligible model--family cells, not confidence intervals. The companion outcome table gives each estimate, 95\% interval, covariates, eligibility status, and adjusted $q$ value. No amount or timing test meets both the interval and FDR criteria.}
+\label{tab:outcomes}
+\end{table*}
+
+\subsection{Cross-family annotation robustness protocol}
+The conversational and cognitive definitions come from \citet{kim2026society,gandhi2025habits}. \citet{kim2026society} report human agreement for both annotation families. Our indexed-sentence adaptation, judges, and task distribution differ from that validation. We therefore test robustness across Gemma4-31B-it, Qwen3.5-27B, and Llama-3.1-8B-Instruct, using unchanged templates and identical text. The third judge has smaller capacity; judge disagreement is reported rather than resolved by declaring a majority to be ground truth.
+
+The frozen sample contains 1,381 traces: 805 atlas attempts, 256 paired intervention traces, and 320 matched-demand traces. Each atlas model--domain cell contributes 12 randomly sampled attempts plus an independent sample of up to four unfinished attempts; known union inclusion probabilities support weighted rates. Interventions use 16 common problems per target and one decoding seed. Matched demands use eight common problems per model and domain, including all four conditions. Text is restricted to the first 2,048 Qwen3.5-9B tokenizer units for every generator, so all judges see exactly the same prefix. Empty prefixes remain in coverage accounting. Generator names, treatment labels, original annotations, and outcomes are withheld from judges, although the text may reveal their source.
+
+The analysis reports per-label agreement, positive agreement, negative agreement, and Cohen's $\kappa$, with trace-cluster uncertainty and domain-specific disagreement. Positive agreement is undefined, not perfect, when a label is absent. Parse failures remain missing. Per-judge and common-valid-segment profiles test the sensitivity of domain contrasts, intervention shifts, and matched demands. This is a fixed-prefix robustness analysis; correlated judge errors remain possible. Exact prompts are included as companion text files.\draftnote{GPU annotation runs are queued. The protocol and sample are frozen; agreement results are not yet available.}
+
+\subsection{Answer-elicitation control}
+The historical forced-answer probe retains the entire own answer once the thinking block closes; otherwise it adds a cue and up to 48 answer tokens. Thus its horizontal axis is a reasoning cutoff, not a common total-generation budget. The revised control reserves both cue tokens and the 48-token allowance inside the total budget, and retains an own answer only when the whole response fits. Frozen prefixes from baseline, domain vectors, and controls are answered by the same unsteered Qwen3.5-9B. Math includes A2, both saved RL vectors, matched SEAL, random, and concise controls. GPQA/planning include the math, GPQA, and idea contrasts and random control. This is retrospective protocol testing on the historical evaluation items.\draftnote{The matched-total-budget runs are queued; they have not yet resolved the completion explanation.}
+
+\section{Outcome-Prediction Specification}
+\label{app:outcome-spec}
+
+Seven models, eight benchmark conditions, and two annotation families define 112 candidate cells. Cells require at least 40 scored traces; binary outcomes require at least 20 observations per class and continuous outcomes at least three distinct scores. Ten math cells lack binary-class support and eight safety cells lack outcome variation, leaving 94 eligible tests. Binary endpoints are correctness for math, code, GPQA, planning, and security; moral, idea, and safety retain their continuous rubric endpoints, oriented so larger is favorable under that rubric.
+
+Each baseline includes log generated-token count, log valid-segment count, and available prompt-difficulty strata. Adding four operation rates tests amount; adding eight timing contrasts after those rates tests timing. Five frozen prompt folds and training-only imputation/scaling are used. Binary models are ridge logistic regressions; continuous models are ridge linear regressions. The penalty is one on slopes and zero on intercepts. Binary increments are changes in held-out log score in bits; continuous increments are squared-error reduction divided by outcome variance, equivalent to $\Delta R^2$. One thousand paired prompt bootstraps are stratified by class or outcome quantile. One-sided sign-flip tests receive Benjamini--Hochberg correction separately for the amount and timing families. Support requires a positive 95\% interval lower bound and $q<.05$. The estimates and their uncertainty distinguish this restricted null from a claim that profiles contain no success information.
+
+\setcounter{dbltopnumber}{3}
+\renewcommand{\dbltopfraction}{.95}
+\renewcommand{\textfraction}{.03}
+\section{Intervention Fidelity and Sensitivity Checks}
+\label{app:fidelity}
+\begin{figure*}[t]
+\centering\includegraphics[width=.90\textwidth]{figures/figA4_intervention_fidelity.pdf}
+\caption{\textbf{Induced changes vary in fidelity and dose response.} (A) Cosine between the intended 16-target domain contrast and the achieved paired mean shift, at the reference dose. Rows are source contrasts and columns are targets. (B--C) GPQA and idea contrasts applied to math, using exactly the same 100 tasks and seed one at every dose. Solid lines show accuracy change; dotted lines show answer-availability change at 32,768 tokens. Hard-loop prevalence increases sharply with dose. Companion tables retain component estimates and bootstrap intervals.}
+\label{fig:fidelity}
+\end{figure*}
+We reconstruct the readout's future and next-four targets from valid annotated segments, using up to 80 segment endpoints inside the 8,192-token window. Achieved changes average paired trace-level means. We separately retain the intended contrast $\delta_s=\mu_s-\bar\mu$, fixed-map prediction $(v_s/\sigma)^\top W$, and observed change. Their cosine and projection onto $\delta_s$ measure directional alignment and magnitude; neither establishes mediation or successful reproduction of a source profile. Pairwise intervals resample prompts 2,000 times. Twenty-five source--target cells and their dose variants are exploratory, with shared baselines.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=.90\textwidth]{figures/figA5_behavior_sensitivity.pdf}
+\caption{\textbf{Average-shift similarity depends on window and magnitude.} Direction and size relative to A2 on 199 paired math items, using maximum absolute token windows. Bands are 95\% joint prompt-bootstrap intervals. Shorter completed responses contribute their observed text. Matched SEAL resembles A2 as closely as the saved zero-start RL vector at the longest window.}
+\label{fig:behavior-sensitivity}
+\end{figure*}
+The joint bootstrap preserves the shared baseline in both intervention contrasts. A disjoint-item-half sensitivity uses different baseline observations for the two means: the median 8,192-token A2--RL cosine is 0.916 across random splits. This reduces literal shared-baseline dependence but does not remove differences in task composition or duration. A separate sensitivity conditions on all three responses reaching the window; at 2,048 tokens, 129 items remain and the cosine is 0.067 [$-0.410$, $0.571$]. This selected population is not a causal duration adjustment. The contrast with the full-population cosine illustrates why directional similarity alone is an insufficient explanation of performance.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=.90\textwidth]{figures/figA6_demand_operations.pdf}
+\caption{\textbf{All matched-demand conditions at the operation level.} Mean paired rate changes from free-response solving, in percentage points. Columns use the operation codes in Figure~\ref{fig:rl}. Each model uses the same math/GPQA problems across answer-option, generate, and evaluate conditions; available pairs are reported in companion tables. Adding answer options changes available information as well as response format.}
+\label{fig:demand-operations}
+\end{figure*}
+Generating approaches is the main demand contrast because both solve and generate have repeated-generation references. The evaluation condition is reported in Figure~\ref{fig:demand-operations}, without claiming an equivalent repeat-noise adjustment. The companion sensitivity table reports all contrasts at smoothing values $.001$, $.005$, and $.01$, together with mean absolute rate differences. These comparisons retain the same items and clarify which operations change; they do not isolate semantics from instruction-following conventions.

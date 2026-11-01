@@ -1,0 +1,9 @@
+run,comparison,condition,attempted,unique_keywords,seeds,completed,answered,paired_answer_rows,paired_keywords,missing_baseline
+sched1,sus_math_L19,baseline,200,200,1,151,151,133,133,0
+sched1,sus_math_L19,sus_math_L19,200,200,1,175,175,133,133,0
+sched1,sus_idea_L19,baseline,200,200,1,151,151,54,54,0
+sched1,sus_idea_L19,sus_idea_L19,200,200,1,65,65,54,54,0
+tx_idea,sig_math,baseline,400,200,"1,2",272,272,272,170,0
+tx_idea,sig_math,sig_math,400,200,"1,2",400,400,272,170,0
+tx_idea,prompt_math,baseline,400,200,"1,2",272,272,247,158,0
+tx_idea,prompt_math,prompt_math,400,200,"1,2",355,355,247,158,0

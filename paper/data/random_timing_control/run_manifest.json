@@ -1,0 +1,69 @@
+{
+  "identity": "d56f72186a9ea246cb85eff3800e6cc915c91e29973ffa9d460bebefde865758",
+  "config": {
+    "repeats": 100,
+    "bootstrap_reps": 10000,
+    "seed": 42,
+    "features_added": 8,
+    "shuffle": "Joint timing-block row permutation, separately in train and test in each frozen fold; across domains, not within domain.",
+    "bootstrap": "Domain-stratified prompts and independent replicate weights, fixed fitted predictions; pointwise percentile intervals plus Bonferroni intervals for 14 contrasts.",
+    "caveat": "Negative-control sensitivity analysis, not an exact conditional permutation test; seed percentiles are not confidence intervals.",
+    "inputs": [
+      {
+        "file": "docs/paper_synthesis_2026-10-31/reframing/sources/trace_features.parquet",
+        "sha256": "1b6f1f2961a688e6e17f4159c6bc3ecc1ce0defd0691b50d09a88b2032933342"
+      },
+      {
+        "file": "docs/paper_synthesis_2026-10-31/sources/ada_corrected_atlas/splits.parquet",
+        "sha256": "c592415d23244d4eddd41732d3f408a9a10b04c63590c188bc139505a7ba9e72"
+      },
+      {
+        "file": "paper/data/figure_inputs/gains.csv",
+        "sha256": "6b713028cca0bb4ad89e8c18b3fb8ab1900e1847730d8c8084e51dd658bd8004"
+      }
+    ],
+    "code": [
+      {
+        "file": "paper/scripts/random_timing_control.py",
+        "sha256": "d2b20f399c678c2bf5e128e388551e2990857e865b614ab239be9fd28e497747"
+      },
+      {
+        "file": "src/analysis/paper/signature_analysis.py",
+        "sha256": "f41282cab98a8e75a99c68a158f585f2e5783a427c94dcf132285dd3e2991ddd"
+      },
+      {
+        "file": "src/analysis/paper/constants.py",
+        "sha256": "d219ad235c21f0df0b6bf30c2cb0535c8ad78351e2bc97f3163d660f44f8d674"
+      }
+    ],
+    "source_commit": "d61ffdb1cb9b43f34986bec930a32bf80cec88ec"
+  },
+  "started_utc": "2026-10-31T23:57:10.174724+00:00",
+  "host": "vega",
+  "python": "3.11.15",
+  "numpy": "2.4.4",
+  "scipy": "1.17.1",
+  "summary": {
+    "cells": 14,
+    "total_randomizations": 1400,
+    "timing_exceeds_random_fwer": 14,
+    "randomization_draws_at_least_timing": 0
+  },
+  "completed_utc": "2026-11-01T00:00:13.693329+00:00",
+  "outputs": [
+    {
+      "file": "summary.csv",
+      "sha256": "520bc55d8c9b1ba94732953999d4706cc4714d0d289ff8b18567bce2d6dce794"
+    },
+    {
+      "file": "randomization_gains.csv",
+      "sha256": "925d3d62faefabacc08c82adfc834ce4b369ba66e8d14ee48ce52db11f242ce7"
+    }
+  ],
+  "finalization": {
+    "reason": "All fits and bootstrap CSVs completed; original job exited during JSON serialization of a NumPy integer. No numerical results changed.",
+    "script_sha256": "74880fbfe086129d09fcb63ee7540325006cccbefbccf449d10366e686cbf0c7",
+    "validated_arrays": 14,
+    "validated_randomizations": 1400
+  }
+}

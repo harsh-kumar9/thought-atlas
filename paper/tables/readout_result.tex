@@ -1,0 +1,6 @@
+Across the 16 targets, mean prompt-balanced MSE reduction over the training-domain reference is 7.61\%. With an unseen domain, mean reduction over the training-grand-mean reference is 3.43\%; these baselines differ. The mean pooled position-level $R^2$ across targets is -0.068 for held-out domains, indicating poor absolute out-of-domain prediction despite improvement on some components. Figure~\ref{fig:readout-validation} gives per-target prompt-bootstrap intervals. Hyperparameters were selected historically, so these fixed-setting checks are not nested estimates of a model-selection procedure.
+\begin{figure*}[t]
+\centering\includegraphics[width=.95\textwidth]{figures/figA7_readout_validation.pdf}
+\caption{Readout prediction under prompt-disjoint and held-domain validation. Skill compares MSE with the training-domain mean for known domains and the training grand mean for an unseen domain. Whiskers resample prompts; targets are future or next-four-segment rates. The historical steering map remains frozen.}
+\label{fig:readout-validation}
+\end{figure*}

@@ -52,7 +52,7 @@ def prepare(root,out):
         ap=sig/f'{run}__acts.npz'; mp=sig/f'{run}__meta.parquet'
         with np.load(ap) as z:
             li=z['layers'].tolist().index(16)
-            xs.append(z['H'][:,li,:].astype(np.float32)); ys.append(z['targets'].astype(np.float64))
+            xs.append(z['H'][:,li,:].astype(np.float32)); ys.append(z['targets'][:,:16].astype(np.float64))
         m=pd.read_parquet(mp); m['source_run']=run; metas.append(m)
         inputs.extend([dict(path=str(p),sha256=digest(p)) for p in [ap,mp]])
         print('loaded',run,len(m),flush=True)

@@ -1,0 +1,164 @@
+{
+  "run": "tx_moral",
+  "engine": "vllm",
+  "seeds": [
+    1,
+    2
+  ],
+  "max_new_tokens": 32768,
+  "window": 8192,
+  "tasks_from": "tx_moral",
+  "conditions": [
+    {
+      "name": "baseline",
+      "mode": "baseline"
+    },
+    {
+      "name": "ol_random",
+      "mode": "vector",
+      "vector": "ol_random",
+      "positions": "all"
+    },
+    {
+      "name": "sig_math",
+      "mode": "vector",
+      "vector": "sig_math",
+      "positions": "all"
+    },
+    {
+      "name": "sig_gpqa",
+      "mode": "vector",
+      "vector": "sig_gpqa",
+      "positions": "all"
+    },
+    {
+      "name": "sig_planning",
+      "mode": "vector",
+      "vector": "sig_planning",
+      "positions": "all"
+    },
+    {
+      "name": "sig_idea",
+      "mode": "vector",
+      "vector": "sig_idea",
+      "positions": "all"
+    },
+    {
+      "name": "sig_moral",
+      "mode": "vector",
+      "vector": "sig_moral",
+      "positions": "all"
+    },
+    {
+      "name": "prompt_math",
+      "mode": "baseline",
+      "system": "Think about this the way you would think about a math problem."
+    },
+    {
+      "name": "prompt_idea",
+      "mode": "baseline",
+      "system": "Think about this the way you would brainstorm a research idea."
+    },
+    {
+      "name": "sig_math_x0p5",
+      "mode": "vector",
+      "vector": "sig_math_x0p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_math_x1p5",
+      "mode": "vector",
+      "vector": "sig_math_x1p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_gpqa_x0p5",
+      "mode": "vector",
+      "vector": "sig_gpqa_x0p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_gpqa_x1p5",
+      "mode": "vector",
+      "vector": "sig_gpqa_x1p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_planning_x0p5",
+      "mode": "vector",
+      "vector": "sig_planning_x0p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_planning_x1p5",
+      "mode": "vector",
+      "vector": "sig_planning_x1p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_idea_x0p5",
+      "mode": "vector",
+      "vector": "sig_idea_x0p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_idea_x1p5",
+      "mode": "vector",
+      "vector": "sig_idea_x1p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_moral_x0p5",
+      "mode": "vector",
+      "vector": "sig_moral_x0p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    },
+    {
+      "name": "sig_moral_x1p5",
+      "mode": "vector",
+      "vector": "sig_moral_x1p5",
+      "positions": "all",
+      "n_tasks": 100,
+      "seeds": [
+        1
+      ]
+    }
+  ],
+  "decision": "D-52/D-53"
+}

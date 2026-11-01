@@ -1,0 +1,281 @@
+{
+  "inputs": [
+    {
+      "file": "docs/paper_synthesis_2026-10-31/reframing/sources/trace_features.parquet",
+      "sha256": "1b6f1f2961a688e6e17f4159c6bc3ecc1ce0defd0691b50d09a88b2032933342"
+    },
+    {
+      "file": "docs/paper_synthesis_2026-10-31/sources/ada_corrected_atlas/splits.parquet",
+      "sha256": "c592415d23244d4eddd41732d3f408a9a10b04c63590c188bc139505a7ba9e72"
+    },
+    {
+      "file": "paper/data/figure_inputs/gains.csv",
+      "sha256": "6b713028cca0bb4ad89e8c18b3fb8ab1900e1847730d8c8084e51dd658bd8004"
+    }
+  ],
+  "output": {
+    "file": "data/signature_ladder.csv",
+    "sha256": "25b8271cc7e2f7eda428a8bf622a774be2d8ea1d5b1c7080bd293ccb22129c6b"
+  },
+  "script_sha256": "dc35e4ac422519efd59a46a8e492cbcd3bad05c0fe05b262c9bd3c678d664609",
+  "seed": 42,
+  "bootstrap_reps": 1000,
+  "baseline": "Uniform probability 1/8 for each domain; log loss = 3 bits per trace.",
+  "interval": "Pointwise 95% domain-stratified prompt bootstrap, fixed out-of-fold predictions, stages resampled jointly.",
+  "interpretation": "Cumulative held-out log-loss reduction; adjacent differences reproduce stored amount and timing gains. Length-only includes fitted intercepts/class-frequency information.",
+  "original_fit_checks": [
+    {
+      "model": "reasoner",
+      "family": "conversational",
+      "stage": "length",
+      "log_loss_abs_error": 4.1744385725905886e-14
+    },
+    {
+      "model": "reasoner",
+      "family": "conversational",
+      "stage": "amount",
+      "log_loss_abs_error": 1.013417350037571e-09
+    },
+    {
+      "model": "reasoner",
+      "family": "conversational",
+      "stage": "full",
+      "log_loss_abs_error": 3.752356130259926e-07
+    },
+    {
+      "model": "reasoner",
+      "family": "cognitive",
+      "stage": "length",
+      "log_loss_abs_error": 4.1744385725905886e-14
+    },
+    {
+      "model": "reasoner",
+      "family": "cognitive",
+      "stage": "amount",
+      "log_loss_abs_error": 6.522153594978874e-08
+    },
+    {
+      "model": "reasoner",
+      "family": "cognitive",
+      "stage": "full",
+      "log_loss_abs_error": 1.9535955608773747e-07
+    },
+    {
+      "model": "gemma4_e4b",
+      "family": "conversational",
+      "stage": "length",
+      "log_loss_abs_error": 1.6540480096693955e-10
+    },
+    {
+      "model": "gemma4_e4b",
+      "family": "conversational",
+      "stage": "amount",
+      "log_loss_abs_error": 2.921396458077652e-11
+    },
+    {
+      "model": "gemma4_e4b",
+      "family": "conversational",
+      "stage": "full",
+      "log_loss_abs_error": 2.3023427608848124e-09
+    },
+    {
+      "model": "gemma4_e4b",
+      "family": "cognitive",
+      "stage": "length",
+      "log_loss_abs_error": 1.6540480096693955e-10
+    },
+    {
+      "model": "gemma4_e4b",
+      "family": "cognitive",
+      "stage": "amount",
+      "log_loss_abs_error": 9.875993822738849e-08
+    },
+    {
+      "model": "gemma4_e4b",
+      "family": "cognitive",
+      "stage": "full",
+      "log_loss_abs_error": 8.434600797802005e-07
+    },
+    {
+      "model": "gemma4_12b",
+      "family": "conversational",
+      "stage": "length",
+      "log_loss_abs_error": 1.8740564655672642e-13
+    },
+    {
+      "model": "gemma4_12b",
+      "family": "conversational",
+      "stage": "amount",
+      "log_loss_abs_error": 5.096624722256138e-08
+    },
+    {
+      "model": "gemma4_12b",
+      "family": "conversational",
+      "stage": "full",
+      "log_loss_abs_error": 1.4756734234566693e-07
+    },
+    {
+      "model": "gemma4_12b",
+      "family": "cognitive",
+      "stage": "length",
+      "log_loss_abs_error": 1.8740564655672642e-13
+    },
+    {
+      "model": "gemma4_12b",
+      "family": "cognitive",
+      "stage": "amount",
+      "log_loss_abs_error": 3.229316813957439e-11
+    },
+    {
+      "model": "gemma4_12b",
+      "family": "cognitive",
+      "stage": "full",
+      "log_loss_abs_error": 1.565917628898461e-08
+    },
+    {
+      "model": "gemma4_31b",
+      "family": "conversational",
+      "stage": "length",
+      "log_loss_abs_error": 1.3100631690576847e-14
+    },
+    {
+      "model": "gemma4_31b",
+      "family": "conversational",
+      "stage": "amount",
+      "log_loss_abs_error": 3.122036045244414e-07
+    },
+    {
+      "model": "gemma4_31b",
+      "family": "conversational",
+      "stage": "full",
+      "log_loss_abs_error": 4.0046783666980446e-09
+    },
+    {
+      "model": "gemma4_31b",
+      "family": "cognitive",
+      "stage": "length",
+      "log_loss_abs_error": 1.3100631690576847e-14
+    },
+    {
+      "model": "gemma4_31b",
+      "family": "cognitive",
+      "stage": "amount",
+      "log_loss_abs_error": 1.6275980563307257e-11
+    },
+    {
+      "model": "gemma4_31b",
+      "family": "cognitive",
+      "stage": "full",
+      "log_loss_abs_error": 1.6802474434030046e-07
+    },
+    {
+      "model": "qwen35_4b",
+      "family": "conversational",
+      "stage": "length",
+      "log_loss_abs_error": 5.127898106138673e-12
+    },
+    {
+      "model": "qwen35_4b",
+      "family": "conversational",
+      "stage": "amount",
+      "log_loss_abs_error": 1.557132200957767e-10
+    },
+    {
+      "model": "qwen35_4b",
+      "family": "conversational",
+      "stage": "full",
+      "log_loss_abs_error": 1.377529277313272e-07
+    },
+    {
+      "model": "qwen35_4b",
+      "family": "cognitive",
+      "stage": "length",
+      "log_loss_abs_error": 5.127898106138673e-12
+    },
+    {
+      "model": "qwen35_4b",
+      "family": "cognitive",
+      "stage": "amount",
+      "log_loss_abs_error": 9.956498958629822e-10
+    },
+    {
+      "model": "qwen35_4b",
+      "family": "cognitive",
+      "stage": "full",
+      "log_loss_abs_error": 2.92596753492802e-08
+    },
+    {
+      "model": "qwen35_9b",
+      "family": "conversational",
+      "stage": "length",
+      "log_loss_abs_error": 4.118927421359331e-13
+    },
+    {
+      "model": "qwen35_9b",
+      "family": "conversational",
+      "stage": "amount",
+      "log_loss_abs_error": 5.47752287971548e-10
+    },
+    {
+      "model": "qwen35_9b",
+      "family": "conversational",
+      "stage": "full",
+      "log_loss_abs_error": 1.7781776051606357e-10
+    },
+    {
+      "model": "qwen35_9b",
+      "family": "cognitive",
+      "stage": "length",
+      "log_loss_abs_error": 4.118927421359331e-13
+    },
+    {
+      "model": "qwen35_9b",
+      "family": "cognitive",
+      "stage": "amount",
+      "log_loss_abs_error": 5.165094285608518e-08
+    },
+    {
+      "model": "qwen35_9b",
+      "family": "cognitive",
+      "stage": "full",
+      "log_loss_abs_error": 1.4303092621403835e-07
+    },
+    {
+      "model": "qwen35_27b",
+      "family": "conversational",
+      "stage": "length",
+      "log_loss_abs_error": 8.738787471429532e-12
+    },
+    {
+      "model": "qwen35_27b",
+      "family": "conversational",
+      "stage": "amount",
+      "log_loss_abs_error": 6.666491603191105e-08
+    },
+    {
+      "model": "qwen35_27b",
+      "family": "conversational",
+      "stage": "full",
+      "log_loss_abs_error": 4.397419317569984e-09
+    },
+    {
+      "model": "qwen35_27b",
+      "family": "cognitive",
+      "stage": "length",
+      "log_loss_abs_error": 8.738787471429532e-12
+    },
+    {
+      "model": "qwen35_27b",
+      "family": "cognitive",
+      "stage": "amount",
+      "log_loss_abs_error": 9.973841508248427e-08
+    },
+    {
+      "model": "qwen35_27b",
+      "family": "cognitive",
+      "stage": "full",
+      "log_loss_abs_error": 1.2861930076546457e-08
+    }
+  ],
+  "log_loss_tolerance_nats": 1e-05
+}

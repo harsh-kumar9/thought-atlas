@@ -1,0 +1,42 @@
+{
+  "reasoner": {
+    "display": "DeepSeek-R1-Distill-Llama-8B",
+    "checkpoint": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
+  },
+  "anchor": {
+    "display": "Llama-3.1-8B-Instruct",
+    "checkpoint": "meta-llama/Llama-3.1-8B-Instruct"
+  },
+  "gemma4_e4b": {
+    "display": "Gemma4-E4B-it",
+    "checkpoint": "google/gemma-4-E4B-it"
+  },
+  "gemma4_12b": {
+    "display": "Gemma4-12B-it",
+    "checkpoint": "google/gemma-4-12B-it"
+  },
+  "gemma4_31b": {
+    "display": "Gemma4-31B-it",
+    "checkpoint": "google/gemma-4-31B-it"
+  },
+  "qwen35_4b": {
+    "display": "Qwen3.5-4B",
+    "checkpoint": "Qwen/Qwen3.5-4B"
+  },
+  "qwen35_9b": {
+    "display": "Qwen3.5-9B",
+    "checkpoint": "Qwen/Qwen3.5-9B"
+  },
+  "qwen35_27b": {
+    "display": "Qwen3.5-27B",
+    "checkpoint": "Qwen/Qwen3.5-27B"
+  },
+  "r1qwen7b": {
+    "display": "DeepSeek-R1-Distill-Qwen-7B",
+    "checkpoint": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+  },
+  "openthinker3_7b": {
+    "display": "OpenThinker3-7B",
+    "checkpoint": "open-thoughts/OpenThinker3-7B"
+  }
+}

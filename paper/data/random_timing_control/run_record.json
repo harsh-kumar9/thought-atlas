@@ -1,0 +1,29 @@
+{
+  "job_id": 430148,
+  "host": "vega",
+  "remote_root": "/ada1/u/harsh/thought-atlas-reruns/random_timing_control_20261031T235550",
+  "source_commit": "d61ffdb1cb9b43f34986bec930a32bf80cec88ec",
+  "remote_checkout_commit": "95081dc4fbefca40e001b5cba6b914c5c8d74758",
+  "snapshot_sha256": "f98a512000a4c0df44ce345b602c1029d659a0d94dcddae0c0e1bc4fcd43188e",
+  "sync": "Isolated snapshot; both existing checkouts left unchanged.",
+  "resources": {
+    "cpus": 8,
+    "memory_gb": 16,
+    "gpus": 0,
+    "walltime": "01:00:00"
+  },
+  "design": {
+    "cells": 14,
+    "randomizations_per_cell": 100,
+    "features_added": 8,
+    "bootstrap_replicates": 10000,
+    "control": "joint timing-block row shuffles separately within train and held-out partitions across domains",
+    "comparison": "real timing gain minus mean randomized-feature gain, both beyond length+amount",
+    "multiplicity": "Bonferroni percentile intervals over the 14 paired contrasts",
+    "interpretation": "Dimension-matched negative control, not an exact conditional permutation test."
+  },
+  "status": "Numerical analysis and independent array/CSV validation complete.",
+  "slurm_state": "FAILED at final metadata serialization after all fits and bootstrap summaries had completed",
+  "recovery": "finalize_random_timing_run.py validated all 14 arrays and 1,400 randomization scores and wrote JSON-native summary counts; no numerical outputs changed.",
+  "executed_analysis_source": "archive/random_timing_execution/random_timing_control.py"
+}

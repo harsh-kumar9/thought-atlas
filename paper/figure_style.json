@@ -1,0 +1,113 @@
+{
+  "name": "Thought Atlas / sober pastel",
+  "principles": [
+    "Data-first hierarchy and small multiples",
+    "Serif panel titles with quiet sans-serif data labels",
+    "Sparse reference rules; no panel boxes",
+    "Pastel fills with darker line and marker edges",
+    "Numeric annotations, labeled lanes, marker shapes and line patterns retain meaning without hue"
+  ],
+  "palette": {
+    "ink": "#30383C",
+    "muted": "#626C70",
+    "blue": "#5588A4",
+    "ochre": "#AC834C",
+    "teal": "#548B7F",
+    "plum": "#927C9F",
+    "gray": "#7A858C",
+    "sequential": [
+      "#FAFBFB",
+      "#E2ECF0",
+      "#B8CED9",
+      "#7EA7BD"
+    ],
+    "diverging": [
+      "#D4B68B",
+      "#F8F8F5",
+      "#9ABED0"
+    ]
+  },
+  "accessibility": {
+    "method": "colorspacious 1.1.2, Machado et al. 2009, severity 100",
+    "simulations": [
+      "protanomaly",
+      "deuteranomaly",
+      "tritanomaly",
+      "grayscale"
+    ],
+    "reviewed_figures": [
+      "fig01_signatures",
+      "fig04_cross_domain_transfer",
+      "fig05_steering_and_rl"
+    ],
+    "notes": "Simulation is a design check, not a guarantee for every observer. Distinctions also use values, spatial grouping, shapes, and line patterns.",
+    "generated_simulation_files_for": [
+      "fig01_signatures.png",
+      "fig02_trajectories.png",
+      "fig03_task_demand.png",
+      "fig04_cross_domain_transfer.png",
+      "fig05_steering_and_rl.png",
+      "fig06_open_task_tradeoffs.png",
+      "figA1_domain_similarity.png",
+      "figA2_trace_examples.png"
+    ],
+    "reviewed_all_figures_in": [
+      "original",
+      "grayscale",
+      "tritanopia"
+    ],
+    "representative_additional_review": {
+      "figures": [
+        "fig01_signatures",
+        "fig04_cross_domain_transfer",
+        "fig05_steering_and_rl"
+      ],
+      "conditions": [
+        "protanopia",
+        "deuteranopia"
+      ]
+    }
+  },
+  "sources": [
+    "https://www.edwardtufte.com/book/the-visual-display-of-quantitative-information/",
+    "https://jfly.uni-koeln.de/color/index.html",
+    "https://colorspacious.readthedocs.io/en/latest/reference.html"
+  ],
+  "compact_layout": {
+    "full_width": [
+      "signatures",
+      "trajectories",
+      "steering_and_rl",
+      "trace_examples"
+    ],
+    "single_column": [
+      "task_demand",
+      "cross_domain_transfer",
+      "open_task_tradeoffs",
+      "domain_similarity"
+    ],
+    "trace_examples": "2x2 grid",
+    "label_policy": "Shared axis labels and legends; horizontal wrapped trajectory row labels; full model names retained.",
+    "previous_pdf_pages": 17,
+    "current_pdf_pages": 16,
+    "main_content_last_page": 8,
+    "data_unchanged": true,
+    "acl_text_formatting_unchanged": true,
+    "previous_layout": "archive/before_compact_layout/",
+    "additional_appendix_material": "Random-feature control; main content still ends on page 8."
+  },
+  "signature_ladder": {
+    "panel_a": "Conversational and cognitive-operation labels separated by group headers, colored rules, circle/square keys and a white divider; source frameworks cited in caption. Shared prevalence scale.",
+    "panel_b": "Single connected cumulative ladder from uniform eight-domain prediction through length-only, amount, and timing; one shared gray baseline per model. Open endpoints add amount; filled endpoints add timing.",
+    "uncertainty": "Pointwise 95% bootstrap intervals on cumulative gains, jointly resampled at all stages. Original paired tests retained for increments.",
+    "reproduction_manifest": "data/signature_ladder_manifest.json",
+    "accessibility_review": "Original, grayscale, deuteranomaly and tritanomaly severity 100 previews reviewed after redesign."
+  },
+  "random_timing_control": {
+    "placement": "Appendix Figure 9, referenced next to the main timing result; avoids overlap of control and amount markers on the cumulative Figure 1 scale.",
+    "scale": "Increment in held-out log score beyond length plus amount; zero explicitly separates help from harm.",
+    "encoding": "Family-specific blue circles / ochre squares for actual timing; gray crosses for the 100-draw randomized-control means; pointwise 95% intervals; multiplicity-adjusted paired contrasts in text and CSV.",
+    "review": "Original, grayscale, deuteranomaly and tritanomaly severity 100; PDF at page size.",
+    "sources": "data/random_timing_control/run_manifest.json"
+  }
+}

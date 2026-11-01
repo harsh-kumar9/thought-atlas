@@ -1,0 +1,118 @@
+{
+  "origins": [
+    {
+      "file": "data/figure_inputs/amount.csv",
+      "source": "docs/paper_synthesis_2026-10-31/sources/ada_corrected_atlas/02_amount_shape/behavior_amount_by_cell.csv",
+      "sha256": "ceaa8bbd3414f8ee491d26205bb92891369cbb333f9df7a83070161fafe2b3b6"
+    },
+    {
+      "file": "data/figure_inputs/gains.csv",
+      "source": "docs/paper_synthesis_2026-10-31/sources/ada_corrected_atlas/09_signatures/domain_signature_models.csv",
+      "sha256": "6b713028cca0bb4ad89e8c18b3fb8ab1900e1847730d8c8084e51dd658bd8004"
+    },
+    {
+      "file": "data/figure_inputs/ladder.csv",
+      "source": "paper/data/signature_ladder.csv",
+      "sha256": "25b8271cc7e2f7eda428a8bf622a774be2d8ea1d5b1c7080bd293ccb22129c6b"
+    },
+    {
+      "file": "data/figure_inputs/random_timing.csv",
+      "source": "paper/data/random_timing_control/summary.csv",
+      "sha256": "520bc55d8c9b1ba94732953999d4706cc4714d0d289ff8b18567bce2d6dce794"
+    },
+    {
+      "file": "data/figure_inputs/trajectory.csv",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/tables/trajectory_model_means.csv",
+      "sha256": "f942a5e52d88ecda00e2ec4a8120dfc06fa966e212561b31c4f1bf56ec9a358c"
+    },
+    {
+      "file": "data/figure_inputs/distances.csv",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/tables/domain_distances.csv",
+      "sha256": "8133641f57ca2393fd6f64e267706bfa309b83c64ebda9ad74262af1ecfdf175"
+    },
+    {
+      "file": "data/figure_inputs/noise.csv",
+      "source": "docs/paper_synthesis_2026-10-31/sources/ada_mode_control/data/f1/analysis/noise_floor.csv",
+      "sha256": "377a84f772801cf7c2dc756b4d82aa3310495b604fe22c4c0fd4bfdf66dde2bb"
+    },
+    {
+      "file": "data/figure_inputs/shifts.csv",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/sources/mode_control/data/transplant/shifts.csv",
+      "sha256": "f6b5b70a4ec2304d0076e8a8760ade530525e1b88a0fc6181b3661249f80fde8"
+    },
+    {
+      "file": "data/figure_inputs/vector_cosines.csv",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/sources/mode_control/data/transplant/vector_cosines.csv",
+      "sha256": "aa3bc3d4a248746ab506b67ec4d7a485a0dface9b9eecfecb5d09383416f5cd8"
+    },
+    {
+      "file": "data/figure_inputs/shift_cosines.csv",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/sources/mode_control/data/transplant/shift_cosines.csv",
+      "sha256": "b58c447cff07d2969637422c60c861d0c877cb775e3d3ba40ed0ecec739125d4"
+    },
+    {
+      "file": "data/figure_inputs/readiness.csv",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/sources/mode_control/data/readiness/math/paired.csv",
+      "sha256": "143a955428e320b0749a17833f65c4b70a4605aefe3be7fe1b9fc923432e4b4b"
+    },
+    {
+      "file": "data/figure_inputs/pairwise_gemma.csv",
+      "source": "docs/paper_synthesis_2026-10-31/sources/ada_mode_control/data/pairwise/summary__google_gemma-4-31B-it.csv",
+      "sha256": "9f3e7c7a0b4f4fdabcb8c9fc7f8956c86b47b49edec57e53202283300bb00a2a"
+    },
+    {
+      "file": "data/figure_inputs/pairwise_qwen.csv",
+      "source": "docs/paper_synthesis_2026-10-31/sources/ada_mode_control/data/pairwise/summary__Qwen_Qwen3.5-27B.csv",
+      "sha256": "22d0075045b878003679ce2f516ccbae6b9341c5fa55e40c55aa7095c0ef5866"
+    },
+    {
+      "file": "data/figure_inputs/examples.parquet",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/sources/example_segments.parquet",
+      "sha256": "05848d299931fc4239d3a678846597672a76c7191c5f2253e37ccb11b26acf53"
+    },
+    {
+      "file": "data/figure_inputs/example_selection.csv",
+      "source": "docs/paper_synthesis_2026-10-31/reframing/tables/example_selection.csv",
+      "sha256": "18bbce8824bbd455e00ba424d64923b6c90e089f3f732358cf45e120ed53f8f8"
+    }
+  ],
+  "figures": [
+    {
+      "file": "figures/fig01_signatures.pdf",
+      "sha256": "634dfd94acea50ef2994715c2de5c42551c9400b3d3fa61f28a90dadc588163c"
+    },
+    {
+      "file": "figures/fig02_trajectories.pdf",
+      "sha256": "daaf07c9c2ddaa5319cd5eb41828b5821c701adee063ccaf15448209c2ef8e50"
+    },
+    {
+      "file": "figures/fig03_task_demand.pdf",
+      "sha256": "9fecedf708fe88ea813903373be0f9f59033d88d05be717252723c529e561fd3"
+    },
+    {
+      "file": "figures/fig04_cross_domain_transfer.pdf",
+      "sha256": "59e489fe5b459c08a86e871540f2a4fae3fddd5941df011e78beb529fed98388"
+    },
+    {
+      "file": "figures/fig05_steering_and_rl.pdf",
+      "sha256": "e80c93c154da533c87cd7fa9b409e438338e18d2b2bbf3f504aecf50cf080451"
+    },
+    {
+      "file": "figures/fig06_open_task_tradeoffs.pdf",
+      "sha256": "fdf9af3a9d9281da5e4dba18e8dd1dd7f2852f1349902d95229dea407e10370a"
+    },
+    {
+      "file": "figures/figA1_domain_similarity.pdf",
+      "sha256": "3f6cc01748a217757b191a031c342d17fb166afa85f18b750e199964c86ae20c"
+    },
+    {
+      "file": "figures/figA2_trace_examples.pdf",
+      "sha256": "a916030021611857138428a6ff0bdd0ea9727e50d0c98f906f03b3250b35027f"
+    },
+    {
+      "file": "figures/figA3_random_timing_control.pdf",
+      "sha256": "89530405f0c69629462f8a6ce91d0ca5c64871d1fbeb3130ee172946468b0417"
+    }
+  ],
+  "script_sha256": "acb09e74fd782ab14a0359f234ca48a52c0bc27329ec959829b6fa0189cf85e6"
+}

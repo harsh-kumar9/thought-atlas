@@ -1,0 +1,9 @@
+run,condition,judge,original_calls,excluded_other_task_calls,kept_idea_calls
+sched1,sus_math_L19,google_gemma-4-31B-it,976,444,532
+sched1,sus_math_L19,Qwen_Qwen3.5-27B,976,444,532
+sched1,sus_idea_L19,google_gemma-4-31B-it,544,328,216
+sched1,sus_idea_L19,Qwen_Qwen3.5-27B,544,328,216
+tx_idea,sig_math,google_gemma-4-31B-it,1088,0,1088
+tx_idea,sig_math,Qwen_Qwen3.5-27B,1088,0,1088
+tx_idea,prompt_math,google_gemma-4-31B-it,988,0,988
+tx_idea,prompt_math,Qwen_Qwen3.5-27B,988,0,988

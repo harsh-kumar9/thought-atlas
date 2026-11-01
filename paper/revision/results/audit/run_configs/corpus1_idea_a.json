@@ -1,0 +1,29 @@
+{
+  "run": "corpus1_idea_a",
+  "window": 8192,
+  "max_new_tokens": 12288,
+  "n_per_domain": 200,
+  "task_seed": 20260909,
+  "domains": [
+    "idea"
+  ],
+  "seeds": [
+    1,
+    2
+  ],
+  "directions": "directions_w8192_v2w8192.npz",
+  "layer_selection": null,
+  "derived": {
+    "rms_reflect": 3.4957401752471924,
+    "prompt_shift_proj": 1.9851065874099731,
+    "proj_sd": 1.8787387609481812,
+    "proj_mean_math": -1.5378156900405884,
+    "proj_mean_idea": 1.9625030755996704
+  },
+  "conditions": [
+    {
+      "name": "baseline",
+      "mode": "baseline"
+    }
+  ]
+}

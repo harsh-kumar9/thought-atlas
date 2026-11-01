@@ -1,0 +1,17 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/acl-org/acl-style-files/master/acl.sty",
+    "file": "acl.sty",
+    "sha256": "19dfeddc2c0e448f3926a0bef048a9db3f3611b46265b760caabd7ada4f361de"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/acl-org/acl-style-files/master/acl_natbib.bst",
+    "file": "acl_natbib.bst",
+    "sha256": "6fbb306202290f4b68e74ac1460a8b27398500cb6dfeb4492e74c457eae7cd1e"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/acl-org/acl-style-files/master/acl_latex.tex",
+    "file": "archive/acl_latex_official.tex",
+    "sha256": "339c9ee9705c1767d44ef24b85365c0bb8619ecc3fcf66172bf1356292389614"
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "run": "p1_sealval",
+  "engine": "vllm",
+  "domains": [
+    "math"
+  ],
+  "n_per_domain": 200,
+  "task_seed": 20260923,
+  "valid_only": false,
+  "exclude_runs": [
+    "corpus1_math_a",
+    "sigpilot3_math"
+  ],
+  "seeds": [
+    1
+  ],
+  "max_new_tokens": 12288,
+  "window": 8192,
+  "conditions": [
+    {
+      "name": "baseline",
+      "mode": "baseline"
+    },
+    {
+      "name": "seal_L17",
+      "mode": "vector",
+      "vector": "seal_L17",
+      "positions": "seal"
+    },
+    {
+      "name": "seal_L20",
+      "mode": "vector",
+      "vector": "seal_L20",
+      "positions": "seal"
+    },
+    {
+      "name": "seal_L23",
+      "mode": "vector",
+      "vector": "seal_L23",
+      "positions": "seal"
+    },
+    {
+      "name": "seal_L26",
+      "mode": "vector",
+      "vector": "seal_L26",
+      "positions": "seal"
+    }
+  ]
+}

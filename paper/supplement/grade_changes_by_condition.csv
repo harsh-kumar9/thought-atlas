@@ -1,0 +1,4 @@
+run,condition,changed_cutoff_rows,changed_unique_traces,changed_unique_problems
+p4_eval2,rl_a2initT_s60,46,9,5
+p4_eval3,rl_zeroT_s30,45,8,4
+p4_eval3,rl_zeroT_s60,47,9,5

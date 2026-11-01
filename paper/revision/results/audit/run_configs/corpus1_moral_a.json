@@ -1,0 +1,22 @@
+{
+  "run": "corpus1_moral_a",
+  "engine": "vllm",
+  "domains": [
+    "moral"
+  ],
+  "n_per_domain": 200,
+  "task_seed": 20260909,
+  "seeds": [
+    1,
+    2
+  ],
+  "max_new_tokens": 12288,
+  "window": 8192,
+  "conditions": [
+    {
+      "name": "baseline",
+      "mode": "baseline"
+    }
+  ],
+  "note": "D-52: moral readout corpus, same size, budget and window as corpus1 for the other domains (vLLM engine)"
+}

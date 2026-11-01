@@ -1,0 +1,89 @@
+{
+  "verified_utc": "2026-11-01T02:11:52.754101+00:00",
+  "checks_passed": true,
+  "compilers": [
+    "Overleaf pdfLaTeX: compiled revised discussion and limitations; 18-page preview, conclusion on page 8",
+    "Tectonic 0.17.0: compiled local export; 18 pages, conclusion on page 8"
+  ],
+  "pdf_pages": 18,
+  "main_content_last_page": 8,
+  "paper_status": "Complete first prose draft; not submission ready",
+  "unresolved_citation_or_reference_markers": 0,
+  "main_figures": 5,
+  "supporting_figures": 4,
+  "bibliography_entries": 28,
+  "source_archive_matches_local_files": true,
+  "all_figure_and_input_hashes_match": true,
+  "checked_manifest_entries": 24,
+  "remote_text_files_verified": 13,
+  "results_prose": "Written in full, with explicit limitations and a provenance-audit note in the appendix",
+  "visual_review": "All 18 pages rendered and inspected in contact sheets; discussion and limitations reviewed at page scale. Overleaf discussion, future-work hypotheses, and conclusion visually verified on page 8.",
+  "grade_reconciliation": "Current extraction grades for completed traces; retained direct grades for cutoff-truncated prefixes; historical training rewards unchanged.",
+  "pdf_sha256": "0af5378e9517914be35eaf7ccfbbdb65b1cba751553963b99308ee72267cd103",
+  "source_archive_sha256": "c6e4daa7b6e1d5681acb9f131e9ae55e448946fc58178f2b55bdd36f78759fcf",
+  "remote_unused_files": "Ten root-level duplicate section uploads, three duplicate figure PDFs in sections/, and an empty figures/tables folder remain unused. Automatic approval review blocked duplicate deletion; cleanup was canceled.",
+  "figure_redesign": "Sober pastel palette, serif panel headings, charcoal labels, fine rules; shapes and line patterns supplement hue; signed numeric cell values retained.",
+  "color_vision_check": "colorspacious 1.1.2 / Machado et al. 2009 severity 100; three CVD simulations and grayscale. Not a guarantee for every observer.",
+  "pdf_export": "Local Tectonic build from the same sources uploaded to Overleaf. Browser download policy prevented downloading the new Overleaf PDF; no policy settings were changed.",
+  "source_data_unchanged": true,
+  "compiler_release_sha256": "a3f1cac7c5678f01661a92212f58480ae3b0634115d880dbc59e2953ded45667",
+  "figure_layout": "Original compact figures retained; random timing control shown in appendix Figure 9 on an incremental scale to keep control effects legible.",
+  "compact_layout_previous_pages": 17,
+  "remote_text_files_verified_this_revision": [
+    "sections/discussion.tex",
+    "sections/limitations.tex",
+    "README.md"
+  ],
+  "acl_text_formatting_unchanged": true,
+  "signature_ladder_reproduction": {
+    "fit_checks": 42,
+    "maximum_log_loss_difference_nats": 8.434600797802005e-07,
+    "classification_decisions_match": true,
+    "bootstrap_reps": 1000,
+    "all_original_source_inputs_unchanged": true,
+    "new_output": "data/signature_ladder.csv",
+    "manifest": "data/signature_ladder_manifest.json"
+  },
+  "paper_pages_before_random_control": 15,
+  "appendix_pages_added": 1,
+  "random_timing_control": {
+    "job_id": 430148,
+    "cells": 14,
+    "randomizations": 1400,
+    "randomization_draws_negative": 1400,
+    "adjusted_contrasts_positive": 14,
+    "bootstrap_reps": 10000,
+    "maximum_original_fit_error_nats": 2.220446049250313e-16,
+    "timing_median_bits": 0.07758611341283324,
+    "random_mean_median_bits": -0.01418426977977333,
+    "minimum_bonferroni_contrast_lower_bound": 0.024737402376743312,
+    "manifest": "data/random_timing_control/run_manifest.json",
+    "repair": "Original batch job completed all numerical work but exited at NumPy-integer JSON serialization. Independent validator checked all arrays and randomization scores and finalized metadata without changing numerical outputs."
+  },
+  "compact_layout_history": {
+    "previous_full_draft": 17,
+    "after_layout_only": 15,
+    "after_new_control_analysis": 16,
+    "after_cognitive_connections": 17,
+    "after_future_directions": 18
+  },
+  "revision": "Explicit future-work hypotheses and targeted limitations; existing findings, numerical results, and figures unchanged.",
+  "new_literature_entries": 0,
+  "numerical_results_unchanged": true,
+  "figure_files_unchanged": true,
+  "interpretive_connections": [
+    "Society of Mind and shared task-dependent operations",
+    "Flexible cognitive control",
+    "Resource-rationality and budget dependence",
+    "Degeneracy as a qualified analogy for behavioral convergence",
+    "Creative cognition and objective-specific effects"
+  ],
+  "scope": "Existing findings retained. Prospective transfer selection, stage-dependent control, functional annotation, dynamics tests, human comparisons, and RL replication are explicitly identified as future work.",
+  "future_work_hypotheses": [
+    "Transfer depends on unmet task demands rather than source-domain similarity",
+    "Operation value depends on the reasoning stage",
+    "Similar mean signatures may hide functional differences",
+    "Steering failures may involve repetitive dynamics despite familiar activation statistics",
+    "Matched human-model task-demand studies can test functional similarities without neural-homology claims"
+  ]
+}

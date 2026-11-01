@@ -1,0 +1,10 @@
+{
+ "steps": 60,
+ "prompts": 16,
+ "group": 8,
+ "budget": 8192,
+ "lr": 0.002,
+ "init": "zero",
+ "seed": 0,
+ "logprob_temperature": 0.6
+}

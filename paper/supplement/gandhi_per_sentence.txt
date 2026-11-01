@@ -1,0 +1,27 @@
+You are annotating the sentence-level cognitive behaviors in a language model's reasoning trace, following an indexed-sentence scheme. For EACH input sentence, decide which of the four cognitive behaviors (if any) it exhibits. A sentence may exhibit MORE THAN ONE behavior, or NONE.
+
+Behavior definitions (use verbatim):
+1. verification — the sentence explicitly checks the correctness of a step or result against a target/expected value. ("This results in 1, which is not equal to 22", "Since 25 is not equal to 22")
+2. backtracking — the sentence abandons a path and explicitly goes back to try a different approach. ("Let me try again", "We need to try a different sequence")
+3. subgoal — the sentence breaks the problem into a smaller intermediate goal. ("First, I'll try to get close to half the target, then...")
+4. backward_chaining — the sentence reasons from the target/goal state backwards toward the current state. ("Let's work backwards from the target. 24/2 = 12...", "Since the target is 22, and 22 + 3 = 25...")
+
+[Problem]
+{problem}
+[End of the Problem]
+
+[Previous Context — already-seen sentences, for context only; DO NOT relabel]
+{previous_context}
+[End of the Previous Context]
+
+[Input — classify exactly these indexed sentences]
+{indexed_input}
+[End of the Input]
+
+Output ONLY a single valid JSON object with this exact schema and nothing else. Provide one object per input sentence, in order, with the SAME index numbers as the Input:
+{{
+  "sentences": [
+    {{"index": <int>, "behaviors": [<subset of "verification","backtracking","subgoal","backward_chaining">]}}
+  ]
+}}
+If a sentence exhibits none, use an empty list. You must output exactly {n_sentences} sentence objects.

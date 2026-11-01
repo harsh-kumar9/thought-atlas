@@ -1,0 +1,95 @@
+\section{Models and Benchmark Composition}
+\label{app:data}
+\begin{table*}[t]
+\centering\small
+\input{tables/models}
+\caption{Consistent model names and exact checkpoint identifiers. Counts are the usable primary reasoning population and sum to 21,803. Llama-3.1-8B-Instruct is an answer-only anchor; DeepSeek-R1-Distill-Qwen-7B and OpenThinker3-7B are additional models in the matched-demand experiment. Dashes do not denote zero generations.}
+\label{tab:models}
+\end{table*}
+\begin{table*}[t]
+\centering\small
+\begin{tabularx}{\textwidth}{llrX}
+\toprule Domain & Benchmark & Prompts & Sampling or task scope\\\midrule
+Math & MATH-500 \citep{hendrycks2021math} & 500 & The \path{HuggingFaceH4/MATH-500} release.\\
+Code & LiveCodeBench \citep{jain2024livecodebench} & 175 & \path{test6.jsonl}, post-January 1, 2025 window.\\
+Science & GPQA \citep{rein2023gpqa} & 500 & All 198 Diamond items plus extended items excluding Diamond record IDs.\\
+Planning & ACPBench \citep{kokel2025acpbench} & 500 & Reachability, progression, applicability, validation, and landmarks; multiple-choice configurations.\\
+Moral & MoReBench \citep{chiu2025morebench} & 500 & Public moral-scenario configuration.\\
+Idea & LiveIdeaBench \citep{ruan2024liveidea} & 500 & Distinct scientific keywords; originality/feasibility prompts.\\
+Safety & StrongREJECT \citep{souly2024strongreject} & 313 & Direct harmful requests; answer-only refusal/harm rubric.\\
+Security & WMDP-Cyber \citep{li2024wmdp} & 500 & Sample from the cybersecurity test split; hazardous-knowledge endpoint.\\
+\bottomrule
+\end{tabularx}
+\caption{Atlas benchmark composition. Domain names are shorthand for these benchmark conditions, not exhaustive samples of the corresponding human activities. Dedicated intervention and matched-demand corpora have separate selections and generation budgets.}
+\label{tab:benchmarks}
+\end{table*}
+The repository configuration supplies checkpoint identifiers and benchmark selections in Tables~\ref{tab:models}--\ref{tab:benchmarks}. Generation uses bfloat16 with vLLM and the shared decoding policy in Section~\ref{sec:methods}. The answer-only anchor has a 4,096-token cap. The configured reasoning context length is 65,536; the generated-token cap is subject to prompt length and available context. Model names preserve family, version, size, and instruction suffix; exact identifiers retain repository spelling.
+
+The safety dataset mirror is pinned at revision \path{c18bb810edc4b60b815b205faeaa2bd5f72c3e93}; WMDP is pinned at \path{7125571f22f032c56415e7980f48d877dd830ff8}. Benchmark contamination is not ruled out. In particular, the code date window does not establish that every tested model predates all selected items.
+
+\section{Domain Similarity}
+\label{app:similarity}
+\begin{figure}[t]
+\centering\includegraphics[width=\linewidth]{figures/figA1_domain_similarity.pdf}
+\caption{RMS differences across eight domain-mean rates, computed within model and then averaged over seven models. Smaller values indicate more similar profiles in this representation.}
+\label{fig:similarity}
+\end{figure}
+GPQA and cybersecurity have an RMS distance of 2.21 pp [2.00, 2.44]; code and cybersecurity are also close (2.80 pp). Moral and safety are mutual nearest neighbors (4.45 pp). Math's closest point estimate is code (3.81 pp). Idea generation's closest point estimate is GPQA (7.10 pp), but that neighbor occurs in only 42.6\% of prompt-bootstrap samples. We therefore do not assign idea generation to a stable cluster.
+
+Intervals use 1,000 prompt-bootstrap samples within domain, with shared multiplicities across models; models are treated as fixed. Standardizing each rate by its model-wide standard deviation retains broad relationships but changes planning's nearest neighbor from GPQA to math. Similarity depends on the weighting of common and rare operations, and these distances are not equivalence tests.
+
+\section{Sentence-Level Illustrations}
+\label{app:examples}
+\begin{figure*}[t]
+\centering\includegraphics[width=.94\textwidth,height=.50\textheight,keepaspectratio]{figures/figA2_trace_examples.pdf}
+\caption{Actual Qwen3.5-9B traces selected without outcomes, near domain-median profiles within the central half of token lengths. Each lane is an independent annotation and labels may overlap. Gray denotes label absence. Sentence indices preserve actual length; codes match Figure~\ref{fig:rl}.}
+\label{fig:examples}
+\end{figure*}
+For each domain, we retain the central 50\% of token lengths and select the trace closest to the domain-median eight-rate profile after scaling by model-wide standard deviations. We reconstruct text segmentation and check segment counts, indices, and rates against saved annotations. This verifies alignment, not annotation validity.
+
+\paragraph{Math.} The 313-segment example asks for an angle between two lines defined by coordinate equalities. It derives direction vectors and checks whether its parameterization matches the ratios, then revisits the derivation and possible ambiguity in the requested angle. Segment 12 asks, \emph{Does this match the ratios?} Later checking does not establish when the answer was first internally available.
+
+\paragraph{Planning.} The 450-segment example is an ACPBench action-applicability question in a Rovers environment. It distinguishes capability from immediate executability, checks rover locations, and evaluates whether a rover has the required image. High verification reflects action-precondition checking rather than construction of a complete plan.
+
+\paragraph{Moral reasoning.} The 109-segment example discusses health screening where follow-up care is limited. It plans its advice and revisits the interests of the student and community. Its subgoals include organizing a recommendation around decision criteria. Response-planning labels should not be interpreted as a count of formal subproblems.
+
+\paragraph{Idea generation.} The 252-segment agronomy example proposes and rejects candidates under novelty and feasibility criteria. Segment 8 judges a candidate \emph{Too common, not novel enough}; another is rejected as too vague. Backtracking describes candidate revision. These cases illustrate possible functions of the labels and are not a blinded qualitative study.
+
+\section{Paired Transfer Estimates}
+\label{app:transfer}
+\begin{table*}[t]
+\centering\small
+\input{tables/transfer}
+\caption{Selected Qwen3.5-9B domain-profile transfers. Accuracy and answer changes are percentage points; token changes are generated tokens. Estimates use the paired unsteered target baseline. Intervals resample tasks after averaging two decoding seeds. Comparisons share baselines and are not a newly multiplicity-adjusted family.}
+\label{tab:transfer}
+\end{table*}
+Table~\ref{tab:transfer} accompanies Figure~\ref{fig:transfer}. The same source vector is applied to each target, allowing a directional comparison. A domain-average GPQA vector and a selected GPQA archetype are different interventions; their outcomes cannot be pooled under a single domain label. Likewise, A2 must remain distinct from the math-average vector.
+
+A separate experiment compares the difference between a conversation-increasing vector and A2 on Countdown versus math. Its interaction changes with budget, but the conversation-increasing vector remains worse than A2 in both tasks in the stored summaries. That experiment does not establish a task-wise ranking reversal and is not the source--target matrix studied here.
+
+\section{Open-Task Coverage and Outcome Definitions}
+\label{app:open}
+\begin{figure}[t]
+\centering\includegraphics[width=\columnwidth]{figures/fig06_open_task_tradeoffs.pdf}
+\caption{\textbf{Open-task effects depend on the objective and intervention.} Pairwise net preference over unsteered ideas, judged by Gemma4-31B-it and Qwen3.5-27B; ties contribute zero. Intervals bootstrap keywords. Comparisons retain answers present in both arms; coverage is reported in Table~\ref{tab:open}. Checking/exploration vectors and domain-profile vectors come from distinct experiment families. This is a set of tested operating points, not an estimated Pareto frontier.}
+\label{fig:ideas}
+\end{figure}
+\begin{table*}[t]
+\centering\small
+\input{tables/open_quality}
+\caption{Pairwise net preferences and contributing keyword counts for Figure~\ref{fig:ideas}. Comparisons require answers in both arms. The math-profile and math-prompt experiments each allocate 200 keywords; eligible keyword/seed pairs differ across conditions. Intervals bootstrap keywords, retaining order/seed structure.}
+\label{tab:open}
+\end{table*}
+A net preference of zero means equal fractions favor the intervention and baseline after ties contribute zero; it is not an absolute quality score. Both presentation orders are evaluated. For math-profile transfer, 170 keywords contribute 544 pairwise judgments per axis/judge; for the math-style prompt, 158 keywords contribute 494. A keyword may contribute fewer than the maximum paired seed/order judgments.
+
+The separate rubric endpoint gives the math-profile vector a paired originality change of $-0.271$ [$-0.362$, $-0.182$] among 170 keywords with paired rubric values. Assigning zero to unanswered attempts yields $+2.453$ [$+2.023$, $+2.895$] across all 200 allocated keywords. Corresponding math-prompt changes are $+0.129$ [$+0.036$, $+0.219$] among 167 paired-rubric keywords and $+1.860$ [$+1.383$, $+2.320$] with unanswered attempts set to zero. Rubric and pairwise eligibility differ; sample counts should not be interchanged. Zero filling combines availability and scored quality; it does not recover missing answers' quality.
+
+\section{Evidence Status and Reproducibility}
+\label{app:status}
+The atlas uses the corrected objective-grade release, including Gemma4-12B-it. The primary native within-model/domain outcome test has no supported cells among 94 estimable cells under its FDR gate. This is a null for incremental outcome prediction conditional on that analysis's covariates, not a null for domain information or intervention effects.
+
+Natural-completion RL summaries reconcile completed traces with current extraction grades, preserving direct grades for truncated prefixes. This changes 47 cutoff-outcome rows in the zero-start run and 46 in the A2-initialized run, with no changes to baseline or A2. These are repeated cutoff rows, not counts of independently corrected problems. Historical rewards are unchanged. Temperature-mismatched earlier training runs are excluded.
+
+Source snapshots, hashes, paired tables, and figure scripts are retained with the manuscript. Human label validation, additional RL training seeds, and prospective source-profile selection have not been completed and are not claimed as results.
+
+\draftnote{Before submission, complete the provenance audit of the readout fitting corpus and hyperparameter/selection history, verify saved generation manifests against the shared configuration, and include exact intervention/annotation prompt templates and all-attempt versus annotated denominators. This is a complete prose draft, not a submission-ready audit.}

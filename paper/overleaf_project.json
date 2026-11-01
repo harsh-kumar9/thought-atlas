@@ -1,0 +1,387 @@
+{
+  "project_url": "https://www.overleaf.com/project/6ae66af2dc9a0493439722d8",
+  "title": "Thought Atlas \u2014 Paper",
+  "main_document": "main.tex",
+  "compiler": "pdfLaTeX",
+  "synchronization": "Separate copies; no automatic two-way sync. Inspect/download and reconcile remote edits before replacing files.",
+  "initial_uploaded_archive_sha256": "81f75d503814ebf5a862e82ea986ffbd9fbd4aaed0ea44e6f4bfab1b91a938cc",
+  "remote_unused_files": "Ten root-level duplicate section uploads, three duplicate figure PDFs in sections/, and an empty figures/tables folder remain unused. Automatic approval review blocked duplicate deletion; cleanup was canceled.",
+  "recorded_utc": "2026-11-01T04:08:20.557143+00:00",
+  "revision": "Description/prescription/explanation framing; completed provenance, missingness, readout, fidelity, dose, similarity, matched-demand, outcome-null, timing and creativity audits integrated.",
+  "delivered_source_archive": "thought-atlas-overleaf.zip",
+  "delivered_source_archive_sha256": "3f7c17a070c4393abf954469f9709451d0b1e18824b17d6cf1f058ed7f21d16a",
+  "delivered_files": [
+    {
+      "file": "main.tex",
+      "sha256": "4487e3a3ce4bd0975f0c60f5183409e4e69df48cb6f7abaef3b5fa91d8b29d56"
+    },
+    {
+      "file": "references.bib",
+      "sha256": "eb7c360be8b4ec080d27b080453ab91954068038519707b16497de67a6e045c7"
+    },
+    {
+      "file": "README.md",
+      "sha256": "bebee874a1fe454bc6ec2a6597fddf536d3b80e2cca97c2374e39c8224350fcb"
+    },
+    {
+      "file": "acl.sty",
+      "sha256": "19dfeddc2c0e448f3926a0bef048a9db3f3611b46265b760caabd7ada4f361de"
+    },
+    {
+      "file": "acl_natbib.bst",
+      "sha256": "6fbb306202290f4b68e74ac1460a8b27398500cb6dfeb4492e74c457eae7cd1e"
+    },
+    {
+      "file": "sections/abstract.tex",
+      "sha256": "48780dc13a74739f62cdaa21156555ed482c2d774ba2a09094f1dd6bdb13d8cc"
+    },
+    {
+      "file": "sections/appendix.tex",
+      "sha256": "704b523738120814127747091b649a82c2e90aff45e9202d02aae36ad9278653"
+    },
+    {
+      "file": "sections/discussion.tex",
+      "sha256": "4cfa83b321fcc6ed1b6ae168aeed03f33e2725e317b3452024f422b5c2a35b43"
+    },
+    {
+      "file": "sections/experimental_details.tex",
+      "sha256": "15344c2492ba6166f6b4bf5e7df62122873d3968916473628c99957c222b3906"
+    },
+    {
+      "file": "sections/introduction.tex",
+      "sha256": "ddb987c1af169ead8b900aa23de70f2b8b886c1f6687269b8a482ebb9ec9d078"
+    },
+    {
+      "file": "sections/limitations.tex",
+      "sha256": "4c443cea7fc7d41c915e0c240ae1884255c35ae2b7072193277a3f9c5e3ec3c5"
+    },
+    {
+      "file": "sections/methods.tex",
+      "sha256": "8e34f800bd124d53de5f6510d2aeeb28cd4eaf69dafe88ebf8797f9b4cfcf74a"
+    },
+    {
+      "file": "sections/related_work.tex",
+      "sha256": "19f69785558e2bca50c228a2706d875a3c9f31e1aa2e788a7038e5d339e2c9fe"
+    },
+    {
+      "file": "sections/results.tex",
+      "sha256": "1e847f064d7c00caeff7794941946492232ee9f9695c10c2362c62cca6b42f21"
+    },
+    {
+      "file": "sections/results_scaffold.tex",
+      "sha256": "20e08de58f44edd8a756ba8762135e0faa60036d3a065fec252dd6c4866745f8"
+    },
+    {
+      "file": "sections/revision_audit.tex",
+      "sha256": "e7a85ddc26225fd95aadacf0e00c7cfc5f7131a5c1391d21d52eb076aef6e297"
+    },
+    {
+      "file": "tables/coverage.tex",
+      "sha256": "8ec733f1445eda8171265abf5a1d192f7fa4f856ea210cded088a9e9af71100e"
+    },
+    {
+      "file": "tables/models.tex",
+      "sha256": "5cd228a993b273ff8f3a8e23ea94b239b55c420caa4f93f20f84ae59990b27b6"
+    },
+    {
+      "file": "tables/open_coverage.tex",
+      "sha256": "1402f10456242f074b02f1d892a2634dbfdc68def90bbc7c861ca343fad96873"
+    },
+    {
+      "file": "tables/open_quality.tex",
+      "sha256": "b0e65ec7437de6cebb0a3039b3f6563652faaa66c58df0c073fe9e41aba2cfc3"
+    },
+    {
+      "file": "tables/outcome_spec.tex",
+      "sha256": "57dcf165548e7257251ddae4784d4cb8791af01e38a3f6941d3dc60a14008c3e"
+    },
+    {
+      "file": "tables/readout_result.tex",
+      "sha256": "a1ddf8b31e2055b524893e343c639f33d70e5ffba0a2b852617085b1833460a3"
+    },
+    {
+      "file": "tables/result_macros.tex",
+      "sha256": "a9920e4dcf791a6978254e0bfd40c5923294afab1370c6d6255cd3eacd55f8ab"
+    },
+    {
+      "file": "tables/transfer.tex",
+      "sha256": "cb1b0aeb9a4448d7cf6033b493d50a102846634d855e2379a8c92173204a6994"
+    },
+    {
+      "file": "figures/fig01_signatures.pdf",
+      "sha256": "f70b6255f8e26b2697eca82cc036a6f2e192ba3433ffd552d0828ec0e0387079"
+    },
+    {
+      "file": "figures/fig02_trajectories.pdf",
+      "sha256": "779fb81365dd330e2ba09af077e2c16f71e5d5e372f3ed56ec2555aeb4f74d50"
+    },
+    {
+      "file": "figures/fig03_task_demand.pdf",
+      "sha256": "506e5fe34dcb89f8a19bb8185a00cce6624f968822c94c435383df99835a024c"
+    },
+    {
+      "file": "figures/fig04_cross_domain_transfer.pdf",
+      "sha256": "6db8bfffcae60aac73099705ca096f7b7de47d459278aeeb0e592ecf57f5a8bc"
+    },
+    {
+      "file": "figures/fig05_steering_and_rl.pdf",
+      "sha256": "c47088abb1e6c7dde588adb1fc61f8184d1d8fbbce9e02269e09c988331e1d69"
+    },
+    {
+      "file": "figures/fig06_open_task_tradeoffs.pdf",
+      "sha256": "810d7998bf8faaf1cb6281aeebe67b40fc45c7b9c43222f2266d0b2b0cf3e4bd"
+    },
+    {
+      "file": "figures/figA1_domain_similarity.pdf",
+      "sha256": "7d699f11b73710461d873b5dba7f3efb7e064821b5699e93d98bfb6b7e0acc16"
+    },
+    {
+      "file": "figures/figA2_trace_examples.pdf",
+      "sha256": "67ea2a1f28d2575c08ddb3679ddb930258a64c98ada2660d184e79a43dfe6f12"
+    },
+    {
+      "file": "figures/figA3_random_timing_control.pdf",
+      "sha256": "032056ffc6f43be952aca58d28a57be5d332da0a0d8944d4907b304b7ecc2fe1"
+    },
+    {
+      "file": "figures/figA4_intervention_fidelity.pdf",
+      "sha256": "65c1af48db161e76e37d99cf5a742252f2e87a6fbf1aecc3277008e81b307eda"
+    },
+    {
+      "file": "figures/figA5_behavior_sensitivity.pdf",
+      "sha256": "b5cfe09e09d023c878f6f19e180783ced11a4e03ab5436694a8f73275389ceb5"
+    },
+    {
+      "file": "figures/figA6_demand_operations.pdf",
+      "sha256": "aa7df79f19f0a245edef3c40dd2516653345720591861133aeec25968c97bbd8"
+    },
+    {
+      "file": "figures/figA7_readout_validation.pdf",
+      "sha256": "f8a088d56c705e96f0e36252c60383754420279799542f96d7d73bc6033c75f7"
+    },
+    {
+      "file": "supplement/budget_paired.csv",
+      "sha256": "c803fa6d42deaff3f0fb77bcf0fe9e6ca27118f82889a4fea1dfaa04f28cec8e"
+    },
+    {
+      "file": "supplement/budget_summary.csv",
+      "sha256": "da1fc80a09e52dbae4cee52ba172d62a86bab367dc84c90a38b7abba045de50f"
+    },
+    {
+      "file": "supplement/coverage.csv",
+      "sha256": "5d8f1de9cac7da69be8aad4180fc8707ad8eaf1a843ee8a1665d303e9f45871e"
+    },
+    {
+      "file": "supplement/dose_matched.csv",
+      "sha256": "83865e6b5e9efb85bb79c9f966377c1e8f1319e38d040d68c7a7fc9d779e7618"
+    },
+    {
+      "file": "supplement/fidelity.csv",
+      "sha256": "deb2c0f902e4acc4a49b7ff719c18308e209bdaf2fb017e5a7626c09bf4b513b"
+    },
+    {
+      "file": "supplement/grade_change_counts.csv",
+      "sha256": "e58947d969bebc4db9abaca156877f3a507a9e896837ed724b9037961b6c242e"
+    },
+    {
+      "file": "supplement/grade_changes_by_condition.csv",
+      "sha256": "55be178396c58cf399ba7ec5ed5a44bb648576036f1c3dedd242ddddc0b9a5bc"
+    },
+    {
+      "file": "supplement/idea_pairwise_Qwen_Qwen3.5-27B.csv",
+      "sha256": "9f422c4fd223c6a26b86fd370b1688a822d26fd66861d912b832de10ccadee51"
+    },
+    {
+      "file": "supplement/idea_pairwise_exclusions.csv",
+      "sha256": "24c0256bd3c7cb73bb8b21ae71b38b4a4fe277f2ff905b5d476960ce22b3fe41"
+    },
+    {
+      "file": "supplement/idea_pairwise_google_gemma-4-31B-it.csv",
+      "sha256": "40ff8c0630e5fd90894fd0c47427d49b863b2b131b0837005fd39504f6205d8d"
+    },
+    {
+      "file": "supplement/matched_demand_operations.csv",
+      "sha256": "fbdc71882efb2ed5bf243a9e752ce5a201e4ac53c0d67990a764f3b7ef0f9efc"
+    },
+    {
+      "file": "supplement/matched_demand_sensitivity.csv",
+      "sha256": "62fa20312b4b19ad63e26844c282eb4f3ee561109d9cd39e7eafdfad0fbc8be7"
+    },
+    {
+      "file": "supplement/native_outcome_signature_models.csv",
+      "sha256": "d42487eb2b51e470dfcea9b2242295364ea30ff785e0a13f8eac81d372a25b76"
+    },
+    {
+      "file": "supplement/open_task_coverage.csv",
+      "sha256": "9ecdea929d6c7cb86a07af0d3e77c6e6765ba2d5802d53e531ffe579b2a5ddbd"
+    },
+    {
+      "file": "supplement/paired_shifts.csv",
+      "sha256": "74bbab0ad4e1af37ed4f97c6736f73d3d6399489f763b93ca7ad72d0dd95348b"
+    },
+    {
+      "file": "supplement/prompt_overlaps.csv",
+      "sha256": "206dbdb5b31940dc1db63f6f156f2adf2fadc646ffe6b200d263a3b9f943baa6"
+    },
+    {
+      "file": "supplement/similarity_sensitivity.csv",
+      "sha256": "eac24b9193b54d6a21b8dc433a1f905936615f9df5a1f96bbb5cbde791500d0e"
+    },
+    {
+      "file": "supplement/validation_summary.csv",
+      "sha256": "efb38d397b1d55289bcf1f93e925becb675cb355ac34a84cf42a5f1e21fb7150"
+    },
+    {
+      "file": "supplement/within_trace_timing.csv",
+      "sha256": "4ba8d8a4fad370a7bfe3a3cd50131d8b4ceca30047890a1a61e77b7e78b14c54"
+    },
+    {
+      "file": "supplement/gandhi_per_sentence.txt",
+      "sha256": "60c8a1e8f19e57eaba8629707dd095acc882aca6497c6c95a00e3e1302cc99ff"
+    },
+    {
+      "file": "supplement/intervention_and_evaluation_prompts.txt",
+      "sha256": "a3d81d3dd4be4371e24856f3ed6e9d7d4585b5d5a82332126eeaf39764f7ce05"
+    },
+    {
+      "file": "supplement/kim_per_sentence.txt",
+      "sha256": "61bff44555b4e2866245d94886d1fb352bf57ee6b95196161470a5373907f2e9"
+    }
+  ],
+  "remote_text_verification": [
+    {
+      "file": "main.tex",
+      "matches": true,
+      "characters": 859,
+      "verified_utc": "2026-11-01T04:06:42.697Z"
+    },
+    {
+      "file": "README.md",
+      "matches": true,
+      "characters": 5444,
+      "verified_utc": "2026-11-01T04:06:43.101Z"
+    },
+    {
+      "file": "references.bib",
+      "matches": true,
+      "characters": 9633,
+      "verified_utc": "2026-11-01T04:06:43.486Z"
+    },
+    {
+      "file": "sections/abstract.tex",
+      "matches": true,
+      "characters": 1328,
+      "verified_utc": "2026-11-01T04:06:43.919Z"
+    },
+    {
+      "file": "sections/appendix.tex",
+      "matches": true,
+      "characters": 11629,
+      "verified_utc": "2026-11-01T04:06:44.377Z"
+    },
+    {
+      "file": "sections/discussion.tex",
+      "matches": true,
+      "characters": 3898,
+      "verified_utc": "2026-11-01T04:06:44.833Z"
+    },
+    {
+      "file": "sections/experimental_details.tex",
+      "matches": true,
+      "characters": 15854,
+      "verified_utc": "2026-11-01T04:06:45.324Z"
+    },
+    {
+      "file": "sections/introduction.tex",
+      "matches": true,
+      "characters": 2536,
+      "verified_utc": "2026-11-01T04:06:45.716Z"
+    },
+    {
+      "file": "sections/limitations.tex",
+      "matches": true,
+      "characters": 4298,
+      "verified_utc": "2026-11-01T04:06:46.132Z"
+    },
+    {
+      "file": "sections/methods.tex",
+      "matches": true,
+      "characters": 4821,
+      "verified_utc": "2026-11-01T04:06:46.551Z"
+    },
+    {
+      "file": "sections/related_work.tex",
+      "matches": true,
+      "characters": 2088,
+      "verified_utc": "2026-11-01T04:06:46.939Z"
+    },
+    {
+      "file": "sections/results.tex",
+      "matches": true,
+      "characters": 15056,
+      "verified_utc": "2026-11-01T04:06:47.351Z"
+    },
+    {
+      "file": "sections/revision_audit.tex",
+      "matches": true,
+      "characters": 16379,
+      "verified_utc": "2026-11-01T04:06:47.758Z"
+    },
+    {
+      "file": "tables/coverage.tex",
+      "matches": true,
+      "characters": 518,
+      "verified_utc": "2026-11-01T04:06:48.161Z"
+    },
+    {
+      "file": "tables/models.tex",
+      "matches": true,
+      "characters": 758,
+      "verified_utc": "2026-11-01T04:06:48.540Z"
+    },
+    {
+      "file": "tables/open_coverage.tex",
+      "matches": true,
+      "characters": 425,
+      "verified_utc": "2026-11-01T04:06:48.930Z"
+    },
+    {
+      "file": "tables/open_quality.tex",
+      "matches": true,
+      "characters": 902,
+      "verified_utc": "2026-11-01T04:06:49.326Z"
+    },
+    {
+      "file": "tables/outcome_spec.tex",
+      "matches": true,
+      "characters": 782,
+      "verified_utc": "2026-11-01T04:06:49.773Z"
+    },
+    {
+      "file": "tables/readout_result.tex",
+      "matches": true,
+      "characters": 1066,
+      "verified_utc": "2026-11-01T04:06:50.167Z"
+    },
+    {
+      "file": "tables/result_macros.tex",
+      "matches": true,
+      "characters": 104,
+      "verified_utc": "2026-11-01T04:06:50.553Z"
+    },
+    {
+      "file": "tables/transfer.tex",
+      "matches": true,
+      "characters": 1213,
+      "verified_utc": "2026-11-01T04:06:50.968Z"
+    }
+  ],
+  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-proof.png",
+  "local_compiled_pdf": "../output/pdf/thought-atlas-arr-draft.pdf",
+  "local_compiled_pdf_sha256": "76e56f81df0a9b009f38eb37fe0889a22e3de341e01fc15f3dd59f4fcbe9089d",
+  "local_pdf_compiler": "Tectonic 0.17.0",
+  "download_note": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
+  "final_overleaf_compile": "Successful;22 pages, conclusion on page8.",
+  "synchronized_revision": "Active manuscript sources, generated tables, eight revised/new figure PDFs, and22 aggregate/prompt companion files. Binary upload verified by successful compilation and rendered inspection; no downloaded remote byte comparison.",
+  "prior_metadata": "archive/before_arr_repair/overleaf_project.json"
+}

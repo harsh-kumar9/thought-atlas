@@ -1,0 +1,9 @@
+{
+  "valid_segments": 5238363,
+  "traces": 25288,
+  "source_files": [
+    "/ada1/u/harsh/thought-atlas/data/v2/judge/trackB_full__google_gemma-4-31B-it.parquet",
+    "/ada1/u/harsh/thought-atlas/data/v2/judge/trackB_isolated__google_gemma-4-31B-it.parquet"
+  ],
+  "script_sha256": "a20755e9e4455df03d3ed13041271af143ce9113962ad0b9f735a7ca054d04c1"
+}

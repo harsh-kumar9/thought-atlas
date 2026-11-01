@@ -1,0 +1,786 @@
+{
+  "frozen_utc": "2026-11-01T06:33:46.286808+00:00",
+  "dataset": "DigitalLearningGmbH/MATH-lighteval",
+  "dataset_revision": "0530c78699ea5e8eb5530600900e1f328b48acad",
+  "dataset_file": "data/test-00000-of-00001.parquet",
+  "source_sha256": "7dca8d6e41af88ecf82f2b5f36eb5530e083aaaa86ee325f62bd5c31535178c6",
+  "source_rows": 5000,
+  "excluded": {
+    "previous_or_contained": 500,
+    "near_duplicate": 0,
+    "no_boxed_reference": 0,
+    "duplicate_source": 0
+  },
+  "previous_unique_math_texts": 740,
+  "inventory": [
+    {
+      "file": "data/tasks/math.parquet",
+      "sha256": "cb31afd01340ad657d4555b1ad44afdf4cb9684ecf1bb56b77e3fda2e63e2695",
+      "lfs_resolved": true,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/tasks/math.parquet",
+      "sha256": "b92745cf8530961fd404c79970e794dafa186ffc2b3ca35dadf0f8b58a4cfff8",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_anchor.parquet",
+      "sha256": "f38cbacdafaf4310b7ab5d3f0d452e33086caf57b56fdbfe39f56d24e9b5a302",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_anchor.shard00of04.parquet",
+      "sha256": "6890696fa8e18bc84cb7997cdfb6f57d82cc1c8bfca33b279c63e72d03616358",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_anchor.shard01of04.parquet",
+      "sha256": "4d46060d8e62e8b8d9fe559629b09dd37c241f88b804b70d6eba91834dce7bad",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_anchor.shard02of04.parquet",
+      "sha256": "49cf2f11c271cd301fd9d3d541169956a16f70dc206f43e5ec17e1d8f3793137",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_anchor.shard03of04.parquet",
+      "sha256": "eca84a161cb3ec5b8ff1a5459bd0b2f71d17102b6b9e4e91df29140c11109f5a",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_12b.parquet",
+      "sha256": "1d7ad14539010feb4aa7980664e7731de253e6f9d1e4bf5fb8cb732c73fcd35e",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_12b.shard00of04.parquet",
+      "sha256": "e5335c481b7d23ed7fa0706b86d54729241937e6f9a5aaa87e0392477a60ddc9",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_12b.shard01of04.parquet",
+      "sha256": "1c9488d63dac84ceea92dbb1484e75c8edefa7a02cefaeb17a2dad91ddcae4e0",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_12b.shard02of04.parquet",
+      "sha256": "4f4e76a0f7f096ba1e6ce1080a39aebf581c776a8811729be9e2b58934d823ec",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_12b.shard03of04.parquet",
+      "sha256": "5ab92c2b2eea663d490b7c98f4a037319add11a6b55652720fb4dd0cc61c2e4e",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_31b.parquet",
+      "sha256": "d30cb6dff35c330264343a19c53b53ca80cf0d8a40e961d75f889cf198df6797",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_31b.shard00of04.parquet",
+      "sha256": "73c0fa7e3f13dde89afc53327f658b1254db59d5d0d7be54c64acc332ee49f29",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_31b.shard01of04.parquet",
+      "sha256": "823650023f796823f172a64016b43db6eaa3b183b9e8353ff1e892225d4496b5",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_31b.shard02of04.parquet",
+      "sha256": "a5e38903a5282276bba92cc10dce2baef0cde0f64db200f65d38b4b621902067",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_31b.shard03of04.parquet",
+      "sha256": "33e0e31f172ed0c56db614c20bf63f127a110ac6e3a6269592f35e8be9a22d75",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_e4b.parquet",
+      "sha256": "e0e0dee6b6661bc3c7a240c11b33fdcd148613a8f96d9139a1ba5b17e1895171",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_e4b.shard00of04.parquet",
+      "sha256": "c0ca3aa7af1956530e7bb78bb61b6543262f1247b6742a0fac63b3c8ed5e84e4",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_e4b.shard01of04.parquet",
+      "sha256": "23e69fd92871d05dd212a487e74a5d6af9be4ff976e07be4b9dfaea2aa87773a",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_e4b.shard02of04.parquet",
+      "sha256": "8efd1973c97f3bf23df30acba1003df1bf969c2c4b3cde23b2b070ce21d5ba92",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_gemma4_e4b.shard03of04.parquet",
+      "sha256": "f93ce5eec9d72083b4833a59e9cc2af742e7986c8e2fe400b15a8122a5e92535",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_27b.parquet",
+      "sha256": "6cc161c30a42cffeee9d2c420c0f2bc12289a8d9b16b1619656c2a276a29f9ba",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_27b.shard00of04.parquet",
+      "sha256": "44a4d0450dbb30b34d5114d23fbe5076e15d5ad6186b8d216b76fc0907bea2e8",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_27b.shard01of04.parquet",
+      "sha256": "f86f48d7ac9167ad3d0382a9baceed07c2e443b9d863d51171ca32fad28eabe8",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_27b.shard02of04.parquet",
+      "sha256": "050ead79ff697c21a1df6dfbf2f3ad8cfe607a6523d9f3ae014638f46280a268",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_27b.shard03of04.parquet",
+      "sha256": "0ba837d0e5c8bfbde631ca720271bb2a9d560bb6e22e035666bbf05edd1de9ba",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_4b.parquet",
+      "sha256": "3e8ad7286d29f1817e52aadf7e202b67e04de5f7cc732ef72ad832e70fb741d4",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_4b.shard00of04.parquet",
+      "sha256": "51905d182e021864a12e7fabe9b804c2d0a37a7e94c00f3ecdf9c89d4d28094b",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_4b.shard01of04.parquet",
+      "sha256": "8163c1280c2a3c372b2789c3a16bfe5f21d4c741624fd61fd35527c6cd111591",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_4b.shard02of04.parquet",
+      "sha256": "2e0fb292a82786cec232490a3093c896c3d363b4bd06ab01b4b4300549faa5b4",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_4b.shard03of04.parquet",
+      "sha256": "9e40ea04551764d955ebbab0ddf85340fc5fd55a8075bda6c554e10bbc71783c",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_9b.parquet",
+      "sha256": "6bfbc285921841ab8d8946c6d5782f0fe0c21b91a7d92a0595aa9c690df15904",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_9b.shard00of04.parquet",
+      "sha256": "3f75036e7e9a3e8960aae070d5a4fa4115dffe51c0d3423081cd0329ad5ff02d",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_9b.shard01of04.parquet",
+      "sha256": "d5db710ecf235400bf8f34775f8831a9a478e881f9f90086594c58ae1d018cc4",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_9b.shard02of04.parquet",
+      "sha256": "7f487687c8aa8af0fedd05f863d086a2663ea71f8ccbe6c1bbed7016a7be7f35",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_qwen35_9b.shard03of04.parquet",
+      "sha256": "0cf093d04cb6500d544a8db05998dc122b8a02450df37b835710baf4698faa3a",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_reasoner.parquet",
+      "sha256": "3f9a46f8dc2318de6b0468a53a070b3c572849bfa2a16be4e169341483bbfac1",
+      "lfs_resolved": false,
+      "math_prompt_count": 500
+    },
+    {
+      "file": "data/v2/traces/traces_reasoner.shard00of04.parquet",
+      "sha256": "b48a913126d8b79d159375bcf56b57d214c09d607e3c97518e6d30ed1367312f",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_reasoner.shard01of04.parquet",
+      "sha256": "4b2fe3f6084672f37da7880e2cd36d4cac4cb22c1d03b17b1198a6ff7261ef22",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_reasoner.shard02of04.parquet",
+      "sha256": "9846f9f1e124044fa6b167c4326ef7800fc079892cf083e4f8ab8d4aa51773d2",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "data/v2/traces/traces_reasoner.shard03of04.parquet",
+      "sha256": "3160b1a9bd06026e91ea6f823e1850aefbef86fa0bfa9f71938292ba02216172",
+      "lfs_resolved": false,
+      "math_prompt_count": 125
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_gemma4_12b.parquet",
+      "sha256": "f7c21c77c7e4f3c791d6efe411e21376a6bb6687f74590b37a8f4aae0a95c955",
+      "lfs_resolved": false,
+      "math_prompt_count": 320
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_gemma4_12b.shard00of02.parquet",
+      "sha256": "49c39397fecdd94f1fd6e1ea07e2da6c18c97adce1858c2300b883b0e9069ea1",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_gemma4_12b.shard01of02.parquet",
+      "sha256": "cd3f8e8f1aa0cf069713b8a423f6b9ba0327b781e6298f66c10c9ffb2574e13d",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_openthinker3_7b.parquet",
+      "sha256": "46ba2ae0708f6540109d272c43a12927337e7c1db669466d924109a4e0922dee",
+      "lfs_resolved": false,
+      "math_prompt_count": 320
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_openthinker3_7b.shard00of02.parquet",
+      "sha256": "163df52b4301ea32060d959f4402345ac78de7608f6ffd51caae41790103de7e",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_openthinker3_7b.shard01of02.parquet",
+      "sha256": "d3aa240e50f83e6dfa0282ca6cb970b2c21b23e04e37896daa73e51162b360fa",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_qwen35_9b.parquet",
+      "sha256": "1443fa8e42ec6ac2575bb4a768067734e15ab997b6398710068da617d7cbd36c",
+      "lfs_resolved": false,
+      "math_prompt_count": 320
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_qwen35_9b.shard00of02.parquet",
+      "sha256": "b775eb761d2d36e3e55e0f3c984d234e4ba866fccb2f7cc6a1f240d231c86dc5",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_qwen35_9b.shard01of02.parquet",
+      "sha256": "bbf1337f4a0de8a5de114947bae69d3f56413d8be27f8319cca1cba343ea0b7b",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_r1qwen7b.parquet",
+      "sha256": "1bd9e5053ac883d7b7c9947da9ee3804069bd78d958e4f7cbb60fa77afca4a4e",
+      "lfs_resolved": false,
+      "math_prompt_count": 320
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_r1qwen7b.shard00of02.parquet",
+      "sha256": "6de8d08efaac9e1d6c95ca612bfb6139f547c6f5fb138500142ff1e2a9c4a45e",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_r1qwen7b.shard01of02.parquet",
+      "sha256": "b98e4f40a98f22c8d7abe4a1b05b3f0f88f56e60ae62fecca4f6798ba950fee2",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_reasoner.parquet",
+      "sha256": "8448a389507c1c31000b8af1608be0dc7bbecb18cb05918ca821a4b0c39a23b0",
+      "lfs_resolved": false,
+      "math_prompt_count": 320
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_reasoner.shard00of02.parquet",
+      "sha256": "42c6facf3c40c9e4d083ccf49698077333565405aa917eacde8d6c4da06edf36",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/f1/traces/traces_reasoner.shard01of02.parquet",
+      "sha256": "84af52fb670740d74e22407b79d91370184eca14b3b2bc52b9b5e440b0df4404",
+      "lfs_resolved": false,
+      "math_prompt_count": 160
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_countdown/tasks.parquet",
+      "sha256": "e2f5a850cc063ed9dac57e17f092cf06c80d8ac99ac324542a44c3f9044e046a",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_gpqa/tasks.parquet",
+      "sha256": "2825d5bb6a6e4d253bb5bec98545cdeb61aacb2caec4687324471d490a1ac768",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_gpqa2/tasks.parquet",
+      "sha256": "2825d5bb6a6e4d253bb5bec98545cdeb61aacb2caec4687324471d490a1ac768",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_idea/tasks.parquet",
+      "sha256": "96451281ae6f833c5dd49ea269612d869fa353c2767a1c4a32df039b2f82cfe8",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_math/tasks.parquet",
+      "sha256": "af4512743d5f01bea9ca1b0afc0222d511a5e1a09490bdf13cc52d6e92fa3325",
+      "lfs_resolved": false,
+      "math_prompt_count": 200
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_math2/tasks.parquet",
+      "sha256": "af4512743d5f01bea9ca1b0afc0222d511a5e1a09490bdf13cc52d6e92fa3325",
+      "lfs_resolved": false,
+      "math_prompt_count": 200
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_planning/tasks.parquet",
+      "sha256": "1cbf919b0e395ef15bcf1eeecb75bd49e40fa01ca8f56cb5cf7dc1938d3099e6",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/g_planning2/tasks.parquet",
+      "sha256": "1cbf919b0e395ef15bcf1eeecb75bd49e40fa01ca8f56cb5cf7dc1938d3099e6",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/runs/gdose_math/tasks.parquet",
+      "sha256": "237d4eddba2a972d5331c88af2f207f333be46106df129387a629489254209ed",
+      "lfs_resolved": false,
+      "math_prompt_count": 20
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/tasks_heldout_gpqa.parquet",
+      "sha256": "2825d5bb6a6e4d253bb5bec98545cdeb61aacb2caec4687324471d490a1ac768",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/tasks_heldout_idea.parquet",
+      "sha256": "96451281ae6f833c5dd49ea269612d869fa353c2767a1c4a32df039b2f82cfe8",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/tasks_heldout_math.parquet",
+      "sha256": "af4512743d5f01bea9ca1b0afc0222d511a5e1a09490bdf13cc52d6e92fa3325",
+      "lfs_resolved": false,
+      "math_prompt_count": 200
+    },
+    {
+      "file": "mode_control/data/gemma4_12b/tasks_heldout_planning.parquet",
+      "sha256": "1cbf919b0e395ef15bcf1eeecb75bd49e40fa01ca8f56cb5cf7dc1938d3099e6",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/reasoner/runs/pilot2r1/tasks.parquet",
+      "sha256": "7f8e4f9c18e5f68b61975e35d274d98feedf4e4763473d2233912e3d6c7cd7ec",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/reasoner/runs/sot_countdown/tasks.parquet",
+      "sha256": "e2f5a850cc063ed9dac57e17f092cf06c80d8ac99ac324542a44c3f9044e046a",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/abl1/tasks.parquet",
+      "sha256": "fdfcfcd6d835b66763699cd42f4b2cc321eecf49a288ab876ea94409e8caaf2d",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/abl2/tasks.parquet",
+      "sha256": "fdfcfcd6d835b66763699cd42f4b2cc321eecf49a288ab876ea94409e8caaf2d",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/cd_countdown/tasks.parquet",
+      "sha256": "e2f5a850cc063ed9dac57e17f092cf06c80d8ac99ac324542a44c3f9044e046a",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/cd_math/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_gpqa_a/tasks.parquet",
+      "sha256": "948c658c8259f0e0ba16c60643d045f7a91ae5a816e3f2e86d3ad83a7a338977",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_gpqa_b/tasks.parquet",
+      "sha256": "948c658c8259f0e0ba16c60643d045f7a91ae5a816e3f2e86d3ad83a7a338977",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_idea_a/tasks.parquet",
+      "sha256": "81d03f14a70c4028cc26f40e567ffeda94c11d5ebe60247b6843cfd5aba91540",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_idea_b/tasks.parquet",
+      "sha256": "81d03f14a70c4028cc26f40e567ffeda94c11d5ebe60247b6843cfd5aba91540",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_math_a/tasks.parquet",
+      "sha256": "1c5c1848b5984468ef941dc2b5b7d3b4e3931474a5396795396d8a736842114e",
+      "lfs_resolved": false,
+      "math_prompt_count": 200
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_math_b/tasks.parquet",
+      "sha256": "1c5c1848b5984468ef941dc2b5b7d3b4e3931474a5396795396d8a736842114e",
+      "lfs_resolved": false,
+      "math_prompt_count": 200
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_moral_a/tasks.parquet",
+      "sha256": "2294ff529b2d9ceec0cff1acd681f277049227cffd3c6f2a632f9eb5084036e0",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_moral_b/tasks.parquet",
+      "sha256": "2294ff529b2d9ceec0cff1acd681f277049227cffd3c6f2a632f9eb5084036e0",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_planning_a/tasks.parquet",
+      "sha256": "a9ad3ca94713fcc5eb290d73ff78d4e3f554c64e30e71db100fdbba1270c83ed",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/corpus1_planning_b/tasks.parquet",
+      "sha256": "a9ad3ca94713fcc5eb290d73ff78d4e3f554c64e30e71db100fdbba1270c83ed",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/nm_idea/tasks.parquet",
+      "sha256": "b6b3990d3741a48e8f592fb00eb028de319a6bf5ad82f0e54981e3efa566c0dd",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/nm_math/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/p1_budget/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/p1_sealval/tasks.parquet",
+      "sha256": "b960e0d798ce7a30279520409e2dde9abd416d165c903a32a8924f12af6f52f8",
+      "lfs_resolved": false,
+      "math_prompt_count": 101
+    },
+    {
+      "file": "mode_control/data/runs/p2_gpqa/tasks.parquet",
+      "sha256": "c51bac3623798348dbab3e934f3c9bd07a854cd0af9c17e94dee92ff6ecf5820",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/p2_planning/tasks.parquet",
+      "sha256": "93d919715865f0e91a05685d8436ec616d25467fe0a08b3055fba3cd6f1ec7f7",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/p3_steer/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/p3_strat/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/p4_eval/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/p4_eval2/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/p4_eval3/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/pilot1/tasks.parquet",
+      "sha256": "9bc72a3af9c0db68070a3520765eaf93b2bb22af75cf8a16db4b8e7d6b79bce0",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/pilot2/tasks.parquet",
+      "sha256": "9bc72a3af9c0db68070a3520765eaf93b2bb22af75cf8a16db4b8e7d6b79bce0",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/pilot3/tasks.parquet",
+      "sha256": "9bc72a3af9c0db68070a3520765eaf93b2bb22af75cf8a16db4b8e7d6b79bce0",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/power1/tasks.parquet",
+      "sha256": "1b538bac080c02860fc3b3f741561de5be2bc2f600d834080b7abad327d86074",
+      "lfs_resolved": false,
+      "math_prompt_count": 150
+    },
+    {
+      "file": "mode_control/data/runs/sched1/tasks.parquet",
+      "sha256": "24440e8039b6f1517486c31dda6e65cd945e828373d385b559f52f8c016f93d3",
+      "lfs_resolved": false,
+      "math_prompt_count": 200
+    },
+    {
+      "file": "mode_control/data/runs/sched1_d1/tasks.parquet",
+      "sha256": "24440e8039b6f1517486c31dda6e65cd945e828373d385b559f52f8c016f93d3",
+      "lfs_resolved": false,
+      "math_prompt_count": 200
+    },
+    {
+      "file": "mode_control/data/runs/sched1_div/tasks.parquet",
+      "sha256": "1960179fd4196692bf949f3d9a9b66ce07caf27e9bc73776838ad8191b387fe8",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/sched1_div2/tasks.parquet",
+      "sha256": "1960179fd4196692bf949f3d9a9b66ce07caf27e9bc73776838ad8191b387fe8",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/sched_smoke/tasks.parquet",
+      "sha256": "ee4df34b019680cbe67c94f713d11f242ab4a3d7fe26aeae67d59a0bad016aef",
+      "lfs_resolved": false,
+      "math_prompt_count": 2
+    },
+    {
+      "file": "mode_control/data/runs/sigdiv_math/tasks.parquet",
+      "sha256": "7c1db2a270747007f16796060dfa0edd90a5b5ebe787db7bf36accd56e0de142",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/sigpilot2_idea/tasks.parquet",
+      "sha256": "0a296d5d76643a0d3fdc662200b8140b3b1964918eb8064cdf0ac2614d488493",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/sigpilot2_math/tasks.parquet",
+      "sha256": "e9c9fc993e52434706820398d99bc24d5293ec0f8753d324fffd24244d3f962d",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/sigpilot3_math/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/sigpilot_idea/tasks.parquet",
+      "sha256": "0a296d5d76643a0d3fdc662200b8140b3b1964918eb8064cdf0ac2614d488493",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/sigpilot_math/tasks.parquet",
+      "sha256": "e9c9fc993e52434706820398d99bc24d5293ec0f8753d324fffd24244d3f962d",
+      "lfs_resolved": false,
+      "math_prompt_count": 40
+    },
+    {
+      "file": "mode_control/data/runs/sigsmoke/tasks.parquet",
+      "sha256": "fed7268464ee65a28bf1ddf89cd7acace04e2b0b0cb6268263df71688253506f",
+      "lfs_resolved": false,
+      "math_prompt_count": 2
+    },
+    {
+      "file": "mode_control/data/runs/sigsmoke2/tasks.parquet",
+      "sha256": "fed7268464ee65a28bf1ddf89cd7acace04e2b0b0cb6268263df71688253506f",
+      "lfs_resolved": false,
+      "math_prompt_count": 2
+    },
+    {
+      "file": "mode_control/data/runs/sigx_idea/tasks.parquet",
+      "sha256": "72128335d9853bf066c45bd2499cf0aea9d6f57b63c669f222f16f15d7d3f342",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/sigx_math/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/tx_gpqa/tasks.parquet",
+      "sha256": "c51bac3623798348dbab3e934f3c9bd07a854cd0af9c17e94dee92ff6ecf5820",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/tx_idea/tasks.parquet",
+      "sha256": "b6b3990d3741a48e8f592fb00eb028de319a6bf5ad82f0e54981e3efa566c0dd",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/tx_math/tasks.parquet",
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+      "lfs_resolved": false,
+      "math_prompt_count": 199
+    },
+    {
+      "file": "mode_control/data/runs/tx_moral/tasks.parquet",
+      "sha256": "52814abd13c30561df6ec734ef72ae6f6eb0cdef4034f9ce63dba63740e070e2",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    },
+    {
+      "file": "mode_control/data/runs/tx_planning/tasks.parquet",
+      "sha256": "93d919715865f0e91a05685d8436ec616d25467fe0a08b3055fba3cd6f1ec7f7",
+      "lfs_resolved": false,
+      "math_prompt_count": 0
+    }
+  ],
+  "sample_seed": 20261103,
+  "n_tasks": 256,
+  "tasks_sha256": "91aa98dc4c20bd41a1caaae2c1c413b1abc6aa390027db29c47af74a20bfbdcd",
+  "arms": [
+    "baseline",
+    "ol_math_A2",
+    "sig_moral"
+  ],
+  "vectors": {
+    "baseline": {
+      "source": "/ada1/u/harsh/thought-atlas/mode_control/data/vsteer/vec_ol_math_A2.npz",
+      "source_sha256": "cc454d0ec888365b11ad3235b73448972c5a86d17da8da4270bae47f89c21544",
+      "vector_sha256": "2635875dd6981cd2c27ffe6e29691efb03a907ae8e34e0d4ea8013ecd5a5d8e2",
+      "norm": 0.0
+    },
+    "ol_math_A2": {
+      "source": "/ada1/u/harsh/thought-atlas/mode_control/data/vsteer/vec_ol_math_A2.npz",
+      "source_sha256": "cc454d0ec888365b11ad3235b73448972c5a86d17da8da4270bae47f89c21544",
+      "vector_sha256": "2a2a17e0284289b4788882beb119ea30f1094ad9f6b9e37b55e210f2660fd367",
+      "norm": 6.749998092651367
+    },
+    "sig_moral": {
+      "source": "/ada1/u/harsh/thought-atlas/mode_control/data/vsteer/vec_sig_moral.npz",
+      "source_sha256": "6368b55fd31bab54cbc4615af695473a640a31510b9317b84912b50bb168a8d6",
+      "vector_sha256": "885b76478c675d48fc1dbaf6d3b44b185fbce733be4c8c5a4a1253775459c973",
+      "norm": 6.749999523162842
+    }
+  },
+  "selection": "First256 in SHA256(seed|instance_id) order after exclusions. No generated outcomes inspected.",
+  "comparison_rationale": "A2 tests the historically selected archetype; moral contrast selected for high retrospective math fidelity, not as a prospective optimum.",
+  "budget": 8192,
+  "samples": 2,
+  "layer": 16,
+  "decode": {
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20
+  },
+  "primary": "Natural-completion accuracy at8192; all allocated attempts; paired problem mean over2 samples; two-sided sign-flip with Holm over the two intervention-baseline contrasts.",
+  "secondary": "Common-total-budget answer elicitation at8192, answer availability, tokens, literal repetition; paired95% intervals descriptive.",
+  "behavior": "First64 selected tasks, sample0; same8192 reasoning window; Gemma4-31B-it contextual labels, paired achieved16-target shifts; descriptive fidelity with uncertainty.",
+  "interpretation": "Fresh relative to inventoried project data and MATH-500; not a claim of model-pretraining exclusion. Fixed vectors and dose, not a validated intervention-selection algorithm.",
+  "code_sha256": "fdc6cb948046ddec0fd7bacc9cac829d7dace84feee9e4e037714937d2ab0b57"
+}

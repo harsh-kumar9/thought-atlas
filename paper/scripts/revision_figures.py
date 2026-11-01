@@ -21,6 +21,10 @@ def fidelity():
  for a in [ax,ax2]:a.set_xticks([.5,1,1.5]);a.set_xlabel('Relative dose');guides(a,'y')
  title(ax,'B   Math outcome change');ax.set_ylim(-90,0);ax.set_yticks([-80,-40,0]);ax.set_ylabel('Percentage points')
  title(ax2,'C   Hard-loop prevalence');ax2.set_ylim(0,100);ax2.set_yticks([0,50,100]);ax2.set_ylabel('Attempts (%)')
+ baseline=dose.baseline_hard_loop_rate.unique()
+ assert len(baseline)==1
+ ax2.axhline(100*baseline[0],color=GRAY,lw=.8,ls='--')
+ ax2.text(.98,100*baseline[0]+4,f'Unsteered {100*baseline[0]:.0f}%',transform=ax2.get_yaxis_transform(),ha='right',va='bottom',color=GRAY,fontsize=7)
  fig.legend(*ax.get_legend_handles_labels(),loc='lower center',bbox_to_anchor=(.62,.01),ncol=2,frameon=False)
  save(fig,'figA4_intervention_fidelity')
 

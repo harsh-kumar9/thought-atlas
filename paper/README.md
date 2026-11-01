@@ -1,6 +1,6 @@
 # Thought Atlas manuscript
 
-Editable source for the [Overleaf project](https://www.overleaf.com/project/6ae66af2dc9a0493439722d8). The current title is **Thought Atlas: Task-Dependent Reasoning Profiles and the Effects of Steering**. The anonymous ACL review draft is organized around description, prescription, and explanation. It remains an evidence-repair draft, not a submission-ready manuscript.
+Editable source for the [Overleaf project](https://www.overleaf.com/project/6ae66af2dc9a0493439722d8). The current title is **Thought Atlas: Task-Dependent Reasoning Profiles and the Effects of Steering**. The anonymous ACL review draft leads with reproducible task signatures, intervention fidelity, and dose-dependent answer production. It remains an evidence-repair draft, not a submission-ready manuscript.
 
 ## Evidence-repair revision
 
@@ -8,9 +8,13 @@ Completed analyses document attempted/completed/annotated populations; fitting, 
 
 The readout's mean prompt-balanced MSE skill is 7.61% over training-domain means. Unseen-domain generalization is weaker. Domain vectors amplify contrasts with a reference mean; they do not generally reproduce a source profile. Accuracy and answer availability now appear together, and matched SEAL/random outcome controls are included where historical outputs exist.
 
-The historical RL source contains temperature-variable shadowing; exact executed per-run source versions and rollout rewards cannot be recovered. Saved vectors remain fixed interventions. Corrected-reward replications use explicit temperature, three training seeds per initialization, and retained rollout/reward/optimizer records. GPU execution is pending.
+The historical RL source contains temperature-variable shadowing; exact executed per-run source versions and rollout rewards cannot be recovered. Saved vectors remain fixed interventions in a secondary appendix analysis. Cosine similarity is not treated as equivalence of achieved profiles or proof of representational insufficiency. Corrected-reward replications use explicit temperature, three training seeds per initialization, and retained rollout/reward/optimizer records. GPU execution is pending.
 
 The old checking/exploration pairwise creativity summaries included math rows from a mixed-task run. The revised summaries use verified idea-task trace IDs only (133 and 54 paired keywords). Math-profile and math-prompt originality point estimates are unchanged. All-attempt coverage and separate experimental budgets are reported.
+
+## Fresh-item confirmation
+
+A2 and the moral-associated vector are fixed at layer 16 and norm 6.75. A new 256-problem sample is frozen from the remaining MATH test set after excluding MATH-500 and screening against 740 saved math prompt texts. Each arm and baseline receives two completions at 8,192 tokens; primary paired accuracy tests use Holm correction. Matched-total-budget elicitation and a fixed 64-problem behavioral subset are secondary checks. No result is yet available. This tests fixed interventions on new project items, not model-pretraining decontamination or a universal selection rule.
 
 ## Annotation protocol
 
@@ -42,10 +46,14 @@ Compile `main.tex` with pdfLaTeX in Overleaf or locally with Tectonic/latexmk. T
 
 ## Figure design and synchronization
 
-Figures retain the sober pastel, colorblind-conscious design: charcoal text, minimal rules, numeric heatmap cells, and shapes or line patterns alongside hue. Figure 1 separates annotation families and uses one cumulative prediction ladder. The appendix shows real timing and both random controls on an incremental scale. Transfer uses a compact four-panel accuracy/availability matrix.
+Figures retain the sober pastel, colorblind-conscious design: charcoal text, minimal rules, numeric heatmap cells, and shapes or line patterns alongside hue. Figure 1 separates annotation families and uses one cumulative prediction ladder. The appendix shows real timing and both random controls on an incremental scale. Transfer uses a compact four-panel accuracy/availability matrix. The fidelity/dose figure is now Figure 5 in the main paper and includes the 11% unsteered literal-repetition reference. Historical RL performance is retained in the appendix.
 
 The repository and Overleaf are separate copies. Read and reconcile remote text before replacement; `overleaf_project.json` records synchronization. Do not overwrite collaborator edits from an older snapshot.
 
 ## Remaining submission work
 
-Inspect and integrate the queued measurement and control results, then reassess the claims. Fresh holdout evaluation would be required for a prospective intervention-selection claim. Historical reward error counts remain unrecoverable without rollout logs. Authors, venue cycle, anonymized artifact release, licenses, and applicable assistance disclosures remain to be finalized. Current evidence does not justify claiming validated control, an RL-general mechanism, or independent semantic validity of the labels.
+Inspect and integrate the queued measurement and control results, then reassess the claims. The frozen fresh-item confirmation must be completed; it will test fixed interventions, not validate a universal intervention-selection rule. Historical reward error counts remain unrecoverable without rollout logs. Authors, venue cycle, anonymized artifact release, licenses, and applicable assistance disclosures remain to be finalized. Current evidence does not justify claiming validated control, an RL-general mechanism, or independent semantic validity of the labels.
+
+## Companion evidence package
+
+`thought-atlas-evidence.zip` packages aggregate outputs, exact prompts, analysis code, the inspected historical source snapshots, frozen protocols, and a hashed file inventory. Large activation arrays, full trace releases, model weights, and cluster-specific environments are not bundled. It is a review evidence companion, not an anonymized or fully self-contained rerun environment.

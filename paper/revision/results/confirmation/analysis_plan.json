@@ -1,0 +1,26 @@
+{
+  "frozen_utc": "2026-11-01T06:36:41.010694+00:00",
+  "no_confirmation_outputs_exist": true,
+  "canonical_code_sha256": {
+    "mode_control/mc/common.py": "cff3dc5867c50f3d3f92010cd7e1ea94aec5962d48f36a03b6bb6ea7c66a02e1",
+    "mode_control/mc/vsteer.py": "bafcbe022ee03b9bdc98635c525f02bee8a8d6e0d16b5e587258b2a581eaa25e",
+    "mode_control/mc/readiness.py": "6c74470b53ba5fe2ac0ee46faabcfb7eef46d46204fbe3b8e295a367478ad356",
+    "mode_control/mc/extract_free.py": "2a4459081ed020e801a3c16af6389711813d413feab5d263e5c91a2bf8f6672b",
+    "mode_control/mc/signature_ctrl.py": "de5db46bdce2f9421ba68abd4886daf54e4027307b91142b4d421a41a41c5f17",
+    "mode_control/mc/phenotype.py": "4a40387287e449c6bc8211af6fe5dcaa4bfb0472869b842aa20090a05336782a",
+    "src/utils/parse.py": "eaa17a7d8b837b3c43593d43f5b63e1c42b65e638917fbcd009c150e93ba7346",
+    "src/utils/characterize.py": "9e73226f94552b02417dda871927007212acc1921e903659149fc877deba4348",
+    "src/perf/answer_grading.py": "737094bf694aae97a80a21afda645cd6ae02dfdd36b950473a4802d702af6e14",
+    "src/judge/run_answer_extraction.py": "995d0e454de88f45f02bd633d6933a75de9f77436191f9522231e840a78a021f",
+    "src/judge/run_judge.py": "c7cb84dd0f28034c8c6cf41c97db15e314fc39db7428d1889b6d5614be941aea",
+    "src/judge/vllm_engine.py": "30e2ae9e4ee1a58ea7f98ada3a7686eda06fb0ba0e05d64a48b847501778cfce"
+  },
+  "revision_code_sha256": {
+    "confirmation.py": "7b169407b6998cc2a2ef588bb5d9a2607f092ee8cf1361fa24e793c954052254",
+    "analyze_confirmation.py": "40d88bec31591c35972486962f2f54e69754d01a27bcf1cf0224d956f797e912",
+    "rl_repair.py": "f92905eeab04635994041c65a41ec2d7d45f433bb716ae1c1dfa2b1544de6672",
+    "elicitation.py": "3cea57d77cf6266a1038bd06b14366653d0718c28f853ea4984632e3adc5d01e",
+    "multijudge.py": "c3597e8c8d2815462867ab2a984c928952ed3c951008670d51e051197966aa1d"
+  },
+  "note": "Preparation code hash remains in protocol; this companion pins the finalized execution and analysis code before any GPU output. No task, intervention, dose, or endpoint was changed."
+}

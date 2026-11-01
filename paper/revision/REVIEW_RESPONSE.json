@@ -1,0 +1,51 @@
+{
+  "review": "Second supplied review,2026-11-01",
+  "updated_utc": "2026-11-01T06:45:28.674147+00:00",
+  "completed": {
+    "controller_vs_representation": "Abstract,introduction,results,discussion and conclusion now restrict the intervention claim to the inverse-readout construction.",
+    "positive_evidence": "Strong moral-vector fidelity, timing control, dose-response, literal repetition and availability-quality contrast promoted.",
+    "historical_rl": "Moved full historical performance comparison to appendix; no claim about what correctly implemented RL learns.",
+    "similarity": "Caption and prose distinguish direction,magnitude and individual coordinates;0.067 selected-duration sensitivity visible in main discussion.",
+    "figures": "Fidelity/dose is main Figure5; original Figure4 retained; hard-loop definition and11% unsteered rate added.",
+    "null_coverage": "Main text explicitly identifies4/14 eligible math cells; abstract removes14/94 bookkeeping.",
+    "creativity": "Main example emphasizes400/400 versus272/400 answer availability and lower paired originality; exploration65/200 and54 paired keywords explicitly secondary.",
+    "pending_language": "Pending measurement and elicitation headings and future-tense analysis language; no protocol counted as a result.",
+    "submission_companions": "Separate hashed evidence archive includes aggregate data,prompts,source snapshots,code and protocols; omitted large inputs identified."
+  },
+  "launched": {
+    "fresh_confirmation": {
+      "tasks": 256,
+      "prior_unique_math_prompts_screened": 740,
+      "arms": [
+        "baseline",
+        "ol_math_A2",
+        "sig_moral"
+      ],
+      "budget": 8192,
+      "samples": 2,
+      "frozen_before_outcomes": true,
+      "jobs": {
+        "baseline": 430775,
+        "ol_math_A2": 430776,
+        "sig_moral": 430777,
+        "outcomes": 430778,
+        "prepare_labels": 430779,
+        "judge_pilot": 430780,
+        "judge_full": 430781,
+        "behavior": 430782
+      }
+    }
+  },
+  "not_resolved": [
+    "GPU annotation robustness results",
+    "Matched-total-budget elicitation results",
+    "Clean RL replication outcomes",
+    "Fresh confirmation outcomes"
+  ],
+  "constraint": "All prior GPU studies remained queued at inspection. No scheduler priority escalation or unrelated-job changes.",
+  "verification": {
+    "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
+    "ada": "21 passed, including PyTorch temperature/gradient regression and fresh-confirmation tests",
+    "gpu_execution": "Smoke jobs still pending; passing CPU tests does not validate model-engine runtime."
+  }
+}

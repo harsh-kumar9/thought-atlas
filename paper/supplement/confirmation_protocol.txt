@@ -1,0 +1,55 @@
+{
+  "frozen_utc": "2026-11-01T06:33:46.286808+00:00",
+  "dataset": "DigitalLearningGmbH/MATH-lighteval",
+  "dataset_revision": "0530c78699ea5e8eb5530600900e1f328b48acad",
+  "dataset_file": "data/test-00000-of-00001.parquet",
+  "source_sha256": "7dca8d6e41af88ecf82f2b5f36eb5530e083aaaa86ee325f62bd5c31535178c6",
+  "source_rows": 5000,
+  "excluded": {
+    "previous_or_contained": 500,
+    "near_duplicate": 0,
+    "no_boxed_reference": 0,
+    "duplicate_source": 0
+  },
+  "previous_unique_math_texts": 740,
+  "sample_seed": 20261103,
+  "n_tasks": 256,
+  "tasks_sha256": "91aa98dc4c20bd41a1caaae2c1c413b1abc6aa390027db29c47af74a20bfbdcd",
+  "arms": [
+    "baseline",
+    "ol_math_A2",
+    "sig_moral"
+  ],
+  "selection": "First256 in SHA256(seed|instance_id) order after exclusions. No generated outcomes inspected.",
+  "comparison_rationale": "A2 tests the historically selected archetype; moral contrast selected for high retrospective math fidelity, not as a prospective optimum.",
+  "budget": 8192,
+  "samples": 2,
+  "layer": 16,
+  "decode": {
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20
+  },
+  "primary": "Natural-completion accuracy at8192; all allocated attempts; paired problem mean over2 samples; two-sided sign-flip with Holm over the two intervention-baseline contrasts.",
+  "secondary": "Common-total-budget answer elicitation at8192, answer availability, tokens, literal repetition; paired95% intervals descriptive.",
+  "behavior": "First64 selected tasks, sample0; same8192 reasoning window; Gemma4-31B-it contextual labels, paired achieved16-target shifts; descriptive fidelity with uncertainty.",
+  "interpretation": "Fresh relative to inventoried project data and MATH-500; not a claim of model-pretraining exclusion. Fixed vectors and dose, not a validated intervention-selection algorithm.",
+  "code_sha256": "fdc6cb948046ddec0fd7bacc9cac829d7dace84feee9e4e037714937d2ab0b57",
+  "vectors": {
+    "baseline": {
+      "source_sha256": "cc454d0ec888365b11ad3235b73448972c5a86d17da8da4270bae47f89c21544",
+      "vector_sha256": "2635875dd6981cd2c27ffe6e29691efb03a907ae8e34e0d4ea8013ecd5a5d8e2",
+      "norm": 0.0
+    },
+    "ol_math_A2": {
+      "source_sha256": "cc454d0ec888365b11ad3235b73448972c5a86d17da8da4270bae47f89c21544",
+      "vector_sha256": "2a2a17e0284289b4788882beb119ea30f1094ad9f6b9e37b55e210f2660fd367",
+      "norm": 6.749998092651367
+    },
+    "sig_moral": {
+      "source_sha256": "6368b55fd31bab54cbc4615af695473a640a31510b9317b84912b50bb168a8d6",
+      "vector_sha256": "885b76478c675d48fc1dbaf6d3b44b185fbce733be4c8c5a4a1253775459c973",
+      "norm": 6.749999523162842
+    }
+  }
+}

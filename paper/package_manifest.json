@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-overleaf.zip",
-  "sha256": "3f7c17a070c4393abf954469f9709451d0b1e18824b17d6cf1f058ed7f21d16a",
+  "sha256": "2b4f355ba426e35591c566df8c8dcd32b772ee3efdc4d97e07f56f4212eff625",
   "files": [
     "main.tex",
     "references.bib",
@@ -11,6 +11,7 @@
     "sections/appendix.tex",
     "sections/discussion.tex",
     "sections/experimental_details.tex",
+    "sections/historical_vectors.tex",
     "sections/introduction.tex",
     "sections/limitations.tex",
     "sections/methods.tex",
@@ -58,6 +59,8 @@
     "supplement/similarity_sensitivity.csv",
     "supplement/validation_summary.csv",
     "supplement/within_trace_timing.csv",
+    "supplement/confirmation_protocol.txt",
+    "supplement/evidence_package.txt",
     "supplement/gandhi_per_sentence.txt",
     "supplement/intervention_and_evaluation_prompts.txt",
     "supplement/kim_per_sentence.txt"

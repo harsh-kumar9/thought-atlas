@@ -115,7 +115,7 @@
     },
     {
       "file": "figures/figA4_intervention_fidelity.pdf",
-      "sha256": "65c1af48db161e76e37d99cf5a742252f2e87a6fbf1aecc3277008e81b307eda"
+      "sha256": "ebdf4f115e00b071565f87b8b80c064ade8d2cf4f2d77788c491a7c80d7f7a95"
     },
     {
       "file": "figures/figA5_behavior_sensitivity.pdf",
@@ -229,5 +229,5 @@
       "sha256": "4ba8d8a4fad370a7bfe3a3cd50131d8b4ceca30047890a1a61e77b7e78b14c54"
     }
   ],
-  "revision_script_sha256": "d9a0608941f4b94d9e7252919a2d64924ccc7a0e129e02fc64156a0e32ddd3da"
+  "revision_script_sha256": "be68911429c7970bf9cbbe983f37316798d0ee7306cd490be4d6eff4374427a5"
 }

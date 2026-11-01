@@ -1,13 +1,13 @@
 {
-  "verified_utc": "2026-11-01T04:08:20.557143+00:00",
+  "verified_utc": "2026-11-01T06:45:28.674147+00:00",
   "checks_passed": true,
   "scope": "Artifact, completed analysis, and CPU regression checks; pending GPU studies are not validated results.",
   "paper_status": "Evidence-repair draft; not submission-ready",
   "compilers": [
-    "Tectonic 0.17.0 local PDF",
-    "Overleaf pdfLaTeX successful 22-page preview"
+    "Tectonic0.17.0 local PDF",
+    "Overleaf pdfLaTeX successful24-page preview"
   ],
-  "pdf_pages": 22,
+  "pdf_pages": 24,
   "main_content_last_page": 8,
   "main_figures": 5,
   "supporting_figures": 8,
@@ -15,7 +15,7 @@
   "unresolved_citation_or_reference_markers": 0,
   "overfull_boxes": 0,
   "source_archive_matches_local_files": true,
-  "source_archive_file_count": 59,
+  "source_archive_file_count": 62,
   "all_figure_and_input_hashes_match": true,
   "checked_manifest_entries": 52,
   "remote_text_files_verified": [
@@ -27,9 +27,10 @@
     },
     {
       "file": "README.md",
+      "matched_previous": true,
       "matches": true,
-      "characters": 5444,
-      "verified_utc": "2026-11-01T04:06:43.101Z"
+      "verified_utc": "2026-11-01T06:39:08.840Z",
+      "characters": 6877
     },
     {
       "file": "references.bib",
@@ -39,21 +40,24 @@
     },
     {
       "file": "sections/abstract.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 1328,
-      "verified_utc": "2026-11-01T04:06:43.919Z"
+      "verified_utc": "2026-11-01T06:39:09.474Z",
+      "characters": 1401
     },
     {
       "file": "sections/appendix.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 11629,
-      "verified_utc": "2026-11-01T04:06:44.377Z"
+      "verified_utc": "2026-11-01T06:39:14.016Z",
+      "characters": 11976
     },
     {
       "file": "sections/discussion.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 3898,
-      "verified_utc": "2026-11-01T04:06:44.833Z"
+      "verified_utc": "2026-11-01T06:39:11.949Z",
+      "characters": 4029
     },
     {
       "file": "sections/experimental_details.tex",
@@ -63,21 +67,24 @@
     },
     {
       "file": "sections/introduction.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 2536,
-      "verified_utc": "2026-11-01T04:06:45.716Z"
+      "verified_utc": "2026-11-01T06:39:10.231Z",
+      "characters": 2714
     },
     {
       "file": "sections/limitations.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 4298,
-      "verified_utc": "2026-11-01T04:06:46.132Z"
+      "verified_utc": "2026-11-01T06:39:12.634Z",
+      "characters": 4562
     },
     {
       "file": "sections/methods.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 4821,
-      "verified_utc": "2026-11-01T04:06:46.551Z"
+      "verified_utc": "2026-11-01T06:39:13.376Z",
+      "characters": 4823
     },
     {
       "file": "sections/related_work.tex",
@@ -87,15 +94,17 @@
     },
     {
       "file": "sections/results.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 15056,
-      "verified_utc": "2026-11-01T04:06:47.351Z"
+      "verified_utc": "2026-11-01T06:39:11.200Z",
+      "characters": 13631
     },
     {
       "file": "sections/revision_audit.tex",
+      "matched_previous": true,
       "matches": true,
-      "characters": 16379,
-      "verified_utc": "2026-11-01T04:06:47.758Z"
+      "verified_utc": "2026-11-01T06:39:14.701Z",
+      "characters": 17351
     },
     {
       "file": "tables/coverage.tex",
@@ -144,16 +153,34 @@
       "matches": true,
       "characters": 1213,
       "verified_utc": "2026-11-01T04:06:50.968Z"
+    },
+    {
+      "file": "supplement/confirmation_protocol.txt",
+      "matches": true,
+      "characters": 2636,
+      "verified_utc": "2026-11-01T06:44:50.714Z"
+    },
+    {
+      "file": "supplement/evidence_package.txt",
+      "matches": true,
+      "characters": 446,
+      "verified_utc": "2026-11-01T06:44:51.178Z"
+    },
+    {
+      "file": "sections/historical_vectors.tex",
+      "matches": true,
+      "characters": 3655,
+      "verified_utc": "2026-11-01T06:44:51.266Z"
     }
   ],
-  "visual_review": "All 22 final pages rendered and inspected in contact sheets; major revised figure files and pages21-22 checked at page scale. Overleaf title, abstract, and22-page preview verified; proof screenshot saved.",
-  "pdf_sha256": "76e56f81df0a9b009f38eb37fe0889a22e3de341e01fc15f3dd59f4fcbe9089d",
-  "source_archive_sha256": "3f7c17a070c4393abf954469f9709451d0b1e18824b17d6cf1f058ed7f21d16a",
+  "visual_review": "All24 final local pages rendered and inspected in contact sheets; main Figure5 and historical appendix figure inspected at page scale. Overleaf24-page preview, promoted Figure5 and11% unsteered line verified; screenshot saved.",
+  "pdf_sha256": "c30ee223d75c8d7052eac07ab051cb61400ba966b189684ab4d74ff40fd66c78",
+  "source_archive_sha256": "2b4f355ba426e35591c566df8c8dcd32b772ee3efdc4d97e07f56f4212eff625",
   "pdf_export": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
   "proof_screenshot": "../output/pdf/thought-atlas-overleaf-proof.png",
   "figure_design": "Sober pastel palette, charcoal labels, fine rules, numeric heatmap values, and shapes/line patterns alongside color. Main transfer figure combines accuracy, answer availability, and absolute baselines.",
   "color_vision_scope": "Earlier palette simulations retained; not a guarantee for every observer or a new simulation of all revised panels.",
-  "revision": "Description/prescription/explanation framing; completed provenance, missingness, readout, fidelity, dose, similarity, matched-demand, outcome-null, timing and creativity audits integrated.",
+  "revision": "Second review: completed fidelity/dose evidence promoted; historical RL demoted; controller-specific claims; duration/magnitude sensitivity and restricted null/creativity coverage explicit; frozen confirmation protocol added.",
   "within_trace_timing": {
     "repeats": 100,
     "seed": 20261101,
@@ -193,13 +220,17 @@
   "pending_studies": [
     "Three-family LLM annotation robustness",
     "Matched-total-budget answer elicitation",
-    "Corrected-reward RL training and fixed-step evaluations"
+    "Corrected-reward RL training and fixed-step evaluations",
+    "Frozen256-item intervention confirmation"
   ],
   "annotation_validity": "Established source definitions and prior human validation cited; new LLM agreement is robustness evidence and not independent semantic gold.",
   "cpu_tests": {
-    "local": "18 passed, 1 skipped because torch unavailable",
-    "ada": "19 passed including PyTorch temperature/gradient regression",
+    "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
+    "ada": "21 passed, including PyTorch temperature/gradient regression and fresh-confirmation tests",
     "gpu_execution": "Smoke jobs still pending; passing CPU tests does not validate model-engine runtime."
   },
-  "old_validation_record": "archive/before_arr_repair/validation.json"
+  "old_validation_record": "archive/before_arr_repair/validation.json",
+  "evidence_archive_sha256": "b500f0223890d4b6e838e39a618a9ffb494e01d46ad9d66d5836b9708807698f",
+  "evidence_archive_file_count": 239,
+  "evidence_archive_matches_local_files": true
 }

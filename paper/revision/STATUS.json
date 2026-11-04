@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T11:51:42.189703+00:00",
+  "updated_utc": "2026-11-04T12:12:32.888101+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -13,11 +13,11 @@
     "within_trace_timing": "14 cells x100 exact joint-label position randomizations; 10000 bootstrap replicates. All 14 Bonferroni intervals positive.",
     "creativity": "Idea-only task membership repaired for checking/exploration; actual attempted, answered, and paired denominators exported.",
     "outcome_null": "112 candidate /94 eligible test specification and full estimates included.",
-    "fresh_confirmation_design": "Frozen256 MATH-test problems exclude MATH-500 and740 saved math prompt texts; A2 and moral vector norm6.75; primary paired tests, elicitation and64-task behavioral check queued.",
+    "fresh_confirmation_design": "Frozen256 MATH-test problems exclude MATH-500 and740 saved math prompt texts; A2 and moral vector norm6.75; primary paired tests, elicitation and64-task behavioral check completed; outputs verified.",
     "rl_runtime_smoke": "One-step corrected-reward generate/extract/update completed with exit0; not a scientific replication result.",
     "matched_total_budget_elicitation": "27920/27920 rows; all three targets and dependent analysis430487 completed exit0. Input hashes, exact task/seed/budget pairing, token bounds and parser-anomaly sensitivity verified. Integrated into abstract, results, discussion, appendix and Figure11.",
     "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. Clean RL vectors remain in training; no replication result yet.",
-    "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity remains pending.",
+    "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity completed and integrated; see separate entry.",
     "fresh_confirmation_behavior": "All192 frozen traces and55588 segments;100% parsing in both families, zero context truncation, zero missing profiles. All32 paired shifts and10000-bootstrap intervals reproduced. Moral intended/achieved cosine0.9466[0.8472,0.9570], projection0.4503[0.3315,0.5697]. Integrated with outcomes; scheduler exit checks pending due to Ada Munge failure.",
     "llama_annotation_output": "1370 nonempty traces of1381 allocated,105302 segments, exact frozen coverage, zero duplicate segments/context truncation. Parse rates97.91% conversational,95.86% cognitive. Other judges unfinished; not completed cross-family robustness. Scheduler exit check pending."
   },
@@ -73,7 +73,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Ada SSH and saved outputs accessible, but local munge service is failed; current scheduler states, dependencies and exit codes unavailable. Direct checks: Llama1370/1370 complete with exact coverage; Gemma445 and Qwen491/1370. Six RL runs have18-21 completed updates of60 with finite gradients/checkpoints. Confirmation192/192 annotations and behavior analysis outputs complete; all32 paired effects and10000-draw intervals independently reproduced. Scheduler exit verification pending; no duplicate jobs or service mutations.",
+  "gpu_status": "Ada munge service remains failed; bounded15-second scheduler query timed out. Saved outputs and job logs continue advancing: Gemma473 and Qwen518/1370; Llama1370/1370 and confirmation192/192 unchanged complete. Six RL runs have20-23 completed updates of60, with finite nonzero gradients and saved vectors. No code drift or new failure demonstrated. Existing job IDs/dependencies retained; no duplicate jobs or service mutations. Exit codes remain unverified.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -154,10 +154,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T11:44:43.614390+00:00",
+  "gpu_status_checked_utc": "2026-11-04T12:12:32.888101+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_1146.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_1212.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

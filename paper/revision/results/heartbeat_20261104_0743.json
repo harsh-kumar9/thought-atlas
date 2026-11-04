@@ -1,0 +1,640 @@
+{
+  "checked_utc": "2026-11-04T07:42:29.436786+00:00",
+  "jobs": {
+    "435690": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "14",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:07.736310+00:00"
+    },
+    "435691": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "14",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:12.855469+00:00"
+    },
+    "435756": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "16",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:12.855469+00:00"
+    },
+    "435757": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435690(unfulfilled),afterok:435691(unfulfilled),afterok:435756(unfulfilled)"
+    },
+    "435640": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "27",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:40:32.988944+00:00"
+    },
+    "435641": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "27",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:25.629857+00:00"
+    },
+    "435642": {
+      "JobState": "PENDING",
+      "Reason": "BeginTime",
+      "ExitCode": "0:0",
+      "Restarts": "28",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:07.412300+00:00"
+    },
+    "435643": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "31",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:25.629857+00:00"
+    },
+    "435644": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "30",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:41:49.788747+00:00"
+    },
+    "435645": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "28",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:25.629857+00:00"
+    },
+    "435646": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Elapsed": "00:03:24",
+      "End": "2026-11-04T06:24:16",
+      "source": "sacct"
+    },
+    "435647": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Elapsed": "00:10:01",
+      "End": "2026-11-04T06:19:53",
+      "source": "sacct"
+    },
+    "435648": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435640(unfulfilled)"
+    },
+    "435649": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435641(unfulfilled)"
+    },
+    "435650": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435642(unfulfilled)"
+    },
+    "435651": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435643(unfulfilled)"
+    },
+    "435652": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435644(unfulfilled)"
+    },
+    "435653": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435645(unfulfilled)"
+    },
+    "435654": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Elapsed": "00:02:31",
+      "End": "2026-11-04T06:53:04",
+      "source": "sacct"
+    },
+    "435655": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Elapsed": "00:01:32",
+      "End": "2026-11-04T06:28:34",
+      "source": "sacct"
+    },
+    "435656": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Elapsed": "00:02:12",
+      "End": "2026-11-04T06:46:04",
+      "source": "sacct"
+    },
+    "430532": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435648(unfulfilled),afterok:435649(unfulfilled),afterok:435650(unfulfilled),afterok:435651(unfulfilled),afterok:435652(unfulfilled),afterok:435653(unfulfilled)"
+    },
+    "430778": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "01:00:00",
+      "Elapsed": "00:00:02",
+      "End": "2026-11-04T06:53:35",
+      "source": "sacct"
+    },
+    "430779": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "01:00:00",
+      "Elapsed": "00:00:08",
+      "End": "2026-11-04T06:53:41",
+      "source": "sacct"
+    },
+    "435692": {
+      "JobState": "COMPLETED",
+      "ExitCode": "0:0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Elapsed": "00:03:59",
+      "End": "2026-11-04T06:57:51",
+      "source": "sacct"
+    },
+    "435693": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "3",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "log_mtime_utc": "2026-11-04T07:42:02.617151+00:00"
+    },
+    "430782": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "01:00:00",
+      "Dependency": "afterok:435693(unfulfilled)"
+    }
+  },
+  "outputs": {
+    "results/multijudge/status_llama.json": {
+      "mtime": "2026-11-04T02:50:56.523091+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 69,
+        "completed": 69,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_qwen.json": {
+      "mtime": "2026-11-04T07:39:18.049728+00:00",
+      "status": {
+        "judge": "Qwen/Qwen3.5-27B",
+        "requested": 1370,
+        "completed": 236,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_gemma.json": {
+      "mtime": "2026-11-04T07:35:53.706098+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 1370,
+        "completed": 224,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/labels_llama.parquet": {
+      "rows": 5331,
+      "mtime": "2026-11-04T02:50:56.290089+00:00",
+      "unique_traces": 69,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_qwen.parquet": {
+      "rows": 17928,
+      "mtime": "2026-11-04T07:39:18.039728+00:00",
+      "unique_traces": 236,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_gemma.parquet": {
+      "rows": 17219,
+      "mtime": "2026-11-04T07:42:14.132508+00:00",
+      "unique_traces": 227,
+      "duplicate_segments": 0
+    },
+    "results/multijudge_llama_indexed/status_llama.json": {
+      "mtime": "2026-11-04T07:33:43.311656+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 1370,
+        "completed": 633,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge_llama_indexed/labels_llama.parquet": {
+      "rows": 50166,
+      "mtime": "2026-11-04T07:42:17.911623+00:00",
+      "unique_traces": 656,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/ol_math_A2/status.json": {
+      "mtime": "2026-11-04T06:28:32.854584+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "ol_math_A2"
+      }
+    },
+    "results/confirmation/baseline/status.json": {
+      "mtime": "2026-11-04T06:53:03.043568+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "baseline"
+      }
+    },
+    "results/confirmation/behavior/status_gemma.json": {
+      "mtime": "2026-11-04T07:32:18.780347+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 192,
+        "completed": 27,
+        "empty_prefixes": 0,
+        "pilot": false,
+        "input_hash": "50606584d2528f89e0c62f7c84e4e34d6301f62eb08115244648bcf73e177fc9"
+      }
+    },
+    "results/confirmation/sig_moral/status.json": {
+      "mtime": "2026-11-04T06:46:02.583055+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "sig_moral"
+      }
+    },
+    "results/confirmation/ol_math_A2/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:05:23.137189+00:00"
+    },
+    "results/confirmation/ol_math_A2/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:28:29.504551+00:00"
+    },
+    "results/confirmation/ol_math_A2/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:24:49.939349+00:00"
+    },
+    "results/confirmation/baseline/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:26:07.779133+00:00"
+    },
+    "results/confirmation/baseline/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:47:52.107157+00:00"
+    },
+    "results/confirmation/baseline/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:53:00.387563+00:00"
+    },
+    "results/confirmation/behavior/labels_gemma.parquet": {
+      "rows": 10891,
+      "mtime": "2026-11-04T07:41:31.185144+00:00",
+      "unique_traces": 32,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/sig_moral/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:41:39.197901+00:00"
+    },
+    "results/confirmation/sig_moral/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:45:59.921049+00:00"
+    },
+    "results/confirmation/sig_moral/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:20:51.848916+00:00"
+    },
+    "results/rl_evaluation/a2/status.json": {
+      "mtime": "2026-11-04T06:19:52.648300+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "a2"
+      }
+    },
+    "results/rl_evaluation/baseline/status.json": {
+      "mtime": "2026-11-04T06:24:15.737002+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "baseline"
+      }
+    },
+    "results/rl_evaluation/a2/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:04:12.219196+00:00"
+    },
+    "results/rl_evaluation/a2/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:19:52.547299+00:00"
+    },
+    "results/rl_evaluation/baseline/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:24:15.644001+00:00"
+    },
+    "results/rl_evaluation/baseline/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:02:25.207609+00:00"
+    },
+    "results/rl/zero_seed1/status.json": {
+      "mtime": "2026-11-04T07:31:21.182124+00:00",
+      "status": {
+        "step": 10,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed0/status.json": {
+      "mtime": "2026-11-04T07:39:54.549834+00:00",
+      "status": {
+        "step": 11,
+        "stage": "generate"
+      }
+    },
+    "results/rl/zero_seed2/status.json": {
+      "mtime": "2026-11-04T07:42:06.457271+00:00",
+      "status": {
+        "step": 10,
+        "stage": "generate"
+      }
+    },
+    "results/rl/smoke/status.json": {
+      "mtime": "2026-11-04T02:49:39.092425+00:00",
+      "status": {
+        "step": 1,
+        "stage": "complete"
+      }
+    },
+    "results/rl/ol_math_A2_seed2/status.json": {
+      "mtime": "2026-11-04T07:31:38.677193+00:00",
+      "status": {
+        "step": 10,
+        "stage": "generate"
+      }
+    },
+    "results/rl/zero_seed0/status.json": {
+      "mtime": "2026-11-04T07:37:08.717337+00:00",
+      "status": {
+        "step": 10,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed1/status.json": {
+      "mtime": "2026-11-04T07:38:09.134523+00:00",
+      "status": {
+        "step": 11,
+        "stage": "generate"
+      }
+    }
+  },
+  "rl_checkpoints": {
+    "zero_seed1": {
+      "latest_metrics": {
+        "step": 9,
+        "reward": 0.59375,
+        "gradient_norm": 0.0006425805040635169,
+        "vector_norm": 0.6558846831321716,
+        "rollouts_sha256": "6ccf02f941d19903ddf91896a9c20277ea08ee02cfa65b45b3719d2510b49a83",
+        "rewards_sha256": "dc422ab04f773f66b95afbbcfcd1acecc94fb43b3242ba9e3e55962f3a8f4dc7"
+      },
+      "saved_gradients": 9,
+      "saved_vectors": 10,
+      "completed_step_metric_count": 9
+    },
+    "ol_math_A2_seed0": {
+      "latest_metrics": {
+        "step": 10,
+        "reward": 0.8671875,
+        "gradient_norm": 0.00017182812734972686,
+        "vector_norm": 6.776096343994141,
+        "rollouts_sha256": "3ba32dde723b5121e8b5ff5af9664d1f0dbcee288f46d78834af632212dc69af",
+        "rewards_sha256": "2acd56241f44a422978d76666028c62c52bd869c11adc5d84fdc3f7be5dc68ef"
+      },
+      "saved_gradients": 10,
+      "saved_vectors": 11,
+      "completed_step_metric_count": 10
+    },
+    "zero_seed2": {
+      "latest_metrics": {
+        "step": 9,
+        "reward": 0.59375,
+        "gradient_norm": 0.000505601754412055,
+        "vector_norm": 0.6198022365570068,
+        "rollouts_sha256": "6031a2242ff29950e108556dd20b1eacce9553ca2bcae094bfca47dbf9873bf2",
+        "rewards_sha256": "182a247e892362ec97b8452a6703784d6dcd8e1787c1c665b06a26e400cadf4d"
+      },
+      "saved_gradients": 9,
+      "saved_vectors": 10,
+      "completed_step_metric_count": 9
+    },
+    "ol_math_A2_seed2": {
+      "latest_metrics": {
+        "step": 9,
+        "reward": 0.7890625,
+        "gradient_norm": 0.0003337773378007114,
+        "vector_norm": 6.782303333282471,
+        "rollouts_sha256": "57bb86149692033dac931a840c942ac0eda33d82b7110b9b03db8fa0e3ec8b22",
+        "rewards_sha256": "bd08cbf0c62e964257af8b794c18fc21b52daa9735d6df4f833de061d94a869e"
+      },
+      "saved_gradients": 9,
+      "saved_vectors": 10,
+      "completed_step_metric_count": 9
+    },
+    "zero_seed0": {
+      "latest_metrics": {
+        "step": 9,
+        "reward": 0.6640625,
+        "gradient_norm": 0.0005184032488614321,
+        "vector_norm": 0.634457528591156,
+        "rollouts_sha256": "b2329ed4c49887b7a8c1457ffa110addda22f77971cf7e04c1df0b944947baf7",
+        "rewards_sha256": "eeaf915851f3aed1da8680170ba2c32725d136d08c0e6f26cfbc33b96ddd1247"
+      },
+      "saved_gradients": 9,
+      "saved_vectors": 10,
+      "completed_step_metric_count": 9
+    },
+    "ol_math_A2_seed1": {
+      "latest_metrics": {
+        "step": 10,
+        "reward": 0.9140625,
+        "gradient_norm": 0.00028865356580354273,
+        "vector_norm": 6.792660713195801,
+        "rollouts_sha256": "f8c29757f1819597a4071135592cd62478944e9f75fa5730366dddb23cea2f88",
+        "rewards_sha256": "7a9a2701cf7c9bf03e40d6d33088d913b9f5683eefd2c8ff7f8d6b6fe5f8cbe7"
+      },
+      "saved_gradients": 10,
+      "saved_vectors": 11,
+      "completed_step_metric_count": 10
+    }
+  },
+  "code_mismatches": [],
+  "log_alerts": {},
+  "completed_stage_checks": {
+    "rl_evaluation/baseline": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "unfinished_generation": 225,
+        "extracted": 173
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "rl_evaluation/a2": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "extracted": 290,
+        "unfinished_generation": 106,
+        "fallback_ungrounded": 2
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/baseline": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 257,
+        "unfinished_generation": 254,
+        "fallback_unparsed_output": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/ol_math_A2": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 432,
+        "unfinished_generation": 79,
+        "fallback_ungrounded": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/sig_moral": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 304,
+        "unfinished_generation": 206,
+        "fallback_ungrounded": 2
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    }
+  },
+  "assessment": "All confirmation outcome arms completed; pairing, grades and token bounds verified. Outcome analysis complete; behavioral fidelity and remaining full studies still pending."
+}

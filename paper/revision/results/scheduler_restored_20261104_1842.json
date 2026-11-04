@@ -1,0 +1,542 @@
+{
+  "verified_utc": "2026-11-04T18:43:36.309895+00:00",
+  "previous_incident": "results/scheduler_outage_20261104_1142.json",
+  "checks": {
+    "munge": "active",
+    "completed_exits_verified": [
+      435756,
+      435693,
+      430782
+    ],
+    "gpu_policy_verified": true,
+    "rl_evaluation_dependencies_verified": true,
+    "analysis_dependencies_verified": true,
+    "mutations": []
+  },
+  "accounting": {
+    "430532": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "430778": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:02",
+      "Restarts": "0"
+    },
+    "430779": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:08",
+      "Restarts": "0"
+    },
+    "430782": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:11",
+      "Restarts": "0"
+    },
+    "435648": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435649": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435650": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435651": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435652": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435653": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435692": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:59",
+      "Restarts": "0"
+    },
+    "435757": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435647": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:10:01",
+      "Restarts": "11"
+    },
+    "435646": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:24",
+      "Restarts": "12"
+    },
+    "435655": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:32",
+      "Restarts": "14"
+    },
+    "435656": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:12",
+      "Restarts": "15"
+    },
+    "435654": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:31",
+      "Restarts": "15"
+    },
+    "435756": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:08:32",
+      "Restarts": "35"
+    },
+    "435693": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:27",
+      "Restarts": "23"
+    },
+    "435642": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:06:23",
+      "Restarts": "112"
+    },
+    "435645": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:04:23",
+      "Restarts": "122"
+    },
+    "435640": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:44",
+      "Restarts": "111"
+    },
+    "435690": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:23",
+      "Restarts": "69"
+    },
+    "435641": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:42",
+      "Restarts": "113"
+    },
+    "435644": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "126"
+    },
+    "435643": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "126"
+    },
+    "435691": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "70"
+    }
+  },
+  "jobs": {
+    "435690": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "69",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:43:29.783429+00:00"
+    },
+    "435691": {
+      "JobState": "PENDING",
+      "Reason": "BeginTime",
+      "ExitCode": "0:0",
+      "Restarts": "70",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:41:54.751801+00:00"
+    },
+    "435756": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435757": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435690(unfulfilled),afterok:435691(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": null,
+      "Requeue": "1"
+    },
+    "435640": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "111",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "mira",
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:43:00.064919+00:00"
+    },
+    "435641": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "113",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "mira",
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:43:30.784446+00:00"
+    },
+    "435642": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "112",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "mira",
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:43:10.304095+00:00"
+    },
+    "435643": {
+      "JobState": "PENDING",
+      "Reason": "BeginTime",
+      "ExitCode": "0:0",
+      "Restarts": "126",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:41:28.197347+00:00"
+    },
+    "435644": {
+      "JobState": "PENDING",
+      "Reason": "BeginTime",
+      "ExitCode": "0:0",
+      "Restarts": "126",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:41:20.679218+00:00"
+    },
+    "435645": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "122",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "mira",
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-04T18:42:39.584569+00:00"
+    },
+    "435646": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435647": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435648": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435640(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435649": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435641(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435650": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435642(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435651": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435643(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435652": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435644(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435653": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435645(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "mira",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435654": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435655": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435656": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430532": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435648(unfulfilled),afterok:435649(unfulfilled),afterok:435650(unfulfilled),afterok:435651(unfulfilled),afterok:435652(unfulfilled),afterok:435653(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": null,
+      "Requeue": "1"
+    },
+    "430778": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430779": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435692": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435693": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430782": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    }
+  },
+  "decision": "Resume normal scheduler-based monitoring. No duplicate jobs, resubmissions or dependency changes; frozen scientific work preserved."
+}

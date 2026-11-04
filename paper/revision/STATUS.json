@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T18:12:39.915816+00:00",
+  "updated_utc": "2026-11-04T18:43:36.309895+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -18,8 +18,8 @@
     "matched_total_budget_elicitation": "27920/27920 rows; all three targets and dependent analysis430487 completed exit0. Input hashes, exact task/seed/budget pairing, token bounds and parser-anomaly sensitivity verified. Integrated into abstract, results, discussion, appendix and Figure11.",
     "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. Clean RL vectors remain in training; no replication result yet.",
     "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity completed and integrated; see separate entry.",
-    "fresh_confirmation_behavior": "All192 frozen traces and55588 segments;100% parsing in both families, zero context truncation, zero missing profiles. All32 paired shifts and10000-bootstrap intervals reproduced. Moral intended/achieved cosine0.9466[0.8472,0.9570], projection0.4503[0.3315,0.5697]. Integrated with outcomes; scheduler exit checks pending due to Ada Munge failure.",
-    "llama_annotation_output": "1370 nonempty traces of1381 allocated,105302 segments, exact frozen coverage, zero duplicate segments/context truncation. Parse rates97.91% conversational,95.86% cognitive. Other judges unfinished; not completed cross-family robustness. Scheduler exit check pending."
+    "fresh_confirmation_behavior": "All192 frozen traces and55588 segments;100% parsing in both families, zero context truncation, zero missing profiles. All32 paired shifts and10000-bootstrap intervals reproduced. Moral intended/achieved cosine0.9466[0.8472,0.9570], projection0.4503[0.3315,0.5697]. Integrated with outcomes; annotation435693 and analysis430782 verified COMPLETED exit0 after scheduler recovery.",
+    "llama_annotation_output": "1370 nonempty traces of1381 allocated,105302 segments, exact frozen coverage, zero duplicate segments/context truncation. Parse rates97.91% conversational,95.86% cognitive. Other judges unfinished; not completed cross-family robustness. Full435756 verified COMPLETED exit0 after scheduler recovery."
   },
   "jobs": {
     "judge_pilots": {
@@ -73,7 +73,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Ada munge remains failed; bounded15-second scheduler query timed out. Saved outputs continue advancing: Gemma802 and Qwen900/1370; Llama1370/1370 and confirmation192/192 unchanged complete. Six RL runs have35-40 completed updates of60 with finite latest metrics, nonzero latest gradients and saved vectors. Previously verified zero-gradient no-ops remain preserved. No code drift or new training failure. Existing job IDs/dependencies retained; scheduler exit verification remains pending.",
+  "gpu_status": "Ada munge active; squeue, scontrol and sacct working. Completed435756,435693,430782 verified exit0. Both unfinished judges and six RL runs healthy, running or waiting between resumable chunks; all normal ashton QoS, one GPU,15-minute time limits. Six training-to-evaluation dependencies and both CPU analysis chains verified intact. Gemma830 and Qwen934/1370; Llama1370/1370 and confirmation192/192 complete. RL runs37-42/60; A2 seed2 step40 zero-gradient no-op verified against homogeneous reward groups and unchanged vector. No code drift or new failure; no scheduler changes required.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -144,8 +144,7 @@
   "outstanding": [
     "Complete multi-judge robustness. Llama uses results/multijudge_llama_indexed; combined analysis in results/multijudge_analysis_indexed. Original failed pilot and repaired pilot remain separate; full435756 and analysis435757 replace435639/430486.",
     "Complete corrected RL training and fixed-step60 evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
-    "Resolve unrecoverable historical training-reward uncertainty by replication rather than retroactive inference.",
-    "After Ada Munge restoration, verify completed-job exit codes435756,435693,430782 and all active dependencies/requeue states; repair only demonstrated failures, preserving saved work."
+    "Resolve unrecoverable historical training-reward uncertainty by replication rather than retroactive inference."
   ],
   "github": "Authorized update on codex/arr-evidence-repair; preceding revision808acc8 verified remotely. The containing Git commit records this revision.",
   "manuscript": "Matched-budget and full fresh256-item confirmation incorporated, including64-item behavioral fidelity. Moral contrast is directionally faithful yet lowers elicited accuracy. Local26-page draft; main conclusion page8. Three-family robustness and correctedRL remain pending.",
@@ -154,10 +153,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T18:12:39.915816+00:00",
+  "gpu_status_checked_utc": "2026-11-04T18:43:36.309895+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_1812.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_1842.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
@@ -177,5 +176,6 @@
     "decision": "results/llama_format_recovery_20261104.json"
   },
   "scheduler_incident": "results/scheduler_outage_20261104_1142.json",
-  "monitoring_note": "Do not require every RL step to have a strictly positive gradient. For zero gradients, verify complete prompt/sample groups, zero within-group reward advantages, finite metrics, source hashes and unchanged saved vector; preserve fixed60-step schedule. Latest checked monitor script is /private/tmp/atlas_monitor_1812.py on local host."
+  "monitoring_note": "Do not require every RL step to have a strictly positive gradient. For zero gradients, verify complete prompt/sample groups, zero within-group reward advantages, finite metrics, source hashes and unchanged saved vector; preserve fixed60-step schedule. Latest checked monitor script is /private/tmp/atlas_monitor_1842.py on local host. Scheduler queries are restored; use accounting for completed jobs absent from scontrol.",
+  "scheduler_restoration": "results/scheduler_restored_20261104_1842.json"
 }

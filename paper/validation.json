@@ -116,5 +116,5 @@
   "completed_elicitation": "All27920 rows, exact pairing and budget checks, source hashes, plus bounded GPQA parser anomalies verified; pointwise intervals.",
   "completed_confirmation_outcomes": "All1536 frozen attempts verified; hashes, pairing, exact token accounting and forced-grade reproduction passed. Both natural contrasts pass Holm; secondary elicited intervals pointwise.",
   "completed_confirmation_behavior": "All 192 traces from 64 frozen tasks, 55588 segments, complete parse coverage, no context truncation or missing profiles. All 32 shifts and 10000-bootstrap intervals independently reproduced. Moral intended/achieved cosine 0.9466 [0.8472,0.9570]; projection 0.4503 [0.3315,0.5697].",
-  "scheduler_verification": "Output checks passed; current exit codes and dependencies for jobs 435756, 435693, 430782 remain unverified because Ada munge authentication is down. See revision/results/scheduler_outage_20261104_1142.json."
+  "scheduler_verification": "2026-11-04: Ada scheduler access restored. Jobs435756,435693,430782 verified COMPLETED exit0; active GPU policies and downstream dependencies checked. See revision/results/scheduler_restored_20261104_1842.json. Scientific artifact validation above is unchanged."
 }

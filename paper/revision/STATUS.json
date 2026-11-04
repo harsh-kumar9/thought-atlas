@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T05:42:43.181484+00:00",
+  "updated_utc": "2026-11-04T06:13:09.259727+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -69,7 +69,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Elicitation complete and integrated. Full judge counts of1370: {'gemma': 119, 'qwen': 115, 'llama': 258}. All six RL runs have4 completed optimizer updates of60; finite nonzero gradients verified. Confirmation rollouts of512: {'baseline': 400, 'ol_math_A2': 432, 'sig_moral': 416}. Baseline/A2 evaluation controls of398: {'baseline': 344, 'a2': 344}. Fresh logs and checkpoints; no new failures, broken dependencies or code drift.",
+  "gpu_status": "Elicitation complete and integrated. Full judge counts of1370: {'gemma': 146, 'qwen': 144, 'llama': 370}. RL runs have5-6 completed updates of60; finite nonzero gradients. Confirmation rollouts of512: {'baseline': 472, 'ol_math_A2': 512, 'sig_moral': 488}. Fresh A2 generation and both398-row baseline/A2 evaluation controls verified for exact frozen task/sample grids and8192-token bounds; grading still pending. No new failures, broken dependencies or code drift.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -148,10 +148,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T05:42:43.181484+00:00",
+  "gpu_status_checked_utc": "2026-11-04T06:13:09.259727+00:00",
   "artifact_status": "Matched-budget revision compiled and visually inspected locally and on Overleaf; new Figure11 and four companion CSVs synchronized after reconciling seven changed text files. Archives rebuilt for this revision.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_0543.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_0613.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

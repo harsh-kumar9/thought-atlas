@@ -23,5 +23,5 @@ cd "$REVISION_ROOT"
 /ada1/u/harsh/miniconda3/envs/sote/bin/python -u scripts/confirmation.py run \
   --root /ada1/u/harsh/thought-atlas --out "$REVISION_ROOT/results/confirmation" --arm "$RUN_NAME"
 if /ada1/u/harsh/miniconda3/envs/sote/bin/python -c 'import json,sys;d=json.load(open(sys.argv[1]));sys.exit(0 if d["stage"]!="complete" else 1)' "results/confirmation/$RUN_NAME/status.json"; then
- scontrol requeue "$SLURM_JOB_ID"
+ /opt/slurm/bin/scontrol requeue "$SLURM_JOB_ID"
 fi

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T01:58:30.651994+00:00",
+  "updated_utc": "2026-11-04T02:39:36.322272+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -17,56 +17,56 @@
   },
   "jobs": {
     "judge_pilots": {
-      "gemma": 435573,
-      "qwen": 435574,
-      "llama": 435575
+      "gemma": 435630,
+      "qwen": 435631,
+      "llama": 435632
     },
     "judge_full": {
-      "gemma": 435580,
-      "qwen": 435581,
-      "llama": 435582
+      "gemma": 435637,
+      "qwen": 435638,
+      "llama": 435639
     },
     "judge_analysis": 430486,
     "elicitation": {
-      "math": 435576,
-      "gpqa": 435577,
-      "planning": 435578
+      "math": 435633,
+      "gpqa": 435634,
+      "planning": 435635
     },
     "elicitation_analysis": 430487,
-    "rl_smoke": 435579,
+    "rl_smoke": 435636,
     "rl_zero_seeds_0_1_2": [
-      435583,
-      435584,
-      435585
+      435640,
+      435641,
+      435642
     ],
     "rl_a2_seeds_0_1_2": [
-      435586,
-      435587,
-      435588
+      435643,
+      435644,
+      435645
     ],
     "rl_evaluation": {
-      "baseline": 435589,
-      "a2": 435590,
-      "zero_seed0": 435591,
-      "zero_seed1": 435592,
-      "zero_seed2": 435593,
-      "ol_math_A2_seed0": 435594,
-      "ol_math_A2_seed1": 435595,
-      "ol_math_A2_seed2": 435596,
+      "baseline": 435646,
+      "a2": 435647,
+      "zero_seed0": 435648,
+      "zero_seed1": 435649,
+      "zero_seed2": 435650,
+      "ol_math_A2_seed0": 435651,
+      "ol_math_A2_seed1": 435652,
+      "ol_math_A2_seed2": 435653,
       "analysis": 430532
     },
     "fresh_confirmation": {
-      "baseline": 435597,
-      "ol_math_A2": 435598,
-      "sig_moral": 435599,
+      "baseline": 435654,
+      "ol_math_A2": 435655,
+      "sig_moral": 435656,
       "outcomes": 430778,
       "prepare_labels": 430779,
-      "judge_pilot": 435600,
-      "judge_full": 435601,
+      "judge_pilot": 435657,
+      "judge_full": 435658,
       "behavior": 430782
     }
   },
-  "gpu_status": "Six normal-priority jobs running:435573-435575 annotation pilots onVega;435576-435578 elicitation onMira. Remaining jobs wait on resources or valid dependencies. Model runtime outcomes not yet verified.",
+  "gpu_status": "Checkpoint progress exists from prior launches. Requeue exit127 repaired using absolute SLURM client path; replacement jobs435630-435658 resume outputs at normal QoS; downstream dependencies reconnected.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -77,18 +77,18 @@
     "scripts/audit_existing.py": "b298f94e3a15c4887186dbeafdea8edebf930efb4dea2ccfc4c8f254d476189a",
     "scripts/behavior.sbatch": "b878647caef5d4263b39f120df0f5a1958e8c699cc4de8793f2a16561d26e4fe",
     "scripts/elicitation.py": "3cea57d77cf6266a1038bd06b14366653d0718c28f853ea4984632e3adc5d01e",
-    "scripts/elicitation.sbatch": "268338aa0f934b377ef75d91a426dcf16f281e11cd6ee9c5e3ba7254b6feb423",
+    "scripts/elicitation.sbatch": "2bc0df85e8329b3e1e23eee412ed9845d5778d288e05b5b28133076fe0456ae1",
     "scripts/export_behavior.py": "ecae9cdbbd82f59bf82d4185471e22d9247371d6eb803b68d345644c8c6f2785",
-    "scripts/judge.sbatch": "57b1b5adb78692239a8af3b6f858373f29616c4dabd72264fe43a9dac2051e74",
+    "scripts/judge.sbatch": "4683ffbd7fb7b9e47a835056a8fca618e797bbd29090ba4dc5b478c537534584",
     "scripts/multijudge.py": "c3597e8c8d2815462867ab2a984c928952ed3c951008670d51e051197966aa1d",
     "scripts/open_task_audit.py": "689e8937a983d2fe5ebef4ed184514fcd2d8bd941644a76efb30e82f31a6b3ed",
     "scripts/postprocess.sbatch": "04dc48d9233ab16b1aa4f880538eea3f6a33b2697a0667044297c7ffaf1abfbe",
     "scripts/readout.sbatch": "4c51ae2eef4979006109635dc4b84059be3b2e596f5b33dd836f51a1c3fd6f08",
     "scripts/readout_validation.py": "22961f0799c96091ea1c8daf84c02ee229958471347de15ca5924653853b0ca7",
     "scripts/rl_evaluate.py": "9db9a592c4f7763437e9c40ac427836cc01f368415023873a03afac7b3d00b32",
-    "scripts/rl_evaluate.sbatch": "4b37d811b9ad9042f0a01bc53948da2b361b5296411fe8c8b4c67c9d8c71b0fc",
+    "scripts/rl_evaluate.sbatch": "9068f6512fc694d8baedcf9c520aef6288abe25ff6687922c0a5d588719c772b",
     "scripts/rl_repair.py": "f92905eeab04635994041c65a41ec2d7d45f433bb716ae1c1dfa2b1544de6672",
-    "scripts/rl_repair.sbatch": "1768cb0dd36a5cb7ce3addb6800808f0054abfdad9ca5735c6cd8f35b8103505",
+    "scripts/rl_repair.sbatch": "87d130fbfba65fd8a0034bfc4575397c929742f59ce8094d8783b259416ae275",
     "scripts/within_trace_timing.py": "a8c2849df918b97f31e5ed73809ba96779a34899d894689b50cefb5e24fba248",
     "tests/test_budget_pairing.py": "3078434d7dd2f8e80e25a5635676f18946b464cddafc68d369cd0256adde7240",
     "tests/test_elicitation.py": "1a26b599428eb8bc4f2b81d6c2f9e1e01fbbe7729bd6246e7299e0f0b518da47",
@@ -100,9 +100,9 @@
     "protocols/multi_judge.json": "7fa26627efd15af8eb0624148c6908bc63b748833ac14543a86eac487f848666",
     "scripts/confirmation_post.sbatch": "11f4cdee95f394027476efc42ea5826521c517f454bf777a705652e38606970a",
     "scripts/confirmation.py": "7b169407b6998cc2a2ef588bb5d9a2607f092ee8cf1361fa24e793c954052254",
-    "scripts/confirmation.sbatch": "e8c6e43dc73c6508cef0109fdbb7e920997c0dc93030354a96c6a56556360761",
+    "scripts/confirmation.sbatch": "8122dffbac6006baedc4a063c0b997b68419c5139c1036c80a32f65204f8f48d",
     "scripts/analyze_confirmation.py": "40d88bec31591c35972486962f2f54e69754d01a27bcf1cf0224d956f797e912",
-    "scripts/confirmation_judge.sbatch": "ddd6840111b3614c0182e3678548a0a4721d12cb7a542e9858715ff80bb476ce",
+    "scripts/confirmation_judge.sbatch": "73843dddaa3eeba5715e2b8ca14b9ecc3f2028e874a40c6a6358c5f04e20731e",
     "tests/test_confirmation.py": "f1954da5373f1228bcc5babebae0ac98684c1ea9836d35d236543f8da1c7f799"
   },
   "readout_jobs": {
@@ -117,7 +117,8 @@
     "Within-trace numerical work complete; NumPy integer metadata serialization repaired without refitting.",
     "Elicitation completion gate now requires completed response, not just exhausted generation cap.",
     "Paired natural-completion bootstrap now uses sorted task IDs and keyed random streams. All 426 point estimates reproduced; finite-bootstrap intervals regenerated deterministically.",
-    "VLLM_USE_FLASHINFER_SAMPLER=0 avoids observed sampling-JIT nvcc failure. Earlier Mira CUDA initialization failures preceded node reboot; retry uses current allocation. No scientific Python, sample, vectors, or endpoints changed."
+    "VLLM_USE_FLASHINFER_SAMPLER=0 avoids observed sampling-JIT nvcc failure. Earlier Mira CUDA initialization failures preceded node reboot; retry uses current allocation. No scientific Python, sample, vectors, or endpoints changed.",
+    "Checkpointed GPU work succeeded; exit127 arose only because scontrol was missing from compute PATH. Requeue now uses verified /opt/slurm/bin/scontrol. Existing outputs retained; no scientific protocol changes."
   ],
   "known_findings": [
     "Historical CV mixed repeated prompts and used full-data preprocessing; new validation corrects both.",
@@ -139,7 +140,7 @@
     "ada": "21 passed, including PyTorch temperature/gradient regression and fresh-confirmation tests",
     "gpu_execution": "Smoke jobs still pending; passing CPU tests does not validate model-engine runtime."
   },
-  "gpu_status_checked_utc": "2026-11-04T01:59:29.991107+00:00",
+  "gpu_status_checked_utc": "2026-11-04T02:39:36.322272+00:00",
   "artifact_status": "Second-review manuscript compiled and visually checked; Overleaf synchronized. Separate source and hashed evidence archives supplied. No new GPU study result is claimed.",
-  "scheduler_recovery": "results/normal_priority_20261103.json"
+  "scheduler_recovery": "results/requeue_recovery_20261103.json"
 }

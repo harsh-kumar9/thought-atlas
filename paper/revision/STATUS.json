@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T09:12:30.150290+00:00",
+  "updated_utc": "2026-11-04T09:42:29.921502+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -71,7 +71,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Matched-budget and fresh confirmation outcomes complete and integrated. Full judge counts of1370: Gemma311, Qwen336, Llama955. Six corrected-reward RL runs have12-14 completed updates of60, with finite nonzero gradients and corresponding saved vectors. Confirmation behavioral audit has93/192 traces; CPU430782 remains correctly gated. No new terminal failures, broken dependencies, log alerts or code drift. GPU jobs retain normal ashton QoS and15-minute resumable limits.",
+  "gpu_status": "Matched-budget and fresh confirmation outcomes complete and integrated. Full judge counts of1370: Gemma338, Qwen365, Llama1063. Six corrected-reward RL runs have14-16 completed updates of60, with finite nonzero gradients and corresponding saved vectors. Confirmation behavioral audit has115/192 traces; CPU430782 remains correctly gated. No new terminal failures, broken dependencies, log alerts or code drift. GPU jobs retain normal ashton QoS and15-minute resumable limits.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -151,10 +151,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T09:12:30.150290+00:00",
+  "gpu_status_checked_utc": "2026-11-04T09:42:29.921502+00:00",
   "artifact_status": "Fresh confirmation figure, results, coverage and integrity audit integrated; local PDF compiled and visually checked. Overleaf synchronization and package validation recorded in manuscript manifests.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_0913.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_0943.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

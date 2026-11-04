@@ -230,7 +230,7 @@
       "accounting": "435645|FAILED|1:0|2026-11-04T22:06:08|mira"
     }
   },
-  "verification_utc": "2026-11-04T22:22:16.885327+00:00",
+  "verification_utc": "2026-11-04T22:23:09.594292+00:00",
   "resume_verification": {
     "436712": {
       "state": "RUNNING",
@@ -240,7 +240,6 @@
         "stage": "generate"
       },
       "log_tail": [
-        "[vllm] hooks installed on [32] layers",
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _zero_kv_blocks_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _compute_slot_mapping_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
@@ -249,9 +248,15 @@
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_update_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
         "WARNING 11-04 22:20:44 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
-        "WARNING 11-04 22:20:58 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config."
+        "WARNING 11-04 22:20:58 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32"
       ],
-      "files": {},
+      "files": {
+        "rollouts_s045.parquet": {
+          "mtime_utc": "2026-11-04T22:22:42.582867+00:00",
+          "bytes": 252194
+        }
+      },
       "startup_failure_in_tail": false
     },
     "436713": {
@@ -262,7 +267,6 @@
         "stage": "generate"
       },
       "log_tail": [
-        "INFO 11-04 22:20:12 [core.py:309] init engine (profile, create kv cache, warmup model) took 3.63 s",
         "[vllm] hooks installed on [32] layers",
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _zero_kv_blocks_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _compute_slot_mapping_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
@@ -271,9 +275,15 @@
         "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
         "WARNING 11-04 22:20:42 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _triton_mrope_forward. This causes a latency spike; consider extending warmup to cover this shape/config.",
         "WARNING 11-04 22:20:42 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
-        "WARNING 11-04 22:20:48 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config."
+        "WARNING 11-04 22:20:48 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32"
       ],
-      "files": {},
+      "files": {
+        "rollouts_s046.parquet": {
+          "mtime_utc": "2026-11-04T22:22:49.322996+00:00",
+          "bytes": 233264
+        }
+      },
       "startup_failure_in_tail": false
     },
     "436714": {
@@ -324,16 +334,16 @@
         "stage": "extract"
       },
       "log_tail": [
-        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:35<00:00,  6.12it/s, est. speed input: 3737.43 toks/s, output: 64.33 toks/s]",
-        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:35<00:00,  1.12s/it, est. speed input: 3737.43 toks/s, output: 64.33 toks/s]",
-        "graded 64",
-        "",
-        "Rendering prompts:   0%|          | 0/32 [00:00<?, ?it/s]",
-        "Rendering prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:00<00:00, 421.32it/s]",
-        "",
-        "Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]",
-        "Processed prompts:   3%|\u258e         | 1/32 [00:11<06:02, 11.70s/it, est. speed input: 143.81 toks/s, output: 4.96 toks/s]",
-        "Processed prompts:   9%|\u2589         | 3/32 [00:13<01:48,  3.74s/it, est. speed input: 494.36 toks/s, output: 12.85 toks/s]"
+        "Processed prompts:   6%|\u258b         | 2/32 [00:17<03:40,  7.35s/it, est. speed input: 463.30 toks/s, output: 5.94 toks/s]",
+        "Processed prompts:   9%|\u2589         | 3/32 [00:18<02:03,  4.26s/it, est. speed input: 888.77 toks/s, output: 8.87 toks/s]",
+        "Processed prompts:  12%|\u2588\u258e        | 4/32 [00:18<01:16,  2.75s/it, est. speed input: 1178.30 toks/s, output: 11.83 toks/s]",
+        "Processed prompts:  16%|\u2588\u258c        | 5/32 [00:18<00:48,  1.80s/it, est. speed input: 1255.15 toks/s, output: 14.88 toks/s]",
+        "Processed prompts:  19%|\u2588\u2589        | 6/32 [00:19<00:35,  1.38s/it, est. speed input: 1332.20 toks/s, output: 18.06 toks/s]",
+        "Processed prompts:  25%|\u2588\u2588\u258c       | 8/32 [00:19<00:17,  1.34it/s, est. speed input: 1734.19 toks/s, output: 25.29 toks/s]",
+        "Processed prompts:  31%|\u2588\u2588\u2588\u258f      | 10/32 [00:21<00:16,  1.32it/s, est. speed input: 2210.66 toks/s, output: 30.54 toks/s]",
+        "Processed prompts:  38%|\u2588\u2588\u2588\u258a      | 12/32 [00:22<00:15,  1.28it/s, est. speed input: 2229.02 toks/s, output: 34.88 toks/s]",
+        "Processed prompts:  41%|\u2588\u2588\u2588\u2588      | 13/32 [00:26<00:26,  1.40s/it, est. speed input: 1995.84 toks/s, output: 32.87 toks/s]",
+        "Processed prompts:  53%|\u2588\u2588\u2588\u2588\u2588\u258e    | 17/32 [00:28<00:13,  1.11it/s, est. speed input: 2132.53 toks/s, output: 41.52 toks/s]"
       ],
       "files": {
         "rollouts_s048.parquet": {
@@ -341,8 +351,8 @@
           "bytes": 1197692
         },
         "rewards_s048.parquet": {
-          "mtime_utc": "2026-11-04T22:21:58.446022+00:00",
-          "bytes": 41451
+          "mtime_utc": "2026-11-04T22:22:32.882682+00:00",
+          "bytes": 50631
         }
       },
       "startup_failure_in_tail": false

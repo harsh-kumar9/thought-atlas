@@ -124,8 +124,8 @@ def judge(root,out,name,limit=0,minutes=11):
  start=time.monotonic()
  llm=build_llm(EngineConfig(model=model,dtype='bfloat16',max_model_len=16384,max_num_seqs=64,
      max_num_batched_tokens=8192,gpu_memory_utilization=.90))
- for offset in range(0,todo.height,8):
-  chunk=todo.slice(offset,8);new=run_track_B(llm,tok,chunk,cfg,isolated=False)
+ for offset in range(0,todo.height,1):
+  chunk=todo.slice(offset,1);new=run_track_B(llm,tok,chunk,cfg,isolated=False)
   if new.height:
    new=new.with_columns(pl.lit(model).alias('judge_model'))
    old=pl.concat([old,new],how='diagonal_relaxed') if old is not None else new

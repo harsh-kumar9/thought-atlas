@@ -1,0 +1,29 @@
+{
+  "updated_utc": "2026-11-04T03:14:21.890775+00:00",
+  "replacement_jobs": {
+    "435630": 435688,
+    "435631": 435689,
+    "435637": 435690,
+    "435638": 435691,
+    "435657": 435692,
+    "435658": 435693
+  },
+  "repair": "Checkpoint after each trace,9-minute soft deadline,pre-walltime batch-shell signal with background child for responsive trap. Frozen prompts, samples, decode settings and gates unchanged.",
+  "llama_pilot": {
+    "judge": "meta-llama/Llama-3.1-8B-Instruct",
+    "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+    "traces": 69,
+    "kim_parse_rate": 0.9538548114800225,
+    "gandhi_parse_rate": 0.9204652035265428,
+    "input_truncation_rate": 0.0,
+    "conversational_positive_labels": 2234,
+    "cognitive_positive_labels": 1288,
+    "passed": false
+  },
+  "llama_status": "Full run remains blocked at unchanged95% schema gate. Retained outputs contain extra/missing sentence indices and unfinished JSON. Do not reinterpret failure as annotator agreement; investigate formatting-only repair separately.",
+  "runtime_sha256": {
+    "multijudge.py": "8b6c392a1bd832af90ca09e452debf557a833ea91e4077b90b987c8262c093c8",
+    "judge.sbatch": "827ad284fa6f552cad458e842c59af7bb3726504b22c652a4bf52998eed00277",
+    "confirmation_judge.sbatch": "56d546f5f6da8bceb4d7aa678f15533a4258a2cc79d34978e2ca56a7abe3f949"
+  }
+}

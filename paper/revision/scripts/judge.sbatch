@@ -8,7 +8,10 @@
 #SBATCH --mem=128G
 #SBATCH --time=00:15:00
 #SBATCH --requeue
+#SBATCH --signal=B:USR1@60
 set -euo pipefail
+# Requeue before walltime even if model startup or one annotation stalls.
+trap '/opt/slurm/bin/scontrol requeue "$SLURM_JOB_ID"' USR1
 # Native sampler avoids FlashInfer sampling JIT requiring unavailable nvcc.
 export VLLM_USE_FLASHINFER_SAMPLER=0
 REVISION_ROOT=$1
@@ -22,7 +25,9 @@ export XDG_CACHE_HOME=/ada1/u/harsh/.cache TMPDIR=/ada1/u/harsh/tmp
 export VLLM_CACHE_ROOT=/ada1/u/harsh/.cache/vllm TRITON_CACHE_DIR=/ada1/u/harsh/.cache/triton
 cd "$REVISION_ROOT"
 /ada1/u/harsh/miniconda3/envs/sote/bin/python -u scripts/multijudge.py judge \
- --root /ada1/u/harsh/thought-atlas --out "$REVISION_ROOT/results/multijudge" --judge "$JUDGE_NAME" --pilot "$PILOT"
+ --root /ada1/u/harsh/thought-atlas --out "$REVISION_ROOT/results/multijudge" --judge "$JUDGE_NAME" --pilot "$PILOT" --minutes 9 &
+JUDGE_PID=$!
+wait "$JUDGE_PID"
 if /ada1/u/harsh/miniconda3/envs/sote/bin/python -c 'import json,sys; d=json.load(open(sys.argv[1]));sys.exit(0 if d["completed"]<d["requested"] else 1)' "$REVISION_ROOT/results/multijudge/status_$JUDGE_NAME.json"; then
  /opt/slurm/bin/scontrol requeue "$SLURM_JOB_ID"
 fi

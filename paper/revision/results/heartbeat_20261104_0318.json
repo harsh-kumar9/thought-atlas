@@ -1,0 +1,122 @@
+{
+  "checked_utc": "2026-11-04T03:17:06.768394+00:00",
+  "statuses": {
+    "results/multijudge/status_llama.json": {
+      "judge": "meta-llama/Llama-3.1-8B-Instruct",
+      "requested": 69,
+      "completed": 69,
+      "empty_prefixes": 1,
+      "pilot": true,
+      "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+    },
+    "results/multijudge/status_qwen.json": {
+      "judge": "Qwen/Qwen3.5-27B",
+      "requested": 69,
+      "completed": 32,
+      "empty_prefixes": 1,
+      "pilot": true,
+      "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+    },
+    "results/multijudge/status_gemma.json": {
+      "judge": "google/gemma-4-31B-it",
+      "requested": 69,
+      "completed": 32,
+      "empty_prefixes": 1,
+      "pilot": true,
+      "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+    },
+    "results/rl/zero_seed1/status.json": {
+      "step": 1,
+      "stage": "extract"
+    },
+    "results/rl/ol_math_A2_seed0/status.json": {
+      "step": 1,
+      "stage": "extract"
+    },
+    "results/rl/zero_seed2/status.json": {
+      "step": 1,
+      "stage": "extract"
+    },
+    "results/rl/smoke/status.json": {
+      "step": 1,
+      "stage": "complete"
+    },
+    "results/rl/ol_math_A2_seed2/status.json": {
+      "step": 1,
+      "stage": "extract"
+    },
+    "results/rl/zero_seed0/status.json": {
+      "step": 1,
+      "stage": "extract"
+    },
+    "results/rl/ol_math_A2_seed1/status.json": {
+      "step": 1,
+      "stage": "extract"
+    },
+    "results/confirmation/ol_math_A2/status.json": {
+      "stage": "pending",
+      "arm": "ol_math_A2"
+    },
+    "results/confirmation/baseline/status.json": {
+      "stage": "pending",
+      "arm": "baseline"
+    },
+    "results/confirmation/sig_moral/status.json": {
+      "stage": "pending",
+      "arm": "sig_moral"
+    },
+    "results/elicitation/status_planning.json": {
+      "expected": 6000,
+      "completed": 4283
+    },
+    "results/elicitation/status_math.json": {
+      "expected": 15920,
+      "completed": 11346
+    },
+    "results/elicitation/status_gpqa.json": {
+      "expected": 6000,
+      "completed": 3807
+    },
+    "results/rl_evaluation/baseline/status.json": {
+      "stage": "pending",
+      "run": "baseline"
+    }
+  },
+  "scheduler": [
+    "435645|atlas_rl_repair|ashton|PENDING|(ReqNodeNotAvail, May be reserved for other job)",
+    "435646|atlas_rl_eval|ashton|PENDING|(ReqNodeNotAvail, May be reserved for other job)",
+    "435643|atlas_rl_repair|ashton|PENDING|(ReqNodeNotAvail, May be reserved for other job)",
+    "435644|atlas_rl_repair|ashton|PENDING|(ReqNodeNotAvail, May be reserved for other job)",
+    "435642|atlas_rl_repair|ashton|PENDING|(ReqNodeNotAvail, May be reserved for other job)",
+    "435641|atlas_rl_repair|ashton|PENDING|(Resources)",
+    "435633|atlas_elicitation|ashton|PENDING|(BeginTime)",
+    "435693|atlas_confirm_jdg|ashton|PENDING|(Dependency)",
+    "435692|atlas_confirm_jdg|ashton|PENDING|(Dependency)",
+    "435691|atlas_judge_audit|ashton|PENDING|(Dependency)",
+    "435690|atlas_judge_audit|ashton|PENDING|(Dependency)",
+    "435653|atlas_rl_eval|ashton|PENDING|(Dependency)",
+    "435652|atlas_rl_eval|ashton|PENDING|(Dependency)",
+    "435651|atlas_rl_eval|ashton|PENDING|(Dependency)",
+    "435650|atlas_rl_eval|ashton|PENDING|(Dependency)",
+    "435649|atlas_rl_eval|ashton|PENDING|(Dependency)",
+    "435648|atlas_rl_eval|ashton|PENDING|(Dependency)",
+    "435639|atlas_judge_audit|ashton|PENDING|(DependencyNeverSatisfied)",
+    "430782|atlas_confirm_cpu|ashton|PENDING|(Dependency)",
+    "430779|atlas_confirm_cpu|ashton|PENDING|(Dependency)",
+    "430778|atlas_confirm_cpu|ashton|PENDING|(Dependency)",
+    "430532|atlas_repair_analysis|ashton|PENDING|(Dependency)",
+    "430487|atlas_repair_analysis|ashton|PENDING|(Dependency)",
+    "430486|atlas_repair_analysis|ashton|PENDING|(Dependency)",
+    "435634|atlas_elicitation|ashton|RUNNING|mira",
+    "435635|atlas_elicitation|ashton|RUNNING|mira",
+    "435647|atlas_rl_eval|ashton|RUNNING|mira",
+    "435640|atlas_rl_repair|ashton|RUNNING|mira",
+    "435656|atlas_confirm|ashton|RUNNING|mira",
+    "435655|atlas_confirm|ashton|RUNNING|mira",
+    "435654|atlas_confirm|ashton|RUNNING|mira",
+    "435696|atlas_format_pilot|ashton|RUNNING|vega",
+    "435688|atlas_judge_audit|ashton|RUNNING|vega",
+    "435689|atlas_judge_audit|ashton|RUNNING|vega"
+  ],
+  "note": "RL smoke complete. Llama original pilot fails schema gate; separate strict-format diagnostic queued. Other scientific outcomes pending."
+}

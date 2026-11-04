@@ -1,0 +1,25 @@
+{
+  "frozen_utc": "2026-11-04T03:16:40.767852+00:00",
+  "purpose": "Diagnostic formatting-only recovery of failed Llama pilot; no full-run authorization based on this pilot until reviewed.",
+  "judge": "meta-llama/Llama-3.1-8B-Instruct",
+  "original_gate": {
+    "judge": "meta-llama/Llama-3.1-8B-Instruct",
+    "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+    "traces": 69,
+    "kim_parse_rate": 0.9538548114800225,
+    "gandhi_parse_rate": 0.9204652035265428,
+    "input_truncation_rate": 0.0,
+    "conversational_positive_labels": 2234,
+    "cognitive_positive_labels": 1288,
+    "passed": false
+  },
+  "changes": "Same text, prompts, temperature, token allowance, sentence batches and parser. Output grammar enforces exactly one ordered record per requested index and compact whitespace. Separate outputs preserve all original pilot labels; gate unchanged.",
+  "comparability": "Any adopted schema revision requires explicit provenance and sensitivity against original valid pilot labels; never silently pool versions.",
+  "input_sha256": {
+    "blinded_traces.parquet": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+    "sample_key.parquet": "83b52fcb20fd307faf106f783f060c67083dd7581ee9370d309da5f06b433a23",
+    "kim_per_sentence.txt": "61bff44555b4e2866245d94886d1fb352bf57ee6b95196161470a5373907f2e9",
+    "gandhi_per_sentence.txt": "60c8a1e8f19e57eaba8629707dd095acc882aca6497c6c95a00e3e1302cc99ff"
+  },
+  "code_sha256": "4d52b6b252cd2298f8f6d1eaa0ebaaf37b65449051345a13464d04032c80ca1c"
+}

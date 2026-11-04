@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T02:39:36.322272+00:00",
+  "updated_utc": "2026-11-04T03:17:06.768394+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -13,17 +13,18 @@
     "within_trace_timing": "14 cells x100 exact joint-label position randomizations; 10000 bootstrap replicates. All 14 Bonferroni intervals positive.",
     "creativity": "Idea-only task membership repaired for checking/exploration; actual attempted, answered, and paired denominators exported.",
     "outcome_null": "112 candidate /94 eligible test specification and full estimates included.",
-    "fresh_confirmation_design": "Frozen256 MATH-test problems exclude MATH-500 and740 saved math prompt texts; A2 and moral vector norm6.75; primary paired tests, elicitation and64-task behavioral check queued."
+    "fresh_confirmation_design": "Frozen256 MATH-test problems exclude MATH-500 and740 saved math prompt texts; A2 and moral vector norm6.75; primary paired tests, elicitation and64-task behavioral check queued.",
+    "rl_runtime_smoke": "One-step corrected-reward generate/extract/update completed with exit0; not a scientific replication result."
   },
   "jobs": {
     "judge_pilots": {
-      "gemma": 435630,
-      "qwen": 435631,
+      "gemma": 435688,
+      "qwen": 435689,
       "llama": 435632
     },
     "judge_full": {
-      "gemma": 435637,
-      "qwen": 435638,
+      "gemma": 435690,
+      "qwen": 435691,
       "llama": 435639
     },
     "judge_analysis": 430486,
@@ -61,12 +62,13 @@
       "sig_moral": 435656,
       "outcomes": 430778,
       "prepare_labels": 430779,
-      "judge_pilot": 435657,
-      "judge_full": 435658,
+      "judge_pilot": 435692,
+      "judge_full": 435693,
       "behavior": 430782
-    }
+    },
+    "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Checkpoint progress exists from prior launches. Requeue exit127 repaired using absolute SLURM client path; replacement jobs435630-435658 resume outputs at normal QoS; downstream dependencies reconnected.",
+  "gpu_status": "RL smoke435636 completed; training and evaluation progress checkpointed. Gemma/Qwen timeout recovery435688/435689 running. Original Llama69-trace pilot failed cognitive parse threshold(92.05% vs95%); full run remains gated. Separate format-only diagnostic435696 running. Elicitation and confirmation advancing.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -79,8 +81,8 @@
     "scripts/elicitation.py": "3cea57d77cf6266a1038bd06b14366653d0718c28f853ea4984632e3adc5d01e",
     "scripts/elicitation.sbatch": "2bc0df85e8329b3e1e23eee412ed9845d5778d288e05b5b28133076fe0456ae1",
     "scripts/export_behavior.py": "ecae9cdbbd82f59bf82d4185471e22d9247371d6eb803b68d345644c8c6f2785",
-    "scripts/judge.sbatch": "4683ffbd7fb7b9e47a835056a8fca618e797bbd29090ba4dc5b478c537534584",
-    "scripts/multijudge.py": "c3597e8c8d2815462867ab2a984c928952ed3c951008670d51e051197966aa1d",
+    "scripts/judge.sbatch": "827ad284fa6f552cad458e842c59af7bb3726504b22c652a4bf52998eed00277",
+    "scripts/multijudge.py": "8b6c392a1bd832af90ca09e452debf557a833ea91e4077b90b987c8262c093c8",
     "scripts/open_task_audit.py": "689e8937a983d2fe5ebef4ed184514fcd2d8bd941644a76efb30e82f31a6b3ed",
     "scripts/postprocess.sbatch": "04dc48d9233ab16b1aa4f880538eea3f6a33b2697a0667044297c7ffaf1abfbe",
     "scripts/readout.sbatch": "4c51ae2eef4979006109635dc4b84059be3b2e596f5b33dd836f51a1c3fd6f08",
@@ -102,8 +104,12 @@
     "scripts/confirmation.py": "7b169407b6998cc2a2ef588bb5d9a2607f092ee8cf1361fa24e793c954052254",
     "scripts/confirmation.sbatch": "8122dffbac6006baedc4a063c0b997b68419c5139c1036c80a32f65204f8f48d",
     "scripts/analyze_confirmation.py": "40d88bec31591c35972486962f2f54e69754d01a27bcf1cf0224d956f797e912",
-    "scripts/confirmation_judge.sbatch": "73843dddaa3eeba5715e2b8ca14b9ecc3f2028e874a40c6a6358c5f04e20731e",
-    "tests/test_confirmation.py": "f1954da5373f1228bcc5babebae0ac98684c1ea9836d35d236543f8da1c7f799"
+    "scripts/confirmation_judge.sbatch": "56d546f5f6da8bceb4d7aa678f15533a4258a2cc79d34978e2ca56a7abe3f949",
+    "tests/test_confirmation.py": "f1954da5373f1228bcc5babebae0ac98684c1ea9836d35d236543f8da1c7f799",
+    "scripts/judge_format_pilot.sbatch": "2eac3c71fbe10e8a288b22bf1111b16d8918458e74bf940ba553cc9adaa2175f",
+    "scripts/normal_priority_recovery.py": "d53c470e4ce658c6dd0e1fdd11844d925466f9897ed15fa5ebcfd02276a27833",
+    "scripts/judge_format_pilot.py": "4d52b6b252cd2298f8f6d1eaa0ebaaf37b65449051345a13464d04032c80ca1c",
+    "scripts/requeue_recovery.py": "41fd0a214c1f88b8edd070a27ec620ac12de67f4fbf1ac6d498a602e643dfc51"
   },
   "readout_jobs": {
     "failed_prepare": 430409,
@@ -118,7 +124,8 @@
     "Elicitation completion gate now requires completed response, not just exhausted generation cap.",
     "Paired natural-completion bootstrap now uses sorted task IDs and keyed random streams. All 426 point estimates reproduced; finite-bootstrap intervals regenerated deterministically.",
     "VLLM_USE_FLASHINFER_SAMPLER=0 avoids observed sampling-JIT nvcc failure. Earlier Mira CUDA initialization failures preceded node reboot; retry uses current allocation. No scientific Python, sample, vectors, or endpoints changed.",
-    "Checkpointed GPU work succeeded; exit127 arose only because scontrol was missing from compute PATH. Requeue now uses verified /opt/slurm/bin/scontrol. Existing outputs retained; no scientific protocol changes."
+    "Checkpointed GPU work succeeded; exit127 arose only because scontrol was missing from compute PATH. Requeue now uses verified /opt/slurm/bin/scontrol. Existing outputs retained; no scientific protocol changes.",
+    "Checkpoint after each trace,9-minute soft deadline,pre-walltime batch-shell signal with background child for responsive trap. Frozen prompts, samples, decode settings and gates unchanged."
   ],
   "known_findings": [
     "Historical CV mixed repeated prompts and used full-data preprocessing; new validation corrects both.",
@@ -127,6 +134,7 @@
     "Historical pairwise creativity summary mixed math and idea rows for checking/exploration; current summary restricted to idea IDs."
   ],
   "outstanding": [
+    "Review separate Llama format-only diagnostic435696. Original pilot failed unchanged95% gate. Preserve original outputs and compare valid-pilot shifts before adopting a schema revision; do not silently mix versions or mark three-family validation complete.",
     "Inspect schema/gradient pilot results and repair any runtime incompatibility before full jobs.",
     "Complete multi-judge and matched-budget studies; integrate their outputs into figures and text.",
     "Complete corrected RL training and fixed-step60 evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
@@ -137,10 +145,22 @@
   "manuscript": "Second review incorporated: fidelity/dose promoted to main Figure5; historical RL moved to appendix; controller-specific inference; fresh confirmation protocol pending.",
   "tests": {
     "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
-    "ada": "21 passed, including PyTorch temperature/gradient regression and fresh-confirmation tests",
-    "gpu_execution": "Smoke jobs still pending; passing CPU tests does not validate model-engine runtime."
+    "ada": "22 passed including new exact-index schema regression",
+    "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T02:39:36.322272+00:00",
+  "gpu_status_checked_utc": "2026-11-04T03:17:06.768394+00:00",
   "artifact_status": "Second-review manuscript compiled and visually checked; Overleaf synchronized. Separate source and hashed evidence archives supplied. No new GPU study result is claimed.",
-  "scheduler_recovery": "results/requeue_recovery_20261103.json"
+  "scheduler_recovery": "results/judge_timeout_recovery_20261103.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_0318.json",
+  "annotation_runtime_issue": {
+    "judge": "meta-llama/Llama-3.1-8B-Instruct",
+    "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+    "traces": 69,
+    "kim_parse_rate": 0.9538548114800225,
+    "gandhi_parse_rate": 0.9204652035265428,
+    "input_truncation_rate": 0.0,
+    "conversational_positive_labels": 2234,
+    "cognitive_positive_labels": 1288,
+    "passed": false
+  }
 }

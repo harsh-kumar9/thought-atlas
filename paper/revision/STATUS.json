@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T15:42:24.315282+00:00",
+  "updated_utc": "2026-11-04T16:12:29.464975+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -73,7 +73,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Ada munge remains failed; bounded15-second scheduler query timed out. Saved outputs continue advancing: Gemma659 and Qwen738/1370; Llama1370/1370 and confirmation192/192 unchanged complete. Six RL runs have29-33 completed updates of60. Zero seed2 step29 and A2 seed1 step33 have zero gradients: complete16x8 reward groups are homogeneous, source hashes match and vectors are unchanged. These are expected no-ops; frozen schedule preserved. Other latest gradients nonzero; metrics finite; no code drift or new failure. Existing job IDs/dependencies retained; scheduler exit verification remains pending.",
+  "gpu_status": "Ada munge remains failed; bounded15-second scheduler query timed out. Saved outputs continue advancing: Gemma689 and Qwen767/1370; Llama1370/1370 and confirmation192/192 unchanged complete. Six RL runs have30-34 completed updates of60 with finite latest metrics, nonzero latest gradients and saved vectors. Previously verified zero-gradient no-ops remain preserved. No code drift or new training failure. Existing job IDs/dependencies retained; scheduler exit verification remains pending.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -154,10 +154,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T15:42:24.315282+00:00",
+  "gpu_status_checked_utc": "2026-11-04T16:12:29.464975+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_1542.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_1612.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
@@ -177,5 +177,5 @@
     "decision": "results/llama_format_recovery_20261104.json"
   },
   "scheduler_incident": "results/scheduler_outage_20261104_1142.json",
-  "monitoring_note": "Do not require every RL step to have a strictly positive gradient. For zero gradients, verify complete prompt/sample groups, zero within-group reward advantages, finite metrics, source hashes and unchanged saved vector; preserve fixed60-step schedule. Latest checked monitor script is /private/tmp/atlas_monitor_1542.py on local host."
+  "monitoring_note": "Do not require every RL step to have a strictly positive gradient. For zero gradients, verify complete prompt/sample groups, zero within-group reward advantages, finite metrics, source hashes and unchanged saved vector; preserve fixed60-step schedule. Latest checked monitor script is /private/tmp/atlas_monitor_1612.py on local host."
 }

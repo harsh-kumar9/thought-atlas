@@ -1,0 +1,610 @@
+{
+  "checked_utc": "2026-11-04T14:12:27.294726+00:00",
+  "jobs": {},
+  "outputs": {
+    "results/multijudge/status_llama.json": {
+      "mtime": "2026-11-04T02:50:56.523091+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 69,
+        "completed": 69,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_qwen.json": {
+      "mtime": "2026-11-04T14:08:54.717970+00:00",
+      "status": {
+        "judge": "Qwen/Qwen3.5-27B",
+        "requested": 1370,
+        "completed": 637,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_gemma.json": {
+      "mtime": "2026-11-04T14:04:57.500998+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 1370,
+        "completed": 573,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/labels_llama.parquet": {
+      "rows": 5331,
+      "mtime": "2026-11-04T02:50:56.290089+00:00",
+      "unique_traces": 69,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_qwen.parquet": {
+      "rows": 48752,
+      "mtime": "2026-11-04T14:08:54.702970+00:00",
+      "unique_traces": 637,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_gemma.parquet": {
+      "rows": 44102,
+      "mtime": "2026-11-04T14:12:16.897545+00:00",
+      "unique_traces": 577,
+      "duplicate_segments": 0
+    },
+    "results/multijudge_llama_indexed/status_llama.json": {
+      "mtime": "2026-11-04T11:24:50.307448+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 1370,
+        "completed": 1370,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge_llama_indexed/labels_llama.parquet": {
+      "rows": 105302,
+      "mtime": "2026-11-04T11:24:50.288447+00:00",
+      "unique_traces": 1370,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/ol_math_A2/status.json": {
+      "mtime": "2026-11-04T06:28:32.854584+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "ol_math_A2"
+      }
+    },
+    "results/confirmation/baseline/status.json": {
+      "mtime": "2026-11-04T06:53:03.043568+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "baseline"
+      }
+    },
+    "results/confirmation/behavior/status_gemma.json": {
+      "mtime": "2026-11-04T11:38:57.580657+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 192,
+        "completed": 192,
+        "empty_prefixes": 0,
+        "pilot": false,
+        "input_hash": "50606584d2528f89e0c62f7c84e4e34d6301f62eb08115244648bcf73e177fc9"
+      }
+    },
+    "results/confirmation/sig_moral/status.json": {
+      "mtime": "2026-11-04T06:46:02.583055+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "sig_moral"
+      }
+    },
+    "results/confirmation/ol_math_A2/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:05:23.137189+00:00"
+    },
+    "results/confirmation/ol_math_A2/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:28:29.504551+00:00"
+    },
+    "results/confirmation/ol_math_A2/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:24:49.939349+00:00"
+    },
+    "results/confirmation/baseline/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:26:07.779133+00:00"
+    },
+    "results/confirmation/baseline/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:47:52.107157+00:00"
+    },
+    "results/confirmation/baseline/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:53:00.387563+00:00"
+    },
+    "results/confirmation/behavior/labels_gemma.parquet": {
+      "rows": 55588,
+      "mtime": "2026-11-04T11:38:57.565657+00:00",
+      "unique_traces": 192,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/sig_moral/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:41:39.197901+00:00"
+    },
+    "results/confirmation/sig_moral/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:45:59.921049+00:00"
+    },
+    "results/confirmation/sig_moral/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:20:51.848916+00:00"
+    },
+    "results/rl_evaluation/a2/status.json": {
+      "mtime": "2026-11-04T06:19:52.648300+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "a2"
+      }
+    },
+    "results/rl_evaluation/baseline/status.json": {
+      "mtime": "2026-11-04T06:24:15.737002+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "baseline"
+      }
+    },
+    "results/rl_evaluation/a2/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:04:12.219196+00:00"
+    },
+    "results/rl_evaluation/a2/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:19:52.547299+00:00"
+    },
+    "results/rl_evaluation/baseline/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:24:15.644001+00:00"
+    },
+    "results/rl_evaluation/baseline/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:02:25.207609+00:00"
+    },
+    "results/rl/zero_seed1/status.json": {
+      "mtime": "2026-11-04T14:01:19.856390+00:00",
+      "status": {
+        "step": 26,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed0/status.json": {
+      "mtime": "2026-11-04T14:10:47.757898+00:00",
+      "status": {
+        "step": 29,
+        "stage": "update"
+      }
+    },
+    "results/rl/zero_seed2/status.json": {
+      "mtime": "2026-11-04T14:05:26.093475+00:00",
+      "status": {
+        "step": 26,
+        "stage": "generate"
+      }
+    },
+    "results/rl/smoke/status.json": {
+      "mtime": "2026-11-04T02:49:39.092425+00:00",
+      "status": {
+        "step": 1,
+        "stage": "complete"
+      }
+    },
+    "results/rl/ol_math_A2_seed2/status.json": {
+      "mtime": "2026-11-04T14:02:04.372124+00:00",
+      "status": {
+        "step": 28,
+        "stage": "generate"
+      }
+    },
+    "results/rl/zero_seed0/status.json": {
+      "mtime": "2026-11-04T14:07:54.487958+00:00",
+      "status": {
+        "step": 26,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed1/status.json": {
+      "mtime": "2026-11-04T14:01:49.307876+00:00",
+      "status": {
+        "step": 29,
+        "stage": "generate"
+      }
+    }
+  },
+  "rl_checkpoints": {
+    "zero_seed1": {
+      "latest_metrics": {
+        "step": 25,
+        "reward": 0.6328125,
+        "gradient_norm": 0.00034334289375692606,
+        "vector_norm": 1.358681559562683,
+        "rollouts_sha256": "e5616988a60d561522b526bb7ad209794469669c756d070cb3075d9dbfde1dc3",
+        "rewards_sha256": "b5aabde77c384e5c8c844754f7de4e3d492ef9cf1208e25e6252e94e8d3fc10e"
+      },
+      "saved_gradients": 25,
+      "saved_vectors": 26,
+      "completed_step_metric_count": 25
+    },
+    "ol_math_A2_seed0": {
+      "latest_metrics": {
+        "step": 28,
+        "reward": 0.96875,
+        "gradient_norm": 0.0002708833198994398,
+        "vector_norm": 6.82411003112793,
+        "rollouts_sha256": "dbae182946469d30b720d1490a638259e25648413e881a0380ef182b087b8783",
+        "rewards_sha256": "fc19257ee71fa1f319afbdd235cd63e74590483be8406e8680de18ea5508cd9d"
+      },
+      "saved_gradients": 28,
+      "saved_vectors": 29,
+      "completed_step_metric_count": 28
+    },
+    "zero_seed2": {
+      "latest_metrics": {
+        "step": 25,
+        "reward": 0.9140625,
+        "gradient_norm": 0.0002826435666065663,
+        "vector_norm": 1.2988905906677246,
+        "rollouts_sha256": "4c8624304e46c82b88b0975d2ff1ebd03d8f527a5259a7ffa6d2a5fd727bacae",
+        "rewards_sha256": "d547fc5e78e181bf10436efc3eb5fc75285feb542afbe423c5ec49e1cbcce546"
+      },
+      "saved_gradients": 25,
+      "saved_vectors": 26,
+      "completed_step_metric_count": 25
+    },
+    "ol_math_A2_seed2": {
+      "latest_metrics": {
+        "step": 27,
+        "reward": 0.765625,
+        "gradient_norm": 0.00033665489172562957,
+        "vector_norm": 6.8329596519470215,
+        "rollouts_sha256": "0adc7862ee3f4394f8c95c1f3cf62a303a08f577bf3b3f6807f51a9fa80f9a9c",
+        "rewards_sha256": "c85461aad9109161924685c2d6a34e4299f0699c19eae2d80fe9d1b82b3843a4"
+      },
+      "saved_gradients": 27,
+      "saved_vectors": 28,
+      "completed_step_metric_count": 27
+    },
+    "zero_seed0": {
+      "latest_metrics": {
+        "step": 25,
+        "reward": 0.59375,
+        "gradient_norm": 0.0003332010528538376,
+        "vector_norm": 1.3557415008544922,
+        "rollouts_sha256": "3145c466430d1c2ea9456b2c653adf8d61a6edd5e1ed17589b7272c6af4c09f6",
+        "rewards_sha256": "0f57aaef352184575e63a070f651bf7e539a2bfcc3c333ffcfed00d29e4d5d92"
+      },
+      "saved_gradients": 25,
+      "saved_vectors": 26,
+      "completed_step_metric_count": 25
+    },
+    "ol_math_A2_seed1": {
+      "latest_metrics": {
+        "step": 28,
+        "reward": 0.8203125,
+        "gradient_norm": 0.00016801081073936075,
+        "vector_norm": 6.865046977996826,
+        "rollouts_sha256": "873467d008d10b92e9e1799e93dc43b175f3774e6a2aa22bc82271e628706346",
+        "rewards_sha256": "d76a1957d7ca861173cee58a1defa6a8284a51def68809181b68b458cde15f13"
+      },
+      "saved_gradients": 28,
+      "saved_vectors": 29,
+      "completed_step_metric_count": 28
+    }
+  },
+  "code_mismatches": [],
+  "log_alerts": {},
+  "completed_stage_checks": {
+    "rl_evaluation/baseline": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "unfinished_generation": 225,
+        "extracted": 173
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "rl_evaluation/a2": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "extracted": 290,
+        "unfinished_generation": 106,
+        "fallback_ungrounded": 2
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/baseline": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 257,
+        "unfinished_generation": 254,
+        "fallback_unparsed_output": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/ol_math_A2": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 432,
+        "unfinished_generation": 79,
+        "fallback_ungrounded": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/sig_moral": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 304,
+        "unfinished_generation": 206,
+        "fallback_ungrounded": 2
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    }
+  },
+  "scheduler_unavailable": {
+    "reason": "Ada munge remains failed; bounded15-second scheduler query timed out. No scheduler mutations attempted.",
+    "job_ids": [
+      435690,
+      435691,
+      435756,
+      435757,
+      435640,
+      435641,
+      435642,
+      435643,
+      435644,
+      435645,
+      435646,
+      435647,
+      435648,
+      435649,
+      435650,
+      435651,
+      435652,
+      435653,
+      435654,
+      435655,
+      435656,
+      430532,
+      430778,
+      430779,
+      435692,
+      435693,
+      430782
+    ],
+    "service_state": "failed",
+    "bounded_squeue_exit_code": 124
+  },
+  "assessment": "Both unfinished judges and all six RL runs advanced. Saved-output pairing, token bounds, checkpoint health and code hashes passed; no new completed study or demonstrated failure. Ada scheduler authentication remains unavailable; no scheduler mutations attempted.",
+  "log_tails": {
+    "judge_resume_435637_435690.log": {
+      "mtime": "2026-11-04T14:12:29.171897+00:00",
+      "tail": [
+        "[trackB] 2 judge calls across 1 traces (full-context) \u2014 batching",
+        "",
+        "Rendering prompts:   0%|          | 0/1 [00:00<?, ?it/s]",
+        "Rendering prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:00<00:00, 431.25it/s]",
+        "",
+        "Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]"
+      ]
+    },
+    "judge_resume_435638_435691.log": {
+      "mtime": "2026-11-04T14:12:08.704309+00:00",
+      "tail": [
+        "(EngineCore pid=3371046) INFO 11-04 14:12:01 [gpu_model_runner.py:5132] Model loading took 51.1 GiB memory and 6.347729 seconds",
+        "(EngineCore pid=3371046) INFO 11-04 14:12:01 [interface.py:649] Setting attention block size to 784 tokens to ensure that attention page size is >= mamba page size.",
+        "(EngineCore pid=3371046) INFO 11-04 14:12:01 [interface.py:673] Padding mamba page size by 0.13% to ensure that mamba page size and attention page size are exactly equal.",
+        "(EngineCore pid=3371046) INFO 11-04 14:12:02 [gpu_model_runner.py:6136] Encoder cache will be initialized with a budget of 16384 tokens, and profiled with 1 image items of the maximum feature size.",
+        "(EngineCore pid=3371046) INFO 11-04 14:12:06 [backends.py:1089] Using cache directory: /ada1/u/harsh/.cache/vllm/torch_compile_cache/4fb8e255b8/rank_0_0/backbone for vLLM's torch.compile",
+        "(EngineCore pid=3371046) INFO 11-04 14:12:06 [backends.py:1148] Dynamo bytecode transform time: 2.70 s"
+      ]
+    },
+    "llama_indexed_435756.log": {
+      "mtime": "2026-11-04T11:24:52.580590+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "checkpoint llama 11 / 11",
+        "(EngineCore pid=3361931) INFO 11-04 11:24:50 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3361931) INFO 11-04 11:24:50 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "normal_435583_435640.log": {
+      "mtime": "2026-11-04T14:12:26.067808+00:00",
+      "tail": [
+        "WARNING 11-04 14:10:51 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _fused_post_conv_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:10:51 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _triton_mrope_forward. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:10:52 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_update_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:10:52 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:11:08 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:12:24 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config."
+      ]
+    },
+    "normal_435584_435641.log": {
+      "mtime": "2026-11-04T14:12:10.708367+00:00",
+      "tail": [
+        "WARNING 11-04 14:04:07 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:04:11 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "WARNING 11-04 14:06:11 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _fused_post_conv_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 64",
+        "generated 96"
+      ]
+    },
+    "normal_435585_435642.log": {
+      "mtime": "2026-11-04T14:10:53.907086+00:00",
+      "tail": [
+        "WARNING 11-04 14:08:15 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:08:44 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _triton_mrope_forward. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:08:44 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:09:01 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "WARNING 11-04 14:10:53 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _fused_post_conv_kernel. This causes a latency spike; consider extending warmup to cover this shape/config."
+      ]
+    },
+    "normal_435586_435643.log": {
+      "mtime": "2026-11-04T14:10:48.561922+00:00",
+      "tail": [
+        "Processed prompts:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 31/32 [00:38<00:00,  5.50it/s, est. speed input: 3735.27 toks/s, output: 55.41 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:38<00:00,  4.77it/s, est. speed input: 3797.95 toks/s, output: 57.56 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:38<00:00,  4.77it/s, est. speed input: 3797.95 toks/s, output: 57.56 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:38<00:00,  1.21s/it, est. speed input: 3797.95 toks/s, output: 57.56 toks/s]",
+        "graded 128",
+        "[rank0]:[W1104 14:10:48.096348761 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435587_435644.log": {
+      "mtime": "2026-11-04T14:10:38.546718+00:00",
+      "tail": [
+        "WARNING 11-04 14:04:19 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:04:56 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:05:16 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "generated 64",
+        "generated 96"
+      ]
+    },
+    "normal_435588_435645.log": {
+      "mtime": "2026-11-04T14:12:00.468070+00:00",
+      "tail": [
+        "WARNING 11-04 14:05:11 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 14:05:21 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "WARNING 11-04 14:07:24 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _fused_post_conv_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 64",
+        "generated 96"
+      ]
+    },
+    "normal_435589_435646.log": {
+      "mtime": "2026-11-04T06:24:16.556011+00:00",
+      "tail": [
+        "Processed prompts:  93%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258e| 13/14 [00:26<00:00,  2.39it/s, est. speed input: 3433.46 toks/s, output: 30.26 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.66it/s, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.66it/s, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.98s/it, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "graded 398",
+        "[rank0]:[W1104 06:24:16.055071371 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435590_435647.log": {
+      "mtime": "2026-11-04T06:19:53.530310+00:00",
+      "tail": [
+        "Processed prompts:  86%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c | 12/14 [00:17<00:00,  2.65it/s, est. speed input: 3405.49 toks/s, output: 39.88 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  3.58it/s, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  3.58it/s, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  1.27s/it, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "graded 398",
+        "[rank0]:[W1104 06:19:53.021680035 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435597_435654.log": {
+      "mtime": "2026-11-04T06:53:04.632571+00:00",
+      "tail": [
+        "(EngineCore pid=225901)     sem_unlink(name)",
+        "(EngineCore pid=225901) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-225901-75lzviob': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "normal_435598_435655.log": {
+      "mtime": "2026-11-04T06:28:34.535601+00:00",
+      "tail": [
+        "(EngineCore pid=217157)     sem_unlink(name)",
+        "(EngineCore pid=217157) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-217157-blbb3zvd': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "normal_435599_435656.log": {
+      "mtime": "2026-11-04T06:46:04.328059+00:00",
+      "tail": [
+        "(EngineCore pid=221788)     sem_unlink(name)",
+        "(EngineCore pid=221788) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-221788-1ftxqni0': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "confirmation_430778.log": {
+      "mtime": "2026-11-04T06:53:33.453621+00:00",
+      "tail": []
+    },
+    "confirmation_430779.log": {
+      "mtime": "2026-11-04T06:53:33.455621+00:00",
+      "tail": []
+    },
+    "judge_resume_435657_435692.log": {
+      "mtime": "2026-11-04T06:57:49.268759+00:00",
+      "tail": [
+        "Processed prompts:  91%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588 | 20/22 [00:24<00:01,  1.93it/s, est. speed input: 4464.01 toks/s, output: 250.85 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 22/22 [00:24<00:00,  1.93it/s, est. speed input: 4624.30 toks/s, output: 274.88 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 22/22 [00:24<00:00,  1.13s/it, est. speed input: 4624.30 toks/s, output: 274.88 toks/s]",
+        "checkpoint gemma 3 / 3",
+        "(EngineCore pid=3312696) INFO 11-04 06:57:46 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3312696) INFO 11-04 06:57:46 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "judge_resume_435658_435693.log": {
+      "mtime": "2026-11-04T11:38:58.304652+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "checkpoint gemma 2 / 2",
+        "(EngineCore pid=3363238) INFO 11-04 11:38:57 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3363238) INFO 11-04 11:38:57 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "confirmation_430782.log": {
+      "mtime": "2026-11-04T11:39:24.064546+00:00",
+      "tail": []
+    }
+  }
+}

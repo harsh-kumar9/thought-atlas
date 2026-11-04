@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T21:42:36.713708+00:00",
+  "updated_utc": "2026-11-04T22:21:57.829790+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -41,14 +41,14 @@
     "elicitation_analysis": 430487,
     "rl_smoke": 435636,
     "rl_zero_seeds_0_1_2": [
-      435640,
-      435641,
+      436712,
+      436713,
       435642
     ],
     "rl_a2_seeds_0_1_2": [
       435643,
-      435644,
-      435645
+      436714,
+      436715
     ],
     "rl_evaluation": {
       "baseline": 435646,
@@ -73,7 +73,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Scheduler access healthy. Both judges and all six RL checkpoint counts advanced; jobs RUNNING or pending between resumable chunks. Gemma966 and Qwen1089/1370; Llama1370/1370 and confirmation192/192 complete. RL42-48/60 with finite latest metrics, nonzero latest gradients and saved vectors. Previously verified no-op steps preserved. Normal ashton,one-GPU,15-minute policies and downstream dependencies verified. No code drift or log failure; no scheduler changes needed.",
+  "gpu_status": "Four Mira CUDA/NVML initialization failures recovered with replacement jobs436712-436715 on Vega. Optimizer/vector/progress and source/task hashes verified before resumption. A2seed1 completed step50 and requeued; A2seed2 wrote fresh extracted rewards; zero seeds0/1 reached generation and await their first saved chunks. Two other RL jobs also moved to Vega between chunks and advanced. Gemma1006/Qwen1133 of1370; Llama and confirmation complete. Current RL checkpoints44-50/60. All policies/dependencies verified, no current log failures or source drift. Training/evaluation are not complete.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -116,7 +116,9 @@
     "scripts/judge_format_pilot.py": "431ce17aa6c4d7003c385a415f62b2e6c870495f7ef9a2433be9adc395c42e58",
     "scripts/requeue_recovery.py": "41fd0a214c1f88b8edd070a27ec620ac12de67f4fbf1ac6d498a602e643dfc51",
     "scripts/audit_confirmation_outputs.py": "2466ec91252f9b6149306a1eb398304eeec13dbd81554b1b9a811465807859d3",
-    "scripts/audit_confirmation_behavior.py": "efc8c22ffaa7d4b4336c226609be2143f286cf99bada9570dc0b65ae1aaf4ec4"
+    "scripts/audit_confirmation_behavior.py": "efc8c22ffaa7d4b4336c226609be2143f286cf99bada9570dc0b65ae1aaf4ec4",
+    "scripts/recover_rl_vega_20261104.py": "b2050d86544e56546139222a6becaa6e93cd924012ef9e04995c3073b04d003a",
+    "scripts/monitor_studies.py": "5efd92c3e1824097e28c9f2948753a8c6b3cc7f5f2f956cd1d9890a9aad54b0f"
   },
   "readout_jobs": {
     "failed_prepare": 430409,
@@ -133,7 +135,8 @@
     "VLLM_USE_FLASHINFER_SAMPLER=0 avoids observed sampling-JIT nvcc failure. Earlier Mira CUDA initialization failures preceded node reboot; retry uses current allocation. No scientific Python, sample, vectors, or endpoints changed.",
     "Checkpointed GPU work succeeded; exit127 arose only because scontrol was missing from compute PATH. Requeue now uses verified /opt/slurm/bin/scontrol. Existing outputs retained; no scientific protocol changes.",
     "Checkpoint after each trace,9-minute soft deadline,pre-walltime batch-shell signal with background child for responsive trap. Frozen prompts, samples, decode settings and gates unchanged.",
-    "Llama indexed serialization pilot passed unchanged95% gates; full435756 uses only repaired-version outputs, with69 completed pilot traces resumed. Original pilot preserved. CPU435757 waits for all three full judge jobs; obsolete gated435639 and430486 canceled."
+    "Llama indexed serialization pilot passed unchanged95% gates; full435756 uses only repaired-version outputs, with69 completed pilot traces resumed. Original pilot preserved. CPU435757 waits for all three full judge jobs; obsolete gated435639 and430486 canceled.",
+    "Four Mira RL GPU-initialization failures resumed from verified optimizer/vector checkpoints on Vega; two pending training jobs and six dependent evaluations moved to Vega. Existing evaluation IDs retained and failed-parent dependencies reconnected. Frozen scientific settings unchanged."
   ],
   "known_findings": [
     "Historical CV mixed repeated prompts and used full-data preprocessing; new validation corrects both.",
@@ -153,10 +156,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T21:42:36.713708+00:00",
+  "gpu_status_checked_utc": "2026-11-04T22:21:57.829790+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_2142.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_2221.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
@@ -176,6 +179,7 @@
     "decision": "results/llama_format_recovery_20261104.json"
   },
   "scheduler_incident": "results/scheduler_outage_20261104_1142.json",
-  "monitoring_note": "Do not require every RL step to have a strictly positive gradient. For zero gradients, verify complete prompt/sample groups, zero within-group reward advantages, finite metrics, source hashes and unchanged saved vector; preserve fixed60-step schedule. Latest checked monitor script is /private/tmp/atlas_monitor_2142.py on local host. Scheduler queries are restored; use accounting for completed jobs absent from scontrol.",
-  "scheduler_restoration": "results/scheduler_restored_20261104_1842.json"
+  "monitoring_note": "Use scripts/monitor_studies.py on Ada; it reads current training IDs from STATUS.json and writes timestamped snapshots. Recovery evidence: results/rl_gpu_recovery_20261104_2212.json. Do not require positive gradients at every RL step: verify complete groups, zero reward advantages, unchanged vector and source hashes for no-op steps. Preserve fixed60-step schedule. Use accounting for completed jobs absent from scontrol.",
+  "scheduler_restoration": "results/scheduler_restored_20261104_1842.json",
+  "rl_gpu_recovery": "results/rl_gpu_recovery_20261104_2212.json"
 }

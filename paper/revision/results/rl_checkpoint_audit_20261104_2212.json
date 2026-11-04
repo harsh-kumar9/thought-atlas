@@ -1,0 +1,67 @@
+{
+  "checked_utc": "2026-11-04T22:16:40.847167+00:00",
+  "runs": {
+    "zero_seed0": {
+      "completed_step": 44,
+      "resume_step": 45,
+      "resume_stage": "generate",
+      "optimizer_vector_progress_match": true,
+      "frozen_sources_tasks_match": true,
+      "finite_metrics": true,
+      "current_stage_files": {},
+      "gradient_resume_offset": null,
+      "config_sha256": "8e501acf30fb89fcaf15c2819ae1d66cefb035a765f5a222d8dbef63d20d5a07",
+      "optimizer_sha256": "75906da59b4c5a20c43ea88d1bb001751fdda2a551d5e5194ead5dc1cfe0c66a"
+    },
+    "zero_seed1": {
+      "completed_step": 45,
+      "resume_step": 46,
+      "resume_stage": "generate",
+      "optimizer_vector_progress_match": true,
+      "frozen_sources_tasks_match": true,
+      "finite_metrics": true,
+      "current_stage_files": {},
+      "gradient_resume_offset": null,
+      "config_sha256": "a326f69121a015d9c844f0a6e3e462f60adc19d16e515ded4d84c9161b31d939",
+      "optimizer_sha256": "571fec4ac24b34669b44ee27a25bf8c53481c16ee342afa16f0de1ceb38ece5f"
+    },
+    "ol_math_A2_seed1": {
+      "completed_step": 49,
+      "resume_step": 50,
+      "resume_stage": "update",
+      "optimizer_vector_progress_match": true,
+      "frozen_sources_tasks_match": true,
+      "finite_metrics": true,
+      "current_stage_files": {
+        "rollouts": {
+          "rows": 128,
+          "sha256": "c8c59500582ceede2957bbc0a8b89f4adc663c8ae6104bc9e49f9dace6502543"
+        },
+        "rewards": {
+          "rows": 128,
+          "sha256": "5c1ff14b37e864e952eb359e142942890adbe44a6ee6a2bad9cc9ab2dd3f0a3d"
+        }
+      },
+      "gradient_resume_offset": null,
+      "config_sha256": "7a7bdb7e599b55a2c532afac87523197578a63dbdfe7d699ac2faf04a323dca5",
+      "optimizer_sha256": "a2c7f5611cf4a4d46ffb042251fbaa6eaf2ddfaedb03aca6aa3327446166b859"
+    },
+    "ol_math_A2_seed2": {
+      "completed_step": 47,
+      "resume_step": 48,
+      "resume_stage": "extract",
+      "optimizer_vector_progress_match": true,
+      "frozen_sources_tasks_match": true,
+      "finite_metrics": true,
+      "current_stage_files": {
+        "rollouts": {
+          "rows": 128,
+          "sha256": "17b454156fbc64826e688a06b2d1afa98155975d5cf36940a808d36b13498ec3"
+        }
+      },
+      "gradient_resume_offset": null,
+      "config_sha256": "0cf53fb11214dad5bb289e5aeae3cb35ce976a9771c9a7d356f9a288af840352",
+      "optimizer_sha256": "b052649717c1c48b8e91fbe6f0ea23b2338314a4c6750806aa73d5e05f48bdbc"
+    }
+  }
+}

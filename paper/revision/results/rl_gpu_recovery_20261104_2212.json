@@ -1,0 +1,351 @@
+{
+  "reason": "Four Mira jobs failed during GPU initialization: NVML Unknown Error or No CUDA GPUs are available. No driver/admin changes attempted. Vega uses the same GPU model; change node placement only.",
+  "checkpoint_audit": "results/rl_checkpoint_audit_20261104_2212.json",
+  "replacements": {
+    "435640": {
+      "job_id": 436712,
+      "run": "zero_seed0",
+      "evaluation": 435648,
+      "submit_command": [
+        "/opt/slurm/bin/sbatch",
+        "--parsable",
+        "--hold",
+        "--qos=ashton",
+        "--nodelist=vega",
+        "--gres=gpu:1",
+        "--time=00:15:00",
+        "--requeue",
+        "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+        "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/vega_recovery_435640_%j.log",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "zero_seed0",
+        "--seed",
+        "0",
+        "--init",
+        "zero"
+      ],
+      "checkpoint_step": 44,
+      "released": true,
+      "dependency_reconnected": true
+    },
+    "435641": {
+      "job_id": 436713,
+      "run": "zero_seed1",
+      "evaluation": 435649,
+      "submit_command": [
+        "/opt/slurm/bin/sbatch",
+        "--parsable",
+        "--hold",
+        "--qos=ashton",
+        "--nodelist=vega",
+        "--gres=gpu:1",
+        "--time=00:15:00",
+        "--requeue",
+        "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+        "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/vega_recovery_435641_%j.log",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "zero_seed1",
+        "--seed",
+        "1",
+        "--init",
+        "zero"
+      ],
+      "checkpoint_step": 45,
+      "released": true,
+      "dependency_reconnected": true
+    },
+    "435644": {
+      "job_id": 436714,
+      "run": "ol_math_A2_seed1",
+      "evaluation": 435652,
+      "submit_command": [
+        "/opt/slurm/bin/sbatch",
+        "--parsable",
+        "--hold",
+        "--qos=ashton",
+        "--nodelist=vega",
+        "--gres=gpu:1",
+        "--time=00:15:00",
+        "--requeue",
+        "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+        "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/vega_recovery_435644_%j.log",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "ol_math_A2_seed1",
+        "--seed",
+        "1",
+        "--init",
+        "ol_math_A2"
+      ],
+      "checkpoint_step": 49,
+      "released": true,
+      "dependency_reconnected": true
+    },
+    "435645": {
+      "job_id": 436715,
+      "run": "ol_math_A2_seed2",
+      "evaluation": 435653,
+      "submit_command": [
+        "/opt/slurm/bin/sbatch",
+        "--parsable",
+        "--hold",
+        "--qos=ashton",
+        "--nodelist=vega",
+        "--gres=gpu:1",
+        "--time=00:15:00",
+        "--requeue",
+        "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+        "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/vega_recovery_435645_%j.log",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "ol_math_A2_seed2",
+        "--seed",
+        "2",
+        "--init",
+        "ol_math_A2"
+      ],
+      "checkpoint_step": 47,
+      "released": true,
+      "dependency_reconnected": true
+    }
+  },
+  "pending_training_moved": [
+    435642,
+    435643
+  ],
+  "evaluation_node_updates": [
+    435648,
+    435649,
+    435650,
+    435651,
+    435652,
+    435653
+  ],
+  "protocol": "Frozen source/config/sample/seed/dose/reward/fixed-step60 schedule and existing output directories unchanged. One GPU, normal ashton, 15-minute resumable jobs; sampler disabled; absolute scontrol requeue.",
+  "updated_utc": "2026-11-04T22:17:47.484019+00:00",
+  "failure_evidence": {
+    "435640": {
+      "log": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435583_435640.log",
+      "sha256": "d5d3ebc260021d58619c2015398f73af51be5806f2146ebfaf964fea40a01fd7",
+      "last_lines": [
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 630, in has_device_capability",
+        "    return super().has_device_capability(capability, device_id)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/interface.py\", line 321, in has_device_capability",
+        "    current_capability = cls.get_device_capability(device_id=device_id)",
+        "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 616, in get_device_capability",
+        "    handle = pynvml.nvmlDeviceGetHandleByIndex(physical_device_id)",
+        "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 2609, in nvmlDeviceGetHandleByIndex",
+        "    _nvmlCheckReturn(ret)",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 1047, in _nvmlCheckReturn",
+        "    raise NVMLError(ret)",
+        "vllm.third_party.pynvml.NVMLError_Unknown: Unknown Error"
+      ],
+      "accounting": "435640|FAILED|1:0|2026-11-04T22:07:05|mira"
+    },
+    "435641": {
+      "log": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435584_435641.log",
+      "sha256": "dd5f135734f7d126961259c99e1288b69244a0cc3124ff95a165d806201b1cf3",
+      "last_lines": [
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 630, in has_device_capability",
+        "    return super().has_device_capability(capability, device_id)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/interface.py\", line 321, in has_device_capability",
+        "    current_capability = cls.get_device_capability(device_id=device_id)",
+        "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 616, in get_device_capability",
+        "    handle = pynvml.nvmlDeviceGetHandleByIndex(physical_device_id)",
+        "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 2609, in nvmlDeviceGetHandleByIndex",
+        "    _nvmlCheckReturn(ret)",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 1047, in _nvmlCheckReturn",
+        "    raise NVMLError(ret)",
+        "vllm.third_party.pynvml.NVMLError_Unknown: Unknown Error"
+      ],
+      "accounting": "435641|FAILED|1:0|2026-11-04T22:13:10|mira"
+    },
+    "435644": {
+      "log": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435587_435644.log",
+      "sha256": "96f439920ddc45a8f9877723fbd75787f769d07b5bcb7ecaa8ecbadc6a1bdd8e",
+      "last_lines": [
+        "{\"step\": 50, \"stage\": \"update\"}",
+        "Traceback (most recent call last):",
+        "  File \"/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.py\", line 195, in <module>",
+        "    if not a.status_only and stage!='complete':globals()[stage](a,tasks,cfg,step,started) if stage=='generate' else globals()[stage](a,cfg,step,started)",
+        "                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.py\", line 136, in update",
+        "    b=torch.nn.Parameter(torch.as_tensor(np.load(a.out/f'b_s{step-1:03d}.npy'),device='cuda:0',dtype=torch.float32))",
+        "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/torch/cuda/__init__.py\", line 478, in _lazy_init",
+        "    torch._C._cuda_init()",
+        "RuntimeError: No CUDA GPUs are available"
+      ],
+      "accounting": "435644|FAILED|1:0|2026-11-04T22:06:23|mira"
+    },
+    "435645": {
+      "log": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435588_435645.log",
+      "sha256": "85bb0cc374f1c885a8d2b9c3a3371c04861ef05987db5b18a744e45f35d2ced5",
+      "last_lines": [
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 630, in has_device_capability",
+        "    return super().has_device_capability(capability, device_id)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/interface.py\", line 321, in has_device_capability",
+        "    current_capability = cls.get_device_capability(device_id=device_id)",
+        "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 616, in get_device_capability",
+        "    handle = pynvml.nvmlDeviceGetHandleByIndex(physical_device_id)",
+        "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 2609, in nvmlDeviceGetHandleByIndex",
+        "    _nvmlCheckReturn(ret)",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 1047, in _nvmlCheckReturn",
+        "    raise NVMLError(ret)",
+        "vllm.third_party.pynvml.NVMLError_Unknown: Unknown Error"
+      ],
+      "accounting": "435645|FAILED|1:0|2026-11-04T22:06:08|mira"
+    }
+  },
+  "verification_utc": "2026-11-04T22:22:16.885327+00:00",
+  "resume_verification": {
+    "436712": {
+      "state": "RUNNING",
+      "node": "vega",
+      "status": {
+        "step": 45,
+        "stage": "generate"
+      },
+      "log_tail": [
+        "[vllm] hooks installed on [32] layers",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _zero_kv_blocks_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _compute_slot_mapping_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _fused_post_conv_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _triton_mrope_forward. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_update_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:44 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:58 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config."
+      ],
+      "files": {},
+      "startup_failure_in_tail": false
+    },
+    "436713": {
+      "state": "RUNNING",
+      "node": "vega",
+      "status": {
+        "step": 46,
+        "stage": "generate"
+      },
+      "log_tail": [
+        "INFO 11-04 22:20:12 [core.py:309] init engine (profile, create kv cache, warmup model) took 3.63 s",
+        "[vllm] hooks installed on [32] layers",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _zero_kv_blocks_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _compute_slot_mapping_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_update_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:13 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:42 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _triton_mrope_forward. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:42 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-04 22:20:48 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config."
+      ],
+      "files": {},
+      "startup_failure_in_tail": false
+    },
+    "436714": {
+      "state": "PENDING",
+      "node": null,
+      "status": {
+        "step": 51,
+        "stage": "generate"
+      },
+      "log_tail": [
+        "Loading weights:  28%|\u2588\u2588\u258a       | 216/760 [01:56<00:42, 12.93it/s]",
+        "Loading weights:  34%|\u2588\u2588\u2588\u258e      | 255/760 [01:57<00:23, 21.65it/s]",
+        "Loading weights:  39%|\u2588\u2588\u2588\u258a      | 293/760 [01:57<00:14, 33.13it/s]",
+        "Loading weights:  44%|\u2588\u2588\u2588\u2588\u258d     | 333/760 [01:57<00:08, 49.16it/s]",
+        "Loading weights:  49%|\u2588\u2588\u2588\u2588\u2589     | 372/760 [01:57<00:05, 69.19it/s]",
+        "Loading weights:  55%|\u2588\u2588\u2588\u2588\u2588\u258d    | 417/760 [01:57<00:03, 98.57it/s]",
+        "Loading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 760/760 [01:57<00:00,  6.46it/s]",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.py:182: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.",
+        "Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)",
+        "  vector_norm=float(b.norm()),rollouts_sha256=sha(a.out/f'rollouts_s{step:03d}.parquet'),"
+      ],
+      "files": {
+        "rollouts_s050.parquet": {
+          "mtime_utc": "2026-11-04T21:58:36.383901+00:00",
+          "bytes": 1095494
+        },
+        "rewards_s050.parquet": {
+          "mtime_utc": "2026-11-04T22:04:08.555597+00:00",
+          "bytes": 61876
+        },
+        "gradient_s050.pt": {
+          "mtime_utc": "2026-11-04T22:21:19.051258+00:00",
+          "bytes": 23675,
+          "next_rollout": 128
+        },
+        "metrics_s050.json": {
+          "mtime_utc": "2026-11-04T22:21:19.123259+00:00",
+          "bytes": 294
+        }
+      },
+      "startup_failure_in_tail": false
+    },
+    "436715": {
+      "state": "RUNNING",
+      "node": "vega",
+      "status": {
+        "step": 48,
+        "stage": "extract"
+      },
+      "log_tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:35<00:00,  6.12it/s, est. speed input: 3737.43 toks/s, output: 64.33 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:35<00:00,  1.12s/it, est. speed input: 3737.43 toks/s, output: 64.33 toks/s]",
+        "graded 64",
+        "",
+        "Rendering prompts:   0%|          | 0/32 [00:00<?, ?it/s]",
+        "Rendering prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:00<00:00, 421.32it/s]",
+        "",
+        "Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]",
+        "Processed prompts:   3%|\u258e         | 1/32 [00:11<06:02, 11.70s/it, est. speed input: 143.81 toks/s, output: 4.96 toks/s]",
+        "Processed prompts:   9%|\u2589         | 3/32 [00:13<01:48,  3.74s/it, est. speed input: 494.36 toks/s, output: 12.85 toks/s]"
+      ],
+      "files": {
+        "rollouts_s048.parquet": {
+          "mtime_utc": "2026-11-04T22:03:29.866043+00:00",
+          "bytes": 1197692
+        },
+        "rewards_s048.parquet": {
+          "mtime_utc": "2026-11-04T22:21:58.446022+00:00",
+          "bytes": 41451
+        }
+      },
+      "startup_failure_in_tail": false
+    }
+  }
+}

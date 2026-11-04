@@ -1,0 +1,11 @@
+{
+  "judge": "meta-llama/Llama-3.1-8B-Instruct",
+  "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+  "traces": 69,
+  "kim_parse_rate": 0.968861376852373,
+  "gandhi_parse_rate": 0.9521665728756331,
+  "input_truncation_rate": 0.0,
+  "conversational_positive_labels": 2234,
+  "cognitive_positive_labels": 1356,
+  "passed": true
+}

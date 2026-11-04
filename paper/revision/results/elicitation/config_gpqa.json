@@ -1,0 +1,21 @@
+{
+  "target": "gpqa",
+  "arms": {
+    "baseline": "p2_gpqa",
+    "sig_math": "tx_gpqa",
+    "sig_gpqa": "tx_gpqa",
+    "sig_idea": "tx_gpqa",
+    "ol_random": "p2_gpqa"
+  },
+  "budgets": [
+    4096,
+    12288,
+    32768
+  ],
+  "answer_allowance": 48,
+  "cue": "\n</think>\n\nThe correct answer is (",
+  "cue_tokens": 8,
+  "steering_during_answer": false,
+  "population": "historical evaluation prompts; no fresh holdout claim",
+  "source_sha256": "3cea57d77cf6266a1038bd06b14366653d0718c28f853ea4984632e3adc5d01e"
+}

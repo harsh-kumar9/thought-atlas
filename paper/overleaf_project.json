@@ -6,10 +6,10 @@
   "synchronization": "Separate copies; no automatic two-way sync. Inspect/download and reconcile remote edits before replacing files.",
   "initial_uploaded_archive_sha256": "81f75d503814ebf5a862e82ea986ffbd9fbd4aaed0ea44e6f4bfab1b91a938cc",
   "remote_unused_files": "Ten root-level duplicate section uploads, three duplicate figure PDFs in sections/, and an empty figures/tables folder remain unused. Automatic approval review blocked duplicate deletion; cleanup was canceled.",
-  "recorded_utc": "2026-11-01T06:45:28.674147+00:00",
-  "revision": "Second review: completed fidelity/dose evidence promoted; historical RL demoted; controller-specific claims; duration/magnitude sensitivity and restricted null/creativity coverage explicit; frozen confirmation protocol added.",
+  "recorded_utc": "2026-11-04T04:23:19.446787+00:00",
+  "revision": "Matched-total-budget results and Llama serialization recovery,2026-11-04",
   "delivered_source_archive": "thought-atlas-overleaf.zip",
-  "delivered_source_archive_sha256": "2b4f355ba426e35591c566df8c8dcd32b772ee3efdc4d97e07f56f4212eff625",
+  "delivered_source_archive_sha256": "c0e90468ffb6a13e109296ecdad5681f5e9e1e6e4964eeb7c41fcb014af35382",
   "delivered_files": [
     {
       "file": "main.tex",
@@ -21,7 +21,7 @@
     },
     {
       "file": "README.md",
-      "sha256": "69e3c1616aee6caaff83482e737d3d5fac5937314964e1e9b6c56a32d9ec526d"
+      "sha256": "179ac1a7534666b126ac7993023c450a370533a19f14cd5c2dc25b19228386d1"
     },
     {
       "file": "acl.sty",
@@ -33,7 +33,7 @@
     },
     {
       "file": "sections/abstract.tex",
-      "sha256": "07108ff20e99bdeba4a112443340ef336e2a4062d2e06905b02ba0b4f7d3045b"
+      "sha256": "cc608ece82f3884f7ea2ed05431b4720de119499b1415b7458ab068d9d508067"
     },
     {
       "file": "sections/appendix.tex",
@@ -41,7 +41,7 @@
     },
     {
       "file": "sections/discussion.tex",
-      "sha256": "329c81d73dc96b9a7f951b670be420885d6a1edfb85e0be8eecc65fa62e5ddb2"
+      "sha256": "878c9f462f054de2136ef901ad8ac1c0f38a642cc3be9003cc6aaf04aaae5a20"
     },
     {
       "file": "sections/experimental_details.tex",
@@ -49,7 +49,7 @@
     },
     {
       "file": "sections/historical_vectors.tex",
-      "sha256": "ee8a464da70079c88fed5bd704d8ec54fec8a97607626d5698d300f9538a2b7a"
+      "sha256": "ed49c13ff373d132d4c866ff04546bc9e20bed982aab923c45f900c0f49e797e"
     },
     {
       "file": "sections/introduction.tex",
@@ -57,7 +57,7 @@
     },
     {
       "file": "sections/limitations.tex",
-      "sha256": "3ecc6e47f1bec2d48f900ca3a5ee07443470be952ba146edcf3bc62330e01254"
+      "sha256": "2b768de9960718cceceeb1c9bcfd174418986d4e732410a738d392980b92356f"
     },
     {
       "file": "sections/methods.tex",
@@ -69,7 +69,7 @@
     },
     {
       "file": "sections/results.tex",
-      "sha256": "3d5ee723b2a97234604384d60394111e813cda3f58284d7a9a1434686543cc28"
+      "sha256": "e86c3eaa8204b789e90f3f6f4fbe3f24d1f6faf33646bc19ec924eea2fcf8c3d"
     },
     {
       "file": "sections/results_scaffold.tex",
@@ -77,7 +77,7 @@
     },
     {
       "file": "sections/revision_audit.tex",
-      "sha256": "b85283080a0067baa68c96e894f411ee26fd8f6328742e1e38dac16bdd76ed0b"
+      "sha256": "985506d08845f9125d4c76cc62d1a4c2841ca24a401f593ba7a474c76fb37a60"
     },
     {
       "file": "tables/coverage.tex",
@@ -164,6 +164,10 @@
       "sha256": "f8a088d56c705e96f0e36252c60383754420279799542f96d7d73bc6033c75f7"
     },
     {
+      "file": "figures/figA8_matched_elicitation.pdf",
+      "sha256": "8390f38ea646988bf8724ad1f15a42b70bc0cbf9039ddf1a70ced1636c5725f3"
+    },
+    {
       "file": "supplement/budget_paired.csv",
       "sha256": "c803fa6d42deaff3f0fb77bcf0fe9e6ca27118f82889a4fea1dfaa04f28cec8e"
     },
@@ -178,6 +182,22 @@
     {
       "file": "supplement/dose_matched.csv",
       "sha256": "83865e6b5e9efb85bb79c9f966377c1e8f1319e38d040d68c7a7fc9d779e7618"
+    },
+    {
+      "file": "supplement/elicitation_grade_sources.csv",
+      "sha256": "e179f79635150aeaf15c1925978e09c7946e5ea71313266716877201ed9f0998"
+    },
+    {
+      "file": "supplement/elicitation_paired.csv",
+      "sha256": "d29e80977b29e891bdb2646ad43bc864f3ac6a72deab65f479e37d5343e9a5c4"
+    },
+    {
+      "file": "supplement/elicitation_parser_sensitivity.csv",
+      "sha256": "b2b994188e47fc2074cf72644d70735420d6a9271d3947c845ab8dc177b75711"
+    },
+    {
+      "file": "supplement/elicitation_summary.csv",
+      "sha256": "9f05f96ee7f05f60180c9d6507977b94087d33c881f975b10f8f7e61a2c784c0"
     },
     {
       "file": "supplement/fidelity.csv",
@@ -262,168 +282,64 @@
   ],
   "remote_text_verification": [
     {
-      "file": "main.tex",
-      "matches": true,
-      "characters": 859,
-      "verified_utc": "2026-11-01T04:06:42.697Z"
-    },
-    {
-      "file": "README.md",
+      "file": "sections/results.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-01T06:39:08.840Z",
-      "characters": 6877
-    },
-    {
-      "file": "references.bib",
-      "matches": true,
-      "characters": 9633,
-      "verified_utc": "2026-11-01T04:06:43.486Z"
+      "verified_utc": "2026-11-04T04:16:44.672Z",
+      "characters": 14132
     },
     {
       "file": "sections/abstract.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-01T06:39:09.474Z",
-      "characters": 1401
-    },
-    {
-      "file": "sections/appendix.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-01T06:39:14.016Z",
-      "characters": 11976
+      "verified_utc": "2026-11-04T04:16:45.957Z",
+      "characters": 1462
     },
     {
       "file": "sections/discussion.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-01T06:39:11.949Z",
-      "characters": 4029
-    },
-    {
-      "file": "sections/experimental_details.tex",
-      "matches": true,
-      "characters": 15854,
-      "verified_utc": "2026-11-01T04:06:45.324Z"
-    },
-    {
-      "file": "sections/introduction.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-01T06:39:10.231Z",
-      "characters": 2714
+      "verified_utc": "2026-11-04T04:16:47.275Z",
+      "characters": 4077
     },
     {
       "file": "sections/limitations.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-01T06:39:12.634Z",
-      "characters": 4562
+      "verified_utc": "2026-11-04T04:16:48.541Z",
+      "characters": 4693
     },
     {
-      "file": "sections/methods.tex",
+      "file": "sections/historical_vectors.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-01T06:39:13.376Z",
-      "characters": 4823
-    },
-    {
-      "file": "sections/related_work.tex",
-      "matches": true,
-      "characters": 2088,
-      "verified_utc": "2026-11-01T04:06:46.939Z"
-    },
-    {
-      "file": "sections/results.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-01T06:39:11.200Z",
-      "characters": 13631
+      "verified_utc": "2026-11-04T04:16:49.890Z",
+      "characters": 3783
     },
     {
       "file": "sections/revision_audit.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-01T06:39:14.701Z",
-      "characters": 17351
+      "verified_utc": "2026-11-04T04:21:01.456Z",
+      "characters": 20812
     },
     {
-      "file": "tables/coverage.tex",
+      "file": "README.md",
+      "matched_previous": true,
       "matches": true,
-      "characters": 518,
-      "verified_utc": "2026-11-01T04:06:48.161Z"
-    },
-    {
-      "file": "tables/models.tex",
-      "matches": true,
-      "characters": 758,
-      "verified_utc": "2026-11-01T04:06:48.540Z"
-    },
-    {
-      "file": "tables/open_coverage.tex",
-      "matches": true,
-      "characters": 425,
-      "verified_utc": "2026-11-01T04:06:48.930Z"
-    },
-    {
-      "file": "tables/open_quality.tex",
-      "matches": true,
-      "characters": 902,
-      "verified_utc": "2026-11-01T04:06:49.326Z"
-    },
-    {
-      "file": "tables/outcome_spec.tex",
-      "matches": true,
-      "characters": 782,
-      "verified_utc": "2026-11-01T04:06:49.773Z"
-    },
-    {
-      "file": "tables/readout_result.tex",
-      "matches": true,
-      "characters": 1066,
-      "verified_utc": "2026-11-01T04:06:50.167Z"
-    },
-    {
-      "file": "tables/result_macros.tex",
-      "matches": true,
-      "characters": 104,
-      "verified_utc": "2026-11-01T04:06:50.553Z"
-    },
-    {
-      "file": "tables/transfer.tex",
-      "matches": true,
-      "characters": 1213,
-      "verified_utc": "2026-11-01T04:06:50.968Z"
-    },
-    {
-      "file": "supplement/confirmation_protocol.txt",
-      "matches": true,
-      "characters": 2636,
-      "verified_utc": "2026-11-01T06:44:50.714Z"
-    },
-    {
-      "file": "supplement/evidence_package.txt",
-      "matches": true,
-      "characters": 446,
-      "verified_utc": "2026-11-01T06:44:51.178Z"
-    },
-    {
-      "file": "sections/historical_vectors.tex",
-      "matches": true,
-      "characters": 3655,
-      "verified_utc": "2026-11-01T06:44:51.266Z"
+      "verified_utc": "2026-11-04T04:21:03.962Z",
+      "characters": 7355
     }
   ],
-  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-proof.png",
+  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-elicitation-proof.png",
   "local_compiled_pdf": "../output/pdf/thought-atlas-arr-draft.pdf",
-  "local_compiled_pdf_sha256": "c30ee223d75c8d7052eac07ab051cb61400ba966b189684ab4d74ff40fd66c78",
+  "local_compiled_pdf_sha256": "8da68cc634d4286670fb00c06d945cfa12a026ee5c064db16c9032bec98fac07",
   "local_pdf_compiler": "Tectonic 0.17.0",
   "download_note": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
-  "final_overleaf_compile": "Successful;24 pages, conclusion on page8. Promoted fidelity/dose figure appears on page7 in Overleaf and page8 locally.",
-  "synchronized_revision": "Nine revised text files, new historical appendix section, updated fidelity/dose PDF, and two new supplement files. New and changed text verified against local files. Figure verified in compiled preview; no remote binary hash comparison.",
+  "final_overleaf_compile": "Successful25 pages; matched-budget Figure11 visually verified on page22.",
+  "synchronized_revision": "Seven modified text files checked against last synchronized hashes before editing; post-edit text matches local. One new figurePDF and fourCSV supplements uploaded; compiled figure inspected. No collaborator changes overwritten.",
   "prior_metadata": "archive/before_arr_repair/overleaf_project.json",
   "evidence_archive": "thought-atlas-evidence.zip",
-  "evidence_archive_sha256": "b500f0223890d4b6e838e39a618a9ffb494e01d46ad9d66d5836b9708807698f",
+  "evidence_archive_sha256": "0f2756a999f1912ec3d8cb86751b8726a12cbadf3ccbc1b6d24c9f6a9ed557b4",
   "evidence_archive_note": "Separate review companion supplied locally/GitHub; not imported into Overleaf."
 }

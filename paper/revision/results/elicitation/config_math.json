@@ -1,0 +1,27 @@
+{
+  "target": "math",
+  "arms": {
+    "baseline": "p1_budget",
+    "sig_math": "tx_math",
+    "sig_gpqa": "tx_math",
+    "sig_idea": "tx_math",
+    "ol_math_A2": "p1_budget",
+    "sealdir_matched": "p1_budget",
+    "ol_random": "p1_budget",
+    "concise": "p1_budget",
+    "rl_zeroT_s60": "p4_eval3",
+    "rl_a2initT_s60": "p4_eval2"
+  },
+  "budgets": [
+    2048,
+    4096,
+    12288,
+    32768
+  ],
+  "answer_allowance": 48,
+  "cue": "\n</think>\n\nThe final answer is $\\boxed{",
+  "cue_tokens": 10,
+  "steering_during_answer": false,
+  "population": "historical evaluation prompts; no fresh holdout claim",
+  "source_sha256": "3cea57d77cf6266a1038bd06b14366653d0718c28f853ea4984632e3adc5d01e"
+}

@@ -1,0 +1,16 @@
+condition,budget,rows,anomalies,maximum_accuracy_increase_pp
+baseline,4096,400,2,0.5
+baseline,12288,400,1,0.25
+baseline,32768,400,1,0.25
+ol_random,4096,400,2,0.5
+ol_random,12288,400,2,0.5
+ol_random,32768,400,1,0.25
+sig_gpqa,4096,400,3,0.75
+sig_gpqa,12288,400,3,0.75
+sig_gpqa,32768,400,3,0.75
+sig_idea,4096,400,2,0.5
+sig_idea,12288,400,2,0.5
+sig_idea,32768,400,2,0.5
+sig_math,4096,400,0,0.0
+sig_math,12288,400,0,0.0
+sig_math,32768,400,0,0.0

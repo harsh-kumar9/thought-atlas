@@ -1,0 +1,352 @@
+{
+  "checked_utc": "2026-11-04T04:21:31.287252+00:00",
+  "jobs": {
+    "435688": "JobId=435688 JobName=atlas_judge_audit UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=None Dependency=(null) Requeue=1 Restarts=5 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:19:17 EligibleTime=2026-11-04T04:21:18 AccrueTime=2026-11-04T04:21:18 StartTime=2026-11-04T04:30:52 EndTime=2026-11-04T04:45:52 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:21:29 Scheduler=Backfill:* Partition=ashton AllocNode:Sid=ada.ais.sandbox:3965029 ReqNodeList=vega ExcNodeList=(null) NodeList= SchedNodeList=vega NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_gemma_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 gemma 1 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_gemma_435688.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435689": "JobId=435689 JobName=atlas_judge_audit UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4782 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=4 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:05:39 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:07:06 EligibleTime=2026-11-04T04:09:07 AccrueTime=2026-11-04T04:09:07 StartTime=2026-11-04T04:15:52 EndTime=2026-11-04T04:30:52 Deadline=N/A PreemptEligibleTime=2026-11-04T05:15:52 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:15:52 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3965029 ReqNodeList=vega ExcNodeList=(null) NodeList=vega BatchHost=vega NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_qwen_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 qwen 1 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_qwen_435689.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435690": "JobId=435690 JobName=atlas_judge_audit UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435688(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T03:14:21 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T03:14:21 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3965029 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435637_%j.log --dependency=afterok:435688 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 gemma 0 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435637_435690.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435691": "JobId=435691 JobName=atlas_judge_audit UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435689(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T03:14:21 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T03:14:21 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3965029 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435638_%j.log --dependency=afterok:435689 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 qwen 0 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435638_435691.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435756": "JobId=435756 JobName=atlas_llama_indexed UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Resources Dependency=(null) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:20:08 EligibleTime=2026-11-04T04:20:08 AccrueTime=2026-11-04T04:20:08 StartTime=2026-11-04T04:46:00 EndTime=2026-11-04T05:01:00 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:21:29 Scheduler=Backfill:* Partition=ashton AllocNode:Sid=ada.ais.sandbox:4142785 ReqNodeList=vega ExcNodeList=(null) NodeList= SchedNodeList=vega NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge_format_pilot.sbatch SubmitLine=sbatch --parsable --job-name=atlas_llama_indexed --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/llama_indexed_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge_format_pilot.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 llama 0 multijudge_llama_indexed WorkDir=/h/224/harsh StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/llama_indexed_435756.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435757": "JobId=435757 JobName=atlas_repair_analysis UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435690(unfulfilled),afterok:435691(unfulfilled),afterok:435756(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=02:00:00 TimeMin=N/A SubmitTime=2026-11-04T04:20:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:20:08 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:4142785 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,billing=4 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/postprocess.sbatch SubmitLine=sbatch --parsable --dependency=afterok:435690:435691:435756 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/multijudge_indexed_analysis_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/postprocess.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 multijudge /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/results/multijudge_analysis_indexed WorkDir=/h/224/harsh StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/multijudge_indexed_analysis_435757.log TresPerTask=cpu=4",
+    "435640": "JobId=435640 JobName=atlas_rl_repair UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=6 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:07:40 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:07:54 EligibleTime=2026-11-04T04:09:55 AccrueTime=2026-11-04T04:09:55 StartTime=2026-11-04T04:13:51 EndTime=2026-11-04T04:28:51 Deadline=N/A PreemptEligibleTime=2026-11-04T05:13:51 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:13:51 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435583_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed0 --seed 0 --init zero WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435583_435640.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435641": "JobId=435641 JobName=atlas_rl_repair UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=BeginTime Dependency=(null) Requeue=1 Restarts=7 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:20:35 EligibleTime=2026-11-04T04:22:36 AccrueTime=Unknown StartTime=2026-11-04T04:22:36 EndTime=2026-11-04T04:37:36 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:07:29 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435584_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed1 --seed 1 --init zero WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435584_435641.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435642": "JobId=435642 JobName=atlas_rl_repair UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=6 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:02 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:17:30 EligibleTime=2026-11-04T04:19:31 AccrueTime=2026-11-04T04:19:31 StartTime=2026-11-04T04:20:29 EndTime=2026-11-04T04:35:29 Deadline=N/A PreemptEligibleTime=2026-11-04T05:20:29 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:20:29 Scheduler=Backfill Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435585_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed2 --seed 2 --init zero WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435585_435642.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435643": "JobId=435643 JobName=atlas_rl_repair UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=7 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:02 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:16:08 EligibleTime=2026-11-04T04:18:09 AccrueTime=2026-11-04T04:18:09 StartTime=2026-11-04T04:20:29 EndTime=2026-11-04T04:35:29 Deadline=N/A PreemptEligibleTime=2026-11-04T05:20:29 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:20:29 Scheduler=Backfill Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435586_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 ol_math_A2_seed0 --seed 0 --init ol_math_A2 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435586_435643.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435644": "JobId=435644 JobName=atlas_rl_repair UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4782 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=6 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:10:20 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:06:22 EligibleTime=2026-11-04T04:08:23 AccrueTime=2026-11-04T04:08:23 StartTime=2026-11-04T04:11:11 EndTime=2026-11-04T04:26:11 Deadline=N/A PreemptEligibleTime=2026-11-04T05:11:11 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:11:11 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435587_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 ol_math_A2_seed1 --seed 1 --init ol_math_A2 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435587_435644.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435645": "JobId=435645 JobName=atlas_rl_repair UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=6 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:03:52 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:15:02 EligibleTime=2026-11-04T04:17:03 AccrueTime=2026-11-04T04:17:03 StartTime=2026-11-04T04:17:39 EndTime=2026-11-04T04:32:39 Deadline=N/A PreemptEligibleTime=2026-11-04T05:17:39 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:17:39 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435588_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 ol_math_A2_seed2 --seed 2 --init ol_math_A2 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435588_435645.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435646": "JobId=435646 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=4 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:06:32 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:11:56 EligibleTime=2026-11-04T04:13:57 AccrueTime=2026-11-04T04:13:57 StartTime=2026-11-04T04:14:59 EndTime=2026-11-04T04:29:59 Deadline=N/A PreemptEligibleTime=2026-11-04T05:14:59 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:14:59 Scheduler=Backfill Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435589_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 baseline WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435589_435646.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435647": "JobId=435647 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=4 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:05:02 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:13:36 EligibleTime=2026-11-04T04:15:37 AccrueTime=2026-11-04T04:15:37 StartTime=2026-11-04T04:16:29 EndTime=2026-11-04T04:31:29 Deadline=N/A PreemptEligibleTime=2026-11-04T05:16:29 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:16:29 Scheduler=Backfill Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435590_%j.log --dependency=afterok:435636 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 a2 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435590_435647.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435648": "JobId=435648 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435640(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T02:38:48 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T02:38:48 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435591_%j.log --dependency=afterok:435640 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed0 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435591_435648.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435649": "JobId=435649 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435641(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T02:38:48 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T02:38:48 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435592_%j.log --dependency=afterok:435641 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed1 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435592_435649.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435650": "JobId=435650 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435642(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T02:38:48 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T02:38:48 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435593_%j.log --dependency=afterok:435642 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed2 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435593_435650.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435651": "JobId=435651 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435643(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T02:38:48 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T02:38:48 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435594_%j.log --dependency=afterok:435643 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 ol_math_A2_seed0 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435594_435651.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435652": "JobId=435652 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435644(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T02:38:48 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T02:38:48 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435595_%j.log --dependency=afterok:435644 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 ol_math_A2_seed1 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435595_435652.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435653": "JobId=435653 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435645(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T02:38:48 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T02:38:48 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435596_%j.log --dependency=afterok:435645 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 ol_math_A2_seed2 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435596_435653.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "430532": "JobId=430532 JobName=atlas_repair_analysis UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435646(unfulfilled),afterok:435647(unfulfilled),afterok:435648(unfulfilled),afterok:435649(unfulfilled),afterok:435650(unfulfilled),afterok:435651(unfulfilled),afterok:435652(unfulfilled),afterok:435653(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=02:00:00 TimeMin=N/A SubmitTime=2026-11-01T03:57:37 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-01T03:57:37 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:2431450 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,billing=4 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/postprocess.sbatch SubmitLine=sbatch --dependency=afterok:430524:430525:430526:430527:430528:430529:430530:430531 --output=logs/rl_evaluation_analysis_%j.log scripts/postprocess.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 rl_evaluation WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/rl_evaluation_analysis_430532.log TresPerTask=cpu=4",
+    "435654": "JobId=435654 JobName=atlas_confirm UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=5 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:04:02 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:14:59 EligibleTime=2026-11-04T04:17:00 AccrueTime=2026-11-04T04:17:00 StartTime=2026-11-04T04:17:29 EndTime=2026-11-04T04:32:29 Deadline=N/A PreemptEligibleTime=2026-11-04T05:17:29 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:17:29 Scheduler=Backfill Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList=mira BatchHost=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435597_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 baseline WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435597_435654.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435655": "JobId=435655 JobName=atlas_confirm UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Resources Dependency=(null) Requeue=1 Restarts=5 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:17:37 EligibleTime=2026-11-04T04:19:38 AccrueTime=2026-11-04T04:19:38 StartTime=2026-11-04T04:26:11 EndTime=2026-11-04T04:41:11 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:21:29 Scheduler=Backfill:* Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= SchedNodeList=mira NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435598_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 ol_math_A2 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435598_435655.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435656": "JobId=435656 JobName=atlas_confirm UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=BeginTime Dependency=(null) Requeue=1 Restarts=5 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:20:34 EligibleTime=2026-11-04T04:22:35 AccrueTime=Unknown StartTime=2026-11-04T04:22:35 EndTime=2026-11-04T04:37:35 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:07:51 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435599_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 sig_moral WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435599_435656.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "430778": "JobId=430778 JobName=atlas_confirm_cpu UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435654(unfulfilled),afterok:435655(unfulfilled),afterok:435656(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-11-01T06:35:26 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-01T06:35:26 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3777955 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,billing=4 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_post.sbatch SubmitLine=sbatch --parsable --chdir /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/confirmation_%j.log --dependency=afterok:430775:430776:430777 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_post.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 outcomes WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/confirmation_430778.log TresPerTask=cpu=4",
+    "430779": "JobId=430779 JobName=atlas_confirm_cpu UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435654(unfulfilled),afterok:435655(unfulfilled),afterok:435656(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-11-01T06:35:26 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-01T06:35:26 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3777955 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,billing=4 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_post.sbatch SubmitLine=sbatch --parsable --chdir /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/confirmation_%j.log --dependency=afterok:430775:430776:430777 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_post.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 prepare_labels WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/confirmation_430779.log TresPerTask=cpu=4",
+    "435692": "JobId=435692 JobName=atlas_confirm_jdg UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:430779(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T03:14:21 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T03:14:21 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3965029 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_judge.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435657_%j.log --dependency=afterok:430779 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_judge.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 gemma 1 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435657_435692.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "435693": "JobId=435693 JobName=atlas_confirm_jdg UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435692(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T03:14:21 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T03:14:21 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3965029 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_judge.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435658_%j.log --dependency=afterok:435692 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_judge.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 gemma 0 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/judge_resume_435658_435693.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "430782": "JobId=430782 JobName=atlas_confirm_cpu UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=Dependency Dependency=afterok:435693(unfulfilled) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=01:00:00 TimeMin=N/A SubmitTime=2026-11-01T06:35:26 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-01T06:35:26 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3777955 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=24G,node=1,billing=4 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_post.sbatch SubmitLine=sbatch --parsable --chdir /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/confirmation_%j.log --dependency=afterok:430781 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/confirmation_post.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 behavior WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/confirmation_430782.log TresPerTask=cpu=4",
+    "435696": "JobId=435696 JobName=atlas_format_pilot UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4782 Nice=0 Account=ashton QOS=ashton JobState=COMPLETED Reason=None Dependency=(null) Requeue=1 Restarts=4 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:06:18 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-04T04:06:59 EligibleTime=2026-11-04T04:09:00 AccrueTime=2026-11-04T04:09:00 StartTime=2026-11-04T04:09:25 EndTime=2026-11-04T04:15:43 Deadline=N/A PreemptEligibleTime=2026-11-04T05:09:25 PreemptTime=None SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-04T04:09:25 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3970713 ReqNodeList=vega ExcNodeList=(null) NodeList=vega BatchHost=vega NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge_format_pilot.sbatch SubmitLine=sbatch --parsable --qos=ashton --time=00:15:00 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/format_pilot_%j.log /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge_format_pilot.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 llama 1 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/format_pilot_435696.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8"
+  },
+  "outputs": {
+    "results/multijudge/status_llama.json": {
+      "mtime": "2026-11-04T02:50:56.523091+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 69,
+        "completed": 69,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_qwen.json": {
+      "mtime": "2026-11-04T04:06:56.171476+00:00",
+      "status": {
+        "judge": "Qwen/Qwen3.5-27B",
+        "requested": 69,
+        "completed": 49,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_gemma.json": {
+      "mtime": "2026-11-04T04:19:07.087528+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 69,
+        "completed": 56,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge_format_pilot/status_llama.json": {
+      "mtime": "2026-11-04T04:15:39.519507+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 69,
+        "completed": 69,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/rl/zero_seed1/status.json": {
+      "mtime": "2026-11-04T04:20:28.183310+00:00",
+      "status": {
+        "step": 3,
+        "stage": "extract"
+      }
+    },
+    "results/rl/ol_math_A2_seed0/status.json": {
+      "mtime": "2026-11-04T04:16:00.873716+00:00",
+      "status": {
+        "step": 3,
+        "stage": "extract"
+      }
+    },
+    "results/rl/zero_seed2/status.json": {
+      "mtime": "2026-11-04T04:17:23.373522+00:00",
+      "status": {
+        "step": 3,
+        "stage": "generate"
+      }
+    },
+    "results/rl/smoke/status.json": {
+      "mtime": "2026-11-04T02:49:39.092425+00:00",
+      "status": {
+        "step": 1,
+        "stage": "complete"
+      }
+    },
+    "results/rl/ol_math_A2_seed2/status.json": {
+      "mtime": "2026-11-04T04:14:55.591075+00:00",
+      "status": {
+        "step": 3,
+        "stage": "generate"
+      }
+    },
+    "results/rl/zero_seed0/status.json": {
+      "mtime": "2026-11-04T04:07:47.478970+00:00",
+      "status": {
+        "step": 3,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed1/status.json": {
+      "mtime": "2026-11-04T04:06:15.032078+00:00",
+      "status": {
+        "step": 3,
+        "stage": "generate"
+      }
+    },
+    "results/confirmation/ol_math_A2/status.json": {
+      "mtime": "2026-11-04T04:17:31.108598+00:00",
+      "status": {
+        "stage": "pending",
+        "arm": "ol_math_A2"
+      }
+    },
+    "results/confirmation/baseline/status.json": {
+      "mtime": "2026-11-04T04:14:53.589055+00:00",
+      "status": {
+        "stage": "pending",
+        "arm": "baseline"
+      }
+    },
+    "results/confirmation/sig_moral/status.json": {
+      "mtime": "2026-11-04T04:20:27.294301+00:00",
+      "status": {
+        "stage": "pending",
+        "arm": "sig_moral"
+      }
+    },
+    "results/elicitation/status_planning.json": {
+      "mtime": "2026-11-04T03:32:39.476449+00:00",
+      "status": {
+        "expected": 6000,
+        "completed": 6000
+      }
+    },
+    "results/elicitation/status_math.json": {
+      "mtime": "2026-11-04T03:53:21.855176+00:00",
+      "status": {
+        "expected": 15920,
+        "completed": 15920
+      }
+    },
+    "results/elicitation/status_gpqa.json": {
+      "mtime": "2026-11-04T03:51:52.727171+00:00",
+      "status": {
+        "expected": 6000,
+        "completed": 6000
+      }
+    },
+    "results/rl_evaluation/a2/status.json": {
+      "mtime": "2026-11-04T04:13:29.504227+00:00",
+      "status": {
+        "stage": "pending",
+        "run": "a2"
+      }
+    },
+    "results/rl_evaluation/baseline/status.json": {
+      "mtime": "2026-11-04T04:11:50.447289+00:00",
+      "status": {
+        "stage": "pending",
+        "run": "baseline"
+      }
+    },
+    "results/confirmation/ol_math_A2/rollouts_s001.parquet": {
+      "rows": 240,
+      "mtime": "2026-11-04T04:17:31.007596+00:00"
+    },
+    "results/confirmation/baseline/rollouts_s001.parquet": {
+      "rows": 232,
+      "mtime": "2026-11-04T04:14:53.517054+00:00"
+    },
+    "results/confirmation/sig_moral/rollouts_s001.parquet": {
+      "rows": 240,
+      "mtime": "2026-11-04T04:20:27.155300+00:00"
+    },
+    "results/rl_evaluation/a2/rollouts_s001.parquet": {
+      "rows": 160,
+      "mtime": "2026-11-04T04:13:29.405226+00:00"
+    },
+    "results/rl_evaluation/baseline/rollouts_s001.parquet": {
+      "rows": 168,
+      "mtime": "2026-11-04T04:20:36.236387+00:00"
+    },
+    "results/rl/zero_seed1/rewards_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:23:09.810235+00:00"
+    },
+    "results/rl/zero_seed1/rollouts_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:06:13.705859+00:00"
+    },
+    "results/rl/zero_seed1/rollouts_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:48:33.448792+00:00"
+    },
+    "results/rl/zero_seed1/rewards_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:57:59.453143+00:00"
+    },
+    "results/rl/zero_seed1/rollouts_s003.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T04:20:27.978308+00:00"
+    },
+    "results/rl/ol_math_A2_seed0/rewards_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:24:51.587950+00:00"
+    },
+    "results/rl/ol_math_A2_seed0/rollouts_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:10:32.631176+00:00"
+    },
+    "results/rl/ol_math_A2_seed0/rewards_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:57:38.565926+00:00"
+    },
+    "results/rl/ol_math_A2_seed0/rollouts_s003.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T04:16:00.681715+00:00"
+    },
+    "results/rl/ol_math_A2_seed0/rollouts_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:48:50.493004+00:00"
+    },
+    "results/rl/zero_seed2/rollouts_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:06:17.085857+00:00"
+    },
+    "results/rl/zero_seed2/rewards_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T04:11:07.396881+00:00"
+    },
+    "results/rl/zero_seed2/rewards_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:26:11.618527+00:00"
+    },
+    "results/rl/zero_seed2/rollouts_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T04:00:08.368460+00:00"
+    },
+    "results/rl/smoke/rewards_s001.parquet": {
+      "rows": 4,
+      "mtime": "2026-11-04T02:46:15.049719+00:00"
+    },
+    "results/rl/smoke/rollouts_s001.parquet": {
+      "rows": 4,
+      "mtime": "2026-11-04T02:09:32.734492+00:00"
+    },
+    "results/rl/ol_math_A2_seed2/rollouts_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:59:49.516269+00:00"
+    },
+    "results/rl/ol_math_A2_seed2/rewards_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:27:21.362039+00:00"
+    },
+    "results/rl/ol_math_A2_seed2/rollouts_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:14:28.808093+00:00"
+    },
+    "results/rl/ol_math_A2_seed2/rewards_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T04:07:21.879724+00:00"
+    },
+    "results/rl/zero_seed0/rollouts_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:01:43.212878+00:00"
+    },
+    "results/rl/zero_seed0/rewards_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:21:11.843436+00:00"
+    },
+    "results/rl/zero_seed0/rollouts_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:49:06.749205+00:00"
+    },
+    "results/rl/zero_seed0/rollouts_s003.parquet": {
+      "rows": 64,
+      "mtime": "2026-11-04T04:20:25.186281+00:00"
+    },
+    "results/rl/zero_seed0/rewards_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T04:02:41.778993+00:00"
+    },
+    "results/rl/ol_math_A2_seed1/rewards_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T04:01:47.054450+00:00"
+    },
+    "results/rl/ol_math_A2_seed1/rollouts_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:10:29.961169+00:00"
+    },
+    "results/rl/ol_math_A2_seed1/rewards_s001.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:25:06.891060+00:00"
+    },
+    "results/rl/ol_math_A2_seed1/rollouts_s002.parquet": {
+      "rows": 128,
+      "mtime": "2026-11-04T03:51:12.412706+00:00"
+    },
+    "results/rl/ol_math_A2_seed1/rollouts_s003.parquet": {
+      "rows": 96,
+      "mtime": "2026-11-04T04:19:39.630842+00:00"
+    },
+    "results/multijudge/labels_llama.parquet": {
+      "rows": 5331,
+      "mtime": "2026-11-04T02:50:56.290089+00:00"
+    },
+    "results/multijudge/labels_qwen.parquet": {
+      "rows": 4077,
+      "mtime": "2026-11-04T04:21:17.033779+00:00"
+    },
+    "results/multijudge/labels_gemma.parquet": {
+      "rows": 4362,
+      "mtime": "2026-11-04T04:19:07.078528+00:00"
+    },
+    "results/multijudge_llama_indexed/labels_llama.parquet": {
+      "rows": 5331,
+      "mtime": "2026-11-04T04:15:39.508507+00:00"
+    }
+  },
+  "accounting": "430487|COMPLETED|0:0|00:00:04\n430532|PENDING|0:0|00:00:00\n430778|PENDING|0:0|00:00:00\n430779|PENDING|0:0|00:00:00\n430782|PENDING|0:0|00:00:00\n435632|FAILED|1:0|00:12:11\n435648|PENDING|0:0|00:00:00\n435649|PENDING|0:0|00:00:00\n435650|PENDING|0:0|00:00:00\n435651|PENDING|0:0|00:00:00\n435652|PENDING|0:0|00:00:00\n435653|PENDING|0:0|00:00:00\n435636|COMPLETED|0:0|00:00:13\n435690|PENDING|0:0|00:00:00\n435691|PENDING|0:0|00:00:00\n435692|PENDING|0:0|00:00:00\n435693|PENDING|0:0|00:00:00\n435635|COMPLETED|0:0|00:07:15\n435634|COMPLETED|0:0|00:03:04\n435633|COMPLETED|0:0|00:01:27\n435644|RUNNING|0:0|00:10:20\n435696|COMPLETED|0:0|00:06:18\n435689|RUNNING|0:0|00:05:39\n435640|RUNNING|0:0|00:07:40\n435646|RUNNING|0:0|00:06:32\n435647|RUNNING|0:0|00:05:02\n435654|RUNNING|0:0|00:04:02\n435645|RUNNING|0:0|00:03:52\n435643|RUNNING|0:0|00:01:02\n435642|RUNNING|0:0|00:01:02\n435655|PENDING|0:0|00:00:00\n435688|PENDING|0:0|00:00:00\n435756|PENDING|0:0|00:00:00\n435757|PENDING|0:0|00:00:00\n435656|PENDING|0:0|00:00:00\n435641|PENDING|0:0|00:00:00\n",
+  "elicitation_verified": {
+    "rows": 27920,
+    "all_inputs_match_analysis_hashes": true,
+    "analysis_job": 430487,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "validation": "All allocated rows; exact task/seed/budget pairing; token-accounting assertions; frozen grades retained; GPQA parser anomalies bounded in separate audit."
+  },
+  "llama_recovery": "results/llama_format_recovery_20261104.json"
+}

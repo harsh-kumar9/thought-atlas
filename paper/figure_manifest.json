@@ -128,6 +128,10 @@
     {
       "file": "figures/figA7_readout_validation.pdf",
       "sha256": "f8a088d56c705e96f0e36252c60383754420279799542f96d7d73bc6033c75f7"
+    },
+    {
+      "file": "figures/figA8_matched_elicitation.pdf",
+      "sha256": "8390f38ea646988bf8724ad1f15a42b70bc0cbf9039ddf1a70ced1636c5725f3"
     }
   ],
   "script_sha256": "15066e70935778dd9d5a8e23f6b78f4b76f2c7c71ee00af89462da91016932f1",
@@ -227,7 +231,24 @@
     {
       "file": "revision/results/within_trace_timing/summary.csv",
       "sha256": "4ba8d8a4fad370a7bfe3a3cd50131d8b4ceca30047890a1a61e77b7e78b14c54"
+    },
+    {
+      "file": "revision/results/elicitation/paired.csv",
+      "sha256": "d29e80977b29e891bdb2646ad43bc864f3ac6a72deab65f479e37d5343e9a5c4"
+    },
+    {
+      "file": "revision/results/elicitation/summary.csv",
+      "sha256": "9f05f96ee7f05f60180c9d6507977b94087d33c881f975b10f8f7e61a2c784c0"
+    },
+    {
+      "file": "revision/results/elicitation/grade_sources.csv",
+      "sha256": "e179f79635150aeaf15c1925978e09c7946e5ea71313266716877201ed9f0998"
+    },
+    {
+      "file": "revision/results/elicitation/parser_sensitivity.csv",
+      "sha256": "b2b994188e47fc2074cf72644d70735420d6a9271d3947c845ab8dc177b75711"
     }
   ],
-  "revision_script_sha256": "be68911429c7970bf9cbbe983f37316798d0ee7306cd490be4d6eff4374427a5"
+  "revision_script_sha256": "be68911429c7970bf9cbbe983f37316798d0ee7306cd490be4d6eff4374427a5",
+  "elicitation_script_sha256": "b7c7b9ab16f57948862bb3239725f71e824e8ae7e0516ce34cb4d27c2271c499"
 }

@@ -1,6 +1,6 @@
 {
   "review": "Second supplied review,2026-11-01",
-  "updated_utc": "2026-11-01T06:45:28.674147+00:00",
+  "updated_utc": "2026-11-04T04:22:46.304833+00:00",
   "completed": {
     "controller_vs_representation": "Abstract,introduction,results,discussion and conclusion now restrict the intervention claim to the inverse-readout construction.",
     "positive_evidence": "Strong moral-vector fidelity, timing control, dose-response, literal repetition and availability-quality contrast promoted.",
@@ -10,7 +10,8 @@
     "null_coverage": "Main text explicitly identifies4/14 eligible math cells; abstract removes14/94 bookkeeping.",
     "creativity": "Main example emphasizes400/400 versus272/400 answer availability and lower paired originality; exploration65/200 and54 paired keywords explicitly secondary.",
     "pending_language": "Pending measurement and elicitation headings and future-tense analysis language; no protocol counted as a result.",
-    "submission_companions": "Separate hashed evidence archive includes aggregate data,prompts,source snapshots,code and protocols; omitted large inputs identified."
+    "submission_companions": "Separate hashed evidence archive includes aggregate data,prompts,source snapshots,code and protocols; omitted large inputs identified.",
+    "matched_total_budget_elicitation": "27920 matched rows complete. Large short-budget math-to-GPQA and math-to-planning gains fail to survive common-budget elicitation; all controls and parser sensitivity reported."
   },
   "launched": {
     "fresh_confirmation": {
@@ -38,14 +39,13 @@
   },
   "not_resolved": [
     "GPU annotation robustness results",
-    "Matched-total-budget elicitation results",
     "Clean RL replication outcomes",
     "Fresh confirmation outcomes"
   ],
-  "constraint": "All prior GPU studies remained queued at inspection. No scheduler priority escalation or unrelated-job changes.",
+  "constraint": "Original design frozen; normal ashton priority. Runtime repairs versioned; current IDs in STATUS.json supersede historical launch IDs.",
   "verification": {
     "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
     "ada": "21 passed, including PyTorch temperature/gradient regression and fresh-confirmation tests",
-    "gpu_execution": "Smoke jobs still pending; passing CPU tests does not validate model-engine runtime."
+    "gpu_execution": "Elicitation complete and validated; RL smoke completed; full annotation, RL and confirmation results remain pending."
   }
 }

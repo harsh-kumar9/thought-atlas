@@ -18,6 +18,7 @@ def indexed_schema(schema,n):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--out',type=Path,required=True)
+    p.add_argument('--pilot',type=int,choices=[0,1],default=1)
     a=p.parse_args();sys.path.insert(0,str(a.root))
     from src.judge import run_judge
     base=run_judge.make_sampling
@@ -30,5 +31,5 @@ def main():
         return sampling
     run_judge.make_sampling=constrained
     from multijudge import judge
-    judge(a.root,a.out,'llama',1,9)
+    judge(a.root,a.out.resolve(),'llama',a.pilot,9)
 if __name__=='__main__':main()

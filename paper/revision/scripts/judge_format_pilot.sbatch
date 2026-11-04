@@ -16,7 +16,8 @@ trap '/opt/slurm/bin/scontrol requeue "$SLURM_JOB_ID"' USR1
 export VLLM_USE_FLASHINFER_SAMPLER=0
 REVISION_ROOT=$1
 JUDGE_NAME=$2
-PILOT=${3:-0}
+PILOT=${3:-1}
+OUTPUT_NAME=${4:-multijudge_format_pilot}
 export HF_HOME=/ada1/u/harsh/.cache/huggingface HF_HUB_CACHE=/ada1/u/harsh/.cache/huggingface
 export HF_HUB_OFFLINE=1 HF_HUB_DISABLE_XET=1 TOKENIZERS_PARALLELISM=false
 export OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=8 POLARS_MAX_THREADS=4
@@ -25,9 +26,9 @@ export XDG_CACHE_HOME=/ada1/u/harsh/.cache TMPDIR=/ada1/u/harsh/tmp
 export VLLM_CACHE_ROOT=/ada1/u/harsh/.cache/vllm TRITON_CACHE_DIR=/ada1/u/harsh/.cache/triton
 cd "$REVISION_ROOT"
 /ada1/u/harsh/miniconda3/envs/sote/bin/python -u scripts/judge_format_pilot.py \
- --root /ada1/u/harsh/thought-atlas --out "$REVISION_ROOT/results/multijudge_format_pilot"  &
+ --root /ada1/u/harsh/thought-atlas --out "$REVISION_ROOT/results/$OUTPUT_NAME" --pilot "$PILOT" &
 JUDGE_PID=$!
 wait "$JUDGE_PID"
-if /ada1/u/harsh/miniconda3/envs/sote/bin/python -c 'import json,sys; d=json.load(open(sys.argv[1]));sys.exit(0 if d["completed"]<d["requested"] else 1)' "$REVISION_ROOT/results/multijudge_format_pilot/status_$JUDGE_NAME.json"; then
+if /ada1/u/harsh/miniconda3/envs/sote/bin/python -c 'import json,sys; d=json.load(open(sys.argv[1]));sys.exit(0 if d["completed"]<d["requested"] else 1)' "$REVISION_ROOT/results/$OUTPUT_NAME/status_$JUDGE_NAME.json"; then
  /opt/slurm/bin/scontrol requeue "$SLURM_JOB_ID"
 fi

@@ -8,7 +8,7 @@ Completed analyses document attempted/completed/annotated populations; fitting, 
 
 The readout's mean prompt-balanced MSE skill is 7.61% over training-domain means. Unseen-domain generalization is weaker. Domain vectors amplify contrasts with a reference mean; they do not generally reproduce a source profile. Accuracy and answer availability now appear together, and matched SEAL/random outcome controls are included where historical outputs exist.
 
-The historical RL source contains temperature-variable shadowing; exact executed per-run source versions and rollout rewards cannot be recovered. Saved vectors remain fixed interventions in a secondary appendix analysis. Cosine similarity is not treated as equivalence of achieved profiles or proof of representational insufficiency. Corrected-reward replications use explicit temperature, three training seeds per initialization, and retained rollout/reward/optimizer records. GPU execution is pending.
+The historical RL source contains temperature-variable shadowing; exact executed per-run source versions and rollout rewards cannot be recovered. Saved vectors remain fixed interventions in a secondary appendix analysis. Cosine similarity is not treated as equivalence of achieved profiles or proof of representational insufficiency. Corrected-reward replications use explicit temperature, three training seeds per initialization, and retained rollout/reward/optimizer records. Training is underway; final replication results remain pending.
 
 The old checking/exploration pairwise creativity summaries included math rows from a mixed-task run. The revised summaries use verified idea-task trace IDs only (133 and 54 paired keywords). Math-profile and math-prompt originality point estimates are unchanged. All-attempt coverage and separate experimental budgets are reported.
 
@@ -20,7 +20,7 @@ A2 and the moral-associated vector are fixed at layer 16 and norm 6.75. A new 25
 
 Established Kim/Gandhi definitions and their prior human validation are retained and cited. At the user's request, the new audit uses Gemma4-31B-it, Qwen3.5-27B, and Llama-3.1-8B-Instruct on identical blinded prefixes. Its frozen sample includes 1,381 atlas, intervention, and matched-demand traces, including unfinished attempts. This tests cross-family robustness; majority agreement is not treated as truth or as new human validation. Exact templates are in `supplement/`.
 
-The three-judge audit, matched-total-budget answer elicitation, and corrected RL replications are queued on Ada with pilot checks and resumable jobs. Explicit draft notes identify results not yet available. `revision/STATUS.json` in the repository records job IDs, completed evidence, and remaining work. No pending result is incorporated as an observed finding.
+Matched-total-budget elicitation is complete (27,920 rows with exact task/seed/budget pairing). At 12,288 tokens, math-to-GPQA changes from +33.8 pp under natural completion to -7.0 pp under elicitation; math-to-planning shrinks from +20.8 to +1.25 pp, with an interval crossing zero. The matched-budget figure and companion tables report the completed control. The three-judge audit, corrected RL replications, and fresh confirmation continue on Ada with pilot checks and resumable jobs. Explicit draft notes identify results not yet available. `revision/STATUS.json` in the repository records job IDs, completed evidence, and remaining work. No pending result is incorporated as an observed finding.
 
 ## Source layout
 
@@ -36,6 +36,7 @@ The three-judge audit, matched-total-budget answer elicitation, and corrected RL
 
 From the repository root, using the populated revision outputs:
 
+    MPLCONFIGDIR=/private/tmp/thought_atlas_mpl .venv/bin/python paper/scripts/elicitation_figure.py
     MPLCONFIGDIR=/private/tmp/thought_atlas_mpl .venv/bin/python paper/scripts/revision_figures.py
     MPLCONFIGDIR=/private/tmp/thought_atlas_mpl .venv/bin/python paper/scripts/build_figures.py
     .venv/bin/python paper/scripts/build_tables.py

@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "math.parquet": "2bacf0a7a00ff20176e8357d9dbb6b7e492e650b823007ed3f1d3a3f93b0cd2a",
+    "gpqa.parquet": "32f30c7bad217af940baf80d69eb1a4f0073705bba40fc4589264d2252a52883",
+    "planning.parquet": "8f20e0079065db451f09e08d39416b06aada17220266519dc69c23765020b6cf"
+  },
+  "rows": 27920,
+  "code_sha256": "1fca5acfec41e9f2c72bc22707c045abbf962879aee5a9e2d020f5289b4ad944",
+  "design": "All allocated rows; same prompt/seed/budget grid per arm; task bootstrap after seed averaging; 2000 replicates.",
+  "estimand": "Correct and parseable answers after common-budget elicitation. Retrospective on reused historical evaluation items.",
+  "grading": "Corrected saved extraction for own answers when available; direct math/MCQ parsing for forced answers; sources reported.",
+  "budget": "Own responses must be completed and fit in full; otherwise prefix, cue, and continuation sum to at most budget."
+}

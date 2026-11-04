@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-overleaf.zip",
-  "sha256": "2b4f355ba426e35591c566df8c8dcd32b772ee3efdc4d97e07f56f4212eff625",
+  "sha256": "c0e90468ffb6a13e109296ecdad5681f5e9e1e6e4964eeb7c41fcb014af35382",
   "files": [
     "main.tex",
     "references.bib",
@@ -40,10 +40,15 @@
     "figures/figA5_behavior_sensitivity.pdf",
     "figures/figA6_demand_operations.pdf",
     "figures/figA7_readout_validation.pdf",
+    "figures/figA8_matched_elicitation.pdf",
     "supplement/budget_paired.csv",
     "supplement/budget_summary.csv",
     "supplement/coverage.csv",
     "supplement/dose_matched.csv",
+    "supplement/elicitation_grade_sources.csv",
+    "supplement/elicitation_paired.csv",
+    "supplement/elicitation_parser_sensitivity.csv",
+    "supplement/elicitation_summary.csv",
     "supplement/fidelity.csv",
     "supplement/grade_change_counts.csv",
     "supplement/grade_changes_by_condition.csv",

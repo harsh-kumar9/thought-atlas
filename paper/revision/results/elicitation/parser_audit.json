@@ -1,0 +1,11 @@
+{
+  "source_sha256": "32f30c7bad217af940baf80d69eb1a4f0073705bba40fc4589264d2252a52883",
+  "affected_rows": 24,
+  "raw_strings": {
+    "(c)": 20,
+    "(f)": 4
+  },
+  "all_scored_zero": true,
+  "policy": "Keep frozen parser and grades. Worst-case accuracy sensitivity sets all anomalous rows to correct, without asserting semantic correctness. In an arm-minus-baseline contrast the perturbation lies between minus the baseline bound and plus the arm bound.",
+  "maximum_arm_budget_accuracy_bound_pp": 0.75
+}

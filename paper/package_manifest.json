@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-overleaf.zip",
-  "sha256": "c0e90468ffb6a13e109296ecdad5681f5e9e1e6e4964eeb7c41fcb014af35382",
+  "sha256": "ebb494c018b51961e79c4d85de63b25234e41a6de746b5dbb5c3ea237f26c168",
   "files": [
     "main.tex",
     "references.bib",
@@ -41,8 +41,12 @@
     "figures/figA6_demand_operations.pdf",
     "figures/figA7_readout_validation.pdf",
     "figures/figA8_matched_elicitation.pdf",
+    "figures/figA9_fresh_confirmation.pdf",
     "supplement/budget_paired.csv",
     "supplement/budget_summary.csv",
+    "supplement/confirmation_endpoint_coverage.csv",
+    "supplement/confirmation_grade_sources.csv",
+    "supplement/confirmation_paired_effects.csv",
     "supplement/coverage.csv",
     "supplement/dose_matched.csv",
     "supplement/elicitation_grade_sources.csv",

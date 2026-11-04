@@ -1,0 +1,4 @@
+condition,attempts,tasks,own_answers,forced_answers,forced_parseable,forced_correct,natural_correct,elicited_correct,extraction_fallbacks
+baseline,512,256,258,254,254,232,255,487,1
+ol_math_A2,512,256,433,79,79,67,423,490,1
+sig_moral,512,256,306,206,206,171,299,470,2

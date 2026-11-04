@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-evidence.zip",
-  "sha256": "0f2756a999f1912ec3d8cb86751b8726a12cbadf3ccbc1b6d24c9f6a9ed557b4",
+  "sha256": "be2b70ba248e831cd1d68949eb8659c0d256c619378852fa36ed9a2171739648",
   "scope": "Review evidence companion, not an anonymized submission or a self-contained GPU rerun environment.",
   "included": "Aggregate analysis outputs, exact prompts, frozen confirmation protocol, code, inspected historical source snapshots, and small steering/readout parameter arrays.",
   "excluded": "Raw full trace releases, activation-fitting arrays, pretrained model weights, credentials, environments, and unfinished GPU outputs.",
@@ -78,8 +78,8 @@
     },
     {
       "path": "figure_manifest.json",
-      "bytes": 10604,
-      "sha256": "152db3a31d4064380b0687ed2114016f3b33b4b2374d0b5c60b990c136fcaf63"
+      "bytes": 11835,
+      "sha256": "74955f9b502621cba25a29318d2096985567ec28057a2f990bfaa8f666da4949"
     },
     {
       "path": "figure_style.json",
@@ -98,8 +98,8 @@
     },
     {
       "path": "revision/STATUS.json",
-      "bytes": 12830,
-      "sha256": "e797fc45a35d19f551c09ed181b6fca84ab31de74628760f9489af8efcc007da"
+      "bytes": 13633,
+      "sha256": "dffe8a666e33de47b6ed1e455783dbec443979fe24f8082f1335cbfd289386ce"
     },
     {
       "path": "revision/protocols/multi_judge.json",
@@ -422,14 +422,44 @@
       "sha256": "eac24b9193b54d6a21b8dc433a1f905936615f9df5a1f96bbb5cbde791500d0e"
     },
     {
+      "path": "revision/results/confirmation/analysis_manifest.json",
+      "bytes": 1570,
+      "sha256": "cc2e754c0162cb9e000b907923b695e390a3c4398de7c5811944d3c7dc3a082f"
+    },
+    {
       "path": "revision/results/confirmation/analysis_plan.json",
       "bytes": 2044,
       "sha256": "1623cd79e470e9949c0dab326371cf005829518781392baf190bcede0c9b0bf5"
     },
     {
+      "path": "revision/results/confirmation/endpoint_coverage.csv",
+      "bytes": 267,
+      "sha256": "07d0eaa5a2bd226ae5acbb8b038fddffaf8306e39b47e961467f521acfbd42e2"
+    },
+    {
+      "path": "revision/results/confirmation/grade_sources.csv",
+      "bytes": 312,
+      "sha256": "b20fe74a1d49b38efd4b2005cd357f823f44d97202a4c05b47b4c1396e7b38c6"
+    },
+    {
       "path": "revision/results/confirmation/jobs.json",
       "bytes": 193,
       "sha256": "45e2ca01ff1941972e3368ac39fe7e2de5721432e2a11a0dbe4f4c13e151763b"
+    },
+    {
+      "path": "revision/results/confirmation/outcomes.csv",
+      "bytes": 204894,
+      "sha256": "d90f7ad21f896668052e554c8887d767d14e785c03ab53734a772b80663c3be0"
+    },
+    {
+      "path": "revision/results/confirmation/output_audit.json",
+      "bytes": 1419,
+      "sha256": "cf5be1360a7da00e60cf5e0f8edbf2c88843a2aa3528bb9b7db7cbef456bfcb8"
+    },
+    {
+      "path": "revision/results/confirmation/paired_effects.csv",
+      "bytes": 1427,
+      "sha256": "0ae46788803eee17d9dbf12a0ab12d6f61a7b707cc7d68741060f901f046d462"
     },
     {
       "path": "revision/results/confirmation/protocol.json",
@@ -515,6 +545,36 @@
       "path": "revision/results/heartbeat_20261104_0423.json",
       "bytes": 63774,
       "sha256": "8f86746bd2fbbc271dfc88aea72260e22f9bf9a60b651614f1fb51ed13f81bbe"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0443.json",
+      "bytes": 22513,
+      "sha256": "806075946b0c2c7ab73d45ed8e319a4e6f9a2de86c90821d61769a16fe718213"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0513.json",
+      "bytes": 16282,
+      "sha256": "258e124da7eecc955220b5a0d85f2516c234ae946361077e8b1fce4d2d05a281"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0543.json",
+      "bytes": 15512,
+      "sha256": "a64950a51759db0aee701d9ea56240052cb5cdfe0df31c22e828ce76ba30ec20"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0613.json",
+      "bytes": 16850,
+      "sha256": "3d98398e58354e636b6c8f17b9080328f8fe8e7a04f6c44c0398e2935407e2f5"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0645.json",
+      "bytes": 17757,
+      "sha256": "47f924d0f2e79464cb90b6ef64043718167ae59292efeedfcde4b2dbae47e9f9"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0718.json",
+      "bytes": 18980,
+      "sha256": "20b0bcef845242cb2bcb178f2ffc46c87f93db21319f2498e5e6e395fee55bab"
     },
     {
       "path": "revision/results/judge_timeout_recovery_20261103.json",
@@ -660,6 +720,11 @@
       "path": "revision/scripts/analyze_rl_evaluation.py",
       "bytes": 2327,
       "sha256": "70866b13be159895aab56814c1d75a7bc29dbac8265aa10f2629b937fdb602f9"
+    },
+    {
+      "path": "revision/scripts/audit_confirmation_outputs.py",
+      "bytes": 5191,
+      "sha256": "2466ec91252f9b6149306a1eb398304eeec13dbd81554b1b9a811465807859d3"
     },
     {
       "path": "revision/scripts/audit_existing.py",
@@ -1177,6 +1242,11 @@
       "sha256": "91e5dd56c7ffad56092be7d0cb787276af60daad9b4b0adeca1e9e8cb8c41263"
     },
     {
+      "path": "scripts/confirmation_figure.py",
+      "bytes": 1221,
+      "sha256": "16f806742cc34106abb1b98f2f6efdf6222b9f56d466d1667688936162828343"
+    },
+    {
       "path": "scripts/elicitation_figure.py",
       "bytes": 1678,
       "sha256": "b7c7b9ab16f57948862bb3239725f71e824e8ae7e0516ce34cb4d27c2271c499"
@@ -1235,6 +1305,21 @@
       "path": "supplement/budget_summary.csv",
       "bytes": 25298,
       "sha256": "da1fc80a09e52dbae4cee52ba172d62a86bab367dc84c90a38b7abba045de50f"
+    },
+    {
+      "path": "supplement/confirmation_endpoint_coverage.csv",
+      "bytes": 267,
+      "sha256": "07d0eaa5a2bd226ae5acbb8b038fddffaf8306e39b47e961467f521acfbd42e2"
+    },
+    {
+      "path": "supplement/confirmation_grade_sources.csv",
+      "bytes": 312,
+      "sha256": "b20fe74a1d49b38efd4b2005cd357f823f44d97202a4c05b47b4c1396e7b38c6"
+    },
+    {
+      "path": "supplement/confirmation_paired_effects.csv",
+      "bytes": 1427,
+      "sha256": "0ae46788803eee17d9dbf12a0ab12d6f61a7b707cc7d68741060f901f046d462"
     },
     {
       "path": "supplement/confirmation_protocol.txt",

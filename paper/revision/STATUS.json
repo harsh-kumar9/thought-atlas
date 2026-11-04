@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T06:45:33.819475+00:00",
+  "updated_utc": "2026-11-04T07:20:07.005901+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -16,7 +16,8 @@
     "fresh_confirmation_design": "Frozen256 MATH-test problems exclude MATH-500 and740 saved math prompt texts; A2 and moral vector norm6.75; primary paired tests, elicitation and64-task behavioral check queued.",
     "rl_runtime_smoke": "One-step corrected-reward generate/extract/update completed with exit0; not a scientific replication result.",
     "matched_total_budget_elicitation": "27920/27920 rows; all three targets and dependent analysis430487 completed exit0. Input hashes, exact task/seed/budget pairing, token bounds and parser-anomaly sensitivity verified. Integrated into abstract, results, discussion, appendix and Figure11.",
-    "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. Clean RL vectors remain in training; no replication result yet."
+    "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. Clean RL vectors remain in training; no replication result yet.",
+    "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity remains pending."
   },
   "jobs": {
     "judge_pilots": {
@@ -70,7 +71,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Elicitation complete and integrated. Full judge counts of1370: Gemma177, Qwen177, Llama476. RL runs have6-7 completed updates of60; finite nonzero gradients and saved checkpoints verified. Both398-row baseline/A2 evaluation controls completed exit0 with outcomes matching grades. Fresh A2 confirmation completed exit0:512 generated, graded and elicited rows, exact frozen task/sample grid and token bounds verified. All confirmation arms now have512 generated rows; baseline grading and moral elicitation continue. Whole-family analyses remain gated; no new failures, broken dependencies or code drift.",
+  "gpu_status": "Matched-budget and fresh confirmation outcomes complete and integrated. Three-family annotation and six60-step RL training runs remain active with finite nonzero gradients and saved checkpoints. Confirmation behavioral pilot435692 passed; full435693 running, CPU430782 waits. No new failures or broken dependencies.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -111,7 +112,8 @@
     "scripts/judge_format_pilot.sbatch": "833aed55ac49af8f37169825ab878272339cb07634c47c11d5120bcb20615e35",
     "scripts/normal_priority_recovery.py": "d53c470e4ce658c6dd0e1fdd11844d925466f9897ed15fa5ebcfd02276a27833",
     "scripts/judge_format_pilot.py": "431ce17aa6c4d7003c385a415f62b2e6c870495f7ef9a2433be9adc395c42e58",
-    "scripts/requeue_recovery.py": "41fd0a214c1f88b8edd070a27ec620ac12de67f4fbf1ac6d498a602e643dfc51"
+    "scripts/requeue_recovery.py": "41fd0a214c1f88b8edd070a27ec620ac12de67f4fbf1ac6d498a602e643dfc51",
+    "scripts/audit_confirmation_outputs.py": "2466ec91252f9b6149306a1eb398304eeec13dbd81554b1b9a811465807859d3"
   },
   "readout_jobs": {
     "failed_prepare": 430409,
@@ -140,19 +142,19 @@
     "Complete multi-judge robustness. Llama uses results/multijudge_llama_indexed; combined analysis in results/multijudge_analysis_indexed. Original failed pilot and repaired pilot remain separate; full435756 and analysis435757 replace435639/430486.",
     "Complete corrected RL training and fixed-step60 evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
     "Resolve unrecoverable historical training-reward uncertainty by replication rather than retroactive inference.",
-    "Complete fresh confirmation jobs435654-435656 and dependent analyses and integrate paired outcomes and achieved fidelity without retuning on their results."
+    "Complete fixed64-task confirmation behavioral audit435693 and fidelity analysis430782, then integrate achieved shifts and uncertainty. Outcome confirmation already verified and integrated."
   ],
   "github": "Authorized update on codex/arr-evidence-repair; preceding revision808acc8 verified remotely. The containing Git commit records this revision.",
-  "manuscript": "Completed matched-total-budget control incorporated; large short-budget math-source transfer gains do not survive elicitation. Local and Overleaf25-page draft; main conclusion page8. Other studies explicitly pending.",
+  "manuscript": "Matched-budget and fresh256-item confirmation outcomes incorporated; natural-completion gains do not imply an elicited-answer advantage. Local25-page draft; main conclusion page8. Annotation robustness, clean RL replication and confirmation fidelity remain pending.",
   "tests": {
     "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T06:45:33.819475+00:00",
-  "artifact_status": "Matched-budget revision compiled and visually inspected locally and on Overleaf; new Figure11 and four companion CSVs synchronized after reconciling seven changed text files. Archives rebuilt for this revision.",
+  "gpu_status_checked_utc": "2026-11-04T07:14:18.248288+00:00",
+  "artifact_status": "Fresh confirmation figure, results, coverage and integrity audit integrated; local PDF compiled and visually checked. Overleaf synchronization and package validation recorded in manuscript manifests.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_0645.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_0718.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

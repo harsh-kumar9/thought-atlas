@@ -1,0 +1,10 @@
+condition,grade_source,attempts
+baseline,extracted,257
+baseline,fallback_unparsed_output,1
+baseline,unfinished_generation,254
+ol_math_A2,extracted,432
+ol_math_A2,fallback_ungrounded,1
+ol_math_A2,unfinished_generation,79
+sig_moral,extracted,304
+sig_moral,fallback_ungrounded,2
+sig_moral,unfinished_generation,206

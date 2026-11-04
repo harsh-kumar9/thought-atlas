@@ -1,0 +1,20 @@
+{
+  "tasks": 256,
+  "samples": 2,
+  "budget": 8192,
+  "protocol_sha256": "0196b60106bb45fe664a747ab0e8f76f63e62806d3b3afc9f7d8aa629fb9109b",
+  "code_sha256": "40d88bec31591c35972486962f2f54e69754d01a27bcf1cf0224d956f797e912",
+  "primary": "Two natural-completion accuracy contrasts with Holm-adjusted two-sided paired sign-flip tests,10000 draws. Intervals10000 paired task bootstraps after two-sample averaging.",
+  "secondary": "Elicited accuracy and other endpoints descriptive; no overall family-wise claim. Natural extraction and direct forced-answer grading sources remain distinct.",
+  "outcome_files": {
+    "baseline/rollouts_s001.parquet": "d053f584c25e472f616bbfb10a2df2033949189507721835829f5b53b6ccd353",
+    "baseline/rewards_s001.parquet": "905636c8ff051138b865666d1cc94ef1a5eaefd2e9c97c4289696e32cf572df4",
+    "baseline/elicitation.parquet": "e27ae4311df52154c4206b95906c319a29f37c6a81840d5b1f32c53f13964b8a",
+    "ol_math_A2/rollouts_s001.parquet": "4bfe126c42b9a4145278b601e6ada640edf1d6a0dec66019658571dbe8177d36",
+    "ol_math_A2/rewards_s001.parquet": "4d2137805ccf6e49f508884e727a13d629ca3f9f81eb12c196a37b31d9a535a9",
+    "ol_math_A2/elicitation.parquet": "de20af13afc14c543c1535d85b11a7ade5f73890bcb2a3702e16beab358df051",
+    "sig_moral/rollouts_s001.parquet": "e16d8ac692253a7064c5cbfd647537d850e79767784c518a3c4520f5151c609e",
+    "sig_moral/rewards_s001.parquet": "8f8288f8246392c10585abf2f91a8312ffaf8aad2a42a697f2b66d03a7b20963",
+    "sig_moral/elicitation.parquet": "bc7b258f89d7f366f8c9be94fdf9da2553a71a03f8e3826b6754236eba0b11d0"
+  }
+}

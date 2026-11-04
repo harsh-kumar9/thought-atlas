@@ -132,6 +132,10 @@
     {
       "file": "figures/figA8_matched_elicitation.pdf",
       "sha256": "8390f38ea646988bf8724ad1f15a42b70bc0cbf9039ddf1a70ced1636c5725f3"
+    },
+    {
+      "file": "figures/figA9_fresh_confirmation.pdf",
+      "sha256": "6a85f1b931a38c9a5256c5178ad32f707647485b7e862f0be6c8ed2fab6cd9da"
     }
   ],
   "script_sha256": "15066e70935778dd9d5a8e23f6b78f4b76f2c7c71ee00af89462da91016932f1",
@@ -221,6 +225,46 @@
       "sha256": "eac24b9193b54d6a21b8dc433a1f905936615f9df5a1f96bbb5cbde791500d0e"
     },
     {
+      "file": "revision/results/confirmation/endpoint_coverage.csv",
+      "sha256": "07d0eaa5a2bd226ae5acbb8b038fddffaf8306e39b47e961467f521acfbd42e2"
+    },
+    {
+      "file": "revision/results/confirmation/grade_sources.csv",
+      "sha256": "b20fe74a1d49b38efd4b2005cd357f823f44d97202a4c05b47b4c1396e7b38c6"
+    },
+    {
+      "file": "revision/results/confirmation/outcomes.csv",
+      "sha256": "d90f7ad21f896668052e554c8887d767d14e785c03ab53734a772b80663c3be0"
+    },
+    {
+      "file": "revision/results/confirmation/paired_effects.csv",
+      "sha256": "0ae46788803eee17d9dbf12a0ab12d6f61a7b707cc7d68741060f901f046d462"
+    },
+    {
+      "file": "revision/results/confirmation/selected_items.csv",
+      "sha256": "eb966a4bc619c743a064f0f6bdd82b4c5b65bf7d529a9e9e936602e11db34253"
+    },
+    {
+      "file": "revision/results/elicitation/grade_sources.csv",
+      "sha256": "e179f79635150aeaf15c1925978e09c7946e5ea71313266716877201ed9f0998"
+    },
+    {
+      "file": "revision/results/elicitation/paired.csv",
+      "sha256": "d29e80977b29e891bdb2646ad43bc864f3ac6a72deab65f479e37d5343e9a5c4"
+    },
+    {
+      "file": "revision/results/elicitation/parser_sensitivity.csv",
+      "sha256": "b2b994188e47fc2074cf72644d70735420d6a9271d3947c845ab8dc177b75711"
+    },
+    {
+      "file": "revision/results/elicitation/summary.csv",
+      "sha256": "9f05f96ee7f05f60180c9d6507977b94087d33c881f975b10f8f7e61a2c784c0"
+    },
+    {
+      "file": "revision/results/multijudge_format_pilot/pilot_comparison.csv",
+      "sha256": "b8ee2a7f478f66a6eaa90f12151f9a64108d8cd6f566ce4de7c35e1570070b3e"
+    },
+    {
       "file": "revision/results/readout/validation_summary.csv",
       "sha256": "efb38d397b1d55289bcf1f93e925becb675cb355ac34a84cf42a5f1e21fb7150"
     },
@@ -231,24 +275,9 @@
     {
       "file": "revision/results/within_trace_timing/summary.csv",
       "sha256": "4ba8d8a4fad370a7bfe3a3cd50131d8b4ceca30047890a1a61e77b7e78b14c54"
-    },
-    {
-      "file": "revision/results/elicitation/paired.csv",
-      "sha256": "d29e80977b29e891bdb2646ad43bc864f3ac6a72deab65f479e37d5343e9a5c4"
-    },
-    {
-      "file": "revision/results/elicitation/summary.csv",
-      "sha256": "9f05f96ee7f05f60180c9d6507977b94087d33c881f975b10f8f7e61a2c784c0"
-    },
-    {
-      "file": "revision/results/elicitation/grade_sources.csv",
-      "sha256": "e179f79635150aeaf15c1925978e09c7946e5ea71313266716877201ed9f0998"
-    },
-    {
-      "file": "revision/results/elicitation/parser_sensitivity.csv",
-      "sha256": "b2b994188e47fc2074cf72644d70735420d6a9271d3947c845ab8dc177b75711"
     }
   ],
   "revision_script_sha256": "be68911429c7970bf9cbbe983f37316798d0ee7306cd490be4d6eff4374427a5",
-  "elicitation_script_sha256": "b7c7b9ab16f57948862bb3239725f71e824e8ae7e0516ce34cb4d27c2271c499"
+  "elicitation_script_sha256": "b7c7b9ab16f57948862bb3239725f71e824e8ae7e0516ce34cb4d27c2271c499",
+  "confirmation_script_sha256": "16f806742cc34106abb1b98f2f6efdf6222b9f56d466d1667688936162828343"
 }

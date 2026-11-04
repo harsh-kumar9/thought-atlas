@@ -1,5 +1,5 @@
 {
-  "verified_utc": "2026-11-04T04:23:19.446787+00:00",
+  "verified_utc": "2026-11-04T07:21:12.290921+00:00",
   "checks_passed": true,
   "scope": "Artifact, completed analysis, and CPU regression checks; pending GPU studies are not validated results.",
   "paper_status": "Evidence-repair draft; not submission-ready",
@@ -10,73 +10,73 @@
   "pdf_pages": 25,
   "main_content_last_page": 8,
   "main_figures": 5,
-  "supporting_figures": 9,
+  "supporting_figures": 10,
   "bibliography_entries": 28,
   "unresolved_citation_or_reference_markers": 0,
   "overfull_boxes": 0,
   "source_archive_matches_local_files": true,
-  "source_archive_file_count": 67,
+  "source_archive_file_count": 71,
   "all_figure_and_input_hashes_match": true,
-  "checked_manifest_entries": 57,
+  "checked_manifest_entries": 64,
   "remote_text_files_verified": [
     {
       "file": "sections/results.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:44.672Z",
-      "characters": 14132
+      "verified_utc": "2026-11-04T07:17:58.425Z",
+      "characters": 14934
     },
     {
       "file": "sections/abstract.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:45.957Z",
-      "characters": 1462
+      "verified_utc": "2026-11-04T07:17:59.926Z",
+      "characters": 1521
     },
     {
       "file": "sections/discussion.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:47.275Z",
-      "characters": 4077
+      "verified_utc": "2026-11-04T07:18:01.500Z",
+      "characters": 4218
     },
     {
       "file": "sections/limitations.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:48.541Z",
-      "characters": 4693
-    },
-    {
-      "file": "sections/historical_vectors.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T04:16:49.890Z",
-      "characters": 3783
+      "verified_utc": "2026-11-04T07:18:03.074Z",
+      "characters": 4857
     },
     {
       "file": "sections/revision_audit.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:21:01.456Z",
-      "characters": 20812
+      "verified_utc": "2026-11-04T07:18:04.757Z",
+      "characters": 23130
     },
     {
       "file": "README.md",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:21:03.962Z",
-      "characters": 7355
+      "verified_utc": "2026-11-04T07:18:06.366Z",
+      "characters": 7974
+    },
+    {
+      "file": "sections/methods.tex",
+      "matched_previous": true,
+      "matches": true,
+      "verified_utc": "2026-11-04T07:18:07.979Z",
+      "characters": 4883
     }
   ],
-  "visual_review": "New Figure11 and relevant revised pages1,6-9,20-22 reviewed locally; compiled figure inspected on Overleaf page22. No clipping or overlap; conclusion remains on page8.",
-  "pdf_sha256": "8da68cc634d4286670fb00c06d945cfa12a026ee5c064db16c9032bec98fac07",
-  "source_archive_sha256": "c0e90468ffb6a13e109296ecdad5681f5e9e1e6e4964eeb7c41fcb014af35382",
+  "visual_review": "New Figure12 and revised pages6,8,22,23 inspected locally; new figure and estimates visually verified in Overleaf25-page preview after recompiling from scratch. No clipping, overlap, unresolved references or overfull boxes. Main conclusion remains on page8.",
+  "pdf_sha256": "cc178dfd3e163435150a6408036d5391821609ac333b1471c6c407cc9cd1b507",
+  "source_archive_sha256": "ebb494c018b51961e79c4d85de63b25234e41a6de746b5dbb5c3ea237f26c168",
   "pdf_export": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
-  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-elicitation-proof.png",
+  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-confirmation-proof.png",
   "figure_design": "Sober pastel palette, charcoal labels, fine rules, numeric heatmap values, and shapes/line patterns alongside color. Main transfer figure combines accuracy, answer availability, and absolute baselines.",
   "color_vision_scope": "Earlier palette simulations retained; not a guarantee for every observer or a new simulation of all revised panels.",
-  "revision": "Matched-total-budget results and Llama serialization recovery,2026-11-04",
+  "revision": "Frozen256-item confirmation outcomes,2026-11-04",
   "within_trace_timing": {
     "repeats": 100,
     "seed": 20261101,
@@ -116,7 +116,7 @@
   "pending_studies": [
     "Three-family LLM annotation robustness",
     "Corrected-reward RL training and fixed-step evaluations",
-    "Frozen256-item intervention confirmation"
+    "Frozen64-task confirmation behavioral fidelity"
   ],
   "annotation_validity": "Established source definitions and prior human validation cited; new LLM agreement is robustness evidence and not independent semantic gold.",
   "cpu_tests": {
@@ -125,8 +125,9 @@
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
   "old_validation_record": "archive/before_arr_repair/validation.json",
-  "evidence_archive_sha256": "0f2756a999f1912ec3d8cb86751b8726a12cbadf3ccbc1b6d24c9f6a9ed557b4",
-  "evidence_archive_file_count": 272,
+  "evidence_archive_sha256": "be2b70ba248e831cd1d68949eb8659c0d256c619378852fa36ed9a2171739648",
+  "evidence_archive_file_count": 289,
   "evidence_archive_matches_local_files": true,
-  "completed_elicitation": "All27920 rows, exact pairing and budget checks, source hashes, plus bounded GPQA parser anomalies verified; pointwise intervals."
+  "completed_elicitation": "All27920 rows, exact pairing and budget checks, source hashes, plus bounded GPQA parser anomalies verified; pointwise intervals.",
+  "completed_confirmation_outcomes": "All1536 frozen attempts verified; hashes, pairing, exact token accounting and forced-grade reproduction passed. Both natural contrasts pass Holm; secondary elicited intervals pointwise. Behavioral fidelity pending."
 }

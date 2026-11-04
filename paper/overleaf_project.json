@@ -6,10 +6,10 @@
   "synchronization": "Separate copies; no automatic two-way sync. Inspect/download and reconcile remote edits before replacing files.",
   "initial_uploaded_archive_sha256": "81f75d503814ebf5a862e82ea986ffbd9fbd4aaed0ea44e6f4bfab1b91a938cc",
   "remote_unused_files": "Ten root-level duplicate section uploads, three duplicate figure PDFs in sections/, and an empty figures/tables folder remain unused. Automatic approval review blocked duplicate deletion; cleanup was canceled.",
-  "recorded_utc": "2026-11-04T04:23:19.446787+00:00",
-  "revision": "Matched-total-budget results and Llama serialization recovery,2026-11-04",
+  "recorded_utc": "2026-11-04T07:21:12.290921+00:00",
+  "revision": "Frozen256-item confirmation outcomes,2026-11-04",
   "delivered_source_archive": "thought-atlas-overleaf.zip",
-  "delivered_source_archive_sha256": "c0e90468ffb6a13e109296ecdad5681f5e9e1e6e4964eeb7c41fcb014af35382",
+  "delivered_source_archive_sha256": "ebb494c018b51961e79c4d85de63b25234e41a6de746b5dbb5c3ea237f26c168",
   "delivered_files": [
     {
       "file": "main.tex",
@@ -21,7 +21,7 @@
     },
     {
       "file": "README.md",
-      "sha256": "179ac1a7534666b126ac7993023c450a370533a19f14cd5c2dc25b19228386d1"
+      "sha256": "466fe70cba82c24e9da7d7d1764da2986fb9e02c0f714a4eb85ea8ef9c57ce5c"
     },
     {
       "file": "acl.sty",
@@ -33,7 +33,7 @@
     },
     {
       "file": "sections/abstract.tex",
-      "sha256": "cc608ece82f3884f7ea2ed05431b4720de119499b1415b7458ab068d9d508067"
+      "sha256": "49af6c395064694df5df6e78ad20d3b86054f67eefcf00570052cb931ded1395"
     },
     {
       "file": "sections/appendix.tex",
@@ -41,7 +41,7 @@
     },
     {
       "file": "sections/discussion.tex",
-      "sha256": "878c9f462f054de2136ef901ad8ac1c0f38a642cc3be9003cc6aaf04aaae5a20"
+      "sha256": "d8f1f58446d9b731c6ae12d548cb9bd063b4f1fca0abf35cf8d0ce5930f017bf"
     },
     {
       "file": "sections/experimental_details.tex",
@@ -57,11 +57,11 @@
     },
     {
       "file": "sections/limitations.tex",
-      "sha256": "2b768de9960718cceceeb1c9bcfd174418986d4e732410a738d392980b92356f"
+      "sha256": "b10551a2000564a3c705d6f56eafe530ae6045b9a8f299eb1d430c95519b1a99"
     },
     {
       "file": "sections/methods.tex",
-      "sha256": "40b44faf6eb2c0c50558f5c90fe2f9809bd27c1d64aefa4c042c76fe3e5d5b5b"
+      "sha256": "da58ca953e6faf0ac6da7c7a967cac4009e542a197778e9a58315fb46276465a"
     },
     {
       "file": "sections/related_work.tex",
@@ -69,7 +69,7 @@
     },
     {
       "file": "sections/results.tex",
-      "sha256": "e86c3eaa8204b789e90f3f6f4fbe3f24d1f6faf33646bc19ec924eea2fcf8c3d"
+      "sha256": "1c71a10875909238b726ac1eac85834a023e0def905859f3b03d6e61be081dd4"
     },
     {
       "file": "sections/results_scaffold.tex",
@@ -77,7 +77,7 @@
     },
     {
       "file": "sections/revision_audit.tex",
-      "sha256": "985506d08845f9125d4c76cc62d1a4c2841ca24a401f593ba7a474c76fb37a60"
+      "sha256": "1c6bc5284dbd7522ea886cd643b803ece750618bebeb2c6e50747589f7bab587"
     },
     {
       "file": "tables/coverage.tex",
@@ -168,12 +168,28 @@
       "sha256": "8390f38ea646988bf8724ad1f15a42b70bc0cbf9039ddf1a70ced1636c5725f3"
     },
     {
+      "file": "figures/figA9_fresh_confirmation.pdf",
+      "sha256": "6a85f1b931a38c9a5256c5178ad32f707647485b7e862f0be6c8ed2fab6cd9da"
+    },
+    {
       "file": "supplement/budget_paired.csv",
       "sha256": "c803fa6d42deaff3f0fb77bcf0fe9e6ca27118f82889a4fea1dfaa04f28cec8e"
     },
     {
       "file": "supplement/budget_summary.csv",
       "sha256": "da1fc80a09e52dbae4cee52ba172d62a86bab367dc84c90a38b7abba045de50f"
+    },
+    {
+      "file": "supplement/confirmation_endpoint_coverage.csv",
+      "sha256": "07d0eaa5a2bd226ae5acbb8b038fddffaf8306e39b47e961467f521acfbd42e2"
+    },
+    {
+      "file": "supplement/confirmation_grade_sources.csv",
+      "sha256": "b20fe74a1d49b38efd4b2005cd357f823f44d97202a4c05b47b4c1396e7b38c6"
+    },
+    {
+      "file": "supplement/confirmation_paired_effects.csv",
+      "sha256": "0ae46788803eee17d9dbf12a0ab12d6f61a7b707cc7d68741060f901f046d462"
     },
     {
       "file": "supplement/coverage.csv",
@@ -285,61 +301,121 @@
       "file": "sections/results.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:44.672Z",
-      "characters": 14132
+      "verified_utc": "2026-11-04T07:17:58.425Z",
+      "characters": 14934
     },
     {
       "file": "sections/abstract.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:45.957Z",
-      "characters": 1462
+      "verified_utc": "2026-11-04T07:17:59.926Z",
+      "characters": 1521
     },
     {
       "file": "sections/discussion.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:47.275Z",
-      "characters": 4077
+      "verified_utc": "2026-11-04T07:18:01.500Z",
+      "characters": 4218
     },
     {
       "file": "sections/limitations.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:16:48.541Z",
-      "characters": 4693
-    },
-    {
-      "file": "sections/historical_vectors.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T04:16:49.890Z",
-      "characters": 3783
+      "verified_utc": "2026-11-04T07:18:03.074Z",
+      "characters": 4857
     },
     {
       "file": "sections/revision_audit.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:21:01.456Z",
-      "characters": 20812
+      "verified_utc": "2026-11-04T07:18:04.757Z",
+      "characters": 23130
     },
     {
       "file": "README.md",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T04:21:03.962Z",
-      "characters": 7355
+      "verified_utc": "2026-11-04T07:18:06.366Z",
+      "characters": 7974
+    },
+    {
+      "file": "sections/methods.tex",
+      "matched_previous": true,
+      "matches": true,
+      "verified_utc": "2026-11-04T07:18:07.979Z",
+      "characters": 4883
     }
   ],
-  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-elicitation-proof.png",
+  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-confirmation-proof.png",
   "local_compiled_pdf": "../output/pdf/thought-atlas-arr-draft.pdf",
-  "local_compiled_pdf_sha256": "8da68cc634d4286670fb00c06d945cfa12a026ee5c064db16c9032bec98fac07",
+  "local_compiled_pdf_sha256": "cc178dfd3e163435150a6408036d5391821609ac333b1471c6c407cc9cd1b507",
   "local_pdf_compiler": "Tectonic 0.17.0",
   "download_note": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
-  "final_overleaf_compile": "Successful25 pages; matched-budget Figure11 visually verified on page22.",
-  "synchronized_revision": "Seven modified text files checked against last synchronized hashes before editing; post-edit text matches local. One new figurePDF and fourCSV supplements uploaded; compiled figure inspected. No collaborator changes overwritten.",
+  "final_overleaf_compile": "Successful25 pages; fresh-confirmation Figure12 visually verified on page22.",
+  "synchronized_revision": "Seven modified text files checked against last synchronized hashes before editing; post-edit text matches local. One new figurePDF and threeCSV supplements uploaded. Recompiled from scratch to refresh preview; Figure12 verified. No collaborator changes overwritten.",
   "prior_metadata": "archive/before_arr_repair/overleaf_project.json",
   "evidence_archive": "thought-atlas-evidence.zip",
-  "evidence_archive_sha256": "0f2756a999f1912ec3d8cb86751b8726a12cbadf3ccbc1b6d24c9f6a9ed557b4",
-  "evidence_archive_note": "Separate review companion supplied locally/GitHub; not imported into Overleaf."
+  "evidence_archive_sha256": "be2b70ba248e831cd1d68949eb8659c0d256c619378852fa36ed9a2171739648",
+  "evidence_archive_note": "Separate review companion supplied locally/GitHub; not imported into Overleaf.",
+  "confirmation_sync": {
+    "files": [
+      {
+        "file": "sections/results.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T07:17:58.425Z",
+        "characters": 14934
+      },
+      {
+        "file": "sections/abstract.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T07:17:59.926Z",
+        "characters": 1521
+      },
+      {
+        "file": "sections/discussion.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T07:18:01.500Z",
+        "characters": 4218
+      },
+      {
+        "file": "sections/limitations.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T07:18:03.074Z",
+        "characters": 4857
+      },
+      {
+        "file": "sections/revision_audit.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T07:18:04.757Z",
+        "characters": 23130
+      },
+      {
+        "file": "README.md",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T07:18:06.366Z",
+        "characters": 7974
+      },
+      {
+        "file": "sections/methods.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T07:18:07.979Z",
+        "characters": 4883
+      }
+    ],
+    "uploads": [
+      "figures/figA9_fresh_confirmation.pdf",
+      "supplement/confirmation_paired_effects.csv",
+      "supplement/confirmation_endpoint_coverage.csv",
+      "supplement/confirmation_grade_sources.csv"
+    ],
+    "compile": "25 pages; Figure12 visually verified after compile from scratch"
+  }
 }

@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "attempts": 1536,
+  "tasks": 256,
+  "samples": 2,
+  "budget": 8192,
+  "pairing": "Exact frozen task/sample grid in every arm; raw-to-analysis one-to-one joins checked.",
+  "grading": "All forced answers re-parsed and regraded with frozen grader; retained own grades match original rewards.",
+  "scope": "Integrity and reproducibility checks; not independent semantic validation of extraction or grading.",
+  "code_sha256": "2466ec91252f9b6149306a1eb398304eeec13dbd81554b1b9a811465807859d3",
+  "coverage": [
+    {
+      "condition": "baseline",
+      "attempts": 512,
+      "tasks": 256,
+      "own_answers": 258,
+      "forced_answers": 254,
+      "forced_parseable": 254,
+      "forced_correct": 232,
+      "natural_correct": 255,
+      "elicited_correct": 487,
+      "extraction_fallbacks": 1
+    },
+    {
+      "condition": "ol_math_A2",
+      "attempts": 512,
+      "tasks": 256,
+      "own_answers": 433,
+      "forced_answers": 79,
+      "forced_parseable": 79,
+      "forced_correct": 67,
+      "natural_correct": 423,
+      "elicited_correct": 490,
+      "extraction_fallbacks": 1
+    },
+    {
+      "condition": "sig_moral",
+      "attempts": 512,
+      "tasks": 256,
+      "own_answers": 306,
+      "forced_answers": 206,
+      "forced_parseable": 206,
+      "forced_correct": 171,
+      "natural_correct": 299,
+      "elicited_correct": 470,
+      "extraction_fallbacks": 2
+    }
+  ]
+}

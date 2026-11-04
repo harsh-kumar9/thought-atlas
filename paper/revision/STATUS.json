@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T22:23:09.594292+00:00",
+  "updated_utc": "2026-11-04T22:42:39.124241+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -73,7 +73,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Four Mira CUDA/NVML initialization failures recovered with replacement jobs436712-436715 on Vega. Optimizer/vector/progress and source/task hashes verified before resumption. A2seed1 completed step50 and requeued; A2seed2 wrote fresh extracted rewards; zero seeds0/1 both wrote fresh rollout chunks at22:22UTC. All four replacement jobs have produced fresh saved work after recovery. Two other RL jobs also moved to Vega between chunks and advanced. Gemma1006/Qwen1133 of1370; Llama and confirmation complete. Current RL checkpoints44-50/60. All policies/dependencies verified, no current log failures or source drift. Training/evaluation are not complete.",
+  "gpu_status": "Vega recovery remains healthy: all six RL jobs running or requeuing between chunks; checkpoints45-51/60 with finite metrics and fresh saved work. Gemma1025/Qwen1155 of1370; Llama and confirmation complete. No current log failures or source drift. Normal ashton, one-GPU,15-minute policies and all training/evaluation/analysis dependencies verified. Remaining studies unfinished; no scheduler mutation needed.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -156,10 +156,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T22:23:09.594292+00:00",
+  "gpu_status_checked_utc": "2026-11-04T22:42:39.124241+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_2221.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_2242.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

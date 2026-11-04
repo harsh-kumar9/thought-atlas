@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T04:42:59.232155+00:00",
+  "updated_utc": "2026-11-04T05:12:46.416720+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -69,7 +69,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Elicitation complete and integrated. Gemma pilot435688 completed69/69 and passed original gates; full435690 awaits allocation. Qwen pilot and full Llama435756 still progressing. All six RL runs have finite saved biases and nonzero finite gradients;2-3 optimizer updates completed, final60 pending. Confirmation and baseline/A2 evaluation rollouts continue; no new terminal failures.",
+  "gpu_status": "Elicitation complete and integrated. Gemma and Qwen pilots both completed69/69 with100% parsing; all three full judge runs progressing. Latest saved labels: Gemma90,Qwen89,Llama191 of1370 nonempty traces. RL runs have3-4 completed optimizer updates of60 with finite nonzero gradients. Confirmation baseline336,A2 360,moral352 of512 rollouts; baseline/A2 replication controls288/272 of398. No new failures or code drift.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -148,10 +148,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T04:42:59.232155+00:00",
+  "gpu_status_checked_utc": "2026-11-04T05:12:46.416720+00:00",
   "artifact_status": "Matched-budget revision compiled and visually inspected locally and on Overleaf; new Figure11 and four companion CSVs synchronized after reconciling seven changed text files. Archives rebuilt for this revision.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_0443.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_0513.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

@@ -135,7 +135,7 @@
     },
     {
       "file": "figures/figA9_fresh_confirmation.pdf",
-      "sha256": "6a85f1b931a38c9a5256c5178ad32f707647485b7e862f0be6c8ed2fab6cd9da"
+      "sha256": "75012c70d9127bac685b2d9dbac7e4926fc384f2ffe14da02121064a51672843"
     }
   ],
   "script_sha256": "15066e70935778dd9d5a8e23f6b78f4b76f2c7c71ee00af89462da91016932f1",
@@ -225,6 +225,18 @@
       "sha256": "eac24b9193b54d6a21b8dc433a1f905936615f9df5a1f96bbb5cbde791500d0e"
     },
     {
+      "file": "revision/results/confirmation/behavior/missing.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "file": "revision/results/confirmation/behavior/paired_shifts.csv",
+      "sha256": "67684365d5507ab97d60d8a149440408d7e1c066343012625b2d930b254c0724"
+    },
+    {
+      "file": "revision/results/confirmation/behavior/profiles.csv",
+      "sha256": "b4e549b74cfe9a2272634dd22f336bc0fb9106edc8da957785d992f9c6ff5d64"
+    },
+    {
       "file": "revision/results/confirmation/endpoint_coverage.csv",
       "sha256": "07d0eaa5a2bd226ae5acbb8b038fddffaf8306e39b47e961467f521acfbd42e2"
     },
@@ -279,5 +291,5 @@
   ],
   "revision_script_sha256": "be68911429c7970bf9cbbe983f37316798d0ee7306cd490be4d6eff4374427a5",
   "elicitation_script_sha256": "b7c7b9ab16f57948862bb3239725f71e824e8ae7e0516ce34cb4d27c2271c499",
-  "confirmation_script_sha256": "16f806742cc34106abb1b98f2f6efdf6222b9f56d466d1667688936162828343"
+  "confirmation_script_sha256": "fc70a3d75fffdda7fd484b8935fd4f259c400e8c6eb46f9f44cf4baa673873d8"
 }

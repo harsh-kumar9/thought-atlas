@@ -1,0 +1,11 @@
+{
+  "condition": "sig_moral",
+  "n_tasks": 64,
+  "intended_cosine": 0.9465964548943802,
+  "cosine_lo": 0.8471922047221346,
+  "cosine_hi": 0.9570297664287055,
+  "intended_projection": 0.45025584217698184,
+  "projection_lo": 0.3315427188442394,
+  "projection_hi": 0.5696751740617667,
+  "scope": "Descriptive alignment and magnitude on fixed first64 tasks/sample0; validity and missingness retained; no mediated-causal-effect claim."
+}

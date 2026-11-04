@@ -1,0 +1,17 @@
+{
+  "checked_utc": "2026-11-04T11:49:24.639814+00:00",
+  "completed_traces": 1370,
+  "allocated_traces": 1381,
+  "empty_prefixes": 11,
+  "segments": 105302,
+  "exact_nonempty_trace_coverage": true,
+  "duplicate_segments": 0,
+  "complete_segment_counts": true,
+  "context_truncated": 0,
+  "kim_parse_rate": 0.9790982127594917,
+  "gandhi_parse_rate": 0.9586142713338778,
+  "input_sha256": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+  "labels_sha256": "8857383c215358f22ca997a137c7804ff7394f992a15fb1198d0b2dc00f1280d",
+  "scheduler_exit_verification": "Unavailable: Ada Munge authentication failure; verify after service recovery.",
+  "scope": "Full Llama output integrity only; cross-family robustness awaits Gemma and Qwen completion."
+}

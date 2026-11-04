@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-evidence.zip",
-  "sha256": "be2b70ba248e831cd1d68949eb8659c0d256c619378852fa36ed9a2171739648",
+  "sha256": "e3713aff3dd723c61539728882a1e768859ff6664ff100ead930756a30798e9f",
   "scope": "Review evidence companion, not an anonymized submission or a self-contained GPU rerun environment.",
   "included": "Aggregate analysis outputs, exact prompts, frozen confirmation protocol, code, inspected historical source snapshots, and small steering/readout parameter arrays.",
   "excluded": "Raw full trace releases, activation-fitting arrays, pretrained model weights, credentials, environments, and unfinished GPU outputs.",
@@ -78,8 +78,8 @@
     },
     {
       "path": "figure_manifest.json",
-      "bytes": 11835,
-      "sha256": "74955f9b502621cba25a29318d2096985567ec28057a2f990bfaa8f666da4949"
+      "bytes": 12334,
+      "sha256": "5904a20bb0c7bffd92a71e32eeb007daf42240d9b30ee7733dedfaf96692f7a5"
     },
     {
       "path": "figure_style.json",
@@ -98,8 +98,8 @@
     },
     {
       "path": "revision/STATUS.json",
-      "bytes": 13633,
-      "sha256": "dffe8a666e33de47b6ed1e455783dbec443979fe24f8082f1335cbfd289386ce"
+      "bytes": 14682,
+      "sha256": "c99a3cf287ba0e3f0990877826def3f0805dfd722d98d74bad6f862bc076a5bb"
     },
     {
       "path": "revision/protocols/multi_judge.json",
@@ -432,6 +432,46 @@
       "sha256": "1623cd79e470e9949c0dab326371cf005829518781392baf190bcede0c9b0bf5"
     },
     {
+      "path": "revision/results/confirmation/behavior/fidelity.json",
+      "bytes": 432,
+      "sha256": "5d6229154cb76445c2898c614561d073bf58943a98412c19208e5d7eb6941a92"
+    },
+    {
+      "path": "revision/results/confirmation/behavior/manifest.json",
+      "bytes": 227,
+      "sha256": "fd3a371fd5f39ef6490e83b2e5f8b5476981f2457e08c4804dbe34003ebe6b2d"
+    },
+    {
+      "path": "revision/results/confirmation/behavior/missing.csv",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "revision/results/confirmation/behavior/output_audit.json",
+      "bytes": 1126,
+      "sha256": "cb9ef9af749a3fa338eb05fbbcd3bd142a2b377b62f21251c442ec534205cc6d"
+    },
+    {
+      "path": "revision/results/confirmation/behavior/paired_shifts.csv",
+      "bytes": 2440,
+      "sha256": "67684365d5507ab97d60d8a149440408d7e1c066343012625b2d930b254c0724"
+    },
+    {
+      "path": "revision/results/confirmation/behavior/pilot_gate_gemma.json",
+      "bytes": 317,
+      "sha256": "128f5b1d25aa035fca59d882b1fa62b64b9f26abec20cea07176565cef251ba2"
+    },
+    {
+      "path": "revision/results/confirmation/behavior/profiles.csv",
+      "bytes": 55321,
+      "sha256": "b4e549b74cfe9a2272634dd22f336bc0fb9106edc8da957785d992f9c6ff5d64"
+    },
+    {
+      "path": "revision/results/confirmation/behavior/status_gemma.json",
+      "bytes": 203,
+      "sha256": "aee39e548f78c4e85a65601cdbff6972514fd08f1721d8ca19975dd221d5e1ac"
+    },
+    {
       "path": "revision/results/confirmation/endpoint_coverage.csv",
       "bytes": 267,
       "sha256": "07d0eaa5a2bd226ae5acbb8b038fddffaf8306e39b47e961467f521acfbd42e2"
@@ -577,6 +617,51 @@
       "sha256": "20b0bcef845242cb2bcb178f2ffc46c87f93db21319f2498e5e6e395fee55bab"
     },
     {
+      "path": "revision/results/heartbeat_20261104_0743.json",
+      "bytes": 19154,
+      "sha256": "58a1c4f7436ad22ed60615fdc40585d3c6682f2553204e7a2fc52dd72de3e2e5"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0813.json",
+      "bytes": 19164,
+      "sha256": "da1b40d31d54ccdbd9dee50141cc00283770e647c623e4574e364b0a903a1f87"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0843.json",
+      "bytes": 19168,
+      "sha256": "4dbf1274f3aa2a4340b19c517c2c2aa8ac2c3c8b1d5e55c0e9daf7be5d48a12d"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0913.json",
+      "bytes": 19167,
+      "sha256": "4ba302ad744f5879cdd82316c4a5ca3a7bbad79216ea92edad66bf590b0d8cdd"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_0943.json",
+      "bytes": 19179,
+      "sha256": "c11e682ba936ee33792cc2fb68379a6453999b759630fefc0de979405e39153f"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_1013.json",
+      "bytes": 19178,
+      "sha256": "8ae83f21714cc106c644eadfbc8e812092f0c976fa2b7df1c97de92c51b45b6a"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_1043.json",
+      "bytes": 19167,
+      "sha256": "1ab2129080971bd1f7b7057209e354218b4dab584da5fdf265155a7dc2191642"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_1113.json",
+      "bytes": 19174,
+      "sha256": "dbddb82807b3b8803a85e34467dd7e2d706b4538aa97e0944a26ad9b5ab970f5"
+    },
+    {
+      "path": "revision/results/heartbeat_20261104_1146.json",
+      "bytes": 13114,
+      "sha256": "cb153709ea1f1fdae6e67fd194b1778a37562f3f275bb38c2dffdaacefbf69b2"
+    },
+    {
       "path": "revision/results/judge_timeout_recovery_20261103.json",
       "bytes": 1374,
       "sha256": "da04e16e810dce6c08b04969fbf1135f9539ded542a31fe108185e5ae4a2658f"
@@ -605,6 +690,11 @@
       "path": "revision/results/multijudge_format_pilot/protocol.json",
       "bytes": 1559,
       "sha256": "8c8ba61f694af3f6e39255709ead1abb8b115678fff2f0c0a88f8b72f9bc2e88"
+    },
+    {
+      "path": "revision/results/multijudge_llama_indexed/completion_audit.json",
+      "bytes": 763,
+      "sha256": "832cb2d26977b63c4666ab249dfc1573c68cc6bf6f3fbe0b49f875d0623894ac"
     },
     {
       "path": "revision/results/multijudge_manifest.json",
@@ -677,6 +767,11 @@
       "sha256": "99fc24c3f0d7e4ada77cd2afda02862477d1aeed5ee98977533a370707bdbcef"
     },
     {
+      "path": "revision/results/scheduler_outage_20261104_1142.json",
+      "bytes": 2189,
+      "sha256": "f97e5945e9fa2ad4a31a06724fa378d085a5d568a1843fb0bdab080bfc4b7bc2"
+    },
+    {
       "path": "revision/results/within_trace_timing/analysis_manifest.json",
       "bytes": 2633,
       "sha256": "ad65b6f7304a4f5f7200129a37c98a7eafdfb25d8149d71f513d87214587c0ea"
@@ -720,6 +815,11 @@
       "path": "revision/scripts/analyze_rl_evaluation.py",
       "bytes": 2327,
       "sha256": "70866b13be159895aab56814c1d75a7bc29dbac8265aa10f2629b937fdb602f9"
+    },
+    {
+      "path": "revision/scripts/audit_confirmation_behavior.py",
+      "bytes": 3622,
+      "sha256": "efc8c22ffaa7d4b4336c226609be2143f286cf99bada9570dc0b65ae1aaf4ec4"
     },
     {
       "path": "revision/scripts/audit_confirmation_outputs.py",
@@ -1243,8 +1343,8 @@
     },
     {
       "path": "scripts/confirmation_figure.py",
-      "bytes": 1221,
-      "sha256": "16f806742cc34106abb1b98f2f6efdf6222b9f56d466d1667688936162828343"
+      "bytes": 2086,
+      "sha256": "fc70a3d75fffdda7fd484b8935fd4f259c400e8c6eb46f9f44cf4baa673873d8"
     },
     {
       "path": "scripts/elicitation_figure.py",
@@ -1305,6 +1405,11 @@
       "path": "supplement/budget_summary.csv",
       "bytes": 25298,
       "sha256": "da1fc80a09e52dbae4cee52ba172d62a86bab367dc84c90a38b7abba045de50f"
+    },
+    {
+      "path": "supplement/confirmation_behavior_shifts.csv",
+      "bytes": 2440,
+      "sha256": "67684365d5507ab97d60d8a149440408d7e1c066343012625b2d930b254c0724"
     },
     {
       "path": "supplement/confirmation_endpoint_coverage.csv",

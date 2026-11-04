@@ -1,0 +1,8 @@
+{
+  "judge": "google/gemma-4-31B-it",
+  "requested": 192,
+  "completed": 192,
+  "empty_prefixes": 0,
+  "pilot": false,
+  "input_hash": "50606584d2528f89e0c62f7c84e4e34d6301f62eb08115244648bcf73e177fc9"
+}

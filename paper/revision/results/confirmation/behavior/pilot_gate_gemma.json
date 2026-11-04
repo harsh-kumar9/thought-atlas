@@ -1,0 +1,11 @@
+{
+  "judge": "google/gemma-4-31B-it",
+  "input_hash": "50606584d2528f89e0c62f7c84e4e34d6301f62eb08115244648bcf73e177fc9",
+  "traces": 3,
+  "kim_parse_rate": 1.0,
+  "gandhi_parse_rate": 1.0,
+  "input_truncation_rate": 0.0,
+  "conversational_positive_labels": 243,
+  "cognitive_positive_labels": 344,
+  "passed": true
+}

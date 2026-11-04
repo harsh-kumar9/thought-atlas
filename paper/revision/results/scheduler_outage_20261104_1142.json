@@ -1,0 +1,75 @@
+{
+  "observed_utc": "2026-11-04T11:51:42.189703+00:00",
+  "first_failed_query_utc": "2026-11-04T11:42:00Z",
+  "host": "ada",
+  "service": "munge",
+  "service_state": "failed",
+  "error": "Munge socket connection refused; squeue authentication error and sacct persistent connection failure.",
+  "ssh": "reachable",
+  "fallback": "Read-only SSH from Ada to Mira denied; no credentials or permissions changed.",
+  "jobs": {
+    "judge_pilots": {
+      "gemma": 435688,
+      "qwen": 435689,
+      "llama": 435632
+    },
+    "judge_full": {
+      "gemma": 435690,
+      "qwen": 435691,
+      "llama": 435756
+    },
+    "judge_analysis": 435757,
+    "elicitation": {
+      "math": 435633,
+      "gpqa": 435634,
+      "planning": 435635
+    },
+    "elicitation_analysis": 430487,
+    "rl_smoke": 435636,
+    "rl_zero_seeds_0_1_2": [
+      435640,
+      435641,
+      435642
+    ],
+    "rl_a2_seeds_0_1_2": [
+      435643,
+      435644,
+      435645
+    ],
+    "rl_evaluation": {
+      "baseline": 435646,
+      "a2": 435647,
+      "zero_seed0": 435648,
+      "zero_seed1": 435649,
+      "zero_seed2": 435650,
+      "ol_math_A2_seed0": 435651,
+      "ol_math_A2_seed1": 435652,
+      "ol_math_A2_seed2": 435653,
+      "analysis": 430532
+    },
+    "fresh_confirmation": {
+      "baseline": 435654,
+      "ol_math_A2": 435655,
+      "sig_moral": 435656,
+      "outcomes": 430778,
+      "prepare_labels": 430779,
+      "judge_pilot": 435692,
+      "judge_full": 435693,
+      "behavior": 430782
+    },
+    "llama_format_diagnostic": 435696
+  },
+  "actions": [
+    "Read-only direct output and checkpoint audit",
+    "Verified completed Llama output and exact frozen coverage",
+    "Reproduced completed confirmation behavior estimates and10000-bootstrap intervals",
+    "No new jobs, cancellations, requeues or cluster-service changes attempted"
+  ],
+  "decision": "Retain existing job IDs and saved work; retry bounded scheduler queries after service recovery. Cluster administrator must restore Ada Munge before local scheduler management can be verified.",
+  "pending_exit_checks": [
+    435756,
+    435693,
+    430782
+  ],
+  "previous_recovery": "results/llama_format_recovery_20261104.json"
+}

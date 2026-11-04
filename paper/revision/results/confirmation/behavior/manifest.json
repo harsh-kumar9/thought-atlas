@@ -1,0 +1,8 @@
+{
+  "traces": 192,
+  "tasks": 64,
+  "sample": 0,
+  "window": 8192,
+  "input_sha256": "50606584d2528f89e0c62f7c84e4e34d6301f62eb08115244648bcf73e177fc9",
+  "selection": "First64 frozen task IDs; no outcome-dependent selection"
+}

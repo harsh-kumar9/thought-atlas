@@ -1,13 +1,13 @@
 {
-  "verified_utc": "2026-11-04T07:21:12.290921+00:00",
+  "verified_utc": "2026-11-04T11:55:32.699770+00:00",
   "checks_passed": true,
   "scope": "Artifact, completed analysis, and CPU regression checks; pending GPU studies are not validated results.",
   "paper_status": "Evidence-repair draft; not submission-ready",
   "compilers": [
-    "Tectonic0.17.0 local25-page PDF",
-    "Overleaf pdfLaTeX successful25-page preview"
+    "Tectonic 0.17.0 local 26-page PDF",
+    "Overleaf pdfLaTeX successful 25-page preview"
   ],
-  "pdf_pages": 25,
+  "pdf_pages": 26,
   "main_content_last_page": 8,
   "main_figures": 5,
   "supporting_figures": 10,
@@ -15,68 +15,54 @@
   "unresolved_citation_or_reference_markers": 0,
   "overfull_boxes": 0,
   "source_archive_matches_local_files": true,
-  "source_archive_file_count": 71,
+  "source_archive_file_count": 72,
   "all_figure_and_input_hashes_match": true,
-  "checked_manifest_entries": 64,
+  "checked_manifest_entries": 67,
   "remote_text_files_verified": [
     {
       "file": "sections/results.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:17:58.425Z",
-      "characters": 14934
-    },
-    {
-      "file": "sections/abstract.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T07:17:59.926Z",
-      "characters": 1521
+      "verified_utc": "2026-11-04T11:49:47.350Z",
+      "characters": 15045
     },
     {
       "file": "sections/discussion.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:01.500Z",
-      "characters": 4218
+      "verified_utc": "2026-11-04T11:49:48.788Z",
+      "characters": 4083
     },
     {
       "file": "sections/limitations.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:03.074Z",
-      "characters": 4857
+      "verified_utc": "2026-11-04T11:49:50.215Z",
+      "characters": 4800
     },
     {
       "file": "sections/revision_audit.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:04.757Z",
-      "characters": 23130
+      "verified_utc": "2026-11-04T11:49:51.913Z",
+      "characters": 24296
     },
     {
       "file": "README.md",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:06.366Z",
-      "characters": 7974
-    },
-    {
-      "file": "sections/methods.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T07:18:07.979Z",
-      "characters": 4883
+      "verified_utc": "2026-11-04T11:49:53.350Z",
+      "characters": 8304
     }
   ],
-  "visual_review": "New Figure12 and revised pages6,8,22,23 inspected locally; new figure and estimates visually verified in Overleaf25-page preview after recompiling from scratch. No clipping, overlap, unresolved references or overfull boxes. Main conclusion remains on page8.",
-  "pdf_sha256": "cc178dfd3e163435150a6408036d5391821609ac333b1471c6c407cc9cd1b507",
-  "source_archive_sha256": "ebb494c018b51961e79c4d85de63b25234e41a6de746b5dbb5c3ea237f26c168",
+  "visual_review": "Local pages 8 and 23 and the revised two-panel Figure 12 inspected; Overleaf Figure 12 on page 23 visually verified after recompilation from scratch. No clipping, overlap, unresolved references or overfull boxes. Main conclusion remains on page 8. Compiler pagination differs.",
+  "pdf_sha256": "7c451677a7f088ff44ea9732858864ac353ffc59d075164da2944a7d3c042507",
+  "source_archive_sha256": "be839de2c19927bc5cd6ff8c16230cd0deced93f1ff6a92406b04bd56622764f",
   "pdf_export": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
-  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-confirmation-proof.png",
+  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-fidelity-proof.png",
   "figure_design": "Sober pastel palette, charcoal labels, fine rules, numeric heatmap values, and shapes/line patterns alongside color. Main transfer figure combines accuracy, answer availability, and absolute baselines.",
   "color_vision_scope": "Earlier palette simulations retained; not a guarantee for every observer or a new simulation of all revised panels.",
-  "revision": "Frozen256-item confirmation outcomes,2026-11-04",
+  "revision": "Frozen confirmation behavioral fidelity, 2026-11-04",
   "within_trace_timing": {
     "repeats": 100,
     "seed": 20261101,
@@ -115,8 +101,7 @@
   ],
   "pending_studies": [
     "Three-family LLM annotation robustness",
-    "Corrected-reward RL training and fixed-step evaluations",
-    "Frozen64-task confirmation behavioral fidelity"
+    "Corrected-reward RL training and fixed-step evaluations"
   ],
   "annotation_validity": "Established source definitions and prior human validation cited; new LLM agreement is robustness evidence and not independent semantic gold.",
   "cpu_tests": {
@@ -125,9 +110,11 @@
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
   "old_validation_record": "archive/before_arr_repair/validation.json",
-  "evidence_archive_sha256": "be2b70ba248e831cd1d68949eb8659c0d256c619378852fa36ed9a2171739648",
-  "evidence_archive_file_count": 289,
+  "evidence_archive_sha256": "e3713aff3dd723c61539728882a1e768859ff6664ff100ead930756a30798e9f",
+  "evidence_archive_file_count": 310,
   "evidence_archive_matches_local_files": true,
   "completed_elicitation": "All27920 rows, exact pairing and budget checks, source hashes, plus bounded GPQA parser anomalies verified; pointwise intervals.",
-  "completed_confirmation_outcomes": "All1536 frozen attempts verified; hashes, pairing, exact token accounting and forced-grade reproduction passed. Both natural contrasts pass Holm; secondary elicited intervals pointwise. Behavioral fidelity pending."
+  "completed_confirmation_outcomes": "All1536 frozen attempts verified; hashes, pairing, exact token accounting and forced-grade reproduction passed. Both natural contrasts pass Holm; secondary elicited intervals pointwise.",
+  "completed_confirmation_behavior": "All 192 traces from 64 frozen tasks, 55588 segments, complete parse coverage, no context truncation or missing profiles. All 32 shifts and 10000-bootstrap intervals independently reproduced. Moral intended/achieved cosine 0.9466 [0.8472,0.9570]; projection 0.4503 [0.3315,0.5697].",
+  "scheduler_verification": "Output checks passed; current exit codes and dependencies for jobs 435756, 435693, 430782 remain unverified because Ada munge authentication is down. See revision/results/scheduler_outage_20261104_1142.json."
 }

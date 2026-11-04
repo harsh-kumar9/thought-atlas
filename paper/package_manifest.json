@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-overleaf.zip",
-  "sha256": "ebb494c018b51961e79c4d85de63b25234e41a6de746b5dbb5c3ea237f26c168",
+  "sha256": "be839de2c19927bc5cd6ff8c16230cd0deced93f1ff6a92406b04bd56622764f",
   "files": [
     "main.tex",
     "references.bib",
@@ -44,6 +44,7 @@
     "figures/figA9_fresh_confirmation.pdf",
     "supplement/budget_paired.csv",
     "supplement/budget_summary.csv",
+    "supplement/confirmation_behavior_shifts.csv",
     "supplement/confirmation_endpoint_coverage.csv",
     "supplement/confirmation_grade_sources.csv",
     "supplement/confirmation_paired_effects.csv",

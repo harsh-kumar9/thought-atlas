@@ -6,10 +6,10 @@
   "synchronization": "Separate copies; no automatic two-way sync. Inspect/download and reconcile remote edits before replacing files.",
   "initial_uploaded_archive_sha256": "81f75d503814ebf5a862e82ea986ffbd9fbd4aaed0ea44e6f4bfab1b91a938cc",
   "remote_unused_files": "Ten root-level duplicate section uploads, three duplicate figure PDFs in sections/, and an empty figures/tables folder remain unused. Automatic approval review blocked duplicate deletion; cleanup was canceled.",
-  "recorded_utc": "2026-11-04T07:21:12.290921+00:00",
-  "revision": "Frozen256-item confirmation outcomes,2026-11-04",
+  "recorded_utc": "2026-11-04T11:55:32.699770+00:00",
+  "revision": "Frozen confirmation behavioral fidelity, 2026-11-04",
   "delivered_source_archive": "thought-atlas-overleaf.zip",
-  "delivered_source_archive_sha256": "ebb494c018b51961e79c4d85de63b25234e41a6de746b5dbb5c3ea237f26c168",
+  "delivered_source_archive_sha256": "be839de2c19927bc5cd6ff8c16230cd0deced93f1ff6a92406b04bd56622764f",
   "delivered_files": [
     {
       "file": "main.tex",
@@ -21,7 +21,7 @@
     },
     {
       "file": "README.md",
-      "sha256": "466fe70cba82c24e9da7d7d1764da2986fb9e02c0f714a4eb85ea8ef9c57ce5c"
+      "sha256": "c64f8136fe91d75e8da975d8f35453456d35685339d8e01bedcc6a58787bdc51"
     },
     {
       "file": "acl.sty",
@@ -41,7 +41,7 @@
     },
     {
       "file": "sections/discussion.tex",
-      "sha256": "d8f1f58446d9b731c6ae12d548cb9bd063b4f1fca0abf35cf8d0ce5930f017bf"
+      "sha256": "070d9ce075bb928b9fa71716b978459e9196f854273c32ed5f242ad59afb3cb3"
     },
     {
       "file": "sections/experimental_details.tex",
@@ -57,7 +57,7 @@
     },
     {
       "file": "sections/limitations.tex",
-      "sha256": "b10551a2000564a3c705d6f56eafe530ae6045b9a8f299eb1d430c95519b1a99"
+      "sha256": "3a8abde93c8a2f204f0f20aca14cfd0429f8be18591ec593baae191f7bef0230"
     },
     {
       "file": "sections/methods.tex",
@@ -69,7 +69,7 @@
     },
     {
       "file": "sections/results.tex",
-      "sha256": "1c71a10875909238b726ac1eac85834a023e0def905859f3b03d6e61be081dd4"
+      "sha256": "015839a3677c31129f15d19c0d50e5a8fc05dfa01b00ab4f6ace847bb466f5e5"
     },
     {
       "file": "sections/results_scaffold.tex",
@@ -77,7 +77,7 @@
     },
     {
       "file": "sections/revision_audit.tex",
-      "sha256": "1c6bc5284dbd7522ea886cd643b803ece750618bebeb2c6e50747589f7bab587"
+      "sha256": "e9247ba5e0d252c449b9577e8c8208ca829648e2ab614f2a948fbcd1d106e957"
     },
     {
       "file": "tables/coverage.tex",
@@ -169,7 +169,7 @@
     },
     {
       "file": "figures/figA9_fresh_confirmation.pdf",
-      "sha256": "6a85f1b931a38c9a5256c5178ad32f707647485b7e862f0be6c8ed2fab6cd9da"
+      "sha256": "75012c70d9127bac685b2d9dbac7e4926fc384f2ffe14da02121064a51672843"
     },
     {
       "file": "supplement/budget_paired.csv",
@@ -178,6 +178,10 @@
     {
       "file": "supplement/budget_summary.csv",
       "sha256": "da1fc80a09e52dbae4cee52ba172d62a86bab367dc84c90a38b7abba045de50f"
+    },
+    {
+      "file": "supplement/confirmation_behavior_shifts.csv",
+      "sha256": "67684365d5507ab97d60d8a149440408d7e1c066343012625b2d930b254c0724"
     },
     {
       "file": "supplement/confirmation_endpoint_coverage.csv",
@@ -301,62 +305,48 @@
       "file": "sections/results.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:17:58.425Z",
-      "characters": 14934
-    },
-    {
-      "file": "sections/abstract.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T07:17:59.926Z",
-      "characters": 1521
+      "verified_utc": "2026-11-04T11:49:47.350Z",
+      "characters": 15045
     },
     {
       "file": "sections/discussion.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:01.500Z",
-      "characters": 4218
+      "verified_utc": "2026-11-04T11:49:48.788Z",
+      "characters": 4083
     },
     {
       "file": "sections/limitations.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:03.074Z",
-      "characters": 4857
+      "verified_utc": "2026-11-04T11:49:50.215Z",
+      "characters": 4800
     },
     {
       "file": "sections/revision_audit.tex",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:04.757Z",
-      "characters": 23130
+      "verified_utc": "2026-11-04T11:49:51.913Z",
+      "characters": 24296
     },
     {
       "file": "README.md",
       "matched_previous": true,
       "matches": true,
-      "verified_utc": "2026-11-04T07:18:06.366Z",
-      "characters": 7974
-    },
-    {
-      "file": "sections/methods.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T07:18:07.979Z",
-      "characters": 4883
+      "verified_utc": "2026-11-04T11:49:53.350Z",
+      "characters": 8304
     }
   ],
-  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-confirmation-proof.png",
+  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-fidelity-proof.png",
   "local_compiled_pdf": "../output/pdf/thought-atlas-arr-draft.pdf",
-  "local_compiled_pdf_sha256": "cc178dfd3e163435150a6408036d5391821609ac333b1471c6c407cc9cd1b507",
+  "local_compiled_pdf_sha256": "7c451677a7f088ff44ea9732858864ac353ffc59d075164da2944a7d3c042507",
   "local_pdf_compiler": "Tectonic 0.17.0",
   "download_note": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
-  "final_overleaf_compile": "Successful25 pages; fresh-confirmation Figure12 visually verified on page22.",
-  "synchronized_revision": "Seven modified text files checked against last synchronized hashes before editing; post-edit text matches local. One new figurePDF and threeCSV supplements uploaded. Recompiled from scratch to refresh preview; Figure12 verified. No collaborator changes overwritten.",
+  "final_overleaf_compile": "Successful 25 pages; revised two-panel Figure 12 visually verified on page 23.",
+  "synchronized_revision": "Five modified text files matched previous synchronized hashes before editing and matched local text after editing. Figure 12 PDF replaced and behavioral-shift CSV uploaded. Recompiled from scratch and visually verified. No collaborator changes overwritten.",
   "prior_metadata": "archive/before_arr_repair/overleaf_project.json",
   "evidence_archive": "thought-atlas-evidence.zip",
-  "evidence_archive_sha256": "be2b70ba248e831cd1d68949eb8659c0d256c619378852fa36ed9a2171739648",
+  "evidence_archive_sha256": "e3713aff3dd723c61539728882a1e768859ff6664ff100ead930756a30798e9f",
   "evidence_archive_note": "Separate review companion supplied locally/GitHub; not imported into Overleaf.",
   "confirmation_sync": {
     "files": [
@@ -417,5 +407,49 @@
       "supplement/confirmation_grade_sources.csv"
     ],
     "compile": "25 pages; Figure12 visually verified after compile from scratch"
+  },
+  "fidelity_sync": {
+    "files": [
+      {
+        "file": "sections/results.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T11:49:47.350Z",
+        "characters": 15045
+      },
+      {
+        "file": "sections/discussion.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T11:49:48.788Z",
+        "characters": 4083
+      },
+      {
+        "file": "sections/limitations.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T11:49:50.215Z",
+        "characters": 4800
+      },
+      {
+        "file": "sections/revision_audit.tex",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T11:49:51.913Z",
+        "characters": 24296
+      },
+      {
+        "file": "README.md",
+        "matched_previous": true,
+        "matches": true,
+        "verified_utc": "2026-11-04T11:49:53.350Z",
+        "characters": 8304
+      }
+    ],
+    "uploads": [
+      "figures/figA9_fresh_confirmation.pdf",
+      "supplement/confirmation_behavior_shifts.csv"
+    ],
+    "compile": "Successful 25 pages; revised two-panel Figure 12 visually verified on page 23."
   }
 }

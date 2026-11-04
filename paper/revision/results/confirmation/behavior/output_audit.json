@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "traces": 192,
+  "tasks_per_arm": 64,
+  "segments": 55588,
+  "kim_parse_rate": 1.0,
+  "gandhi_parse_rate": 1.0,
+  "context_truncated": 0,
+  "missing_profiles": 0,
+  "minimum_valid_segments": 33,
+  "paired_shift_cells": 32,
+  "bootstrap_reproduced": 10000,
+  "fidelity_reproduced": true,
+  "scope": "All paired point estimates and intervals reproduced from exported profiles; descriptive fidelity, not semantic ground truth or causal mediation.",
+  "files": {
+    "manifest.json": "fd3a371fd5f39ef6490e83b2e5f8b5476981f2457e08c4804dbe34003ebe6b2d",
+    "labels_gemma.parquet": "78de4185b65be96a4093609f1c0d5a8441a96b4a80c6834059f9a8f12d813123",
+    "sample_key.parquet": "53ca1a9dac88e7ea6bf7d11a60a768becb519bbd547ec9cd00c76f3e5fd158f1",
+    "profiles.csv": "b4e549b74cfe9a2272634dd22f336bc0fb9106edc8da957785d992f9c6ff5d64",
+    "paired_shifts.csv": "67684365d5507ab97d60d8a149440408d7e1c066343012625b2d930b254c0724",
+    "fidelity.json": "5d6229154cb76445c2898c614561d073bf58943a98412c19208e5d7eb6941a92"
+  },
+  "audit_code_sha256": "efc8c22ffaa7d4b4336c226609be2143f286cf99bada9570dc0b65ae1aaf4ec4"
+}

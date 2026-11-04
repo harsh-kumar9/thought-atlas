@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=atlas_elicitation
 #SBATCH --partition=ashton
-#SBATCH --qos=ashton_low
+#SBATCH --qos=ashton
 #SBATCH --nodelist=mira
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
@@ -9,6 +9,8 @@
 #SBATCH --time=00:15:00
 #SBATCH --requeue
 set -euo pipefail
+# Native sampler avoids FlashInfer sampling JIT requiring unavailable nvcc.
+export VLLM_USE_FLASHINFER_SAMPLER=0
 REVISION_ROOT=$1
 TARGET=$2
 export HF_HOME=/ada1/u/harsh/.cache/huggingface HF_HUB_CACHE=/ada1/u/harsh/.cache/huggingface

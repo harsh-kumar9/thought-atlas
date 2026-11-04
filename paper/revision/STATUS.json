@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-04T03:17:06.768394+00:00",
+  "updated_utc": "2026-11-04T03:44:50.220782+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -68,7 +68,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "RL smoke435636 completed; training and evaluation progress checkpointed. Gemma/Qwen timeout recovery435688/435689 running. Original Llama69-trace pilot failed cognitive parse threshold(92.05% vs95%); full run remains gated. Separate format-only diagnostic435696 running. Elicitation and confirmation advancing.",
+  "gpu_status": "Planning elicitation435635 completed and verified6000/6000 rows; math14930/15920 at snapshot, GPQA5727/6000. All six RL runs saved first optimizer update and entered step2. Gemma/Qwen pilots34/69; Llama format diagnostic10/69. Confirmation rollouts baseline160,A2 160,moral144 of512 each. No new actionable failures; original Llama full run stays gated.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -139,7 +139,7 @@
     "Complete multi-judge and matched-budget studies; integrate their outputs into figures and text.",
     "Complete corrected RL training and fixed-step60 evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
     "Resolve unrecoverable historical training-reward uncertainty by replication rather than retroactive inference.",
-    "Complete fresh confirmation jobs430775-430782 and integrate paired outcomes and achieved fidelity without retuning on their results."
+    "Complete fresh confirmation jobs435654-435656 and dependent analyses and integrate paired outcomes and achieved fidelity without retuning on their results."
   ],
   "github": "Authorized update on codex/arr-evidence-repair; preceding revision808acc8 verified remotely. The containing Git commit records this revision.",
   "manuscript": "Second review incorporated: fidelity/dose promoted to main Figure5; historical RL moved to appendix; controller-specific inference; fresh confirmation protocol pending.",
@@ -148,10 +148,10 @@
     "ada": "22 passed including new exact-index schema regression",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-04T03:17:06.768394+00:00",
+  "gpu_status_checked_utc": "2026-11-04T03:44:50.220782+00:00",
   "artifact_status": "Second-review manuscript compiled and visually checked; Overleaf synchronized. Separate source and hashed evidence archives supplied. No new GPU study result is claimed.",
   "scheduler_recovery": "results/judge_timeout_recovery_20261103.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261104_0318.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261104_0348.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

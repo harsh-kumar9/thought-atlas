@@ -1,0 +1,1190 @@
+{
+  "checked_utc": "2026-11-05T02:42:43.231833+00:00",
+  "jobs": {
+    "435690": {
+      "JobState": "PENDING",
+      "Reason": "ReqNodeNotAvail,_May_be_reserved_for_other_job",
+      "ExitCode": "0:0",
+      "Restarts": "106",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T02:39:41.278738+00:00"
+    },
+    "435691": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435756": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435757": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435690(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": null,
+      "Requeue": "1"
+    },
+    "436712": {
+      "JobState": "PENDING",
+      "Reason": "ReqNodeNotAvail,_May_be_reserved_for_other_job",
+      "ExitCode": "0:0",
+      "Restarts": "36",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T02:38:58.500025+00:00"
+    },
+    "436713": {
+      "JobState": "PENDING",
+      "Reason": "ReqNodeNotAvail,_May_be_reserved_for_other_job",
+      "ExitCode": "0:0",
+      "Restarts": "34",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T02:36:43.024764+00:00"
+    },
+    "435642": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "170",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T02:42:43.194155+00:00"
+    },
+    "435643": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "436714": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "436715": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "36",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T02:42:43.194155+00:00"
+    },
+    "435648": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:436712(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435649": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:436713(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435650": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435642(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435651": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "4",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T02:41:57.113067+00:00"
+    },
+    "435652": {
+      "JobState": "PENDING",
+      "Reason": "Resources",
+      "ExitCode": "0:0",
+      "Restarts": "4",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T02:36:38.865695+00:00"
+    },
+    "435653": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:436715(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435646": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435647": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435654": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435655": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435656": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430532": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435648(unfulfilled),afterok:435649(unfulfilled),afterok:435650(unfulfilled),afterok:435651(unfulfilled),afterok:435652(unfulfilled),afterok:435653(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": null,
+      "Requeue": "1"
+    },
+    "430778": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430779": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435692": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435693": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430782": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    }
+  },
+  "outputs": {
+    "results/multijudge/status_llama.json": {
+      "mtime": "2026-11-04T02:50:56.523091+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 69,
+        "completed": 69,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_qwen.json": {
+      "mtime": "2026-11-05T01:58:21.935406+00:00",
+      "status": {
+        "judge": "Qwen/Qwen3.5-27B",
+        "requested": 1370,
+        "completed": 1370,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_gemma.json": {
+      "mtime": "2026-11-05T02:39:36.577659+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 1370,
+        "completed": 1251,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/labels_llama.parquet": {
+      "rows": 5331,
+      "mtime": "2026-11-04T02:50:56.290089+00:00",
+      "unique_traces": 69,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_qwen.parquet": {
+      "rows": 105302,
+      "mtime": "2026-11-05T01:58:21.918406+00:00",
+      "unique_traces": 1370,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_gemma.parquet": {
+      "rows": 96196,
+      "mtime": "2026-11-05T02:39:36.559659+00:00",
+      "unique_traces": 1251,
+      "duplicate_segments": 0
+    },
+    "results/multijudge_llama_indexed/status_llama.json": {
+      "mtime": "2026-11-04T11:24:50.307448+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 1370,
+        "completed": 1370,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge_llama_indexed/labels_llama.parquet": {
+      "rows": 105302,
+      "mtime": "2026-11-04T11:24:50.288447+00:00",
+      "unique_traces": 1370,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/ol_math_A2/status.json": {
+      "mtime": "2026-11-04T06:28:32.854584+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "ol_math_A2"
+      }
+    },
+    "results/confirmation/baseline/status.json": {
+      "mtime": "2026-11-04T06:53:03.043568+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "baseline"
+      }
+    },
+    "results/confirmation/behavior/status_gemma.json": {
+      "mtime": "2026-11-04T11:38:57.580657+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 192,
+        "completed": 192,
+        "empty_prefixes": 0,
+        "pilot": false,
+        "input_hash": "50606584d2528f89e0c62f7c84e4e34d6301f62eb08115244648bcf73e177fc9"
+      }
+    },
+    "results/confirmation/sig_moral/status.json": {
+      "mtime": "2026-11-04T06:46:02.583055+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "sig_moral"
+      }
+    },
+    "results/confirmation/ol_math_A2/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:05:23.137189+00:00"
+    },
+    "results/confirmation/ol_math_A2/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:28:29.504551+00:00"
+    },
+    "results/confirmation/ol_math_A2/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:24:49.939349+00:00"
+    },
+    "results/confirmation/baseline/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:26:07.779133+00:00"
+    },
+    "results/confirmation/baseline/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:47:52.107157+00:00"
+    },
+    "results/confirmation/baseline/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:53:00.387563+00:00"
+    },
+    "results/confirmation/behavior/labels_gemma.parquet": {
+      "rows": 55588,
+      "mtime": "2026-11-04T11:38:57.565657+00:00",
+      "unique_traces": 192,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/sig_moral/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:41:39.197901+00:00"
+    },
+    "results/confirmation/sig_moral/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:45:59.921049+00:00"
+    },
+    "results/confirmation/sig_moral/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:20:51.848916+00:00"
+    },
+    "results/rl_evaluation/a2/status.json": {
+      "mtime": "2026-11-04T06:19:52.648300+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "a2"
+      }
+    },
+    "results/rl_evaluation/ol_math_A2_seed0/status.json": {
+      "mtime": "2026-11-05T02:29:34.225573+00:00",
+      "status": {
+        "stage": "pending",
+        "run": "ol_math_A2_seed0"
+      }
+    },
+    "results/rl_evaluation/ol_math_A2_seed1/status.json": {
+      "mtime": "2026-11-05T02:36:38.654691+00:00",
+      "status": {
+        "stage": "pending",
+        "run": "ol_math_A2_seed1"
+      }
+    },
+    "results/rl_evaluation/baseline/status.json": {
+      "mtime": "2026-11-04T06:24:15.737002+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "baseline"
+      }
+    },
+    "results/rl_evaluation/a2/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:04:12.219196+00:00"
+    },
+    "results/rl_evaluation/a2/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:19:52.547299+00:00"
+    },
+    "results/rl_evaluation/ol_math_A2_seed0/rollouts_s001.parquet": {
+      "rows": 184,
+      "mtime": "2026-11-05T02:41:52.385954+00:00"
+    },
+    "results/rl_evaluation/ol_math_A2_seed1/rollouts_s001.parquet": {
+      "rows": 160,
+      "mtime": "2026-11-05T02:36:38.585690+00:00"
+    },
+    "results/rl_evaluation/baseline/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:24:15.644001+00:00"
+    },
+    "results/rl_evaluation/baseline/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:02:25.207609+00:00"
+    },
+    "results/rl/zero_seed1/status.json": {
+      "mtime": "2026-11-05T02:36:42.144749+00:00",
+      "status": {
+        "step": 57,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed0/status.json": {
+      "mtime": "2026-11-05T01:36:40.339650+00:00",
+      "status": {
+        "step": 60,
+        "stage": "complete"
+      }
+    },
+    "results/rl/zero_seed2/status.json": {
+      "mtime": "2026-11-05T02:35:34.747623+00:00",
+      "status": {
+        "step": 57,
+        "stage": "extract"
+      }
+    },
+    "results/rl/smoke/status.json": {
+      "mtime": "2026-11-04T02:49:39.092425+00:00",
+      "status": {
+        "step": 1,
+        "stage": "complete"
+      }
+    },
+    "results/rl/ol_math_A2_seed2/status.json": {
+      "mtime": "2026-11-05T02:35:14.479284+00:00",
+      "status": {
+        "step": 60,
+        "stage": "extract"
+      }
+    },
+    "results/rl/zero_seed0/status.json": {
+      "mtime": "2026-11-05T02:38:57.711011+00:00",
+      "status": {
+        "step": 56,
+        "stage": "update"
+      }
+    },
+    "results/rl/ol_math_A2_seed1/status.json": {
+      "mtime": "2026-11-05T01:45:48.157553+00:00",
+      "status": {
+        "step": 60,
+        "stage": "complete"
+      }
+    }
+  },
+  "rl_checkpoints": {
+    "zero_seed1": {
+      "latest_metrics": {
+        "step": 56,
+        "reward": 0.6875,
+        "gradient_norm": 0.0002960817364510149,
+        "vector_norm": 2.0460715293884277,
+        "rollouts_sha256": "e21cb8987070fe7267aa9f7d5879227dcb4c2432d02c8efdf0e4e72d552b1bbc",
+        "rewards_sha256": "c87a32c67f8e865919e09d733ece255fba96c596692edb140f6f249e99df7f0e"
+      },
+      "saved_gradients": 56,
+      "saved_vectors": 57,
+      "completed_step_metric_count": 56
+    },
+    "ol_math_A2_seed0": {
+      "latest_metrics": {
+        "step": 60,
+        "reward": 0.8984375,
+        "gradient_norm": 0.0002475860819686204,
+        "vector_norm": 6.9640398025512695,
+        "rollouts_sha256": "6241d2559942fd446d6c989d03cda06063d72b6e3eb67b984174ac854533894b",
+        "rewards_sha256": "b19e18e982e8b457ec7bc3aefe514b3c41d137cbeea58f82099b466de4bd9788"
+      },
+      "saved_gradients": 60,
+      "saved_vectors": 61,
+      "completed_step_metric_count": 60
+    },
+    "zero_seed2": {
+      "latest_metrics": {
+        "step": 56,
+        "reward": 0.8671875,
+        "gradient_norm": 0.0003396015672478825,
+        "vector_norm": 1.9782031774520874,
+        "rollouts_sha256": "c36309ee44dfbd5ba3ccce10bd1a96a523826b303e114030c5537c983abb3d30",
+        "rewards_sha256": "feaca7943e9766eb95dbfc379eda7ec63d047da6af86db76322fafc0dc4fdcc3"
+      },
+      "saved_gradients": 56,
+      "saved_vectors": 57,
+      "completed_step_metric_count": 56
+    },
+    "ol_math_A2_seed2": {
+      "latest_metrics": {
+        "step": 59,
+        "reward": 0.859375,
+        "gradient_norm": 0.0002704134094528854,
+        "vector_norm": 6.933269500732422,
+        "rollouts_sha256": "cf42c16074cf273faf144ee64cc501a8f85a6f547b49c00e3187c089e97bd06b",
+        "rewards_sha256": "74d292ab57c5255ba87114beb44e0b333def6a3edd1741c8eaf7f995b8b5fd4c"
+      },
+      "saved_gradients": 59,
+      "saved_vectors": 60,
+      "completed_step_metric_count": 59
+    },
+    "zero_seed0": {
+      "latest_metrics": {
+        "step": 55,
+        "reward": 0.9375,
+        "gradient_norm": 0.0,
+        "vector_norm": 1.9529913663864136,
+        "rollouts_sha256": "1d7ed94560df1e6d9932c6a9836534c7f5d24c9cb000c7702eb9d22a01f060a8",
+        "rewards_sha256": "97e97d40da716cbb4673188554adc8857d37fa69359cf35f1b507735335802e3"
+      },
+      "saved_gradients": 55,
+      "saved_vectors": 56,
+      "completed_step_metric_count": 55
+    },
+    "ol_math_A2_seed1": {
+      "latest_metrics": {
+        "step": 60,
+        "reward": 0.9609375,
+        "gradient_norm": 0.00020536480587907135,
+        "vector_norm": 6.996270179748535,
+        "rollouts_sha256": "8991945f01aa66f5bd11ff180230cdb143689ca1ed0131a2358feb1870bed303",
+        "rewards_sha256": "0d48275d588b248e9692d98f307edf611af828ea5b71bbd5c9e20b29eefcf86e"
+      },
+      "saved_gradients": 60,
+      "saved_vectors": 61,
+      "completed_step_metric_count": 60
+    }
+  },
+  "code_mismatches": [],
+  "log_alerts": {
+    "435690:StdOut": [
+      "(EngineCore pid=3479846) Traceback (most recent call last):",
+      "(EngineCore pid=3479846) Traceback (most recent call last):",
+      "(EngineCore pid=3479846) FileNotFoundError: [Errno 2] No such file or directory"
+    ]
+  },
+  "completed_stage_checks": {
+    "rl_evaluation/baseline": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "unfinished_generation": 225,
+        "extracted": 173
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "rl_evaluation/a2": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "extracted": 290,
+        "unfinished_generation": 106,
+        "fallback_ungrounded": 2
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/baseline": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 257,
+        "unfinished_generation": 254,
+        "fallback_unparsed_output": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/ol_math_A2": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 432,
+        "unfinished_generation": 79,
+        "fallback_ungrounded": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/sig_moral": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 304,
+        "unfinished_generation": 206,
+        "fallback_ungrounded": 2
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    }
+  },
+  "accounting": {
+    "430532": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "430778": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:02",
+      "Restarts": "0"
+    },
+    "430779": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:08",
+      "Restarts": "0"
+    },
+    "430782": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:11",
+      "Restarts": "0"
+    },
+    "435648": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435649": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435650": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435653": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435692": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:59",
+      "Restarts": "0"
+    },
+    "435757": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435647": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:10:01",
+      "Restarts": "11"
+    },
+    "435646": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:24",
+      "Restarts": "12"
+    },
+    "435655": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:32",
+      "Restarts": "14"
+    },
+    "435656": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:12",
+      "Restarts": "15"
+    },
+    "435654": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:31",
+      "Restarts": "15"
+    },
+    "435756": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:08:32",
+      "Restarts": "35"
+    },
+    "435693": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:27",
+      "Restarts": "23"
+    },
+    "435643": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:44",
+      "Restarts": "180"
+    },
+    "436714": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:29",
+      "Restarts": "30"
+    },
+    "435691": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:09:06",
+      "Restarts": "103"
+    },
+    "435651": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:05:52",
+      "Restarts": "4"
+    },
+    "436715": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:25",
+      "Restarts": "36"
+    },
+    "435642": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:51",
+      "Restarts": "170"
+    },
+    "435652": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "4"
+    },
+    "436713": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "34"
+    },
+    "436712": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "36"
+    },
+    "435690": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "106"
+    }
+  },
+  "scheduler_recovery_checks": {
+    "munge": "active",
+    "completed_exits_verified": [
+      435756,
+      435693,
+      430782
+    ],
+    "gpu_policy_verified": true,
+    "rl_evaluation_dependencies_verified": true,
+    "analysis_dependencies_verified": true,
+    "mutations": []
+  },
+  "zero_gradient_checks": {
+    "zero_seed0": {
+      "step": 55,
+      "rows": 128,
+      "groups": 16,
+      "samples_per_group": 8,
+      "all_within_group_advantages_zero": true,
+      "vector_unchanged": true,
+      "source_hashes_match": true,
+      "all_correct_groups": 15,
+      "all_incorrect_groups": 1,
+      "interpretation": "Expected no-op for group-centered rewards; preserve frozen training schedule and optimizer behavior."
+    }
+  },
+  "assessment": "Scheduler access restored; inspect states, accounting and dependencies alongside saved-output checks.",
+  "log_tails": {
+    "judge_resume_435637_435690.log": {
+      "mtime": "2026-11-05T02:39:41.278738+00:00",
+      "tail": [
+        "(EngineCore pid=3479846)     sem_unlink(name)",
+        "(EngineCore pid=3479846) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-3479846-ow_9o8fz': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "judge_resume_435638_435691.log": {
+      "mtime": "2026-11-05T01:58:26.760480+00:00",
+      "tail": [
+        "(EngineCore pid=3472178)     sem_unlink(name)",
+        "(EngineCore pid=3472178) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-3472178-cnri7_rk': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "llama_indexed_435756.log": {
+      "mtime": "2026-11-04T11:24:52.580590+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "checkpoint llama 11 / 11",
+        "(EngineCore pid=3361931) INFO 11-04 11:24:50 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3361931) INFO 11-04 11:24:50 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "vega_recovery_435640_436712.log": {
+      "mtime": "2026-11-05T02:38:58.500025+00:00",
+      "tail": [
+        "Processed prompts:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 31/32 [00:42<00:00,  2.65it/s, est. speed input: 3496.52 toks/s, output: 51.14 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:42<00:00,  2.90it/s, est. speed input: 3680.92 toks/s, output: 52.38 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:42<00:00,  2.90it/s, est. speed input: 3680.92 toks/s, output: 52.38 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:42<00:00,  1.33s/it, est. speed input: 3680.92 toks/s, output: 52.38 toks/s]",
+        "graded 128",
+        "[rank0]:[W1105 02:38:58.300849236 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "vega_recovery_435641_436713.log": {
+      "mtime": "2026-11-05T02:36:43.024764+00:00",
+      "tail": [
+        "Loading weights:  52%|\u2588\u2588\u2588\u2588\u2588\u258f    | 395/760 [00:01<00:00, 417.76it/s]",
+        "Loading weights:  68%|\u2588\u2588\u2588\u2588\u2588\u2588\u258a   | 518/760 [00:01<00:00, 659.64it/s]",
+        "Loading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 760/760 [00:01<00:00, 568.72it/s]",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.py:182: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.",
+        "Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)",
+        "  vector_norm=float(b.norm()),rollouts_sha256=sha(a.out/f'rollouts_s{step:03d}.parquet'),"
+      ]
+    },
+    "normal_435585_435642.log": {
+      "mtime": "2026-11-05T02:42:43.194155+00:00",
+      "tail": [
+        "graded 96",
+        "",
+        "Rendering prompts:   0%|          | 0/32 [00:00<?, ?it/s]",
+        "Rendering prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:00<00:00, 480.15it/s]",
+        "",
+        "Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]"
+      ]
+    },
+    "normal_435586_435643.log": {
+      "mtime": "2026-11-05T01:36:41.242657+00:00",
+      "tail": [
+        "Loading weights:  52%|\u2588\u2588\u2588\u2588\u2588\u258f    | 395/760 [00:01<00:00, 400.06it/s]",
+        "Loading weights:  79%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589  | 603/760 [00:01<00:00, 878.12it/s]",
+        "Loading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 760/760 [00:01<00:00, 575.18it/s]",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.py:182: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.",
+        "Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)",
+        "  vector_norm=float(b.norm()),rollouts_sha256=sha(a.out/f'rollouts_s{step:03d}.parquet'),"
+      ]
+    },
+    "vega_recovery_435644_436714.log": {
+      "mtime": "2026-11-05T01:45:49.024564+00:00",
+      "tail": [
+        "Loading weights:  52%|\u2588\u2588\u2588\u2588\u2588\u258e    | 399/760 [00:01<00:00, 407.59it/s]",
+        "Loading weights:  78%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a  | 591/760 [00:01<00:00, 845.61it/s]",
+        "Loading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 760/760 [00:01<00:00, 573.99it/s]",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_repair.py:182: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.",
+        "Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)",
+        "  vector_norm=float(b.norm()),rollouts_sha256=sha(a.out/f'rollouts_s{step:03d}.parquet'),"
+      ]
+    },
+    "vega_recovery_435645_436715.log": {
+      "mtime": "2026-11-05T02:42:43.194155+00:00",
+      "tail": [
+        "Processed prompts:  19%|\u2588\u2589        | 6/32 [00:19<00:51,  1.96s/it, est. speed input: 1299.04 toks/s, output: 15.36 toks/s]",
+        "Processed prompts:  22%|\u2588\u2588\u258f       | 7/32 [00:21<00:50,  2.01s/it, est. speed input: 1222.08 toks/s, output: 17.03 toks/s]",
+        "Processed prompts:  34%|\u2588\u2588\u2588\u258d      | 11/32 [00:23<00:22,  1.09s/it, est. speed input: 1508.93 toks/s, output: 27.45 toks/s]",
+        "Processed prompts:  41%|\u2588\u2588\u2588\u2588      | 13/32 [00:25<00:20,  1.06s/it, est. speed input: 1863.57 toks/s, output: 31.15 toks/s]",
+        "Processed prompts:  44%|\u2588\u2588\u2588\u2588\u258d     | 14/32 [00:27<00:21,  1.22s/it, est. speed input: 1768.54 toks/s, output: 31.75 toks/s]",
+        "Processed prompts:  50%|\u2588\u2588\u2588\u2588\u2588     | 16/32 [00:29<00:18,  1.14s/it, est. speed input: 1720.56 toks/s, output: 34.90 toks/s]"
+      ]
+    },
+    "normal_435594_435651.log": {
+      "mtime": "2026-11-05T02:41:57.113067+00:00",
+      "tail": [
+        "WARNING 11-05 02:37:17 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 02:37:17 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_update_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 02:37:17 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 02:37:17 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 176",
+        "generated 184"
+      ]
+    },
+    "normal_435595_435652.log": {
+      "mtime": "2026-11-05T02:36:38.865695+00:00",
+      "tail": [
+        "generated 128",
+        "generated 136",
+        "generated 144",
+        "generated 152",
+        "generated 160",
+        "[rank0]:[W1105 02:36:38.690096396 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435589_435646.log": {
+      "mtime": "2026-11-04T06:24:16.556011+00:00",
+      "tail": [
+        "Processed prompts:  93%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258e| 13/14 [00:26<00:00,  2.39it/s, est. speed input: 3433.46 toks/s, output: 30.26 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.66it/s, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.66it/s, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.98s/it, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "graded 398",
+        "[rank0]:[W1104 06:24:16.055071371 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435590_435647.log": {
+      "mtime": "2026-11-04T06:19:53.530310+00:00",
+      "tail": [
+        "Processed prompts:  86%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c | 12/14 [00:17<00:00,  2.65it/s, est. speed input: 3405.49 toks/s, output: 39.88 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  3.58it/s, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  3.58it/s, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  1.27s/it, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "graded 398",
+        "[rank0]:[W1104 06:19:53.021680035 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435597_435654.log": {
+      "mtime": "2026-11-04T06:53:04.632571+00:00",
+      "tail": [
+        "(EngineCore pid=225901)     sem_unlink(name)",
+        "(EngineCore pid=225901) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-225901-75lzviob': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "normal_435598_435655.log": {
+      "mtime": "2026-11-04T06:28:34.535601+00:00",
+      "tail": [
+        "(EngineCore pid=217157)     sem_unlink(name)",
+        "(EngineCore pid=217157) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-217157-blbb3zvd': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "normal_435599_435656.log": {
+      "mtime": "2026-11-04T06:46:04.328059+00:00",
+      "tail": [
+        "(EngineCore pid=221788)     sem_unlink(name)",
+        "(EngineCore pid=221788) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-221788-1ftxqni0': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "confirmation_430778.log": {
+      "mtime": "2026-11-04T06:53:33.453621+00:00",
+      "tail": []
+    },
+    "confirmation_430779.log": {
+      "mtime": "2026-11-04T06:53:33.455621+00:00",
+      "tail": []
+    },
+    "judge_resume_435657_435692.log": {
+      "mtime": "2026-11-04T06:57:49.268759+00:00",
+      "tail": [
+        "Processed prompts:  91%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588 | 20/22 [00:24<00:01,  1.93it/s, est. speed input: 4464.01 toks/s, output: 250.85 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 22/22 [00:24<00:00,  1.93it/s, est. speed input: 4624.30 toks/s, output: 274.88 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 22/22 [00:24<00:00,  1.13s/it, est. speed input: 4624.30 toks/s, output: 274.88 toks/s]",
+        "checkpoint gemma 3 / 3",
+        "(EngineCore pid=3312696) INFO 11-04 06:57:46 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3312696) INFO 11-04 06:57:46 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "judge_resume_435658_435693.log": {
+      "mtime": "2026-11-04T11:38:58.304652+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "checkpoint gemma 2 / 2",
+        "(EngineCore pid=3363238) INFO 11-04 11:38:57 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3363238) INFO 11-04 11:38:57 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "confirmation_430782.log": {
+      "mtime": "2026-11-04T11:39:24.064546+00:00",
+      "tail": []
+    }
+  },
+  "log_alert_review": {
+    "435690:StdOut": {
+      "classification": "Semaphore finalization after saved chunk gemma12/131 and completed shutdown at02:39:36; job exit0 and requeued.",
+      "action": "No changes."
+    }
+  },
+  "resource_wait_review": {
+    "node": "vega",
+    "state": "MIXED+PLANNED",
+    "gpu_allocated": 8,
+    "gpu_configured": 8,
+    "down_or_drained": false,
+    "observed_gemma_start_estimate": "2026-11-05T03:37:00",
+    "interpretation": "Ordinary shared-cluster resource/backfill wait; estimate not a guarantee. Preserve normal QoS and current placement; no duplicate jobs or priority changes."
+  }
+}

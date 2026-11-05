@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-05T02:13:44.668896+00:00",
+  "updated_utc": "2026-11-05T02:42:43.231833+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -76,7 +76,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Qwen annotation and second A2-initialized RL seed completed exit0 and passed full output audits. Two of six RL seeds finished; other training checkpoints55-58/60. Evaluations435651/435652 have112/80 saved responses of398 at snapshot. Gemma1226/1370, Qwen/Llama1370 complete. Zero-seed0 step55 no-op verified against complete groups, hashes and unchanged vector. Gemma shutdown cleanup alert followed saved chunk and normal requeue. All GPU policies/dependencies intact; no source drift. Combined robustness and RL evaluations unfinished.",
+  "gpu_status": "Two RL training seeds complete and audited; remaining checkpoints55-59/60. A2 evaluations have184/160 saved responses of398; Gemma1251/1370, Qwen/Llama complete. Several jobs now wait for Vega resources (8/8 GPUs allocated, MIXED+PLANNED, no DOWN/DRAIN); running work remains fresh. Gemma shutdown cleanup alert followed saved chunk and exit0 requeue. All policies/dependencies intact and no source drift. Normal queue wait, no runtime changes needed; combined studies unfinished.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -160,10 +160,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-05T02:12:40.200204+00:00",
+  "gpu_status_checked_utc": "2026-11-05T02:42:43.231833+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261105_0212.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261105_0242.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",

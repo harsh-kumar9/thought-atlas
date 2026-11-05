@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-overleaf.zip",
-  "sha256": "6e6eeaf5b30ac3635edb447f841162ce68862942d8cbb4de10205681cc89c4f3",
+  "sha256": "1542aae0f2a37819acf5e5cb10437b8c16774bdde3f1a1cf915d0f37a2942961",
   "files": [
     "main.tex",
     "references.bib",
@@ -34,6 +34,7 @@
     "figures/fig05_steering_and_rl.pdf",
     "figures/fig06_open_task_tradeoffs.pdf",
     "figures/figA10_multijudge.pdf",
+    "figures/figA11_clean_rl.pdf",
     "figures/figA1_domain_similarity.pdf",
     "figures/figA2_trace_examples.pdf",
     "figures/figA3_random_timing_control.pdf",
@@ -45,6 +46,9 @@
     "figures/figA9_fresh_confirmation.pdf",
     "supplement/budget_paired.csv",
     "supplement/budget_summary.csv",
+    "supplement/clean_rl_absolute_by_training_seed.csv",
+    "supplement/clean_rl_fallback_sensitivity.csv",
+    "supplement/clean_rl_paired_effects.csv",
     "supplement/confirmation_behavior_shifts.csv",
     "supplement/confirmation_endpoint_coverage.csv",
     "supplement/confirmation_grade_sources.csv",

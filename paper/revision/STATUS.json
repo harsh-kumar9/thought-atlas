@@ -1,6 +1,6 @@
 {
-  "updated_utc": "2026-11-05T17:21:02.001771+00:00",
-  "scope": "Authorized ARR evidence repair; not submission-ready",
+  "updated_utc": "2026-11-05T18:09:59.416961+00:00",
+  "scope": "Requested ARR evidence revision complete; no submission performed.",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
   "historical_vectors": "Frozen, not replaced",
@@ -16,13 +16,13 @@
     "fresh_confirmation_design": "Frozen256 MATH-test problems exclude MATH-500 and740 saved math prompt texts; A2 and moral vector norm6.75; primary paired tests, elicitation and64-task behavioral check completed; outputs verified.",
     "rl_runtime_smoke": "One-step corrected-reward generate/extract/update completed with exit0; not a scientific replication result.",
     "matched_total_budget_elicitation": "27920/27920 rows; all three targets and dependent analysis430487 completed exit0. Input hashes, exact task/seed/budget pairing, token bounds and parser-anomaly sensitivity verified. Integrated into abstract, results, discussion, appendix and Figure11.",
-    "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. All six clean RL training runs are now audited complete; aggregate replication evaluation remains unfinished.",
+    "rl_evaluation_controls": "Fresh baseline/A2 controls complete with exact398-row grid each, common sampling, token bounds and grading consistency. Included in final3184-attempt paired analysis.",
     "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity completed and integrated; see separate entry.",
     "fresh_confirmation_behavior": "All192 frozen traces and55588 segments;100% parsing in both families, zero context truncation, zero missing profiles. All32 paired shifts and10000-bootstrap intervals reproduced. Moral intended/achieved cosine0.9466[0.8472,0.9570], projection0.4503[0.3315,0.5697]. Integrated with outcomes; annotation435693 and analysis430782 verified COMPLETED exit0 after scheduler recovery.",
-    "llama_annotation_output": "1370 nonempty traces of1381 allocated,105302 segments, exact frozen coverage, zero duplicate segments/context truncation. Parse rates97.91% conversational,95.86% cognitive. Other judges unfinished; not completed cross-family robustness. Full435756 verified COMPLETED exit0 after scheduler recovery.",
+    "llama_annotation_output": "1370 nonempty/1381 allocated traces,105302 segments; exact coverage, zero duplicates/context truncation,97.91%/95.86% parsing. Included in completed cross-family robustness; parsing is not semantic validity.",
     "rl_training_a2_seed0": "Job435643 COMPLETED exit0 at frozen step60. All60 steps/7680 rollout-reward pairs, seeded prompt/sample schedule, token bounds, source hashes, finite vectors, optimizer/progress match and expected no-op steps15/52/53 verified. Evaluation435651 loaded exact final vector; performance evaluation unfinished.",
     "rl_training_a2_seed1": "Job436714 COMPLETED exit0 at frozen step60; all60 steps/7680 rollout-reward pairs, seeded schedule, hashes, token bounds, finite vectors and optimizer/progress verified. No-op steps24/33/44/45 preserve identical vectors. Evaluation435652 loaded exact final vector; performance evaluation unfinished.",
-    "qwen_annotation_output": "Job435691 COMPLETED exit0. Exact1370 nonempty traces of1381 allocated,105302 segments; zero duplicates/context truncation, same segment grid as Llama. Parsing99.981% conversational/100% cognitive. Combined cross-family robustness awaits Gemma; parsing is not semantic validity.",
+    "qwen_annotation_output": "1370 nonempty/1381 allocated traces,105302 segments; exact common grid,99.981%/100% parsing. Included in completed cross-family robustness.",
     "rl_training_a2_seed2": "Job436715 COMPLETED exit0 at frozen step60. All60 steps/7680 rollout-reward pairs, seeded schedule, hashes, token bounds, finite vectors and optimizer/progress verified. No-op steps14/25/40 preserve identical vectors. Evaluation435653 loaded exact final vector; performance evaluation unfinished.",
     "rl_training_zero_seed2": "Job435642 COMPLETED exit0; all60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step29 expected no-op verified. Evaluation435650 loaded exact final vector and has fresh output.",
     "rl_evaluation_ol_math_A2_seed0": "Job435651 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Fallback rows:3; retain sensitivity bound. Individual seed only; aggregate conclusions await all seeds.",
@@ -31,7 +31,10 @@
     "rl_training_zero_seed0": "Job436712 COMPLETED exit0. All60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step55 expected no-op verified. Evaluation435648 loaded exact final vector. All six training seeds now audited; evaluation remains separate.",
     "multijudge_robustness": "All3 judges and combinedCPU435757 completed exit0. Exact1370 nonempty/1381 allocated traces and105302 identical segments per judge. CPU437659 independently reproduced408 agreement estimates,2688 weighted rates,24 selected contrasts,2016 paired shifts; CPU437678 reproduced all7 analysis outputs byte-for-byte including bootstrap intervals. Four selected average domain contrasts persist; Llama event-level agreement is weak. Integrated into prose and compact figure; cross-family robustness, not semantic ground truth.",
     "rl_evaluation_ol_math_A2_seed2": "Job437653 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Three ungrounded fallback rows retained with0.754pp worst-case range. All three A2-initialized evaluations now audited; aggregate replication conclusions await all zero-start seeds.",
-    "rl_evaluation_zero_seed2": "Job437229 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Two ungrounded fallback rows retained with0.503pp worst-case range. Individual seed only; full replication conclusions await remaining zero-start seeds and paired analysis."
+    "rl_evaluation_zero_seed2": "Job437229 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Two ungrounded fallback rows retained with0.503pp worst-case range. Individual seed only; full replication conclusions await remaining zero-start seeds and paired analysis.",
+    "rl_evaluation_zero_seed1": "Job435649 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Two fallback rows retained with0.503pp worst-case range. Aggregate interpretation awaits final seed and paired analysis.",
+    "rl_evaluation_zero_seed0": "Job435648 COMPLETED exit0. All398 grades reproduced exactly, frozen vector/source/task/sample checks passed; one fallback row retained with0.251pp worst-case range.",
+    "corrected_reward_rl_replication": "Six training seeds x60 steps,46080 retained rollout/reward pairs; all six learned-vector and two control evaluations complete,3184 attempts. Analysis430532 COMPLETED exit0; all26 paired estimates/2000-bootstrap intervals independently reproduced locally and remotely. All A2-start seeds improve over fixed A2 by5.0\u20138.8pp; zero-start improves over unsteered, not over A2. Completion closely tracks accuracy. New-vector behavior and elicitation untested."
   },
   "jobs": {
     "judge_pilots": {
@@ -87,7 +90,7 @@
     "judge_completion_audit": 437659,
     "judge_bootstrap_reproduction": 437678
   },
-  "gpu_status": "Three study families complete and integrated; all six RL training runs and four learned-vector evaluations audited complete. Zero-seed2 evaluation437229 completed exit0 and all398 grades reproduced. Zero-seed1 retains398 responses/384 grades; zero-seed0 retains328 responses. These two jobs are queued on Vega; CPU430532 correctly depends only on435648/435649. No new errors or source mismatches.",
+  "gpu_status": "All four study families and dependent analyses completed exit0; coverage, frozen inputs, checkpoint integrity, grade reproduction and uncertainty verified. No remaining requested jobs.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -141,7 +144,8 @@
     "scripts/rl_evaluate_guarded.sbatch": "591f87ce269f59100e1575831054150f5ee139fa86c85fc36f1f0b8b5647eb38",
     "scripts/recover_eval_timeout_20261105.py": "250c1217061b10f5536cc83f2174e4a46d003e33af63707cbdb791749745b74c",
     "scripts/audit_multijudge_completion.py": "d6035985140435cad50d79a039c359ecf167ed733725275568d122eaac29f5e9",
-    "scripts/reproduce_multijudge_analysis.py": "fdeff58d46f0af04224cdf13f777d3f891fcf6541a78e8ba808e3d13cd7a2989"
+    "scripts/reproduce_multijudge_analysis.py": "fdeff58d46f0af04224cdf13f777d3f891fcf6541a78e8ba808e3d13cd7a2989",
+    "scripts/verify_rl_aggregate.py": "965d8afd357c3f5143619a98781918749f10875b516952b27af2d72246a26938"
   },
   "readout_jobs": {
     "failed_prepare": 430409,
@@ -170,21 +174,18 @@
     "Temperature variable shadowing in inspected RL source; exact historical executed version unproven.",
     "Historical pairwise creativity summary mixed math and idea rows for checking/exploration; current summary restricted to idea IDs."
   ],
-  "outstanding": [
-    "Complete fixed-step60 corrected RL evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
-    "Resolve unrecoverable historical training-reward uncertainty by replication rather than retroactive inference."
-  ],
+  "outstanding": [],
   "github": "Authorized update on codex/arr-evidence-repair; preceding revision808acc8 verified remotely. The containing Git commit records this revision.",
-  "manuscript": "Matched-budget, fresh256-item confirmation and completed three-family robustness incorporated. Local27-page draft, main conclusion page8; new Figure11 shows positive agreement and domain contrast stability. CorrectedRL remains pending.",
+  "manuscript": "All four studies incorporated. Local29-page PDF and Overleaf28-page clean compile visually checked; main conclusion page8. Complete clean RL seed results and inferential limits reported.",
   "tests": {
     "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
-    "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
+    "gpu_execution": "All four study families and dependent analyses complete; individual integrity and aggregate reproduction checks passed."
   },
-  "gpu_status_checked_utc": "2026-11-05T17:20:41.479969+00:00",
-  "artifact_status": "Completed three-family robustness integrated as Figure11, with aggregate companion tables. Local27-page PDF and Overleaf26-page clean compile visually verified; main conclusion remains page8. Source and evidence packages refreshed; correctedRL aggregate pending.",
+  "gpu_status_checked_utc": "2026-11-05T18:02:49.583417+00:00",
+  "artifact_status": "Local and Overleaf manuscripts verified; all6 edited text files match; compact cleanRL Figure11 inspected; source/evidence archives refreshed after final status.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261105_1720.json",
+  "latest_monitor_snapshot": "results/final_monitor_20261105.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
@@ -220,13 +221,17 @@
     "ol_math_A2_seed0": "results/rl_evaluation/ol_math_A2_seed0/completion_audit.json",
     "ol_math_A2_seed1": "results/rl_evaluation/ol_math_A2_seed1/completion_audit.json",
     "ol_math_A2_seed2": "results/rl_evaluation/ol_math_A2_seed2/completion_audit.json",
-    "zero_seed2": "results/rl_evaluation/zero_seed2/completion_audit.json"
+    "zero_seed2": "results/rl_evaluation/zero_seed2/completion_audit.json",
+    "zero_seed1": "results/rl_evaluation/zero_seed1/completion_audit.json",
+    "zero_seed0": "results/rl_evaluation/zero_seed0/completion_audit.json"
   },
   "completed_evaluation_monitor_verification": {
-    "checked_utc": "2026-11-05T17:20:41.479969+00:00",
+    "checked_utc": "2026-11-05T18:02:49.583417+00:00",
     "arms": [
       "rl_evaluation/baseline",
       "rl_evaluation/a2",
+      "rl_evaluation/zero_seed0",
+      "rl_evaluation/zero_seed1",
       "rl_evaluation/zero_seed2",
       "rl_evaluation/ol_math_A2_seed0",
       "rl_evaluation/ol_math_A2_seed1",
@@ -236,11 +241,18 @@
       "confirmation/sig_moral"
     ],
     "source_hashes_match": true,
-    "snapshot_remote": "results/heartbeat_20261105_1720.json"
+    "snapshot_remote": "results/final_monitor_20261105.json"
   },
   "mira_return_recovery": "results/mira_return_20261105_0512.json",
   "evaluation_recovery": "results/evaluation_recovery_20261105_0542.json",
   "evaluation_timeout_recovery": "results/evaluation_timeout_recovery_20261105_1424.json",
   "multijudge_completion_audit": "results/multijudge_analysis_indexed/completion_audit.json",
-  "multijudge_bootstrap_audit": "results/multijudge_analysis_indexed/bootstrap_reproduction_audit.json"
+  "multijudge_bootstrap_audit": "results/multijudge_analysis_indexed/bootstrap_reproduction_audit.json",
+  "rl_aggregate_verification": "results/rl_evaluation/aggregate_verification.json",
+  "remaining_scientific_limitations": [
+    "Cross-LLM robustness is not semantic validation.",
+    "Historical training rewards/source versions cannot be reconstructed; clean replication is separate.",
+    "Clean RL evaluation reuses historical199 problems; no fresh-holdout, behavioral-convergence or elicited-answer-gain claim.",
+    "General controller selection, human validation and new-vector behavioral/elicitation studies remain future work, not unfinished scheduled jobs."
+  ]
 }

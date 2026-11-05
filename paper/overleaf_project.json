@@ -6,298 +6,50 @@
   "synchronization": "Separate copies; no automatic two-way sync. Inspect/download and reconcile remote edits before replacing files.",
   "initial_uploaded_archive_sha256": "81f75d503814ebf5a862e82ea986ffbd9fbd4aaed0ea44e6f4bfab1b91a938cc",
   "remote_unused_files": "Ten root-level duplicate section uploads, three duplicate figure PDFs in sections/, and an empty figures/tables folder remain unused. Automatic approval review blocked duplicate deletion; cleanup was canceled.",
-  "recorded_utc": "2026-11-04T11:55:32.699770+00:00",
-  "revision": "Frozen confirmation behavioral fidelity, 2026-11-04",
+  "recorded_utc": "2026-11-05T18:09:59.416961+00:00",
+  "revision": "All four study families; corrected-reward RL integrated2026-11-05",
   "delivered_source_archive": "thought-atlas-overleaf.zip",
-  "delivered_source_archive_sha256": "be839de2c19927bc5cd6ff8c16230cd0deced93f1ff6a92406b04bd56622764f",
+  "delivered_source_archive_sha256": "1542aae0f2a37819acf5e5cb10437b8c16774bdde3f1a1cf915d0f37a2942961",
   "delivered_files": [
     {
-      "file": "main.tex",
-      "sha256": "4487e3a3ce4bd0975f0c60f5183409e4e69df48cb6f7abaef3b5fa91d8b29d56"
-    },
-    {
-      "file": "references.bib",
-      "sha256": "eb7c360be8b4ec080d27b080453ab91954068038519707b16497de67a6e045c7"
-    },
-    {
       "file": "README.md",
-      "sha256": "c64f8136fe91d75e8da975d8f35453456d35685339d8e01bedcc6a58787bdc51"
-    },
-    {
-      "file": "acl.sty",
-      "sha256": "19dfeddc2c0e448f3926a0bef048a9db3f3611b46265b760caabd7ada4f361de"
-    },
-    {
-      "file": "acl_natbib.bst",
-      "sha256": "6fbb306202290f4b68e74ac1460a8b27398500cb6dfeb4492e74c457eae7cd1e"
-    },
-    {
-      "file": "sections/abstract.tex",
-      "sha256": "49af6c395064694df5df6e78ad20d3b86054f67eefcf00570052cb931ded1395"
+      "sha256": "c551ee823a77e5eaf1c1cb096f8561684ba1db0c7fbc1aa9d7e196b2af4fb8f6"
     },
     {
       "file": "sections/appendix.tex",
-      "sha256": "661a69a0cc61b1feb7ad21554d96ea9d56f9c5dd06c8911ef95a1eee16e40224"
+      "sha256": "4f4cbc03e208ed1df658e5ab62698e0e9bcc1d0b011bc787f7a4173fa8ab5cd9"
     },
     {
       "file": "sections/discussion.tex",
-      "sha256": "070d9ce075bb928b9fa71716b978459e9196f854273c32ed5f242ad59afb3cb3"
-    },
-    {
-      "file": "sections/experimental_details.tex",
-      "sha256": "15344c2492ba6166f6b4bf5e7df62122873d3968916473628c99957c222b3906"
-    },
-    {
-      "file": "sections/historical_vectors.tex",
-      "sha256": "ed49c13ff373d132d4c866ff04546bc9e20bed982aab923c45f900c0f49e797e"
-    },
-    {
-      "file": "sections/introduction.tex",
-      "sha256": "f3700c7c1885caf471262bc9572c11685259767d450533143d4d0f0bb650f7dd"
+      "sha256": "683c9600aa22aed2e7529f9da839b532a06d2b4f076dd4e8ed83ba1a74799db1"
     },
     {
       "file": "sections/limitations.tex",
-      "sha256": "3a8abde93c8a2f204f0f20aca14cfd0429f8be18591ec593baae191f7bef0230"
-    },
-    {
-      "file": "sections/methods.tex",
-      "sha256": "da58ca953e6faf0ac6da7c7a967cac4009e542a197778e9a58315fb46276465a"
-    },
-    {
-      "file": "sections/related_work.tex",
-      "sha256": "19f69785558e2bca50c228a2706d875a3c9f31e1aa2e788a7038e5d339e2c9fe"
+      "sha256": "259aa77bad3369ae701fae690b42be5a75a5d8b2bb8df7befc1f593e912689c6"
     },
     {
       "file": "sections/results.tex",
-      "sha256": "015839a3677c31129f15d19c0d50e5a8fc05dfa01b00ab4f6ace847bb466f5e5"
-    },
-    {
-      "file": "sections/results_scaffold.tex",
-      "sha256": "20e08de58f44edd8a756ba8762135e0faa60036d3a065fec252dd6c4866745f8"
+      "sha256": "7494596f6b3662a98d35377552ed6c41986ef1cff506e64bd2f49b9d65591b92"
     },
     {
       "file": "sections/revision_audit.tex",
-      "sha256": "e9247ba5e0d252c449b9577e8c8208ca829648e2ab614f2a948fbcd1d106e957"
+      "sha256": "79645765b3cca86e0f04438e1648cc53ca81c1e3f44d187c4d192fb5a5946aaa"
     },
     {
-      "file": "tables/coverage.tex",
-      "sha256": "8ec733f1445eda8171265abf5a1d192f7fa4f856ea210cded088a9e9af71100e"
+      "file": "figures/figA11_clean_rl.pdf",
+      "sha256": "bd3253620d184c4f8887998020ce5a9bc13dfb971ec8778ca9a64c415692ea40"
     },
     {
-      "file": "tables/models.tex",
-      "sha256": "5cd228a993b273ff8f3a8e23ea94b239b55c420caa4f93f20f84ae59990b27b6"
+      "file": "supplement/clean_rl_absolute_by_training_seed.csv",
+      "sha256": "6bc70e3e00c01d0b83f97ef5ce9fed0a6c692d621efd9fb94fe5eb1a1ecb9a9f"
     },
     {
-      "file": "tables/open_coverage.tex",
-      "sha256": "1402f10456242f074b02f1d892a2634dbfdc68def90bbc7c861ca343fad96873"
+      "file": "supplement/clean_rl_fallback_sensitivity.csv",
+      "sha256": "28405f55e0119993522e4f29949baddbcb1187c76b933e0a2f8d7605dff82ce7"
     },
     {
-      "file": "tables/open_quality.tex",
-      "sha256": "b0e65ec7437de6cebb0a3039b3f6563652faaa66c58df0c073fe9e41aba2cfc3"
-    },
-    {
-      "file": "tables/outcome_spec.tex",
-      "sha256": "57dcf165548e7257251ddae4784d4cb8791af01e38a3f6941d3dc60a14008c3e"
-    },
-    {
-      "file": "tables/readout_result.tex",
-      "sha256": "a1ddf8b31e2055b524893e343c639f33d70e5ffba0a2b852617085b1833460a3"
-    },
-    {
-      "file": "tables/result_macros.tex",
-      "sha256": "a9920e4dcf791a6978254e0bfd40c5923294afab1370c6d6255cd3eacd55f8ab"
-    },
-    {
-      "file": "tables/transfer.tex",
-      "sha256": "cb1b0aeb9a4448d7cf6033b493d50a102846634d855e2379a8c92173204a6994"
-    },
-    {
-      "file": "figures/fig01_signatures.pdf",
-      "sha256": "f70b6255f8e26b2697eca82cc036a6f2e192ba3433ffd552d0828ec0e0387079"
-    },
-    {
-      "file": "figures/fig02_trajectories.pdf",
-      "sha256": "779fb81365dd330e2ba09af077e2c16f71e5d5e372f3ed56ec2555aeb4f74d50"
-    },
-    {
-      "file": "figures/fig03_task_demand.pdf",
-      "sha256": "506e5fe34dcb89f8a19bb8185a00cce6624f968822c94c435383df99835a024c"
-    },
-    {
-      "file": "figures/fig04_cross_domain_transfer.pdf",
-      "sha256": "6db8bfffcae60aac73099705ca096f7b7de47d459278aeeb0e592ecf57f5a8bc"
-    },
-    {
-      "file": "figures/fig05_steering_and_rl.pdf",
-      "sha256": "c47088abb1e6c7dde588adb1fc61f8184d1d8fbbce9e02269e09c988331e1d69"
-    },
-    {
-      "file": "figures/fig06_open_task_tradeoffs.pdf",
-      "sha256": "810d7998bf8faaf1cb6281aeebe67b40fc45c7b9c43222f2266d0b2b0cf3e4bd"
-    },
-    {
-      "file": "figures/figA1_domain_similarity.pdf",
-      "sha256": "7d699f11b73710461d873b5dba7f3efb7e064821b5699e93d98bfb6b7e0acc16"
-    },
-    {
-      "file": "figures/figA2_trace_examples.pdf",
-      "sha256": "67ea2a1f28d2575c08ddb3679ddb930258a64c98ada2660d184e79a43dfe6f12"
-    },
-    {
-      "file": "figures/figA3_random_timing_control.pdf",
-      "sha256": "032056ffc6f43be952aca58d28a57be5d332da0a0d8944d4907b304b7ecc2fe1"
-    },
-    {
-      "file": "figures/figA4_intervention_fidelity.pdf",
-      "sha256": "ebdf4f115e00b071565f87b8b80c064ade8d2cf4f2d77788c491a7c80d7f7a95"
-    },
-    {
-      "file": "figures/figA5_behavior_sensitivity.pdf",
-      "sha256": "b5cfe09e09d023c878f6f19e180783ced11a4e03ab5436694a8f73275389ceb5"
-    },
-    {
-      "file": "figures/figA6_demand_operations.pdf",
-      "sha256": "aa7df79f19f0a245edef3c40dd2516653345720591861133aeec25968c97bbd8"
-    },
-    {
-      "file": "figures/figA7_readout_validation.pdf",
-      "sha256": "f8a088d56c705e96f0e36252c60383754420279799542f96d7d73bc6033c75f7"
-    },
-    {
-      "file": "figures/figA8_matched_elicitation.pdf",
-      "sha256": "8390f38ea646988bf8724ad1f15a42b70bc0cbf9039ddf1a70ced1636c5725f3"
-    },
-    {
-      "file": "figures/figA9_fresh_confirmation.pdf",
-      "sha256": "75012c70d9127bac685b2d9dbac7e4926fc384f2ffe14da02121064a51672843"
-    },
-    {
-      "file": "supplement/budget_paired.csv",
-      "sha256": "c803fa6d42deaff3f0fb77bcf0fe9e6ca27118f82889a4fea1dfaa04f28cec8e"
-    },
-    {
-      "file": "supplement/budget_summary.csv",
-      "sha256": "da1fc80a09e52dbae4cee52ba172d62a86bab367dc84c90a38b7abba045de50f"
-    },
-    {
-      "file": "supplement/confirmation_behavior_shifts.csv",
-      "sha256": "67684365d5507ab97d60d8a149440408d7e1c066343012625b2d930b254c0724"
-    },
-    {
-      "file": "supplement/confirmation_endpoint_coverage.csv",
-      "sha256": "07d0eaa5a2bd226ae5acbb8b038fddffaf8306e39b47e961467f521acfbd42e2"
-    },
-    {
-      "file": "supplement/confirmation_grade_sources.csv",
-      "sha256": "b20fe74a1d49b38efd4b2005cd357f823f44d97202a4c05b47b4c1396e7b38c6"
-    },
-    {
-      "file": "supplement/confirmation_paired_effects.csv",
-      "sha256": "0ae46788803eee17d9dbf12a0ab12d6f61a7b707cc7d68741060f901f046d462"
-    },
-    {
-      "file": "supplement/coverage.csv",
-      "sha256": "5d8f1de9cac7da69be8aad4180fc8707ad8eaf1a843ee8a1665d303e9f45871e"
-    },
-    {
-      "file": "supplement/dose_matched.csv",
-      "sha256": "83865e6b5e9efb85bb79c9f966377c1e8f1319e38d040d68c7a7fc9d779e7618"
-    },
-    {
-      "file": "supplement/elicitation_grade_sources.csv",
-      "sha256": "e179f79635150aeaf15c1925978e09c7946e5ea71313266716877201ed9f0998"
-    },
-    {
-      "file": "supplement/elicitation_paired.csv",
-      "sha256": "d29e80977b29e891bdb2646ad43bc864f3ac6a72deab65f479e37d5343e9a5c4"
-    },
-    {
-      "file": "supplement/elicitation_parser_sensitivity.csv",
-      "sha256": "b2b994188e47fc2074cf72644d70735420d6a9271d3947c845ab8dc177b75711"
-    },
-    {
-      "file": "supplement/elicitation_summary.csv",
-      "sha256": "9f05f96ee7f05f60180c9d6507977b94087d33c881f975b10f8f7e61a2c784c0"
-    },
-    {
-      "file": "supplement/fidelity.csv",
-      "sha256": "deb2c0f902e4acc4a49b7ff719c18308e209bdaf2fb017e5a7626c09bf4b513b"
-    },
-    {
-      "file": "supplement/grade_change_counts.csv",
-      "sha256": "e58947d969bebc4db9abaca156877f3a507a9e896837ed724b9037961b6c242e"
-    },
-    {
-      "file": "supplement/grade_changes_by_condition.csv",
-      "sha256": "55be178396c58cf399ba7ec5ed5a44bb648576036f1c3dedd242ddddc0b9a5bc"
-    },
-    {
-      "file": "supplement/idea_pairwise_Qwen_Qwen3.5-27B.csv",
-      "sha256": "9f422c4fd223c6a26b86fd370b1688a822d26fd66861d912b832de10ccadee51"
-    },
-    {
-      "file": "supplement/idea_pairwise_exclusions.csv",
-      "sha256": "24c0256bd3c7cb73bb8b21ae71b38b4a4fe277f2ff905b5d476960ce22b3fe41"
-    },
-    {
-      "file": "supplement/idea_pairwise_google_gemma-4-31B-it.csv",
-      "sha256": "40ff8c0630e5fd90894fd0c47427d49b863b2b131b0837005fd39504f6205d8d"
-    },
-    {
-      "file": "supplement/matched_demand_operations.csv",
-      "sha256": "fbdc71882efb2ed5bf243a9e752ce5a201e4ac53c0d67990a764f3b7ef0f9efc"
-    },
-    {
-      "file": "supplement/matched_demand_sensitivity.csv",
-      "sha256": "62fa20312b4b19ad63e26844c282eb4f3ee561109d9cd39e7eafdfad0fbc8be7"
-    },
-    {
-      "file": "supplement/native_outcome_signature_models.csv",
-      "sha256": "d42487eb2b51e470dfcea9b2242295364ea30ff785e0a13f8eac81d372a25b76"
-    },
-    {
-      "file": "supplement/open_task_coverage.csv",
-      "sha256": "9ecdea929d6c7cb86a07af0d3e77c6e6765ba2d5802d53e531ffe579b2a5ddbd"
-    },
-    {
-      "file": "supplement/paired_shifts.csv",
-      "sha256": "74bbab0ad4e1af37ed4f97c6736f73d3d6399489f763b93ca7ad72d0dd95348b"
-    },
-    {
-      "file": "supplement/prompt_overlaps.csv",
-      "sha256": "206dbdb5b31940dc1db63f6f156f2adf2fadc646ffe6b200d263a3b9f943baa6"
-    },
-    {
-      "file": "supplement/similarity_sensitivity.csv",
-      "sha256": "eac24b9193b54d6a21b8dc433a1f905936615f9df5a1f96bbb5cbde791500d0e"
-    },
-    {
-      "file": "supplement/validation_summary.csv",
-      "sha256": "efb38d397b1d55289bcf1f93e925becb675cb355ac34a84cf42a5f1e21fb7150"
-    },
-    {
-      "file": "supplement/within_trace_timing.csv",
-      "sha256": "4ba8d8a4fad370a7bfe3a3cd50131d8b4ceca30047890a1a61e77b7e78b14c54"
-    },
-    {
-      "file": "supplement/confirmation_protocol.txt",
-      "sha256": "24d297365e5b8dab1f0d4fa64bdea01192afccb0c66331e7e12ea4773545e115"
-    },
-    {
-      "file": "supplement/evidence_package.txt",
-      "sha256": "716220ecdbe6a25ce0ad755beca23c2407bdba16c5dcbb83c8d6cd4a265b3d81"
-    },
-    {
-      "file": "supplement/gandhi_per_sentence.txt",
-      "sha256": "60c8a1e8f19e57eaba8629707dd095acc882aca6497c6c95a00e3e1302cc99ff"
-    },
-    {
-      "file": "supplement/intervention_and_evaluation_prompts.txt",
-      "sha256": "a3d81d3dd4be4371e24856f3ed6e9d7d4585b5d5a82332126eeaf39764f7ce05"
-    },
-    {
-      "file": "supplement/kim_per_sentence.txt",
-      "sha256": "61bff44555b4e2866245d94886d1fb352bf57ee6b95196161470a5373907f2e9"
+      "file": "supplement/clean_rl_paired_effects.csv",
+      "sha256": "0f5a2008c41ea58ef6636ed8786dab087cfe2851583c68ecf53d3aaf7b0e2d34"
     }
   ],
   "remote_text_verification": [
@@ -480,5 +232,76 @@
     ],
     "compile": "Clean successful26-page preview; new Figure11 visually verified onpage22",
     "proof": "output/pdf/thought-atlas-overleaf-multijudge-proof.png"
+  },
+  "clean_rl_revision": {
+    "verified_utc": "2026-11-05T18:09:59.416961+00:00",
+    "reconciled_before_overwrite": [
+      {
+        "file": "README.md",
+        "matches_previous_commit": true,
+        "remote_sha256": "cf7e6812c1452a8ef5a8112f59ab1de07f7f7866604ceab81a7e5738f0df50e0"
+      },
+      {
+        "file": "sections/appendix.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "e3fc7430c5e016ce21276e82b93a92af9979486225f3bf3701356d6c595eee73"
+      },
+      {
+        "file": "sections/discussion.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "070d9ce075bb928b9fa71716b978459e9196f854273c32ed5f242ad59afb3cb3"
+      },
+      {
+        "file": "sections/limitations.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "70899b810b3804b22002971161a1bc17a7ad6c64736a710c6f395a788e666834"
+      },
+      {
+        "file": "sections/results.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "7d28fc84026e53649a99a4456381a3c486c0537448665dd8e93a3db9aceac382"
+      },
+      {
+        "file": "sections/revision_audit.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "11a353f6f2426ce50563110be65dbf480dab477e4cc32b034b30579e4df8e8ba"
+      }
+    ],
+    "post_sync_text_checks": [
+      {
+        "file": "README.md",
+        "matches": true
+      },
+      {
+        "file": "sections/appendix.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/discussion.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/limitations.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/results.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/revision_audit.tex",
+        "matches": true
+      }
+    ],
+    "source_download": "Chrome blocked ZIP download; reconciled exact full source via editor select-all/copy instead.",
+    "local_pdf_pages": 29,
+    "overleaf_pdf_pages": 28,
+    "main_content_last_page": 8,
+    "local_figure_page": 23,
+    "overleaf_figure_page": 22,
+    "proof": "output/pdf/thought-atlas-overleaf-clean-rl-proof.png",
+    "pdf_sha256": "d63fe1e191ed48b616302843da33384413b35f72b021f139227bc89adcb04ea0",
+    "figure_sha256": "bd3253620d184c4f8887998020ce5a9bc13dfb971ec8778ca9a64c415692ea40",
+    "all_four_study_families_complete": true
   }
 }

@@ -1,6 +1,6 @@
 {
   "review": "Second supplied review,2026-11-01",
-  "updated_utc": "2026-11-04T04:22:46.304833+00:00",
+  "updated_utc": "2026-11-05T18:07:15.445140+00:00",
   "completed": {
     "controller_vs_representation": "Abstract,introduction,results,discussion and conclusion now restrict the intervention claim to the inverse-readout construction.",
     "positive_evidence": "Strong moral-vector fidelity, timing control, dose-response, literal repetition and availability-quality contrast promoted.",
@@ -9,9 +9,13 @@
     "figures": "Fidelity/dose is main Figure5; original Figure4 retained; hard-loop definition and11% unsteered rate added.",
     "null_coverage": "Main text explicitly identifies4/14 eligible math cells; abstract removes14/94 bookkeeping.",
     "creativity": "Main example emphasizes400/400 versus272/400 answer availability and lower paired originality; exploration65/200 and54 paired keywords explicitly secondary.",
-    "pending_language": "Pending measurement and elicitation headings and future-tense analysis language; no protocol counted as a result.",
+    "pending_language": "All scheduled evidence now reported as completed; remaining inferential limits and future work remain explicit.",
     "submission_companions": "Separate hashed evidence archive includes aggregate data,prompts,source snapshots,code and protocols; omitted large inputs identified.",
-    "matched_total_budget_elicitation": "27920 matched rows complete. Large short-budget math-to-GPQA and math-to-planning gains fail to survive common-budget elicitation; all controls and parser sensitivity reported."
+    "matched_total_budget_elicitation": "27920 matched rows complete. Large short-budget math-to-GPQA and math-to-planning gains fail to survive common-budget elicitation; all controls and parser sensitivity reported.",
+    "multijudge_robustness": "All3 judges and combinedCPU435757 completed exit0. Exact1370 nonempty/1381 allocated traces and105302 identical segments per judge. CPU437659 independently reproduced408 agreement estimates,2688 weighted rates,24 selected contrasts,2016 paired shifts; CPU437678 reproduced all7 analysis outputs byte-for-byte including bootstrap intervals. Four selected average domain contrasts persist; Llama event-level agreement is weak. Integrated into prose and compact figure; cross-family robustness, not semantic ground truth.",
+    "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity completed and integrated; see separate entry.",
+    "fresh_confirmation_behavior": "All192 frozen traces and55588 segments;100% parsing in both families, zero context truncation, zero missing profiles. All32 paired shifts and10000-bootstrap intervals reproduced. Moral intended/achieved cosine0.9466[0.8472,0.9570], projection0.4503[0.3315,0.5697]. Integrated with outcomes; annotation435693 and analysis430782 verified COMPLETED exit0 after scheduler recovery.",
+    "corrected_reward_rl_replication": "Six training seeds x60 steps,46080 retained rollout/reward pairs; all six learned-vector and two control evaluations complete,3184 attempts. Analysis430532 COMPLETED exit0; all26 paired estimates/2000-bootstrap intervals independently reproduced locally and remotely. All A2-start seeds improve over fixed A2 by5.0\u20138.8pp; zero-start improves over unsteered, not over A2. Completion closely tracks accuracy. New-vector behavior and elicitation untested."
   },
   "launched": {
     "fresh_confirmation": {
@@ -38,14 +42,15 @@
     }
   },
   "not_resolved": [
-    "GPU annotation robustness results",
-    "Clean RL replication outcomes",
-    "Fresh confirmation outcomes"
+    "Cross-LLM robustness is not semantic validation.",
+    "Historical training rewards/source versions cannot be reconstructed; clean replication is separate.",
+    "Clean RL evaluation reuses historical199 problems; no fresh-holdout, behavioral-convergence or elicited-answer-gain claim.",
+    "General controller selection, human validation and new-vector behavioral/elicitation studies remain future work, not unfinished scheduled jobs."
   ],
   "constraint": "Original design frozen; normal ashton priority. Runtime repairs versioned; current IDs in STATUS.json supersede historical launch IDs.",
   "verification": {
     "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
     "ada": "21 passed, including PyTorch temperature/gradient regression and fresh-confirmation tests",
-    "gpu_execution": "Elicitation complete and validated; RL smoke completed; full annotation, RL and confirmation results remain pending."
+    "gpu_execution": "All four study families and dependent analyses complete; individual integrity and aggregate reproduction checks passed."
   }
 }

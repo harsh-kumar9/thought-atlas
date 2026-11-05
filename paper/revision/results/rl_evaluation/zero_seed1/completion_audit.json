@@ -1,0 +1,35 @@
+{
+  "checked_utc": "2026-11-05T17:51:17.963583+00:00",
+  "run": "zero_seed1",
+  "job": 435649,
+  "accounting": "435649|COMPLETED|0:0",
+  "tasks": 199,
+  "attempts": 398,
+  "exact_task_sample_grid": true,
+  "token_bounds": true,
+  "frozen_final_vector_and_sources_match": true,
+  "control_tasks_and_sampling_match": true,
+  "training_eval_task_ids_disjoint": true,
+  "corrected_grade_reproduction_rows": 398,
+  "grade_mismatches": 0,
+  "summary_and_outcomes_match": true,
+  "grade_sources": {
+    "extracted": 274,
+    "unfinished_generation": 122,
+    "fallback_ungrounded": 2
+  },
+  "fallback_rows": 2,
+  "fallback_worst_case_accuracy_range_pp": 0.5025125628140703,
+  "accuracy": 0.6884422110552764,
+  "completion": 0.6934673366834171,
+  "hashes": {
+    "config.json": "252c4d23725299bb1ace3782bba0002f3f298804e9e3dcbafe731dcac2c6d72a",
+    "tasks.parquet": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+    "b_s000.npy": "747eb942088503fca62e2b40f9e45e48735f5c0e6654d4448d34400927b2d161",
+    "rollouts_s001.parquet": "943da8bb5babbd287d7cd3f3077fed778b4f1176d64182594172249ed88f6931",
+    "rewards_s001.parquet": "bc32a17a70839b6912f767e5c9dcb7ebecabf1455a19725185a85051f4ce727f",
+    "outcomes.csv": "355281377fd9cccca3e809425b949fb08c1ea685236b89a6a6d7b07208ed7c19",
+    "summary.json": "4046900ea53e0e77aa5b6d25bc05181dd37e85a74cb8945041de6311b3978758"
+  },
+  "scope": "Individual seed integrity; no aggregate replication conclusion until all six seeds and paired analysis complete. Historical 199 evaluation items reused."
+}

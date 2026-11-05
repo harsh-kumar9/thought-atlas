@@ -106,6 +106,10 @@
       "sha256": "145371917185c4c5d3bb34e708efadb6b21b6cd431aab062f61836e7d6a2a940"
     },
     {
+      "file": "figures/figA11_clean_rl.pdf",
+      "sha256": "bd3253620d184c4f8887998020ce5a9bc13dfb971ec8778ca9a64c415692ea40"
+    },
+    {
       "file": "figures/figA1_domain_similarity.pdf",
       "sha256": "7d699f11b73710461d873b5dba7f3efb7e064821b5699e93d98bfb6b7e0acc16"
     },
@@ -318,5 +322,20 @@
       "sha256": "08ea1325e89a5b49f9c24300ca9d3af4532d640a4ff0f030e26fe1ca70a9abb6"
     }
   ],
-  "multijudge_script_sha256": "63239323ab96ecab218906f046b1664b8b5025ad381386e76a9413fc4fb7e22a"
+  "multijudge_script_sha256": "63239323ab96ecab218906f046b1664b8b5025ad381386e76a9413fc4fb7e22a",
+  "clean_rl_inputs": [
+    {
+      "file": "revision/results/rl_evaluation/absolute_by_training_seed.csv",
+      "sha256": "6bc70e3e00c01d0b83f97ef5ce9fed0a6c692d621efd9fb94fe5eb1a1ecb9a9f"
+    },
+    {
+      "file": "revision/results/rl_evaluation/fallback_sensitivity.csv",
+      "sha256": "28405f55e0119993522e4f29949baddbcb1187c76b933e0a2f8d7605dff82ce7"
+    },
+    {
+      "file": "revision/results/rl_evaluation/paired_effects.csv",
+      "sha256": "0f5a2008c41ea58ef6636ed8786dab087cfe2851583c68ecf53d3aaf7b0e2d34"
+    }
+  ],
+  "clean_rl_script_sha256": "3dadd78f0544432671e7df1b6a02b89a3ff18851a9afa48aedd53515e4ce3a9d"
 }

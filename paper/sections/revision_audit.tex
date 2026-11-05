@@ -17,7 +17,7 @@ Behavioral readout & 800 prompts, 3,200 traces, 251,420 segment states; four dom
 Domain contrasts & Five 16-target means; moral corpus added for profile estimation. Equal-domain reference mean; same saved map. & Reference estimation and readout fitting are separate steps; no target-specific dose calibration.\\
 A2 archetype & Four medoids per domain; math pool filtered by historical correctness. Saved pilots compare A2 and A4 at multiple gains, with random controls. & Two 40-item pilots exclude final math items. Later comparisons reuse the 199-item evaluation set.\\
 Layer, rank, dose & Layer 16, rank eight, ridge $10^5$; open-loop norm 6.75 after readout comparisons and causal pilots. & Historically selected settings; new validation is retrospective, not nested selection.\\
-Reward-trained biases & 301 training prompts; one run per initialization. Saved configurations, metrics, and vectors retained. & No overlap with 199 evaluation items; training includes readout and SEAL-validation prompts. Per-rollout rewards and per-run source hashes absent.\\
+Historical reward-trained biases & 301 training prompts; one run per initialization. Saved configurations, metrics, and vectors retained. & No overlap with 199 evaluation items; training includes readout and SEAL-validation prompts. Per-rollout rewards and per-run source hashes absent.\\
 Final evaluations & 199 math, 200 GPQA, 200 planning items; two decoding seeds, shared baselines verified by run fingerprint. & Holdout from specified fitting/pilot sets, but not a fresh test after every intervention-design decision.\\
 \bottomrule
 \end{tabularx}
@@ -43,6 +43,27 @@ The inspected training source binds a log-probability closure to a variable name
 \caption{Eligible outcome-prediction tests and distribution of held-out increments. Ranges describe estimates across eligible model--family cells, not confidence intervals. The companion outcome table gives each estimate, 95\% interval, covariates, eligibility status, and adjusted $q$ value. No amount or timing test meets both the interval and FDR criteria.}
 \label{tab:outcomes}
 \end{table*}
+
+\subsection{Corrected-reward bias learning}
+\label{app:clean-rl}
+The clean replication trains a single layer-16 residual bias in Qwen3.5-9B, starting from either zero or the frozen A2 vector, with three training seeds per initialization. Each run uses the same 301 training problems for 60 fixed update steps: 16 problems per step and eight sampled responses per problem, capped at 8,192 tokens. Adam uses learning rate 0.002. Sampling temperature is 0.6, with top-$p$ 0.95 and top-$k$ 20. The reward uses reference-blind Gemma4-31B-it answer extraction, grounding, and mathematical equivalence; unfinished generations receive zero. Within each problem, the mean reward is subtracted to form advantages. The update sums advantage-weighted generated-token log probabilities, normalized by batch size and the token cap. Temperature is passed explicitly; the likelihood uses the untruncated softmax even though sampling applies top-$k$/top-$p$ truncation. Thus this replication repairs the documented temperature and grading defects without claiming an exact on-policy likelihood for the truncated sampler.
+
+Every run retains all 7,680 rollout--reward pairs, optimizer state, source hashes, and 61 bias vectors including initialization. The final checkpoint is step 60 for every seed, with no evaluation-based selection. Steps with zero advantages preserve the vector and remain in the fixed schedule. Independent audits verify complete seeded prompt/sample schedules, token bounds, finite vectors, and optimizer/checkpoint consistency.
+
+Evaluation uses the same 199 historical test problems, two new sampled responses per problem, and an 8,192-token cap for all six learned biases and fresh unsteered/A2 controls. These problems are disjoint from the 301 training IDs but were used in earlier intervention-design comparisons; they are not a fresh project holdout. Accuracy counts unfinished attempts as incorrect. Paired intervals use 2,000 problem bootstraps after averaging the two samples. They are pointwise and conditional on each trained vector, not intervals over the population of training runs. All three seeds per initialization are reported separately.
+
+
+All eight evaluation arms finish with the same 398 task--sample pairs (3,184 attempts total). All 2,388 learned-vector grades reproduce exactly from saved extractions, and all 26 paired accuracy/completion estimates and intervals reproduce independently. Across the eight arms, 18 extractions use fallback handling; companion tables bound each point estimate under arbitrary rescoring of those rows.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=.98\textwidth]{figures/figA11_clean_rl.pdf}
+\caption{\textbf{Corrected-reward learning improves natural completion; initialization matters.} Qwen3.5-9B, fixed step 60, 8,192 tokens, and all three training seeds per initialization. Paired differences from fresh unsteered (A) and fixed-A2 (B) controls use the same 199 historical evaluation problems and two samples per problem. Whiskers are pointwise 95\% problem-bootstrap intervals conditional on each learned vector. They do not measure training-population uncertainty. These evaluations do not include answer elicitation or annotation of the newly learned vectors.}
+\label{fig:clean-rl}
+\end{figure*}
+
+Unsteered accuracy is 43.5\%, compared with 72.4\% for fixed A2. Zero-start RL attains 70.4\%, 68.8\%, and 71.6\% for seeds zero, one, and two: gains of 26.9, 25.4, and 28.1 pp over unsteered, with all three pointwise intervals above zero. None exceeds fixed A2; their accuracy-difference intervals include zero. A2-initialized RL attains 79.9\%, 81.2\%, and 77.4\%, exceeding fixed A2 by 7.5 pp [4.8, 10.3], 8.8 pp [5.8, 11.8], and 5.0 pp [2.5, 7.8], respectively. All three A2-initialized point-estimate gains remain positive even if every fallback grade in both comparison arms is reassigned adversely.
+
+Completion follows the accuracy changes closely: it is 43.5\% unsteered, 73.4\% for fixed A2, 69.3--71.9\% after zero-start learning, and 78.9--83.7\% after A2-initialized learning. Thus the clean replication establishes improved natural-completion performance under this reward and budget, including further gains from learning around an atlas-derived initialization. It does not establish that the atlas supplies an optimal initialization, that learned gains survive common-budget elicitation, or that the new vectors reproduce the historical annotation shifts. The historical behavioral comparison below remains separate.
 
 \subsection{Cross-family annotation robustness}
 \label{app:multijudge}

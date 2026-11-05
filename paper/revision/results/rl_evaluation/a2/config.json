@@ -1,0 +1,24 @@
+{
+  "run": "a2",
+  "decode": {
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20
+  },
+  "temperature": 0.6,
+  "layer": 16,
+  "budget": 8192,
+  "sampling_seed": 20261102,
+  "samples_per_problem": 2,
+  "n_tasks": 199,
+  "checkpoint": 60,
+  "task_source_sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296",
+  "vector_sha256": "2a2a17e0284289b4788882beb119ea30f1094ad9f6b9e37b55e210f2660fd367",
+  "vector_source": "/ada1/u/harsh/thought-atlas/mode_control/data/vsteer/vec_ol_math_A2.npz",
+  "code_sha256": {
+    "rl_evaluate.py": "9db9a592c4f7763437e9c40ac427836cc01f368415023873a03afac7b3d00b32",
+    "rl_repair.py": "f92905eeab04635994041c65a41ec2d7d45f433bb716ae1c1dfa2b1544de6672",
+    "extract_free.py": "2a4459081ed020e801a3c16af6389711813d413feab5d263e5c91a2bf8f6672b"
+  },
+  "interpretation": "Fixed checkpoint and budget, reused historical evaluation problems; compare each training seed with fresh baseline and A2 under common sampling seeds."
+}

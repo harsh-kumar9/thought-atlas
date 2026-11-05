@@ -1,0 +1,8 @@
+{
+  "n_tasks": 199,
+  "attempts": 398,
+  "accuracy": 0.6884422110552764,
+  "completion": 0.6934673366834171,
+  "fixed_step": 60,
+  "budget": 8192
+}

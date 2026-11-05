@@ -1,0 +1,71 @@
+{
+  "verified_utc": "2026-11-05T18:09:59.416961+00:00",
+  "reconciled_before_overwrite": [
+    {
+      "file": "README.md",
+      "matches_previous_commit": true,
+      "remote_sha256": "cf7e6812c1452a8ef5a8112f59ab1de07f7f7866604ceab81a7e5738f0df50e0"
+    },
+    {
+      "file": "sections/appendix.tex",
+      "matches_previous_commit": true,
+      "remote_sha256": "e3fc7430c5e016ce21276e82b93a92af9979486225f3bf3701356d6c595eee73"
+    },
+    {
+      "file": "sections/discussion.tex",
+      "matches_previous_commit": true,
+      "remote_sha256": "070d9ce075bb928b9fa71716b978459e9196f854273c32ed5f242ad59afb3cb3"
+    },
+    {
+      "file": "sections/limitations.tex",
+      "matches_previous_commit": true,
+      "remote_sha256": "70899b810b3804b22002971161a1bc17a7ad6c64736a710c6f395a788e666834"
+    },
+    {
+      "file": "sections/results.tex",
+      "matches_previous_commit": true,
+      "remote_sha256": "7d28fc84026e53649a99a4456381a3c486c0537448665dd8e93a3db9aceac382"
+    },
+    {
+      "file": "sections/revision_audit.tex",
+      "matches_previous_commit": true,
+      "remote_sha256": "11a353f6f2426ce50563110be65dbf480dab477e4cc32b034b30579e4df8e8ba"
+    }
+  ],
+  "post_sync_text_checks": [
+    {
+      "file": "README.md",
+      "matches": true
+    },
+    {
+      "file": "sections/appendix.tex",
+      "matches": true
+    },
+    {
+      "file": "sections/discussion.tex",
+      "matches": true
+    },
+    {
+      "file": "sections/limitations.tex",
+      "matches": true
+    },
+    {
+      "file": "sections/results.tex",
+      "matches": true
+    },
+    {
+      "file": "sections/revision_audit.tex",
+      "matches": true
+    }
+  ],
+  "source_download": "Chrome blocked ZIP download; reconciled exact full source via editor select-all/copy instead.",
+  "local_pdf_pages": 29,
+  "overleaf_pdf_pages": 28,
+  "main_content_last_page": 8,
+  "local_figure_page": 23,
+  "overleaf_figure_page": 22,
+  "proof": "output/pdf/thought-atlas-overleaf-clean-rl-proof.png",
+  "pdf_sha256": "d63fe1e191ed48b616302843da33384413b35f72b021f139227bc89adcb04ea0",
+  "figure_sha256": "bd3253620d184c4f8887998020ce5a9bc13dfb971ec8778ca9a64c415692ea40",
+  "all_four_study_families_complete": true
+}

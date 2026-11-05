@@ -1,0 +1,64 @@
+{
+  "runs": [
+    "baseline",
+    "a2",
+    "zero_seed0",
+    "zero_seed1",
+    "zero_seed2",
+    "ol_math_A2_seed0",
+    "ol_math_A2_seed1",
+    "ol_math_A2_seed2"
+  ],
+  "attempts": 3184,
+  "tasks": 199,
+  "exact_paired_grid": true,
+  "grade_reproduction": "All six learned-vector arms: 398/398 grades each.",
+  "paired_estimates_reproduced": 26,
+  "bootstrap_replicates": 2000,
+  "outcomes_sha256": {
+    "baseline": "57d89d698f06e738e6254992b8904266d72b30de322e354dfe08d2ff9309be3f",
+    "a2": "90aa92a23490965915ddd7139d714d9169f9b6472b81fb6be6ef16658135b06f",
+    "zero_seed0": "5c9ce738119d2a8dba0c14e53c4b16b997f35528af40a7163bba5e3cd705dcf9",
+    "zero_seed1": "355281377fd9cccca3e809425b949fb08c1ea685236b89a6a6d7b07208ed7c19",
+    "zero_seed2": "9b0a1e4b1e7695b110d3109fd5d79ce2b69b6437b890a9b3a707beca0b09ffd1",
+    "ol_math_A2_seed0": "ac63315a03bfcb18abd87b026d5c71c1581602beb308c67062d0f146fdabf810",
+    "ol_math_A2_seed1": "6bd34f51ef167f9d32b752bd88738acb0f69ca03840362cf9448ba8f8aeafbb8",
+    "ol_math_A2_seed2": "fed0a6c10559e0c32086d5540089f11fb511dc6acb277c2670f37caba35e1262"
+  },
+  "fallback_rows": {
+    "baseline": {
+      "n": 0,
+      "successes": 0
+    },
+    "a2": {
+      "n": 2,
+      "successes": 1
+    },
+    "zero_seed0": {
+      "n": 1,
+      "successes": 1
+    },
+    "zero_seed1": {
+      "n": 2,
+      "successes": 1
+    },
+    "zero_seed2": {
+      "n": 2,
+      "successes": 1
+    },
+    "ol_math_A2_seed0": {
+      "n": 3,
+      "successes": 1
+    },
+    "ol_math_A2_seed1": {
+      "n": 5,
+      "successes": 2
+    },
+    "ol_math_A2_seed2": {
+      "n": 3,
+      "successes": 0
+    }
+  },
+  "interval_scope": "Pointwise task uncertainty conditional on each trained vector; not training-population uncertainty.",
+  "evaluation_scope": "Historically reused evaluation items; no fresh-holdout claim."
+}

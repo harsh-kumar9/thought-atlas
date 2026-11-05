@@ -1,68 +1,57 @@
 {
-  "verified_utc": "2026-11-05T15:18:26.204246+00:00",
+  "verified_utc": "2026-11-05T18:09:59.416961+00:00",
   "checks_passed": true,
-  "scope": "Artifact, completed analysis, and CPU regression checks; pending GPU studies are not validated results.",
-  "paper_status": "Evidence-repair draft; not submission-ready",
+  "scope": "All four study families, integrity/coverage/uncertainty reproduction, manuscript synchronization and visual checks.",
+  "paper_status": "Completed evidence-repair draft; no submission performed.",
   "compilers": [
-    "Tectonic0.17.0 local27-page PDF",
-    "Overleaf pdfLaTeX successful26-page clean compile"
+    "Tectonic0.17.0 local29-page PDF",
+    "Overleaf pdfLaTeX successful28-page clean compile"
   ],
-  "pdf_pages": 27,
+  "pdf_pages": 29,
   "main_content_last_page": 8,
   "main_figures": 5,
-  "supporting_figures": 11,
+  "supporting_figures": 12,
   "bibliography_entries": 28,
   "unresolved_citation_or_reference_markers": 0,
   "overfull_boxes": 0,
   "source_archive_matches_local_files": true,
-  "source_archive_file_count": 78,
+  "source_archive_file_count": 82,
   "all_figure_and_input_hashes_match": true,
-  "checked_manifest_entries": 67,
+  "checked_manifest_entries": 77,
   "remote_text_files_verified": [
     {
-      "file": "sections/results.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T11:49:47.350Z",
-      "characters": 15045
+      "file": "README.md",
+      "matches": true
+    },
+    {
+      "file": "sections/appendix.tex",
+      "matches": true
     },
     {
       "file": "sections/discussion.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T11:49:48.788Z",
-      "characters": 4083
+      "matches": true
     },
     {
       "file": "sections/limitations.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T11:49:50.215Z",
-      "characters": 4800
+      "matches": true
+    },
+    {
+      "file": "sections/results.tex",
+      "matches": true
     },
     {
       "file": "sections/revision_audit.tex",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T11:49:51.913Z",
-      "characters": 24296
-    },
-    {
-      "file": "README.md",
-      "matched_previous": true,
-      "matches": true,
-      "verified_utc": "2026-11-04T11:49:53.350Z",
-      "characters": 8304
+      "matches": true
     }
   ],
-  "visual_review": "Local pages 8 and 23 and the revised two-panel Figure 12 inspected; Overleaf Figure 12 on page 23 visually verified after recompilation from scratch. No clipping, overlap, unresolved references or overfull boxes. Main conclusion remains on page 8. Compiler pagination differs.",
-  "pdf_sha256": "7c451677a7f088ff44ea9732858864ac353ffc59d075164da2944a7d3c042507",
-  "source_archive_sha256": "be839de2c19927bc5cd6ff8c16230cd0deced93f1ff6a92406b04bd56622764f",
+  "visual_review": "New cleanRL figure and local main conclusion page inspected; Overleaf clean compile and RL figure inspected. No clipping or overlap; no undefined references or overfull boxes in local log.",
+  "pdf_sha256": "d63fe1e191ed48b616302843da33384413b35f72b021f139227bc89adcb04ea0",
+  "source_archive_sha256": "1542aae0f2a37819acf5e5cb10437b8c16774bdde3f1a1cf915d0f37a2942961",
   "pdf_export": "Local Tectonic build from synchronized manuscript sources; not a downloaded Overleaf binary. Overleaf and local typography can differ.",
-  "proof_screenshot": "../output/pdf/thought-atlas-overleaf-fidelity-proof.png",
+  "proof_screenshot": "output/pdf/thought-atlas-overleaf-clean-rl-proof.png",
   "figure_design": "Sober pastel palette, charcoal labels, fine rules, numeric heatmap values, and shapes/line patterns alongside color. Main transfer figure combines accuracy, answer availability, and absolute baselines.",
   "color_vision_scope": "Earlier palette simulations retained; not a guarantee for every observer or a new simulation of all revised panels.",
-  "revision": "Frozen confirmation behavioral fidelity, 2026-11-04",
+  "revision": "All four study families integrated,2026-11-05",
   "within_trace_timing": {
     "repeats": 100,
     "seed": 20261101,
@@ -99,24 +88,21 @@
     "Historical RL source shadows the sampling-temperature variable; exact per-run executed source remains unestablished.",
     "Natural-completion paired bootstrap uses deterministic sorted task IDs and keyed streams;426 point estimates unchanged."
   ],
-  "pending_studies": [
-    "Three-family LLM annotation robustness",
-    "Corrected-reward RL training and fixed-step evaluations"
-  ],
+  "pending_studies": [],
   "annotation_validity": "Established source definitions and prior human validation cited; new LLM agreement is robustness evidence and not independent semantic gold.",
   "cpu_tests": {
     "local": "20 passed,1 skipped because PyTorch unavailable; confirmation pairing/normalization and Holm tests included.",
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
-    "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
+    "gpu_execution": "All four study families and dependent analyses complete; individual integrity and aggregate reproduction checks passed."
   },
   "old_validation_record": "archive/before_arr_repair/validation.json",
-  "evidence_archive_sha256": "e3713aff3dd723c61539728882a1e768859ff6664ff100ead930756a30798e9f",
-  "evidence_archive_file_count": 310,
+  "evidence_archive_sha256": "7531a7b8bbdec834e237b9d3ce7cb5b51472062180c352209fd5f23ad0e94116",
+  "evidence_archive_file_count": 447,
   "evidence_archive_matches_local_files": true,
   "completed_elicitation": "All27920 rows, exact pairing and budget checks, source hashes, plus bounded GPQA parser anomalies verified; pointwise intervals.",
   "completed_confirmation_outcomes": "All1536 frozen attempts verified; hashes, pairing, exact token accounting and forced-grade reproduction passed. Both natural contrasts pass Holm; secondary elicited intervals pointwise.",
   "completed_confirmation_behavior": "All 192 traces from 64 frozen tasks, 55588 segments, complete parse coverage, no context truncation or missing profiles. All 32 shifts and 10000-bootstrap intervals independently reproduced. Moral intended/achieved cosine 0.9466 [0.8472,0.9570]; projection 0.4503 [0.3315,0.5697].",
-  "scheduler_verification": "2026-11-04: Ada scheduler access restored. Jobs435756,435693,430782 verified COMPLETED exit0; active GPU policies and downstream dependencies checked. See revision/results/scheduler_restored_20261104_1842.json. Scientific artifact validation above is unchanged.",
+  "scheduler_verification": "All requested jobs and dependent analyses COMPLETED exit0; final_monitor_20261105.json",
   "multijudge_revision": {
     "source_download_matches_previous": true,
     "reconciled_files": [
@@ -133,5 +119,76 @@
     "bootstrap_outputs_reproduced": 7,
     "overleaf_figure_page": 22,
     "overleaf_proof": "output/pdf/thought-atlas-overleaf-multijudge-proof.png"
+  },
+  "clean_rl_revision": {
+    "verified_utc": "2026-11-05T18:09:59.416961+00:00",
+    "reconciled_before_overwrite": [
+      {
+        "file": "README.md",
+        "matches_previous_commit": true,
+        "remote_sha256": "cf7e6812c1452a8ef5a8112f59ab1de07f7f7866604ceab81a7e5738f0df50e0"
+      },
+      {
+        "file": "sections/appendix.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "e3fc7430c5e016ce21276e82b93a92af9979486225f3bf3701356d6c595eee73"
+      },
+      {
+        "file": "sections/discussion.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "070d9ce075bb928b9fa71716b978459e9196f854273c32ed5f242ad59afb3cb3"
+      },
+      {
+        "file": "sections/limitations.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "70899b810b3804b22002971161a1bc17a7ad6c64736a710c6f395a788e666834"
+      },
+      {
+        "file": "sections/results.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "7d28fc84026e53649a99a4456381a3c486c0537448665dd8e93a3db9aceac382"
+      },
+      {
+        "file": "sections/revision_audit.tex",
+        "matches_previous_commit": true,
+        "remote_sha256": "11a353f6f2426ce50563110be65dbf480dab477e4cc32b034b30579e4df8e8ba"
+      }
+    ],
+    "post_sync_text_checks": [
+      {
+        "file": "README.md",
+        "matches": true
+      },
+      {
+        "file": "sections/appendix.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/discussion.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/limitations.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/results.tex",
+        "matches": true
+      },
+      {
+        "file": "sections/revision_audit.tex",
+        "matches": true
+      }
+    ],
+    "source_download": "Chrome blocked ZIP download; reconciled exact full source via editor select-all/copy instead.",
+    "local_pdf_pages": 29,
+    "overleaf_pdf_pages": 28,
+    "main_content_last_page": 8,
+    "local_figure_page": 23,
+    "overleaf_figure_page": 22,
+    "proof": "output/pdf/thought-atlas-overleaf-clean-rl-proof.png",
+    "pdf_sha256": "d63fe1e191ed48b616302843da33384413b35f72b021f139227bc89adcb04ea0",
+    "figure_sha256": "bd3253620d184c4f8887998020ce5a9bc13dfb971ec8778ca9a64c415692ea40",
+    "all_four_study_families_complete": true
   }
 }

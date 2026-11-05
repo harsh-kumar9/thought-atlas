@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-05T15:50:42.821475+00:00",
+  "updated_utc": "2026-11-05T16:21:20.427487+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -29,7 +29,8 @@
     "rl_evaluation_ol_math_A2_seed1": "Job435652 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Fallback rows:5; retain sensitivity bound. Individual seed only; aggregate conclusions await all seeds.",
     "rl_training_zero_seed1": "Job436713 COMPLETED exit0. All60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step33 expected no-op verified. Evaluation435649 loaded exact final vector and saved40 responses before queue wait.",
     "rl_training_zero_seed0": "Job436712 COMPLETED exit0. All60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step55 expected no-op verified. Evaluation435648 loaded exact final vector. All six training seeds now audited; evaluation remains separate.",
-    "multijudge_robustness": "All3 judges and combinedCPU435757 completed exit0. Exact1370 nonempty/1381 allocated traces and105302 identical segments per judge. CPU437659 independently reproduced408 agreement estimates,2688 weighted rates,24 selected contrasts,2016 paired shifts; CPU437678 reproduced all7 analysis outputs byte-for-byte including bootstrap intervals. Four selected average domain contrasts persist; Llama event-level agreement is weak. Integrated into prose and compact figure; cross-family robustness, not semantic ground truth."
+    "multijudge_robustness": "All3 judges and combinedCPU435757 completed exit0. Exact1370 nonempty/1381 allocated traces and105302 identical segments per judge. CPU437659 independently reproduced408 agreement estimates,2688 weighted rates,24 selected contrasts,2016 paired shifts; CPU437678 reproduced all7 analysis outputs byte-for-byte including bootstrap intervals. Four selected average domain contrasts persist; Llama event-level agreement is weak. Integrated into prose and compact figure; cross-family robustness, not semantic ground truth.",
+    "rl_evaluation_ol_math_A2_seed2": "Job437653 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Three ungrounded fallback rows retained with0.754pp worst-case range. All three A2-initialized evaluations now audited; aggregate replication conclusions await all zero-start seeds."
   },
   "jobs": {
     "judge_pilots": {
@@ -85,7 +86,7 @@
     "judge_completion_audit": 437659,
     "judge_bootstrap_reproduction": 437678
   },
-  "gpu_status": "Three study families complete and integrated; six RL training runs and two learned-vector evaluations audited complete. All four remaining evaluations saved fresh work and requeued normally on Vega: zero-seed0/1/2 now176/288/296 responses of398; A2seed2 recovery437653 now384/398 grades with all responses preserved. All four currently pending Priority; CPU430532 correctly gated. No new errors or source mismatches.",
+  "gpu_status": "Three study families complete and integrated; all six RL training runs audited complete. All three A2-initialized evaluations now completed and audited. Final A2seed2 recovery437653 exited0; all398 corrected grades reproduced with zero mismatches. Zero-seed0/1/2 evaluations remain in progress on Vega, with216/328/336 saved responses of398; CPU430532 correctly depends only on435648/435649/437229. No new failures or source mismatches.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -179,10 +180,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-05T15:50:42.821475+00:00",
+  "gpu_status_checked_utc": "2026-11-05T16:20:52.599000+00:00",
   "artifact_status": "Completed three-family robustness integrated as Figure11, with aggregate companion tables. Local27-page PDF and Overleaf26-page clean compile visually verified; main conclusion remains page8. Source and evidence packages refreshed; correctedRL aggregate pending.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261105_1550.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261105_1620.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
@@ -216,18 +217,23 @@
   "qwen_annotation_completion_audit": "results/multijudge/completion_audit_qwen.json",
   "rl_evaluation_completion_audits": {
     "ol_math_A2_seed0": "results/rl_evaluation/ol_math_A2_seed0/completion_audit.json",
-    "ol_math_A2_seed1": "results/rl_evaluation/ol_math_A2_seed1/completion_audit.json"
+    "ol_math_A2_seed1": "results/rl_evaluation/ol_math_A2_seed1/completion_audit.json",
+    "ol_math_A2_seed2": "results/rl_evaluation/ol_math_A2_seed2/completion_audit.json"
   },
   "completed_evaluation_monitor_verification": {
-    "checked_utc": "2026-11-05T15:50:42.821475+00:00",
+    "checked_utc": "2026-11-05T16:20:52.599000+00:00",
     "arms": [
       "rl_evaluation/baseline",
       "rl_evaluation/a2",
       "rl_evaluation/ol_math_A2_seed0",
-      "rl_evaluation/ol_math_A2_seed1"
+      "rl_evaluation/ol_math_A2_seed1",
+      "rl_evaluation/ol_math_A2_seed2",
+      "confirmation/baseline",
+      "confirmation/ol_math_A2",
+      "confirmation/sig_moral"
     ],
     "source_hashes_match": true,
-    "snapshot_remote": "results/heartbeat_20261105_1550.json"
+    "snapshot_remote": "results/heartbeat_20261105_1620.json"
   },
   "mira_return_recovery": "results/mira_return_20261105_0512.json",
   "evaluation_recovery": "results/evaluation_recovery_20261105_0542.json",

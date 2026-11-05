@@ -1,0 +1,115 @@
+{
+  "reason": "Repeated Mira NVML Unknown Error on new allocations, before model startup. One successful GPU probe does not establish allocation reliability. Resume failed evaluations on Vega; keep all saved work and frozen configurations.",
+  "replacements": {
+    "435650": {
+      "new_job": 437229,
+      "run": "zero_seed2",
+      "config_sha256": "1b76d958322e6e8ca02951ac493d42883178c241cc65e58b9dccbb9d9da7d306",
+      "saved_files": {
+        "rollouts_s001.parquet": {
+          "rows": 120,
+          "sha256": "978d709e5b5d00d13dab22834327b13fe5488e653e1657bd05cf62b26cc6567d"
+        },
+        "tasks.parquet": {
+          "rows": 199,
+          "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296"
+        }
+      },
+      "failed_log_sha256": "1fb4d3fd5f866e5bbf2ad4a78e0164b2c1046e48fc41dfa9e0263d04e64b87e6",
+      "failed_log_tail": [
+        "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 616, in get_device_capability",
+        "    handle = pynvml.nvmlDeviceGetHandleByIndex(physical_device_id)",
+        "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 2609, in nvmlDeviceGetHandleByIndex",
+        "    _nvmlCheckReturn(ret)",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 1047, in _nvmlCheckReturn",
+        "    raise NVMLError(ret)",
+        "vllm.third_party.pynvml.NVMLError_Unknown: Unknown Error"
+      ],
+      "submit_command": [
+        "/opt/slurm/bin/sbatch",
+        "--parsable",
+        "--hold",
+        "--nodelist=vega",
+        "--qos=ashton",
+        "--gres=gpu:1",
+        "--time=00:15:00",
+        "--requeue",
+        "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+        "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/eval_vega_recovery_435650_%j.log",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "zero_seed2"
+      ],
+      "released": true
+    },
+    "435653": {
+      "new_job": 437230,
+      "run": "ol_math_A2_seed2",
+      "config_sha256": "a6df80830302738f55f33b9720630a1089c858958abae33bea98d143bd10313d",
+      "saved_files": {
+        "tasks.parquet": {
+          "rows": 199,
+          "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296"
+        },
+        "rollouts_s001.parquet": {
+          "rows": 398,
+          "sha256": "910f550f259f9771e4de03d8bcecc016e21f75eaabdbc06b6efcc26f5bb0dad5"
+        }
+      },
+      "failed_log_sha256": "35462d9c0ba13e56fc76d7dd2ea2c0362b66d2c8ec32a3a6dbfbe2e6aedd687e",
+      "failed_log_tail": [
+        "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+        "    return fn(*args, **kwargs)",
+        "           ^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 616, in get_device_capability",
+        "    handle = pynvml.nvmlDeviceGetHandleByIndex(physical_device_id)",
+        "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 2609, in nvmlDeviceGetHandleByIndex",
+        "    _nvmlCheckReturn(ret)",
+        "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 1047, in _nvmlCheckReturn",
+        "    raise NVMLError(ret)",
+        "vllm.third_party.pynvml.NVMLError_Unknown: Unknown Error"
+      ],
+      "submit_command": [
+        "/opt/slurm/bin/sbatch",
+        "--parsable",
+        "--hold",
+        "--nodelist=vega",
+        "--qos=ashton",
+        "--gres=gpu:1",
+        "--time=00:15:00",
+        "--requeue",
+        "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+        "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/eval_vega_recovery_435653_%j.log",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch",
+        "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+        "ol_math_A2_seed2"
+      ],
+      "released": true
+    }
+  },
+  "pending_zero_seed1_placement": "435649 moved to Vega between chunks",
+  "scientific_changes": false,
+  "updated_utc": "2026-11-05T05:49:17.481304+00:00",
+  "analysis_dependency": [
+    435648,
+    435649,
+    437229,
+    437230
+  ],
+  "zero_seed0_checkpoint_migration": {
+    "job": 435648,
+    "action": "move_pending_to_vega",
+    "utc": "2026-11-05T05:48:51.465592+00:00",
+    "before": "JobId=435648 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=None Dependency=(null) Requeue=1 Restarts=2 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-05T05:48:47 EligibleTime=2026-11-05T05:50:48 AccrueTime=Unknown StartTime=2026-11-05T05:50:48 EndTime=2026-11-05T06:05:48 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-05T05:36:57 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=mira ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435591_%j.log --dependency=afterok:435640 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed0 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435591_435648.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8\n",
+    "after": "JobId=435648 JobName=atlas_rl_eval UserId=harsh(6385) GroupId=ashtongrp(31087) MCS_label=N/A Priority=4781 Nice=0 Account=ashton QOS=ashton JobState=PENDING Reason=None Dependency=(null) Requeue=1 Restarts=2 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-11-05T05:48:47 EligibleTime=2026-11-05T05:50:48 AccrueTime=Unknown StartTime=2026-11-05T05:50:48 EndTime=2026-11-05T06:05:48 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-05T05:36:57 Scheduler=Main Partition=ashton AllocNode:Sid=ada.ais.sandbox:3871835 ReqNodeList=vega ExcNodeList=(null) NodeList= NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=128G,node=1,billing=24,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=128G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch SubmitLine=sbatch --parsable --hold --qos=ashton --time=00:15:00 --export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0 --chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 --output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435591_%j.log --dependency=afterok:435640 /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate.sbatch /ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 zero_seed0 WorkDir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101 StdErr= StdIn=/dev/null StdOut=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/normal_435591_435648.log TresPerNode=gres/gpu:1 TresPerTask=cpu=8\n"
+  }
+}

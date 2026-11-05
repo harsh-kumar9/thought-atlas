@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-05T05:19:11.053211+00:00",
+  "updated_utc": "2026-11-05T05:49:22.731989+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -16,7 +16,7 @@
     "fresh_confirmation_design": "Frozen256 MATH-test problems exclude MATH-500 and740 saved math prompt texts; A2 and moral vector norm6.75; primary paired tests, elicitation and64-task behavioral check completed; outputs verified.",
     "rl_runtime_smoke": "One-step corrected-reward generate/extract/update completed with exit0; not a scientific replication result.",
     "matched_total_budget_elicitation": "27920/27920 rows; all three targets and dependent analysis430487 completed exit0. Input hashes, exact task/seed/budget pairing, token bounds and parser-anomaly sensitivity verified. Integrated into abstract, results, discussion, appendix and Figure11.",
-    "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. Clean RL vectors remain in training; no replication result yet.",
+    "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. All six clean RL training runs are now audited complete; aggregate replication evaluation remains unfinished.",
     "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity completed and integrated; see separate entry.",
     "fresh_confirmation_behavior": "All192 frozen traces and55588 segments;100% parsing in both families, zero context truncation, zero missing profiles. All32 paired shifts and10000-bootstrap intervals reproduced. Moral intended/achieved cosine0.9466[0.8472,0.9570], projection0.4503[0.3315,0.5697]. Integrated with outcomes; annotation435693 and analysis430782 verified COMPLETED exit0 after scheduler recovery.",
     "llama_annotation_output": "1370 nonempty traces of1381 allocated,105302 segments, exact frozen coverage, zero duplicate segments/context truncation. Parse rates97.91% conversational,95.86% cognitive. Other judges unfinished; not completed cross-family robustness. Full435756 verified COMPLETED exit0 after scheduler recovery.",
@@ -27,7 +27,8 @@
     "rl_training_zero_seed2": "Job435642 COMPLETED exit0; all60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step29 expected no-op verified. Evaluation435650 loaded exact final vector and has fresh output.",
     "rl_evaluation_ol_math_A2_seed0": "Job435651 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Fallback rows:3; retain sensitivity bound. Individual seed only; aggregate conclusions await all seeds.",
     "rl_evaluation_ol_math_A2_seed1": "Job435652 COMPLETED exit0. All398 attempts across199 tasks, exact pairing, token bounds, frozen vector/source hashes and common-control settings verified; all398 corrected grades reproduced with zero mismatches. Fallback rows:5; retain sensitivity bound. Individual seed only; aggregate conclusions await all seeds.",
-    "rl_training_zero_seed1": "Job436713 COMPLETED exit0. All60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step33 expected no-op verified. Evaluation435649 loaded exact final vector and saved40 responses before queue wait."
+    "rl_training_zero_seed1": "Job436713 COMPLETED exit0. All60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step33 expected no-op verified. Evaluation435649 loaded exact final vector and saved40 responses before queue wait.",
+    "rl_training_zero_seed0": "Job436712 COMPLETED exit0. All60 steps/7680 rollout-reward pairs, fixed sampling, source hashes, token bounds, finite vectors and optimizer/progress verified. Step55 expected no-op verified. Evaluation435648 loaded exact final vector. All six training seeds now audited; evaluation remains separate."
   },
   "jobs": {
     "judge_pilots": {
@@ -63,10 +64,10 @@
       "a2": 435647,
       "zero_seed0": 435648,
       "zero_seed1": 435649,
-      "zero_seed2": 435650,
+      "zero_seed2": 437229,
       "ol_math_A2_seed0": 435651,
       "ol_math_A2_seed1": 435652,
-      "ol_math_A2_seed2": 435653,
+      "ol_math_A2_seed2": 437230,
       "analysis": 430532
     },
     "fresh_confirmation": {
@@ -81,7 +82,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "Five training seeds audited complete; zero-seed0 final extraction resumed with96/128 rewards. Vega ~12h queue estimate motivated passed Mira GPU0 CUDA/NVML probe437187 and node-only moves. Gemma allocation still failed NVML; saved1340/1370 traces restored to Vega437190 and CPU435757 dependency repaired. All four other Mira jobs now have fresh saved work: zero-seed1/2 evaluation48/88 rows and A2seed2 evaluation336 rows. No scientific changes, no duplicate runs; policies/dependencies and source hashes verified. Gemma remains queued on Vega; monitor allocations individually.",
+  "gpu_status": "All six RL training seeds audited complete. Two of six learned-vector evaluations complete/audited. Two failed Mira evaluation restarts resumed as Vega437229/437230 with saved work intact; CPU430532 reconnected. Existing evaluations435648/435649 moved to Vega at checkpoint boundaries. Gemma437190 has1351/1370 nonempty traces; zero_seed1 has fresh output on Vega. Remaining jobs running or queued; aggregate results not yet complete.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -130,7 +131,8 @@
     "scripts/audit_completed_rl.py": "10b63e1c979cb23b557edf6b1fe006dd8308a640e75239e621f9797ecb7b232a",
     "scripts/audit_rl_evaluation.py": "4b6524806a61fcd3793191f11222c849587b7f7817239d0f8fca5c71f6b30551",
     "scripts/mira_gpu_probe_20261105.sbatch": "023255314d8b570f1c0e5a721eeaba641ce0d70cb1a517c33826c4c0dfc924f3",
-    "scripts/resume_mira_20261105.py": "5cc4a384bc374f5610315295b03e06767cb2a427147d3639dd25e06e57aaed2d"
+    "scripts/resume_mira_20261105.py": "5cc4a384bc374f5610315295b03e06767cb2a427147d3639dd25e06e57aaed2d",
+    "scripts/recover_evaluations_20261105.py": "e901ecfde05261eeb8fc7a343247eb475c528bcef87c56f5ff6265fa5fb1af34"
   },
   "readout_jobs": {
     "failed_prepare": 430409,
@@ -149,7 +151,8 @@
     "Checkpoint after each trace,9-minute soft deadline,pre-walltime batch-shell signal with background child for responsive trap. Frozen prompts, samples, decode settings and gates unchanged.",
     "Llama indexed serialization pilot passed unchanged95% gates; full435756 uses only repaired-version outputs, with69 completed pilot traces resumed. Original pilot preserved. CPU435757 waits for all three full judge jobs; obsolete gated435639 and430486 canceled.",
     "Four Mira RL GPU-initialization failures resumed from verified optimizer/vector checkpoints on Vega; two pending training jobs and six dependent evaluations moved to Vega. Existing evaluation IDs retained and failed-parent dependencies reconnected. Frozen scientific settings unchanged.",
-    "After ~12h Vega queue estimate, assigned-GPU Mira probe437187 passed CUDA/NVML. Existing queued work moved to Mira. Gemma startup still failed; saved1340 traces preserved, replacement437190 restored to Vega, analysis435757 reconnected. Other Mira allocations checked individually; no node-wide health claim or scientific changes."
+    "After ~12h Vega queue estimate, assigned-GPU Mira probe437187 passed CUDA/NVML. Existing queued work moved to Mira. Gemma startup still failed; saved1340 traces preserved, replacement437190 restored to Vega, analysis435757 reconnected. Other Mira allocations checked individually; no node-wide health claim or scientific changes.",
+    "Mira NVML startup failure recurred on evaluation restarts435650/435653 after saved work. Resumed as Vega437229/437230, preserving120/398 saved rollout rows respectively and frozen vectors/configs. CPU430532 dependencies reconnected. Pending435649 moved to Vega; 435648 moved to Vega after normal requeue at05:48:51UTC. Avoid further Mira moves based on single-allocation probe."
   ],
   "known_findings": [
     "Historical CV mixed repeated prompts and used full-data preprocessing; new validation corrects both.",
@@ -159,7 +162,7 @@
   ],
   "outstanding": [
     "Complete multi-judge robustness. Llama uses results/multijudge_llama_indexed; combined analysis in results/multijudge_analysis_indexed. Original failed pilot and repaired pilot remain separate; full435756 and analysis435757 replace435639/430486.",
-    "Complete corrected RL training and fixed-step60 evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
+    "Complete fixed-step60 corrected RL evaluations at8192 tokens, two sampled completions per historical holdout problem, with fresh baseline/A2 controls. Behavioral annotation of the new vectors remains a separate follow-up.",
     "Resolve unrecoverable historical training-reward uncertainty by replication rather than retroactive inference."
   ],
   "github": "Authorized update on codex/arr-evidence-repair; preceding revision808acc8 verified remotely. The containing Git commit records this revision.",
@@ -169,10 +172,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-05T05:18:15.188369+00:00",
+  "gpu_status_checked_utc": "2026-11-05T05:49:22.731989+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261105_0518.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261105_0549.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
@@ -200,7 +203,8 @@
     "ol_math_A2_seed1": "results/rl/ol_math_A2_seed1/completion_audit.json",
     "ol_math_A2_seed2": "results/rl/ol_math_A2_seed2/completion_audit.json",
     "zero_seed2": "results/rl/zero_seed2/completion_audit.json",
-    "zero_seed1": "results/rl/zero_seed1/completion_audit.json"
+    "zero_seed1": "results/rl/zero_seed1/completion_audit.json",
+    "zero_seed0": "results/rl/zero_seed0/completion_audit.json"
   },
   "qwen_annotation_completion_audit": "results/multijudge/completion_audit_qwen.json",
   "rl_evaluation_completion_audits": {
@@ -208,7 +212,7 @@
     "ol_math_A2_seed1": "results/rl_evaluation/ol_math_A2_seed1/completion_audit.json"
   },
   "completed_evaluation_monitor_verification": {
-    "checked_utc": "2026-11-05T04:45:19.518887+00:00",
+    "checked_utc": "2026-11-05T05:49:22.731989+00:00",
     "arms": [
       "rl_evaluation/baseline",
       "rl_evaluation/a2",
@@ -216,7 +220,8 @@
       "rl_evaluation/ol_math_A2_seed1"
     ],
     "source_hashes_match": true,
-    "snapshot_remote": "results/heartbeat_20261105_0445.json"
+    "snapshot_remote": "results/heartbeat_20261105_0549.json"
   },
-  "mira_return_recovery": "results/mira_return_20261105_0512.json"
+  "mira_return_recovery": "results/mira_return_20261105_0512.json",
+  "evaluation_recovery": "results/evaluation_recovery_20261105_0542.json"
 }

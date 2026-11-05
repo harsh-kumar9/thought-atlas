@@ -1,0 +1,394 @@
+{
+  "checked_utc": "2026-11-05T01:44:14.287024+00:00",
+  "run": "ol_math_A2_seed0",
+  "training_job": 435643,
+  "evaluation_job": 435651,
+  "accounting": "435643|COMPLETED|0:0",
+  "completed_steps": 60,
+  "training_tasks": 301,
+  "rollouts_and_rewards": 7680,
+  "exact_seeded_prompt_sample_schedule": true,
+  "token_bounds": true,
+  "unfinished_rewards_zero": true,
+  "all_metric_source_hashes_match": true,
+  "all_vectors_finite": true,
+  "optimizer_progress_final_vector_match": true,
+  "zero_gradient_noop_steps": [
+    15,
+    52,
+    53
+  ],
+  "evaluation_handoff": {
+    "checkpoint": 60,
+    "vector_sha256": "ba11a48eff32cf9047729a0394f90e5c11a87cd0cc2b40b4acd57b3147ccfb77",
+    "tasks": 199,
+    "samples": 2,
+    "budget": 8192,
+    "common_control_tasks_and_sampling": true,
+    "training_eval_task_ids_disjoint": true,
+    "caveat": "Historical evaluation problems reused; not a fresh holdout. Evaluation not declared complete."
+  },
+  "config_sha256": "c6c2cc7b7530f3df585d2395f15385c360afe0cd13689474f1c81a9acdfb9857",
+  "steps": [
+    {
+      "step": 1,
+      "rollouts_sha256": "d7cc485a3f97c52290a6e3f3f2faa9240f5c63394c9312e23a47d24eaa739907",
+      "rewards_sha256": "21b51231df881154065cfcc7cadc3b7e6d634d3d98488b4f418953b72ea65529",
+      "vector_sha256": "d858197514813f5137ac9410490222d5881ce2086ddd39802ef32e8e5a19897f"
+    },
+    {
+      "step": 2,
+      "rollouts_sha256": "5740917d2044ba8ecccf5fb65a0e92a16b137a086e556d71a0153be5ebeff7f1",
+      "rewards_sha256": "2a7ebd01cf3e34c16425a797b7c2d3a16958ce7783120ace35bc6c17bce068fc",
+      "vector_sha256": "e5c6b30525023a1b8acb78e0fe0888bf79dbe9a74477a74fd49121301d0ddf4a"
+    },
+    {
+      "step": 3,
+      "rollouts_sha256": "27ab9d2ca6e4775d9f837ca806cbf4235a1da59b05a6b138b1b428e6fb36b649",
+      "rewards_sha256": "fa2419a8b27f23595c39515fbc4412cffb1a96f253ba54e828b72f42b31d95ce",
+      "vector_sha256": "78c5f1f4db6675da8ff481967eefb98dcd4128dc6565d4875d5d745ba7615966"
+    },
+    {
+      "step": 4,
+      "rollouts_sha256": "d9f1aa21e3320161cbc7f9ea58f2e1c77fd9200ba10e0e4a1b310cb391226462",
+      "rewards_sha256": "670e80c5de56662930549de41f7160b1a3d70cb5f3d7fd9fa1009075e7a5716a",
+      "vector_sha256": "15ea5c632cabee1f0eba90c6004b7126b393684fc52206ac3e1629b6991d82fb"
+    },
+    {
+      "step": 5,
+      "rollouts_sha256": "c905410c05959dcd6fe7eca3af1228d370f5ed0725751232c5c67ebdac521603",
+      "rewards_sha256": "bdfc25f665a0be2b0c7c2a2a978abd67192bad1e463136adf68be2c014a5d70e",
+      "vector_sha256": "9e3538fb1be0f0606e9cfda177f2517ee5e289d170407414fc8b6d94b0889da0"
+    },
+    {
+      "step": 6,
+      "rollouts_sha256": "77abdc6d1a1f7ad19e464765a91f44a82aa945a715d470f7bb4c0f99b0695b35",
+      "rewards_sha256": "a34ff020cf0164543800833820dcb7fc73fe3ddfd92f222575a92665bf26408f",
+      "vector_sha256": "bbf7898201047f3be37c962be6271407506c64b1794221c248fa0e09991fa9aa"
+    },
+    {
+      "step": 7,
+      "rollouts_sha256": "acd2c30ccbfe100cba27a502970933588a0121d9b3375701947e6a01fd846170",
+      "rewards_sha256": "58bac21a5a532de78c1bb4c101867ab4c5ad9cd761fb3eef2d7288ea1056b0d7",
+      "vector_sha256": "6a62b40b5edaf0748a5580b625fdf53427c5c886d43891715d2194ddbe607260"
+    },
+    {
+      "step": 8,
+      "rollouts_sha256": "1fc8052984e2c3e27768ad298822a3aee6d222b3c70aed4471b51c62c16f030e",
+      "rewards_sha256": "81c8dcc3e93262d024118326d8ca01fef864a711f09e7e3b53509b63ff5db655",
+      "vector_sha256": "fd28bc3b72f171c790e8e1f834e2edd06f343aa36aa0b8470cdd1887c0fbeb0e"
+    },
+    {
+      "step": 9,
+      "rollouts_sha256": "e81125c8224c6f74f1e80059f463fc11cf94a1eb91f5c4498a153af11180b6da",
+      "rewards_sha256": "dd852c5d5327d5e58403b4900d68581c53eb8e9c0a2b72cde19b09b3ff7a0ed2",
+      "vector_sha256": "f8c31c8a14ba4c8dc78d107f8c33557c2caf7766713d79bcf1f0658d6cee27f6"
+    },
+    {
+      "step": 10,
+      "rollouts_sha256": "3ba32dde723b5121e8b5ff5af9664d1f0dbcee288f46d78834af632212dc69af",
+      "rewards_sha256": "2acd56241f44a422978d76666028c62c52bd869c11adc5d84fdc3f7be5dc68ef",
+      "vector_sha256": "37a82af165d473c737d82fddd152bd1c4a3a3d90578dec56d9287e15756bc190"
+    },
+    {
+      "step": 11,
+      "rollouts_sha256": "66ca6450ace7c7640346778e4beaf48a9d0baa5ac1cf2156f52fa6a8e6377f18",
+      "rewards_sha256": "84a8e268de9980987745b22d27125f1ed41448feefed4f237e561089ac962a77",
+      "vector_sha256": "c9674a473cdb5cab3e614c305c2e7349bbb1264c23bb1b567ba571581cd7107f"
+    },
+    {
+      "step": 12,
+      "rollouts_sha256": "6b7138e69afac30b148cd0be965e3519605791fb3f3049fd4cf27243a09cfaf1",
+      "rewards_sha256": "64727551e2e8317e1cad48a07ea1e78c251b3dd4e462d22ea29f0119d99c7b37",
+      "vector_sha256": "49627d6675eb11ea3aba612f76f0d977629733cf42f9761305f73384ec553ec9"
+    },
+    {
+      "step": 13,
+      "rollouts_sha256": "09bc2c9829eae089897b0b2309bb341d172660709170f2f2896af80d4879fa52",
+      "rewards_sha256": "38500190d59efa038ce6403ebae8fac0a86bb903c23cdf7fcd8ed7c269c1dc83",
+      "vector_sha256": "bffb4c547a8dc242a79b8ceab96648a6063d869d9994db7cb9814d74c013626d"
+    },
+    {
+      "step": 14,
+      "rollouts_sha256": "99d8c51202534ec2df5151b98eea12172e10dc083527f2c1eaad1ca6375b1844",
+      "rewards_sha256": "b9f13f1b7bd11e4873cbeb8b834abbd3cea23155802583412cdedac5fe9486af",
+      "vector_sha256": "9b04b1eb866ac0c6c3a7312e2c7b51f457fda6f8cc3af78ee5e6854777326c85"
+    },
+    {
+      "step": 15,
+      "rollouts_sha256": "8869b05a396dbc7a308f3ea2902e3c1e847119528235c5e090ada8ebe47a6fa7",
+      "rewards_sha256": "da497bd79efb0f1de8b6ecafa07cc6008132ed8ba6b8b6191c407bb0f797789c",
+      "vector_sha256": "9b04b1eb866ac0c6c3a7312e2c7b51f457fda6f8cc3af78ee5e6854777326c85"
+    },
+    {
+      "step": 16,
+      "rollouts_sha256": "94669a9a2ad23560aaaedebd63597b02ee499e389bd2f0df42642338c334a661",
+      "rewards_sha256": "e7dcab093beecbbd16d4b9eac23c3acba7bce730a6eeb325dd9b9e2a205a36d8",
+      "vector_sha256": "b9e1c34211e26294f2da30b565aea54f8c6fa66afac6354f5be8dbb207a78ac1"
+    },
+    {
+      "step": 17,
+      "rollouts_sha256": "1d672fd06707c080e5250b1b3db375770450e7f09467841aebe52b00edfb9e04",
+      "rewards_sha256": "d02129a76c78e2c92a39854a728e7157579a8cd841f3cc659d53ec41fb9c4092",
+      "vector_sha256": "d7542b7c31349b10e0ff5844ef917f036607b6bd0f7f56c503e5d6644db0977d"
+    },
+    {
+      "step": 18,
+      "rollouts_sha256": "b10e5695dfdaf1f05c21b1e6b5e3a6360913a5b29a557d7bda0ecba5c528d1cd",
+      "rewards_sha256": "7af35678c59568e07ec66018250039becc9d4f19702806d080750c6f59b38e24",
+      "vector_sha256": "0937e5f7e56f476ac952c59b28907e1e2dcb6d6351dc5c314a02251ef2781f57"
+    },
+    {
+      "step": 19,
+      "rollouts_sha256": "4eaf7b996c2b0d6892570dd9f22dcabd873968cf2d30f974f0a34f9d8365a31d",
+      "rewards_sha256": "d6350c4e0ed113e2cb376f215832b1afe3c39ecf60fd90d4251475794c355da5",
+      "vector_sha256": "971a33d3ec3b9025714f7d920356582a041517950d214446167a01c970ca00fb"
+    },
+    {
+      "step": 20,
+      "rollouts_sha256": "4a06cf4c98be009e8a852132e78e5c87fb4502d38de809aa12168b390a3b586f",
+      "rewards_sha256": "abf9afebdfa0593f5aa8303b7369cdd9724e550bd96001cac48be49b4abbba09",
+      "vector_sha256": "b6f77a9418d66d16797891580cf7d59221adb35c0c5e0384971f56722360e107"
+    },
+    {
+      "step": 21,
+      "rollouts_sha256": "52367161ccc30d5e42c3a126f0484e63d081188178519547e68c27a474326142",
+      "rewards_sha256": "51901433a9ba964ffebb4ffd1f62c77784078f3d69cacc4b7fe14f5d85886aa8",
+      "vector_sha256": "e1142aadfac96eb18f12e6e13d245a47ef08e276dd5a8b48335195c8e8c1819c"
+    },
+    {
+      "step": 22,
+      "rollouts_sha256": "b65bfeb80685921fa4f69c74530954d967f9106f1b102bec847e65b6be71cde6",
+      "rewards_sha256": "e662aa5264d48d11cb1aba79976ebb20486dab258c82d0dfc6bfe0efc1109890",
+      "vector_sha256": "d328be9b11507ef6ad1854b2adff4764bb88469a4ac3e16e95017e589ec3905b"
+    },
+    {
+      "step": 23,
+      "rollouts_sha256": "37176d7a6d6ad3d0301bac2489480d554162f39e64c720f44582167642fea0e3",
+      "rewards_sha256": "6e905d252dc28d0126c5015448d797843d8f872071f251f3a0f500c3789e881c",
+      "vector_sha256": "a7d6bd6f998a45efc1dbf62e4c4c22dec2e0929ef6363869e43b8d0a835fc762"
+    },
+    {
+      "step": 24,
+      "rollouts_sha256": "062ce581535ba48bbc1d95bf553f75efed68750e051c99671746b82b34eb6d03",
+      "rewards_sha256": "8745a17362ba3257bc604e43b0d641c6d3b7289484909947f7005c318eef7f0d",
+      "vector_sha256": "cc7a78b6fe91e7d438fbd0ea4a623d6b2224d250b8ae004f37b45b7e5837bb5b"
+    },
+    {
+      "step": 25,
+      "rollouts_sha256": "49dbbd509ece8af8cb7c74b0a36ce75135cb50bc4d59eb2ece145c1d54cde23f",
+      "rewards_sha256": "a41f101e735d5018cca7f835c2d66d5db7ce426dbc6b37c6449e5ae9c5dfa7cd",
+      "vector_sha256": "33f91884644e637d123650e47420f4ac384529706d858ff152a4d26a6f394284"
+    },
+    {
+      "step": 26,
+      "rollouts_sha256": "0082b6c212268d13f2dea3fa3520b566cc59e02dfda87a7d42954abde57e6480",
+      "rewards_sha256": "92aa6f5b6a0e6ced295702501846be6675b0cf3f817bb1b66b061a9dcdedb09e",
+      "vector_sha256": "437caecf70c7fdbaaf54810f468d5a22b16cb9c1ef4991ae2d7fab126bcfc90b"
+    },
+    {
+      "step": 27,
+      "rollouts_sha256": "71ec59c00466c6dd214c0ba9c23d2f4b7f6007269ad0f06d8610751e76830684",
+      "rewards_sha256": "a8a45963d00aff7569786089cd578e8751c17715b43872f2791d2fc08d7e67cd",
+      "vector_sha256": "d53b67e0a6ce2a23b8db3305b4faea802a33c51294cd5af0ffc2058793901711"
+    },
+    {
+      "step": 28,
+      "rollouts_sha256": "dbae182946469d30b720d1490a638259e25648413e881a0380ef182b087b8783",
+      "rewards_sha256": "fc19257ee71fa1f319afbdd235cd63e74590483be8406e8680de18ea5508cd9d",
+      "vector_sha256": "86b9d568290a93cff6fdc0f721f26657ee95bb68b365d587f0370df4ffb591b8"
+    },
+    {
+      "step": 29,
+      "rollouts_sha256": "3faef8a1e012b999dc18f4c8ba99597f0aee7156cb0d151018c2b28a46f523b2",
+      "rewards_sha256": "2a8203a49dec4f41ab083e252db29e2ff0df0679182c41a6c02727ce78fc3701",
+      "vector_sha256": "fe06c18e28ea21d0ebd32a2758515064e7caca4f024f624c75fc72126423dd50"
+    },
+    {
+      "step": 30,
+      "rollouts_sha256": "6486053982e26274f4f17e1205bae6ea1a213ecb322a1bc037007ee1bbaa9363",
+      "rewards_sha256": "2eb51281acb59652ff5370cf66e5af9c85d7174aa0bf34829537661053c2176c",
+      "vector_sha256": "78ad24f3c4106203fade6530c4a054d210681b72f83103d8ce70cd577df40db4"
+    },
+    {
+      "step": 31,
+      "rollouts_sha256": "db66db43466f649fd220ed2701f8973d1dfca484092c53112e323c156d29046d",
+      "rewards_sha256": "3cab777a41f2bfa1c75628a34d83ed166e301fd4db50f69cf3d09129f6c2cad3",
+      "vector_sha256": "de0bbdef7f0cf5efa2fde2cd9f5326b1b05e1f4b3ffaa42a796f4837478abcd0"
+    },
+    {
+      "step": 32,
+      "rollouts_sha256": "30783266e018ff2ad7b25b9c35f52c11b988b0cec122193240006c95eb6b0c07",
+      "rewards_sha256": "1c5e5d690467899219ddff3a09352c55c38b7f6a926065b5c40923e903f7c6dd",
+      "vector_sha256": "0ccdda51d64ab12fa79110e952096e6581f49c851dfa2a32061df8d4ca0cde01"
+    },
+    {
+      "step": 33,
+      "rollouts_sha256": "d61fe1f817587e267a573940a1397370ddb42b2692ae23cf04e92bf00ae5747c",
+      "rewards_sha256": "3cea0e4746862771a23fb294e2c3546795da760d0b00945dda72e61237d0bd93",
+      "vector_sha256": "ef19f3040e812f75394b2576cf8aa7a66bda2e54350dbe59137f1751eea5df0c"
+    },
+    {
+      "step": 34,
+      "rollouts_sha256": "38a33d68ccbe37b37c9af60d245cebe268294e9a49044c3cfde19116c656872f",
+      "rewards_sha256": "8a4d83031cb77651e170095330be34cc1b55690b6f3fdbb771cb6b6cb894d806",
+      "vector_sha256": "cb6c98b6b9bf3c6098f2257e4af07118c409653bef483433059ee23690d8da09"
+    },
+    {
+      "step": 35,
+      "rollouts_sha256": "8be9bd14e91cd7e736a257b1b0541aa4397ec2b236b1eef819d514be4ec5ccd8",
+      "rewards_sha256": "ff1818f2efefed4c161ade1bd0bc313fbc7556217dac17f618168b21553c2a0a",
+      "vector_sha256": "ccdfca6122ac304b90e14dc98ee1ba5adb7065de6ca5815480cbe1bc901bd012"
+    },
+    {
+      "step": 36,
+      "rollouts_sha256": "834f65cd234b7402501672b4b7451b865c6e7a8819b7c8c437ee62856d99f324",
+      "rewards_sha256": "dd2402a03e91c98cb07c91fab128cc2f43c2836abce1f7f8345f691b14c78992",
+      "vector_sha256": "0f4adcca8de1f8a6f23f3b638fc6d519fb3a23c25db97bcbd1938cbda0cab598"
+    },
+    {
+      "step": 37,
+      "rollouts_sha256": "68dc9635b2639cdc42c4be216e57eb825e39657506b00f2a6ff066947c267b1c",
+      "rewards_sha256": "bcd58441e5cfc07afe6251635811461e8d7819774296d2c9d64423dee4970afc",
+      "vector_sha256": "56cb8d9fdf0c3994d7d11482702236925e46b948c8aa30cd0fadffa98a80afe6"
+    },
+    {
+      "step": 38,
+      "rollouts_sha256": "a549f3c7ed9914be3d42217acf75b2cdf0e8e0b8bbf359c068ecd4b3f4496df3",
+      "rewards_sha256": "96c65bfad7978710729e3a111d0346d5c9bc802c3900b50f3240cb6fc0375fb7",
+      "vector_sha256": "f7d67168f0e73a1a4194cdbd5dd1a5d87d55ed01cea2442f02ec81b3876ffc8f"
+    },
+    {
+      "step": 39,
+      "rollouts_sha256": "52063e8590ffe7627a9513e68a2872d637055bd99198e98123a5d7004a84dcc0",
+      "rewards_sha256": "aa9213ed655269dc28083314d68ff767c36282c20f5e4d58f18285fb592c8e5c",
+      "vector_sha256": "5e22f219fbf979478fa11bf4cff97140c231db0be1f7433f611ca5f84fe5a645"
+    },
+    {
+      "step": 40,
+      "rollouts_sha256": "7e073d3eea387af8615feee40753ead650408bfd74e441802445ea675bd73d71",
+      "rewards_sha256": "c49d21ef7eb57bfffc8dcb675a4be042ea338a67d70e753278e2140b1d531afc",
+      "vector_sha256": "72d37c870ac7e62ef0f6350f56fe8105db5a979db191d4658eba0bc56e3bf536"
+    },
+    {
+      "step": 41,
+      "rollouts_sha256": "20b7e52ea6c1ee9279909fdf3fccadc4d3e43020b0790421c3fa5a8b7e514f33",
+      "rewards_sha256": "90d600fc2cf3b596d929ca1acc1c5f5bb27762d5d57d319a6a2b984b150e9047",
+      "vector_sha256": "5d1074be963afd467ee13616cacd5a04a1c6fe1724c492aeeb4de54cf387e1e6"
+    },
+    {
+      "step": 42,
+      "rollouts_sha256": "88b20099e4d6ebf683c9c38e99b1475292423e71cd5ca7f274ab6c61cab6b31b",
+      "rewards_sha256": "bdaaec4d4b6f50b6745eed5564c732971f3f7a02b015e82820f0102fc016e790",
+      "vector_sha256": "d1425bd5d2cbd7da73744675e6a9b5ead714260605f05dd011ca5339f852831f"
+    },
+    {
+      "step": 43,
+      "rollouts_sha256": "75ca314c294ceac883bee4370f080016a9e035088bd4b2dacf702897ba87cdfd",
+      "rewards_sha256": "1eb40912b75fb44c4f9feaaae5bcff427f28a08be4474aef40cbfcd7635a8fc8",
+      "vector_sha256": "b7ce2bad8c7777fe4830e5accb3d62ff04916b1d1f9f561e482999c611811c8f"
+    },
+    {
+      "step": 44,
+      "rollouts_sha256": "50424245c2a25f9ef6abd8629c11f0041199909a9dda7c41eb95409c3f6e6cb1",
+      "rewards_sha256": "94de5c8ffd35a45d887a3f561c1b6e988ea0239f8be77a6813b593a4d26790ff",
+      "vector_sha256": "dee8a934ac6828f0cc55a4c55df71342f00c6a3cb16964b9c55f3c65bca4dc41"
+    },
+    {
+      "step": 45,
+      "rollouts_sha256": "cc8e097c2c1fa1030dc975bccfe7b6ddefd725860c6ec53cb374723645edd40b",
+      "rewards_sha256": "c7ddb01877580b53063ffd0774254d5bbbb93d8292ca8657bc2b8ff088420c4c",
+      "vector_sha256": "c8d914d9e428839bdf5d7fa4bd83ad05ffd18c70bf2019e8a8ff981cb6acfc7e"
+    },
+    {
+      "step": 46,
+      "rollouts_sha256": "ab7689ef531055b76a50ada1c15b5f2d590ffc27729abf3125f756e276e9ac47",
+      "rewards_sha256": "3c5542966d6444a0c4a580423fa17e4cb2741355847788a97fa1fc0c121870a5",
+      "vector_sha256": "6451714f7f4b3c856226b7fe174bb6a4241e6f404f395de005172bc983e57981"
+    },
+    {
+      "step": 47,
+      "rollouts_sha256": "4355148a36d282f6dc9c4365d255c7e06e0b4713293e6a21604674ba9d3fa9e0",
+      "rewards_sha256": "43d9af18274d7bf7a4df9805aca9cc673d7e7b2ed34cff92b0102e4abfe029c0",
+      "vector_sha256": "2bd6977cbba0366fe27a1eab2c174f6c48de01ee213c8fce864bf323d8472672"
+    },
+    {
+      "step": 48,
+      "rollouts_sha256": "32b4a0c21f323ed37110936e9e93c20fb2d34604de7b96b920b5859317ff4855",
+      "rewards_sha256": "eb2dd1d9ca689b52835c4422ad53b4c00fe057d79dd676538fbc7356713dd587",
+      "vector_sha256": "af04896f204d849d0ff03be1a878c4e282d83dab3bfda5cc912ba9931c4b1a49"
+    },
+    {
+      "step": 49,
+      "rollouts_sha256": "69bcd145f6daa83b6549e3deea76fac81b325b2d1218d72d96167d7edfb14956",
+      "rewards_sha256": "4496aabd43263f3355959662b5b3b1f6efde4479cac982280434e4cd870859b7",
+      "vector_sha256": "e914a28e8c23fbee3d14c25e3f2e8dc7b7e1c787b7c835c5195e40747d3bde31"
+    },
+    {
+      "step": 50,
+      "rollouts_sha256": "cedf248e1f8abe14df66de2bc7c6b27cb82f1bde8efd41276fafa7520ff2e926",
+      "rewards_sha256": "7a3b8bf2fb6d60ef540094c6df5955cb0cce30a23945370bce9e5015ae7d10cf",
+      "vector_sha256": "95000c468320fa550ad842976b20de5c2fce9b7e95fa0b3c72010280b9c5a0d4"
+    },
+    {
+      "step": 51,
+      "rollouts_sha256": "a206749eb89c066ac55333647720b7d9c1f8495e7977a3b0c351faa067e53e11",
+      "rewards_sha256": "143f85eb9980b33a944849d305210f40983590985d9b6306a2162bde311bb440",
+      "vector_sha256": "d7a5141ee92a283c74e32f2a06bd194c1200477860f938c580dacfedf966aa53"
+    },
+    {
+      "step": 52,
+      "rollouts_sha256": "91b94e149aefb40ea124248410a6a2fcad1709d907f517a2303349219a4437ec",
+      "rewards_sha256": "61bf085b5ff6db5f7e373c39ca783ce8b1f18f5821d36acda9fcfb01b3bc3652",
+      "vector_sha256": "d7a5141ee92a283c74e32f2a06bd194c1200477860f938c580dacfedf966aa53"
+    },
+    {
+      "step": 53,
+      "rollouts_sha256": "2700da2815648ced8356640000f0496c9226f63f093516477d49f29c30513bb5",
+      "rewards_sha256": "65a0234bbb68ca9d2a48653e98166929d9f3aefe8fd9525ad399d27b907d0996",
+      "vector_sha256": "d7a5141ee92a283c74e32f2a06bd194c1200477860f938c580dacfedf966aa53"
+    },
+    {
+      "step": 54,
+      "rollouts_sha256": "ab3eae4a5bd0610f1c7c9e72ff0cc1eac3aa3f09a042118eeb028468ab37c582",
+      "rewards_sha256": "0cc464ddb4f7455ee2aefce41a3ec611501f9d06974bf3db5a2a2b9119ffbba7",
+      "vector_sha256": "ad0df31f35f72a0f69b6cc7c4e7bd37c35dbcf53c429810d98122b635785cc5f"
+    },
+    {
+      "step": 55,
+      "rollouts_sha256": "483363f75d48a808a7ea6c1c23ef10a88c0f8e71d5972600133edd84e80de70e",
+      "rewards_sha256": "969b55b560dd4a687ccbec386bbab46595711b454318cc185a77e82769e3f694",
+      "vector_sha256": "e9e00a6a4c7f97f893de6f9cfa5da39970e20a3719aea31339f7a7f391e939b2"
+    },
+    {
+      "step": 56,
+      "rollouts_sha256": "06bf38dbe25815a072f9cf9dc0a6aebbfcf1cfea9b050353a7a8a1f942430e66",
+      "rewards_sha256": "bc9cbd10fa991c67d77d51692295348607cb67943957a1ac459d419cd4761878",
+      "vector_sha256": "7010196bcb86a917761a34f099eb83bd2658f6c9bfd5a2b39b29e7a43b5a4183"
+    },
+    {
+      "step": 57,
+      "rollouts_sha256": "fde8717676918eabd04749c11e420383ede960e0eb52adebadc51f19ca146cca",
+      "rewards_sha256": "dadb7b0ed350ede20a48e9998bdaa80ef0d3bd44016e83cd8da468eda1f67f15",
+      "vector_sha256": "131e683131a6b690f638041968e99bd13472114125fdb3783a9c1ce215ad455f"
+    },
+    {
+      "step": 58,
+      "rollouts_sha256": "247f3eb6cab9ffd8940f7fba1f82e8d872442141e5f6be158222e7da23688a12",
+      "rewards_sha256": "482ee8a4f4521293b2378501896cbfb104925e013ccc8f30c204b273b4b20b60",
+      "vector_sha256": "49a860214b209777d58db3e67e35404fb90206ce95efdaaeebc073387b48e43e"
+    },
+    {
+      "step": 59,
+      "rollouts_sha256": "2d3af1fc8ef76293bbc523ab90eccdbdb9ccbb90cf8c58d761f554616c344caf",
+      "rewards_sha256": "2a8cacc5838342982400b144bde2c98c25f290816eac5e40b8b71857cbfda5fb",
+      "vector_sha256": "84e1f4fc5cae447801eb2a50165f6a6d52f86008101d69ff5649ac3bf1b3d750"
+    },
+    {
+      "step": 60,
+      "rollouts_sha256": "6241d2559942fd446d6c989d03cda06063d72b6e3eb67b984174ac854533894b",
+      "rewards_sha256": "b19e18e982e8b457ec7bc3aefe514b3c41d137cbeea58f82099b466de4bd9788",
+      "vector_sha256": "ba11a48eff32cf9047729a0394f90e5c11a87cd0cc2b40b4acd57b3147ccfb77"
+    }
+  ]
+}

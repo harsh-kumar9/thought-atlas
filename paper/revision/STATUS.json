@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-05T01:12:38.091257+00:00",
+  "updated_utc": "2026-11-05T01:44:14.287024+00:00",
   "scope": "Authorized ARR evidence repair; not submission-ready",
   "remote_root": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
   "historical_repository": "/ada1/u/harsh/thought-atlas",
@@ -19,7 +19,8 @@
     "rl_evaluation_controls": "Fresh baseline/A2 controls on199 historical evaluation items completed exit0;398 rows each, exact task/sample grids,8192-token bounds and outcome/grade consistency verified. Clean RL vectors remain in training; no replication result yet.",
     "fresh_confirmation_outcomes": "All1536 attempts; all3 GPU arms and CPU430778/430779 completed exit0. Exact frozen task/sample grids, file/vector hashes, token bounds and grading reproduction passed. A2 natural+32.8pp and moral+8.6pp pass Holm; elicited+0.6pp and-3.3pp are secondary pointwise estimates. Behavioral fidelity completed and integrated; see separate entry.",
     "fresh_confirmation_behavior": "All192 frozen traces and55588 segments;100% parsing in both families, zero context truncation, zero missing profiles. All32 paired shifts and10000-bootstrap intervals reproduced. Moral intended/achieved cosine0.9466[0.8472,0.9570], projection0.4503[0.3315,0.5697]. Integrated with outcomes; annotation435693 and analysis430782 verified COMPLETED exit0 after scheduler recovery.",
-    "llama_annotation_output": "1370 nonempty traces of1381 allocated,105302 segments, exact frozen coverage, zero duplicate segments/context truncation. Parse rates97.91% conversational,95.86% cognitive. Other judges unfinished; not completed cross-family robustness. Full435756 verified COMPLETED exit0 after scheduler recovery."
+    "llama_annotation_output": "1370 nonempty traces of1381 allocated,105302 segments, exact frozen coverage, zero duplicate segments/context truncation. Parse rates97.91% conversational,95.86% cognitive. Other judges unfinished; not completed cross-family robustness. Full435756 verified COMPLETED exit0 after scheduler recovery.",
+    "rl_training_a2_seed0": "Job435643 COMPLETED exit0 at frozen step60. All60 steps/7680 rollout-reward pairs, seeded prompt/sample schedule, token bounds, source hashes, finite vectors, optimizer/progress match and expected no-op steps15/52/53 verified. Evaluation435651 loaded exact final vector; performance evaluation unfinished."
   },
   "jobs": {
     "judge_pilots": {
@@ -73,7 +74,7 @@
     },
     "llama_format_diagnostic": 435696
   },
-  "gpu_status": "All six RL runs and both unfinished judges continue advancing on Vega. RL checkpoints52-58/60 with finite metrics and saved vectors; Gemma1170/Qwen1321 of1370. Llama and confirmation complete. Judge alerts reviewed: semaphore finalization after saved chunks and completed engine shutdown, normal exit0 requeue. All normal ashton,one-GPU,15-minute policies and downstream dependencies intact; no source drift. No runtime changes needed. Training/evaluation and combined robustness remain incomplete.",
+  "gpu_status": "First clean RL training seed (A2seed0) completed60/60 with exit0 and full artifact audit; evaluation435651 automatically started with verified final vector. Other training checkpoints53-59/60. Gemma1197/Qwen1351 of1370; Llama and confirmation complete. All normal ashton,one-GPU,15-minute policies and downstream dependencies intact, no current log alerts/source drift. Combined robustness and RL evaluations remain unfinished; no runtime changes needed.",
   "gpu_policy": "Normal ashton QoS, authorized2026-11-03; one GPU,15-minute resumable jobs; dependencies preserved.",
   "annotation_design": "User requested three-family LLM robustness instead of human raters. Established definitions and prior human validation cited; no consensus gold standard. Frozen 1381-trace sample includes unfinished attempts.",
   "code_files": {
@@ -118,7 +119,8 @@
     "scripts/audit_confirmation_outputs.py": "2466ec91252f9b6149306a1eb398304eeec13dbd81554b1b9a811465807859d3",
     "scripts/audit_confirmation_behavior.py": "efc8c22ffaa7d4b4336c226609be2143f286cf99bada9570dc0b65ae1aaf4ec4",
     "scripts/recover_rl_vega_20261104.py": "b2050d86544e56546139222a6becaa6e93cd924012ef9e04995c3073b04d003a",
-    "scripts/monitor_studies.py": "5efd92c3e1824097e28c9f2948753a8c6b3cc7f5f2f956cd1d9890a9aad54b0f"
+    "scripts/monitor_studies.py": "5efd92c3e1824097e28c9f2948753a8c6b3cc7f5f2f956cd1d9890a9aad54b0f",
+    "scripts/audit_completed_rl.py": "10b63e1c979cb23b557edf6b1fe006dd8308a640e75239e621f9797ecb7b232a"
   },
   "readout_jobs": {
     "failed_prepare": 430409,
@@ -156,10 +158,10 @@
     "ada": "22 prior tests passed;8 focused formatting/elicitation tests passed after CLI extension. Shell syntax checks passed.",
     "gpu_execution": "End-to-end one-step RL smoke completed; full studies remain in progress."
   },
-  "gpu_status_checked_utc": "2026-11-05T01:12:38.091257+00:00",
+  "gpu_status_checked_utc": "2026-11-05T01:42:41.366432+00:00",
   "artifact_status": "Outcome-and-fidelity Figure12 and paired behavioral table integrated; local PDF compiled and visually checked. Overleaf and package verification recorded separately.",
   "scheduler_recovery": "results/llama_format_recovery_20261104.json",
-  "latest_monitor_snapshot": "results/heartbeat_20261105_0112.json",
+  "latest_monitor_snapshot": "results/heartbeat_20261105_0142.json",
   "annotation_runtime_issue": {
     "judge": "meta-llama/Llama-3.1-8B-Instruct",
     "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
@@ -179,7 +181,10 @@
     "decision": "results/llama_format_recovery_20261104.json"
   },
   "scheduler_incident": "results/scheduler_outage_20261104_1142.json",
-  "monitoring_note": "Use scripts/monitor_studies.py on Ada; it reads current training IDs from STATUS.json and writes timestamped snapshots. Recovery evidence: results/rl_gpu_recovery_20261104_2212.json. Do not require positive gradients at every RL step: verify complete groups, zero reward advantages, unchanged vector and source hashes for no-op steps. Preserve fixed60-step schedule. Use accounting for completed jobs absent from scontrol.",
+  "monitoring_note": "Use scripts/monitor_studies.py on Ada; it reads current training IDs from STATUS.json and writes timestamped snapshots. Recovery evidence: results/rl_gpu_recovery_20261104_2212.json. Do not require positive gradients at every RL step: verify complete groups, zero reward advantages, unchanged vector and source hashes for no-op steps. Preserve fixed60-step schedule. Use accounting for completed jobs absent from scontrol. Audit each completed training run with scripts/audit_completed_rl.py using its training/evaluation job IDs; do not equate training completion with evaluation completion.",
   "scheduler_restoration": "results/scheduler_restored_20261104_1842.json",
-  "rl_gpu_recovery": "results/rl_gpu_recovery_20261104_2212.json"
+  "rl_gpu_recovery": "results/rl_gpu_recovery_20261104_2212.json",
+  "rl_training_completion_audits": {
+    "ol_math_A2_seed0": "results/rl/ol_math_A2_seed0/completion_audit.json"
+  }
 }

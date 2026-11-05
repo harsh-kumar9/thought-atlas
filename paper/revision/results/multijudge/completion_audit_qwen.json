@@ -1,0 +1,20 @@
+{
+  "checked_utc": "2026-11-05T02:13:44.668896+00:00",
+  "judge": "Qwen3.5-27B",
+  "job": 435691,
+  "accounting": "435691|COMPLETED|0:0",
+  "completed_traces": 1370,
+  "allocated_traces": 1381,
+  "empty_prefixes": 11,
+  "segments": 105302,
+  "exact_nonempty_trace_coverage": true,
+  "duplicate_segments": 0,
+  "complete_segment_counts": true,
+  "segmentation_matches_llama": true,
+  "context_truncated": 0,
+  "kim_parse_rate": 0.9998100700841389,
+  "gandhi_parse_rate": 1.0,
+  "input_sha256": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+  "labels_sha256": "b0e4fa0e842bab53975b99e1626f4ee663c0ac6eb067fcd989d62545f15a000b",
+  "scope": "Individual judge output integrity only; cross-family robustness awaits Gemma completion. No semantic ground truth."
+}

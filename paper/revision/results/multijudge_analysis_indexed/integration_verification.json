@@ -1,0 +1,10 @@
+{
+  "verified_utc": "2026-11-05T15:18:26.204246+00:00",
+  "independent_point_estimate_audit_job": 437659,
+  "bootstrap_reproduction_job": 437678,
+  "both_cpu_jobs_completed_exit0": true,
+  "frozen_input_sha256": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+  "input_key_and_analysis_key_identical_sha256": "83b52fcb20fd307faf106f783f060c67083dd7581ee9370d309da5f06b433a23",
+  "cpu_placement": "Mira; no CUDA/GPU allocation",
+  "interpretation": "Selected aggregate domain contrasts retain direction; event-level agreement is judge dependent, particularly weak involving Llama. No semantic ground truth."
+}

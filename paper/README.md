@@ -20,7 +20,7 @@ A2 and the moral-associated vector are fixed at layer 16 and norm 6.75. A new 25
 
 Established Kim/Gandhi definitions and their prior human validation are retained and cited. At the user's request, the new audit uses Gemma4-31B-it, Qwen3.5-27B, and Llama-3.1-8B-Instruct on identical blinded prefixes. Its frozen sample includes 1,381 atlas, intervention, and matched-demand traces, including unfinished attempts. This tests cross-family robustness; majority agreement is not treated as truth or as new human validation. Exact templates are in `supplement/`.
 
-Matched-total-budget elicitation is complete (27,920 rows with exact task/seed/budget pairing). At 12,288 tokens, math-to-GPQA changes from +33.8 pp under natural completion to -7.0 pp under elicitation; math-to-planning shrinks from +20.8 to +1.25 pp, with an interval crossing zero. The matched-budget figure and companion tables report the completed control. The three-judge audit and corrected RL replications continue on Ada with pilot checks and resumable jobs. Explicit draft notes identify results not yet available. `revision/STATUS.json` in the repository records job IDs, completed evidence, and remaining work. No pending result is incorporated as an observed finding.
+Matched-total-budget elicitation is complete (27,920 rows with exact task/seed/budget pairing). At 12,288 tokens, math-to-GPQA changes from +33.8 pp under natural completion to -7.0 pp under elicitation; math-to-planning shrinks from +20.8 to +1.25 pp, with an interval crossing zero. The matched-budget figure and companion tables report the completed control. The three-judge audit is complete: all 1,370 nonempty prefixes are covered, and all bootstrap analysis outputs reproduce byte-for-byte. Four selected domain contrasts retain their mean direction across judges, despite weak event-level agreement involving Llama. Corrected RL training is complete for all six seeds; four evaluations remain unfinished. Explicit draft notes identify results not yet available. `revision/STATUS.json` in the repository records job IDs, completed evidence, and remaining work. No pending result is incorporated as an observed finding.
 
 ## Source layout
 
@@ -36,6 +36,7 @@ Matched-total-budget elicitation is complete (27,920 rows with exact task/seed/b
 
 From the repository root, using the populated revision outputs:
 
+    MPLCONFIGDIR=/private/tmp/thought_atlas_mpl .venv/bin/python paper/scripts/multijudge_figure.py
     MPLCONFIGDIR=/private/tmp/thought_atlas_mpl .venv/bin/python paper/scripts/confirmation_figure.py
     MPLCONFIGDIR=/private/tmp/thought_atlas_mpl .venv/bin/python paper/scripts/elicitation_figure.py
     MPLCONFIGDIR=/private/tmp/thought_atlas_mpl .venv/bin/python paper/scripts/revision_figures.py

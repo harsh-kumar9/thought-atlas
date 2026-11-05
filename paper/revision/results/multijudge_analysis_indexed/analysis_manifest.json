@@ -1,0 +1,13 @@
+{
+  "partial": false,
+  "judges": [
+    "gemma",
+    "qwen",
+    "llama"
+  ],
+  "requested_nonempty": 1370,
+  "empty_prefixes": 11,
+  "agreement": "Trace-balanced binary agreement; trace-cluster percentile intervals; no gold judge.",
+  "atlas": "Inverse inclusion-probability weighted rates within model/domain; equal-model selected contrasts.",
+  "interpretation": "Fixed-prefix robustness, not independent human validation. No majority consensus treated as truth."
+}

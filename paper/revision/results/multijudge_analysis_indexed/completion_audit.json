@@ -1,0 +1,61 @@
+{
+  "checked_utc": "2026-11-05T14:31:01.107929+00:00",
+  "accounting": [
+    "435757|COMPLETED|0:0",
+    "435756|COMPLETED|0:0",
+    "435691|COMPLETED|0:0",
+    "437190|COMPLETED|0:0"
+  ],
+  "allocated_traces": 1381,
+  "nonempty_traces": 1370,
+  "empty_prefixes": 11,
+  "judges": {
+    "gemma": {
+      "segments": 105302,
+      "traces": 1370,
+      "labels_sha256": "f1ac82d63b9c2d4db9f33abdecef4f6a625c8bc138317bb8cdc62a369c5a4949",
+      "kim_parse_rate": 1.0,
+      "cognitive_parse_rate": 1.0,
+      "context_truncation": 0
+    },
+    "qwen": {
+      "segments": 105302,
+      "traces": 1370,
+      "labels_sha256": "b0e4fa0e842bab53975b99e1626f4ee663c0ac6eb067fcd989d62545f15a000b",
+      "kim_parse_rate": 0.9998100700841389,
+      "cognitive_parse_rate": 1.0,
+      "context_truncation": 0
+    },
+    "llama": {
+      "segments": 105302,
+      "traces": 1370,
+      "labels_sha256": "8857383c215358f22ca997a137c7804ff7394f992a15fb1198d0b2dc00f1280d",
+      "kim_parse_rate": 0.9790982127594917,
+      "cognitive_parse_rate": 0.9586142713338778,
+      "context_truncation": 0
+    }
+  },
+  "exact_frozen_coverage": true,
+  "same_segment_grid": true,
+  "copied_labels_hash_match": true,
+  "agreement_rows_reproduced": 408,
+  "paired_shift_means_reproduced": 2016,
+  "weighted_rates_reproduced": 2688,
+  "contrast_means_reproduced": 24,
+  "interval_checks": "Finite bounds ordered and in valid range; original deterministic bootstrap used, not independently regenerated here.",
+  "files": {
+    "sample_key.parquet": "83b52fcb20fd307faf106f783f060c67083dd7581ee9370d309da5f06b433a23",
+    "atlas_contrasts.csv": "79ab87d1cb57cac616c0c2f0caf34ca00a0e730f87dfc2a1a266d27e29949c07",
+    "labels_qwen.parquet": "b0e4fa0e842bab53975b99e1626f4ee663c0ac6eb067fcd989d62545f15a000b",
+    "paired_behavior_shifts.csv": "9c842ae2d6a949efdcbd87d8c6bd160639dd9d407fcb95570d332dd09e58779e",
+    "parse_coverage.csv": "08ea1325e89a5b49f9c24300ca9d3af4532d640a4ff0f030e26fe1ca70a9abb6",
+    "annotation_versions.json": "da5efb4c620c34a57b3fd917b963e3217e7b1132e2e2daaf5f93e560364adfae",
+    "pairwise_agreement.csv": "c5de20d4da479a6ce5c3d9e3b8b5adb88606cd182ad34d6abe1a1b708d7cb8b9",
+    "labels_llama.parquet": "8857383c215358f22ca997a137c7804ff7394f992a15fb1198d0b2dc00f1280d",
+    "analysis_manifest.json": "04510c1884e6406419f5a2241cad930510b535167648c259d8de729220abbf39",
+    "atlas_weighted_profiles.csv": "b14f1e4d264f9a68424e879743e9ec63ebab97e5bd6f98bdf72efee87bd8222b",
+    "labels_gemma.parquet": "f1ac82d63b9c2d4db9f33abdecef4f6a625c8bc138317bb8cdc62a369c5a4949",
+    "trace_profiles.parquet": "9cd913dea273af0eb81f1c679cfb502287c8d3de542c3b4a4f02b320537c1896"
+  },
+  "interpretation": "Cross-family robustness; no semantic ground truth or majority-gold interpretation."
+}

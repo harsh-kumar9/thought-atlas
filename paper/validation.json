@@ -1,21 +1,21 @@
 {
-  "verified_utc": "2026-11-04T11:55:32.699770+00:00",
+  "verified_utc": "2026-11-05T15:18:26.204246+00:00",
   "checks_passed": true,
   "scope": "Artifact, completed analysis, and CPU regression checks; pending GPU studies are not validated results.",
   "paper_status": "Evidence-repair draft; not submission-ready",
   "compilers": [
-    "Tectonic 0.17.0 local 26-page PDF",
-    "Overleaf pdfLaTeX successful 25-page preview"
+    "Tectonic0.17.0 local27-page PDF",
+    "Overleaf pdfLaTeX successful26-page clean compile"
   ],
-  "pdf_pages": 26,
+  "pdf_pages": 27,
   "main_content_last_page": 8,
   "main_figures": 5,
-  "supporting_figures": 10,
+  "supporting_figures": 11,
   "bibliography_entries": 28,
   "unresolved_citation_or_reference_markers": 0,
   "overfull_boxes": 0,
   "source_archive_matches_local_files": true,
-  "source_archive_file_count": 72,
+  "source_archive_file_count": 78,
   "all_figure_and_input_hashes_match": true,
   "checked_manifest_entries": 67,
   "remote_text_files_verified": [
@@ -116,5 +116,22 @@
   "completed_elicitation": "All27920 rows, exact pairing and budget checks, source hashes, plus bounded GPQA parser anomalies verified; pointwise intervals.",
   "completed_confirmation_outcomes": "All1536 frozen attempts verified; hashes, pairing, exact token accounting and forced-grade reproduction passed. Both natural contrasts pass Holm; secondary elicited intervals pointwise.",
   "completed_confirmation_behavior": "All 192 traces from 64 frozen tasks, 55588 segments, complete parse coverage, no context truncation or missing profiles. All 32 shifts and 10000-bootstrap intervals independently reproduced. Moral intended/achieved cosine 0.9466 [0.8472,0.9570]; projection 0.4503 [0.3315,0.5697].",
-  "scheduler_verification": "2026-11-04: Ada scheduler access restored. Jobs435756,435693,430782 verified COMPLETED exit0; active GPU policies and downstream dependencies checked. See revision/results/scheduler_restored_20261104_1842.json. Scientific artifact validation above is unchanged."
+  "scheduler_verification": "2026-11-04: Ada scheduler access restored. Jobs435756,435693,430782 verified COMPLETED exit0; active GPU policies and downstream dependencies checked. See revision/results/scheduler_restored_20261104_1842.json. Scientific artifact validation above is unchanged.",
+  "multijudge_revision": {
+    "source_download_matches_previous": true,
+    "reconciled_files": [
+      "sections/appendix.tex",
+      "sections/limitations.tex",
+      "sections/results.tex",
+      "sections/revision_audit.tex",
+      "README.md"
+    ],
+    "local_pdf_sha256": "bc9ce585ea69b4fe103139e74a9fb4744442e3d5c2f05135fa1e61b5e7327bef",
+    "figure_page": 23,
+    "figure_and_conclusion_pages_visually_checked": true,
+    "bootstrap_reproduction": "All7 output hashes identical, CPU437678 COMPLETED0:0",
+    "bootstrap_outputs_reproduced": 7,
+    "overleaf_figure_page": 22,
+    "overleaf_proof": "output/pdf/thought-atlas-overleaf-multijudge-proof.png"
+  }
 }

@@ -1,0 +1,58 @@
+{
+  "checked_utc": "2026-11-05T14:27:00.689451+00:00",
+  "old_job": 437230,
+  "new_job": 437653,
+  "reason": "Checkpoint loading stalled on NFS during extraction initialization; walltime expired before normal soft-deadline return. Add pre-walltime batch-shell signal and responsive background-child wait.",
+  "scientific_changes": false,
+  "saved_files": {
+    "tasks.parquet": {
+      "rows": 199,
+      "sha256": "fb8bc82e11935e605370661ff6d03566127c34e501ea44c4c581a24d59aa1296"
+    },
+    "rollouts_s001.parquet": {
+      "rows": 398,
+      "sha256": "910f550f259f9771e4de03d8bcecc016e21f75eaabdbc06b6efcc26f5bb0dad5"
+    },
+    "rewards_s001.parquet": {
+      "rows": 352,
+      "sha256": "fc6416fd15f375bfc5ceb29f56c22dc65d3c5d2893014f1d82ff30833c61f833"
+    }
+  },
+  "config_sha256": "a6df80830302738f55f33b9720630a1089c858958abae33bea98d143bd10313d",
+  "old_log_sha256": "d833ec07f70ed97db155a59a2365a55dad1a88ad02e2cf847c2a4f1bcd978555",
+  "old_log_tail": [
+    "INFO 11-05 08:23:55 [cuda.py:318] Using AttentionBackendEnum.TRITON_ATTN backend.",
+    "INFO 11-05 08:23:55 [cuda.py:318] Using AttentionBackendEnum.TRITON_ATTN backend.",
+    "<frozen importlib._bootstrap_external>:1241: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.",
+    "<frozen importlib._bootstrap_external>:1241: FutureWarning: The cuda.nvrtc module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.nvrtc module instead.",
+    "INFO 11-05 08:26:24 [weight_utils.py:922] Filesystem type for checkpoints: NFS4. Checkpoint size: 58.25 GiB. Available RAM: 560.51 GiB.",
+    "INFO 11-05 08:26:24 [weight_utils.py:884] Prefetching checkpoint files into page cache started (in background, num_threads=8, block_size=16777216 bytes)",
+    "",
+    "Loading safetensors checkpoint shards:   0% Completed | 0/2 [00:00<?, ?it/s]",
+    "INFO 11-05 08:29:42 [weight_utils.py:856] Prefetching checkpoint files: 10% (1/2)",
+    "[2026-11-05T08:38:14.023] error: *** JOB 437230 ON vega CANCELLED AT 2026-11-05T08:38:14 DUE TO TIME LIMIT ***"
+  ],
+  "submit_command": [
+    "/opt/slurm/bin/sbatch",
+    "--parsable",
+    "--hold",
+    "--nodelist=vega",
+    "--qos=ashton",
+    "--gres=gpu:1",
+    "--time=00:15:00",
+    "--requeue",
+    "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+    "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+    "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/eval_timeout_recovery_%j.log",
+    "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/rl_evaluate_guarded.sbatch",
+    "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+    "ol_math_A2_seed2"
+  ],
+  "released": true,
+  "analysis_dependencies": [
+    435648,
+    435649,
+    437229,
+    437653
+  ]
+}

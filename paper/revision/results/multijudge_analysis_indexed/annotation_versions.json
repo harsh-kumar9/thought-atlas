@@ -1,0 +1,31 @@
+{
+  "updated_utc": "2026-11-04T04:20:08.264562+00:00",
+  "original_failed_pilot": 435632,
+  "format_pilot": 435696,
+  "format_gate": {
+    "judge": "meta-llama/Llama-3.1-8B-Instruct",
+    "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57",
+    "traces": 69,
+    "kim_parse_rate": 0.968861376852373,
+    "gandhi_parse_rate": 0.9521665728756331,
+    "input_truncation_rate": 0.0,
+    "conversational_positive_labels": 2234,
+    "cognitive_positive_labels": 1356,
+    "passed": true
+  },
+  "comparison": "pilot_comparison.csv: common-valid segment agreement97.52-99.69%; trace-balanced mean label changes -0.571 to+0.459pp. Descriptive comparison, not semantic validation or an equivalence test.",
+  "decision": "Adopt exact requested index/count and whitespace constraint for all Llama labels. Same frozen prompts, sample, parser, temperature, token allowances and95% gates. No mixing with original pilot. Keep original outputs and diagnostic pilot immutable.",
+  "output": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/results/multijudge_llama_indexed",
+  "analysis_output": "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/results/multijudge_analysis_indexed",
+  "previous_full": 435639,
+  "previous_analysis": 430486,
+  "jobs": {
+    "llama_full": 435756,
+    "analysis": 435757
+  },
+  "code_sha256": {
+    "judge_format_pilot.py": "431ce17aa6c4d7003c385a415f62b2e6c870495f7ef9a2433be9adc395c42e58",
+    "judge_format_pilot.sbatch": "833aed55ac49af8f37169825ab878272339cb07634c47c11d5120bcb20615e35",
+    "postprocess.sbatch": "75d472dfd11d1b615dd061040ac6231e9daf56dcc0b69a3affdb2c61ba7b2902"
+  }
+}

@@ -451,5 +451,34 @@
       "supplement/confirmation_behavior_shifts.csv"
     ],
     "compile": "Successful 25 pages; revised two-panel Figure 12 visually verified on page 23."
+  },
+  "multijudge_sync_20261105": {
+    "verified_utc": "2026-11-05T15:18:26.204246+00:00",
+    "project": "https://www.overleaf.com/project/6ae66af2dc9a0493439722d8",
+    "tab_id": "328739405",
+    "source_before_sha256": "dcb254bc2e219f93dbad980d868b02d0cf5410c9f2caf7f932b000bac03fa444",
+    "reconciled_files": [
+      "sections/appendix.tex",
+      "sections/limitations.tex",
+      "sections/results.tex",
+      "sections/revision_audit.tex",
+      "README.md"
+    ],
+    "all_reconciled_files_match_prior_commit": true,
+    "uploaded_files": [
+      "sections/appendix.tex",
+      "sections/limitations.tex",
+      "sections/results.tex",
+      "sections/revision_audit.tex",
+      "README.md",
+      "figures/figA10_multijudge.pdf",
+      "supplement/multijudge_atlas_contrasts.csv",
+      "supplement/multijudge_atlas_weighted_profiles.csv",
+      "supplement/multijudge_paired_behavior_shifts.csv",
+      "supplement/multijudge_pairwise_agreement.csv",
+      "supplement/multijudge_parse_coverage.csv"
+    ],
+    "compile": "Clean successful26-page preview; new Figure11 visually verified onpage22",
+    "proof": "output/pdf/thought-atlas-overleaf-multijudge-proof.png"
   }
 }

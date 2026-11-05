@@ -1,6 +1,6 @@
 {
   "archive": "thought-atlas-overleaf.zip",
-  "sha256": "be839de2c19927bc5cd6ff8c16230cd0deced93f1ff6a92406b04bd56622764f",
+  "sha256": "6e6eeaf5b30ac3635edb447f841162ce68862942d8cbb4de10205681cc89c4f3",
   "files": [
     "main.tex",
     "references.bib",
@@ -33,6 +33,7 @@
     "figures/fig04_cross_domain_transfer.pdf",
     "figures/fig05_steering_and_rl.pdf",
     "figures/fig06_open_task_tradeoffs.pdf",
+    "figures/figA10_multijudge.pdf",
     "figures/figA1_domain_similarity.pdf",
     "figures/figA2_trace_examples.pdf",
     "figures/figA3_random_timing_control.pdf",
@@ -62,6 +63,11 @@
     "supplement/idea_pairwise_google_gemma-4-31B-it.csv",
     "supplement/matched_demand_operations.csv",
     "supplement/matched_demand_sensitivity.csv",
+    "supplement/multijudge_atlas_contrasts.csv",
+    "supplement/multijudge_atlas_weighted_profiles.csv",
+    "supplement/multijudge_paired_behavior_shifts.csv",
+    "supplement/multijudge_pairwise_agreement.csv",
+    "supplement/multijudge_parse_coverage.csv",
     "supplement/native_outcome_signature_models.csv",
     "supplement/open_task_coverage.csv",
     "supplement/paired_shifts.csv",

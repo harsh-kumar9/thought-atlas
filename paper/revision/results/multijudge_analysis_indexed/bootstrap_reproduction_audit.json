@@ -1,0 +1,36 @@
+{
+  "checked_utc": "2026-11-05T14:35:14.314667+00:00",
+  "analysis_source_sha256": "369c2a5f54835718610f28287dbffe169d859661e1ae205358a929440ed069d0",
+  "all_output_hashes_identical": true,
+  "outputs": {
+    "parse_coverage.csv": {
+      "original": "08ea1325e89a5b49f9c24300ca9d3af4532d640a4ff0f030e26fe1ca70a9abb6",
+      "reproduced": "08ea1325e89a5b49f9c24300ca9d3af4532d640a4ff0f030e26fe1ca70a9abb6"
+    },
+    "pairwise_agreement.csv": {
+      "original": "c5de20d4da479a6ce5c3d9e3b8b5adb88606cd182ad34d6abe1a1b708d7cb8b9",
+      "reproduced": "c5de20d4da479a6ce5c3d9e3b8b5adb88606cd182ad34d6abe1a1b708d7cb8b9"
+    },
+    "trace_profiles.parquet": {
+      "original": "9cd913dea273af0eb81f1c679cfb502287c8d3de542c3b4a4f02b320537c1896",
+      "reproduced": "9cd913dea273af0eb81f1c679cfb502287c8d3de542c3b4a4f02b320537c1896"
+    },
+    "atlas_weighted_profiles.csv": {
+      "original": "b14f1e4d264f9a68424e879743e9ec63ebab97e5bd6f98bdf72efee87bd8222b",
+      "reproduced": "b14f1e4d264f9a68424e879743e9ec63ebab97e5bd6f98bdf72efee87bd8222b"
+    },
+    "atlas_contrasts.csv": {
+      "original": "79ab87d1cb57cac616c0c2f0caf34ca00a0e730f87dfc2a1a266d27e29949c07",
+      "reproduced": "79ab87d1cb57cac616c0c2f0caf34ca00a0e730f87dfc2a1a266d27e29949c07"
+    },
+    "paired_behavior_shifts.csv": {
+      "original": "9c842ae2d6a949efdcbd87d8c6bd160639dd9d407fcb95570d332dd09e58779e",
+      "reproduced": "9c842ae2d6a949efdcbd87d8c6bd160639dd9d407fcb95570d332dd09e58779e"
+    },
+    "analysis_manifest.json": {
+      "original": "04510c1884e6406419f5a2241cad930510b535167648c259d8de729220abbf39",
+      "reproduced": "04510c1884e6406419f5a2241cad930510b535167648c259d8de729220abbf39"
+    }
+  },
+  "scope": "Full frozen deterministic analysis reproduced, including1000-replicate trace-cluster agreement intervals and2000-replicate paired-shift intervals."
+}

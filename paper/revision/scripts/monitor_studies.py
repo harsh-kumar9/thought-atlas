@@ -70,10 +70,10 @@ for d in (R/'results/rl').iterdir():
   x['rl_checkpoints'][d.name]=dict(latest_metrics=m,saved_gradients=len(list(d.glob('gradient_s*.pt'))),saved_vectors=len(list(d.glob('b_s*.npy'))),completed_step_metric_count=len(metrics))
 for relative,h in S['code_files'].items():
  if hashlib.sha256((R/relative).read_bytes()).hexdigest()!=h:x['code_mismatches'].append(relative)
-for family,arms,n in [('rl_evaluation',['baseline','a2'],199),('confirmation',['baseline','ol_math_A2','sig_moral'],256)]:
+for family,arms,n in [('rl_evaluation',[k for k in S['jobs']['rl_evaluation'] if k!='analysis'],199),('confirmation',['baseline','ol_math_A2','sig_moral'],256)]:
  for arm in arms:
   d=R/'results'/family/arm
-  if json.loads((d/'status.json').read_text())['stage']!='complete':continue
+  if not (d/'status.json').exists() or json.loads((d/'status.json').read_text())['stage']!='complete':continue
   tr=pd.read_parquet(d/'rollouts_s001.parquet');gr=pd.read_parquet(d/'rewards_s001.parquet');tasks=pd.read_parquet((d if family=='rl_evaluation' else d.parent)/'tasks.parquet')
   assert len(tr)==len(gr)==2*n and tr.trace_id.is_unique and gr.trace_id.is_unique
   assert set(tr.trace_id)==set(gr.trace_id)

@@ -1,0 +1,117 @@
+{
+  "reason": "Vega8/8 GPUs allocated and scheduling estimate shifted to17:16UTC (~12h). Mira4/8 allocated. Assigned Mira GPU0 passed CUDA computation and vLLM/NVML probe; this does not establish every GPU is healthy. Resume existing jobs and verify actual work.",
+  "probe_job": 437187,
+  "probe_accounting": "437187|COMPLETED|0:0",
+  "probe_log": "Allocated GPU: 0\nindex, name, uuid, driver_version\n0, NVIDIA RTX PRO 6000 Blackwell Server Edition, GPU-45ec0b58-6872-2807-36bc-c12f311012e2, 590.48.01\n{\"cuda_visible_devices\": \"0\", \"device\": \"NVIDIA RTX PRO 6000 Blackwell Server Edition\", \"cuda_compute_verified\": true, \"vllm_nvml_capability\": \"DeviceCapability(major=12, minor=0)\", \"scope\": \"Assigned GPU only; no model or scientific run.\"}\n",
+  "probe_log_sha256": "f604708edc047f91df9ca6b50df03f23d2a5927858c5f4063e92c538e1ea5b94",
+  "actions": {
+    "435690": {
+      "action": "ReqNodeList=mira",
+      "previous": "vega",
+      "dependency_preserved": "(null)",
+      "state_after": "PENDING"
+    },
+    "436712": {
+      "action": "ReqNodeList=mira",
+      "previous": "vega",
+      "dependency_preserved": "(null)",
+      "state_after": "PENDING"
+    },
+    "435648": {
+      "action": "ReqNodeList=mira",
+      "previous": "vega",
+      "dependency_preserved": "afterok:436712(unfulfilled)",
+      "state_after": "PENDING"
+    },
+    "435649": {
+      "action": "ReqNodeList=mira",
+      "previous": "vega",
+      "dependency_preserved": "(null)",
+      "state_after": "PENDING"
+    },
+    "435650": {
+      "action": "ReqNodeList=mira",
+      "previous": "vega",
+      "dependency_preserved": "(null)",
+      "state_after": "PENDING"
+    },
+    "435653": {
+      "action": "ReqNodeList=mira",
+      "previous": "vega",
+      "dependency_preserved": "(null)",
+      "state_after": "PENDING"
+    }
+  },
+  "scientific_changes": false,
+  "policy": "Existing IDs/checkpoints/dependencies; normal ashton, one GPU,15-minute resumable jobs. Node placement only.",
+  "updated_utc": "2026-11-05T05:17:20.290479+00:00",
+  "gemma_failure_recovery": {
+    "old_job": 435690,
+    "replacement_job": 437190,
+    "reason": "Mira NVML Unknown Error before model startup despite earlier GPU0 probe success. Do not infer node-wide health from one allocation.",
+    "saved_traces": 1340,
+    "remaining": 30,
+    "labels_sha256_before_resume": "1c04196b0475503a487e0f4f9bbc3f5ad7078013f869d6b0d6852453e326124f",
+    "failed_log_sha256": "8d0fb9e84ccb0be8f1fd619a71058b13bdbf50872ea0e73541ba415d67f8a95d",
+    "failed_log_tail": [
+      "           ^^^^^^^^^^^^^^^^^^^",
+      "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 630, in has_device_capability",
+      "    return super().has_device_capability(capability, device_id)",
+      "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/interface.py\", line 321, in has_device_capability",
+      "    current_capability = cls.get_device_capability(device_id=device_id)",
+      "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 155, in wrapper",
+      "    return fn(*args, **kwargs)",
+      "           ^^^^^^^^^^^^^^^^^^^",
+      "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/platforms/cuda.py\", line 616, in get_device_capability",
+      "    handle = pynvml.nvmlDeviceGetHandleByIndex(physical_device_id)",
+      "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 2609, in nvmlDeviceGetHandleByIndex",
+      "    _nvmlCheckReturn(ret)",
+      "  File \"/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/site-packages/vllm/third_party/pynvml.py\", line 1047, in _nvmlCheckReturn",
+      "    raise NVMLError(ret)",
+      "vllm.third_party.pynvml.NVMLError_Unknown: Unknown Error"
+    ],
+    "submit_command": [
+      "/opt/slurm/bin/sbatch",
+      "--parsable",
+      "--hold",
+      "--nodelist=vega",
+      "--qos=ashton",
+      "--gres=gpu:1",
+      "--time=00:15:00",
+      "--requeue",
+      "--export=ALL,VLLM_USE_FLASHINFER_SAMPLER=0",
+      "--chdir=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+      "--output=/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/logs/gemma_vega_recovery_%j.log",
+      "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101/scripts/judge.sbatch",
+      "/ada1/u/harsh/thought-atlas-reruns/arr_repair_20261101",
+      "gemma",
+      "0"
+    ],
+    "dependency_reconnected": true,
+    "released": true
+  },
+  "saved_progress_verification": {
+    "checked_utc": "2026-11-05T05:19:11.053211+00:00",
+    "files": {
+      "results/rl/zero_seed0/rewards_s060.parquet": {
+        "rows": 96,
+        "mtime_utc": "2026-11-05T05:18:51.959285+00:00"
+      },
+      "results/rl_evaluation/zero_seed1/rollouts_s001.parquet": {
+        "rows": 48,
+        "mtime_utc": "2026-11-05T05:18:23.564900+00:00"
+      },
+      "results/rl_evaluation/zero_seed2/rollouts_s001.parquet": {
+        "rows": 88,
+        "mtime_utc": "2026-11-05T05:18:21.160867+00:00"
+      },
+      "results/rl_evaluation/ol_math_A2_seed2/rollouts_s001.parquet": {
+        "rows": 336,
+        "mtime_utc": "2026-11-05T05:18:16.524803+00:00"
+      }
+    }
+  }
+}

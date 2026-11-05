@@ -11,7 +11,8 @@ now=datetime.datetime.now(datetime.timezone.utc).isoformat()
 x=dict(checked_utc=now,jobs={},outputs={},rl_checkpoints={},code_mismatches=[],log_alerts={},completed_stage_checks={})
 training=S['jobs']['rl_zero_seeds_0_1_2']+S['jobs']['rl_a2_seeds_0_1_2']
 evaluations=[S['jobs']['rl_evaluation'][k] for k in ['zero_seed0','zero_seed1','zero_seed2','ol_math_A2_seed0','ol_math_A2_seed1','ol_math_A2_seed2']]
-ids=list(dict.fromkeys([435690,435691,435756,435757,*training,*evaluations,435646,435647,*range(435654,435657),430532,430778,430779,435692,435693,430782]))
+judges=S['jobs']['judge_full'];judge_analysis=S['jobs']['judge_analysis']
+ids=list(dict.fromkeys([*judges.values(),judge_analysis,*training,*evaluations,435646,435647,*range(435654,435657),430532,430778,430779,435692,435693,430782]))
 for jid in ids:
  p=subprocess.run(['/opt/slurm/bin/scontrol','show','job',str(jid),'-o'],capture_output=True,text=True,timeout=15)
  fields=dict(re.findall(r'(\w+)=([^\s]+)',p.stdout));entry={k:fields.get(k) for k in ['JobState','Reason','ExitCode','Restarts','QOS','TimeLimit','Dependency','NodeList','ReqNodeList','TresPerNode','Requeue']};x['jobs'][str(jid)]=entry
@@ -30,7 +31,7 @@ for line in p.stdout.splitlines():
  fields=line.split('|')
  if len(fields)>=5:x['accounting'][fields[0]]={k:v for k,v in zip(['State','ExitCode','Elapsed','Restarts'],fields[1:5])}
 for jid in [435756,435693,430782]:assert x['accounting'][str(jid)]['State']=='COMPLETED' and x['accounting'][str(jid)]['ExitCode']=='0:0'
-for jid in [435690,435691,*training,*evaluations]:
+for jid in [*judges.values(),*training,*evaluations]:
  j=x['jobs'][str(jid)]
  if j['JobState'] is None:
   assert x['accounting'][str(jid)]['State']=='COMPLETED',x['accounting'][str(jid)]
@@ -39,7 +40,7 @@ for jid in [435690,435691,*training,*evaluations]:
 for parent,child in zip(training,evaluations):
  if x['accounting'][str(parent)]['State']!='COMPLETED':
   assert x['jobs'][str(child)]['Dependency']==f'afterok:{parent}(unfulfilled)'
-for child,parents in [(435757,[435690,435691]),(430532,evaluations)]:
+for child,parents in [(judge_analysis,list(judges.values())),(430532,evaluations)]:
  expected={str(p) for p in parents if x['accounting'][str(p)]['State']!='COMPLETED'}
  actual=set(re.findall(r'afterok:(\d+)',x['jobs'][str(child)]['Dependency'] or ''))
  assert expected==actual,(child,expected,actual)

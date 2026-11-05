@@ -1,0 +1,1112 @@
+{
+  "checked_utc": "2026-11-05T00:42:40.076660+00:00",
+  "jobs": {
+    "435690": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "96",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:42:35.769466+00:00"
+    },
+    "435691": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "97",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:42:35.769466+00:00"
+    },
+    "435756": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435757": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435690(unfulfilled),afterok:435691(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": null,
+      "Requeue": "1"
+    },
+    "436712": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "19",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:42:15.289124+00:00"
+    },
+    "436713": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "19",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:41:29.209352+00:00"
+    },
+    "435642": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "154",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:41:03.607922+00:00"
+    },
+    "435643": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "172",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:41:39.449524+00:00"
+    },
+    "436714": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "20",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:42:35.769466+00:00"
+    },
+    "436715": {
+      "JobState": "RUNNING",
+      "Reason": "None",
+      "ExitCode": "0:0",
+      "Restarts": "20",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "(null)",
+      "NodeList": "vega",
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1",
+      "log_mtime_utc": "2026-11-05T00:41:54.808782+00:00"
+    },
+    "435648": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:436712(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435649": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:436713(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435650": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435642(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435651": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:435643(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435652": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:436714(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435653": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "00:15:00",
+      "Dependency": "afterok:436715(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": "gres/gpu:1",
+      "Requeue": "1"
+    },
+    "435646": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435647": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435654": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435655": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435656": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430532": {
+      "JobState": "PENDING",
+      "Reason": "Dependency",
+      "ExitCode": "0:0",
+      "Restarts": "0",
+      "QOS": "ashton",
+      "TimeLimit": "02:00:00",
+      "Dependency": "afterok:435648(unfulfilled),afterok:435649(unfulfilled),afterok:435650(unfulfilled),afterok:435651(unfulfilled),afterok:435652(unfulfilled),afterok:435653(unfulfilled)",
+      "NodeList": null,
+      "ReqNodeList": "vega",
+      "TresPerNode": null,
+      "Requeue": "1"
+    },
+    "430778": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430779": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435692": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "435693": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    },
+    "430782": {
+      "JobState": null,
+      "Reason": null,
+      "ExitCode": null,
+      "Restarts": null,
+      "QOS": null,
+      "TimeLimit": null,
+      "Dependency": null,
+      "NodeList": null,
+      "ReqNodeList": null,
+      "TresPerNode": null,
+      "Requeue": null
+    }
+  },
+  "outputs": {
+    "results/multijudge/status_llama.json": {
+      "mtime": "2026-11-04T02:50:56.523091+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 69,
+        "completed": 69,
+        "empty_prefixes": 1,
+        "pilot": true,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_qwen.json": {
+      "mtime": "2026-11-05T00:36:41.284429+00:00",
+      "status": {
+        "judge": "Qwen/Qwen3.5-27B",
+        "requested": 1370,
+        "completed": 1284,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/status_gemma.json": {
+      "mtime": "2026-11-05T00:35:59.430694+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 1370,
+        "completed": 1135,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge/labels_llama.parquet": {
+      "rows": 5331,
+      "mtime": "2026-11-04T02:50:56.290089+00:00",
+      "unique_traces": 69,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_qwen.parquet": {
+      "rows": 98799,
+      "mtime": "2026-11-05T00:42:19.219190+00:00",
+      "unique_traces": 1288,
+      "duplicate_segments": 0
+    },
+    "results/multijudge/labels_gemma.parquet": {
+      "rows": 87918,
+      "mtime": "2026-11-05T00:42:02.960918+00:00",
+      "unique_traces": 1138,
+      "duplicate_segments": 0
+    },
+    "results/multijudge_llama_indexed/status_llama.json": {
+      "mtime": "2026-11-04T11:24:50.307448+00:00",
+      "status": {
+        "judge": "meta-llama/Llama-3.1-8B-Instruct",
+        "requested": 1370,
+        "completed": 1370,
+        "empty_prefixes": 11,
+        "pilot": false,
+        "input_hash": "a74aa8b09250ca7e3bb46300fb62c14bef5eb569ba0896b8e0d12c762145ba57"
+      }
+    },
+    "results/multijudge_llama_indexed/labels_llama.parquet": {
+      "rows": 105302,
+      "mtime": "2026-11-04T11:24:50.288447+00:00",
+      "unique_traces": 1370,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/ol_math_A2/status.json": {
+      "mtime": "2026-11-04T06:28:32.854584+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "ol_math_A2"
+      }
+    },
+    "results/confirmation/baseline/status.json": {
+      "mtime": "2026-11-04T06:53:03.043568+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "baseline"
+      }
+    },
+    "results/confirmation/behavior/status_gemma.json": {
+      "mtime": "2026-11-04T11:38:57.580657+00:00",
+      "status": {
+        "judge": "google/gemma-4-31B-it",
+        "requested": 192,
+        "completed": 192,
+        "empty_prefixes": 0,
+        "pilot": false,
+        "input_hash": "50606584d2528f89e0c62f7c84e4e34d6301f62eb08115244648bcf73e177fc9"
+      }
+    },
+    "results/confirmation/sig_moral/status.json": {
+      "mtime": "2026-11-04T06:46:02.583055+00:00",
+      "status": {
+        "stage": "complete",
+        "arm": "sig_moral"
+      }
+    },
+    "results/confirmation/ol_math_A2/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:05:23.137189+00:00"
+    },
+    "results/confirmation/ol_math_A2/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:28:29.504551+00:00"
+    },
+    "results/confirmation/ol_math_A2/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:24:49.939349+00:00"
+    },
+    "results/confirmation/baseline/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:26:07.779133+00:00"
+    },
+    "results/confirmation/baseline/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:47:52.107157+00:00"
+    },
+    "results/confirmation/baseline/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:53:00.387563+00:00"
+    },
+    "results/confirmation/behavior/labels_gemma.parquet": {
+      "rows": 55588,
+      "mtime": "2026-11-04T11:38:57.565657+00:00",
+      "unique_traces": 192,
+      "duplicate_segments": 0
+    },
+    "results/confirmation/sig_moral/rewards_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:41:39.197901+00:00"
+    },
+    "results/confirmation/sig_moral/elicitation.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:45:59.921049+00:00"
+    },
+    "results/confirmation/sig_moral/rollouts_s001.parquet": {
+      "rows": 512,
+      "mtime": "2026-11-04T06:20:51.848916+00:00"
+    },
+    "results/rl_evaluation/a2/status.json": {
+      "mtime": "2026-11-04T06:19:52.648300+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "a2"
+      }
+    },
+    "results/rl_evaluation/baseline/status.json": {
+      "mtime": "2026-11-04T06:24:15.737002+00:00",
+      "status": {
+        "stage": "complete",
+        "run": "baseline"
+      }
+    },
+    "results/rl_evaluation/a2/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:04:12.219196+00:00"
+    },
+    "results/rl_evaluation/a2/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:19:52.547299+00:00"
+    },
+    "results/rl_evaluation/baseline/rewards_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:24:15.644001+00:00"
+    },
+    "results/rl_evaluation/baseline/rollouts_s001.parquet": {
+      "rows": 398,
+      "mtime": "2026-11-04T06:02:25.207609+00:00"
+    },
+    "results/rl/zero_seed1/status.json": {
+      "mtime": "2026-11-05T00:33:46.204316+00:00",
+      "status": {
+        "step": 52,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed0/status.json": {
+      "mtime": "2026-11-05T00:33:48.719361+00:00",
+      "status": {
+        "step": 58,
+        "stage": "generate"
+      }
+    },
+    "results/rl/zero_seed2/status.json": {
+      "mtime": "2026-11-05T00:31:31.933839+00:00",
+      "status": {
+        "step": 52,
+        "stage": "generate"
+      }
+    },
+    "results/rl/smoke/status.json": {
+      "mtime": "2026-11-04T02:49:39.092425+00:00",
+      "status": {
+        "step": 1,
+        "stage": "complete"
+      }
+    },
+    "results/rl/ol_math_A2_seed2/status.json": {
+      "mtime": "2026-11-05T00:31:40.211995+00:00",
+      "status": {
+        "step": 55,
+        "stage": "generate"
+      }
+    },
+    "results/rl/zero_seed0/status.json": {
+      "mtime": "2026-11-05T00:32:49.267277+00:00",
+      "status": {
+        "step": 51,
+        "stage": "generate"
+      }
+    },
+    "results/rl/ol_math_A2_seed1/status.json": {
+      "mtime": "2026-11-05T00:38:29.473302+00:00",
+      "status": {
+        "step": 57,
+        "stage": "extract"
+      }
+    }
+  },
+  "rl_checkpoints": {
+    "zero_seed1": {
+      "latest_metrics": {
+        "step": 51,
+        "reward": 0.734375,
+        "gradient_norm": 0.0001303248864132911,
+        "vector_norm": 1.9588228464126587,
+        "rollouts_sha256": "cc3c2102161b16fabd8045cc7721a71333591e98e042f198fe7614d789f3fd8c",
+        "rewards_sha256": "af230b9d743bd65be4c13cc03e3929d3c8a171b2785723f4f556c166fc5196df"
+      },
+      "saved_gradients": 51,
+      "saved_vectors": 52,
+      "completed_step_metric_count": 51
+    },
+    "ol_math_A2_seed0": {
+      "latest_metrics": {
+        "step": 57,
+        "reward": 0.8828125,
+        "gradient_norm": 0.0003552852140273899,
+        "vector_norm": 6.947144508361816,
+        "rollouts_sha256": "fde8717676918eabd04749c11e420383ede960e0eb52adebadc51f19ca146cca",
+        "rewards_sha256": "dadb7b0ed350ede20a48e9998bdaa80ef0d3bd44016e83cd8da468eda1f67f15"
+      },
+      "saved_gradients": 57,
+      "saved_vectors": 58,
+      "completed_step_metric_count": 57
+    },
+    "zero_seed2": {
+      "latest_metrics": {
+        "step": 51,
+        "reward": 0.796875,
+        "gradient_norm": 0.00033834250643849373,
+        "vector_norm": 1.8869590759277344,
+        "rollouts_sha256": "b7c48c75c498746b0c5d1840e7ae91f833dc2bf3ec2ee0df3ab5705789e0c3e6",
+        "rewards_sha256": "7419a541e2026d89154745fb6f6b58327cd6e272f933089d0f6bfd41e8698a1e"
+      },
+      "saved_gradients": 51,
+      "saved_vectors": 52,
+      "completed_step_metric_count": 51
+    },
+    "ol_math_A2_seed2": {
+      "latest_metrics": {
+        "step": 54,
+        "reward": 0.8671875,
+        "gradient_norm": 0.00020384480012580752,
+        "vector_norm": 6.913147449493408,
+        "rollouts_sha256": "87cd8af234113233f177289134b8a8afddb188ba79b2932ba3e52d88a40a660d",
+        "rewards_sha256": "ec8ae3cad0c75c8d6914786c00da21c43110208468180c00a3a7817c510cd7b5"
+      },
+      "saved_gradients": 54,
+      "saved_vectors": 55,
+      "completed_step_metric_count": 54
+    },
+    "zero_seed0": {
+      "latest_metrics": {
+        "step": 50,
+        "reward": 0.7734375,
+        "gradient_norm": 0.00026261291350238025,
+        "vector_norm": 1.8978712558746338,
+        "rollouts_sha256": "81334fae1e28fecc0e5455411f61285010785e71c96ff29619f417e704efbd04",
+        "rewards_sha256": "96e599c9f4b643fe1b651f4a70379b32389bc208beeca0de07db3b9e58ad8708"
+      },
+      "saved_gradients": 50,
+      "saved_vectors": 51,
+      "completed_step_metric_count": 50
+    },
+    "ol_math_A2_seed1": {
+      "latest_metrics": {
+        "step": 56,
+        "reward": 0.8828125,
+        "gradient_norm": 0.00032798544270917773,
+        "vector_norm": 6.976783752441406,
+        "rollouts_sha256": "854467090d4afa74a006991d714bfd7b790ca198b7484ff4a2078d7274bb9fde",
+        "rewards_sha256": "6f11897ba82c320caa09c9144240355ee54b32c4ac0f36aad012c8950847cae3"
+      },
+      "saved_gradients": 56,
+      "saved_vectors": 57,
+      "completed_step_metric_count": 56
+    }
+  },
+  "code_mismatches": [],
+  "log_alerts": {},
+  "completed_stage_checks": {
+    "rl_evaluation/baseline": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "unfinished_generation": 225,
+        "extracted": 173
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "rl_evaluation/a2": {
+      "rows": 398,
+      "unique_tasks": 199,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 398,
+      "grade_sources": {
+        "extracted": 290,
+        "unfinished_generation": 106,
+        "fallback_ungrounded": 2
+      },
+      "outcomes_rows": 398,
+      "summary_matches_rewards": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/baseline": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 257,
+        "unfinished_generation": 254,
+        "fallback_unparsed_output": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/ol_math_A2": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 432,
+        "unfinished_generation": 79,
+        "fallback_ungrounded": 1
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    },
+    "confirmation/sig_moral": {
+      "rows": 512,
+      "unique_tasks": 256,
+      "exact_frozen_task_sample_grid": true,
+      "max_generated_tokens": 8192,
+      "reward_rows": 512,
+      "grade_sources": {
+        "extracted": 304,
+        "unfinished_generation": 206,
+        "fallback_ungrounded": 2
+      },
+      "elicitation_rows": 512,
+      "elicitation_token_bounds": true,
+      "status": "Individual arm verified; whole-family analyses remain gated."
+    }
+  },
+  "accounting": {
+    "430532": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "430778": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:02",
+      "Restarts": "0"
+    },
+    "430779": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:08",
+      "Restarts": "0"
+    },
+    "430782": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:11",
+      "Restarts": "0"
+    },
+    "435648": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435649": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435650": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435651": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435652": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435653": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435692": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:59",
+      "Restarts": "0"
+    },
+    "435757": {
+      "State": "PENDING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:00",
+      "Restarts": "0"
+    },
+    "435647": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:10:01",
+      "Restarts": "11"
+    },
+    "435646": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:24",
+      "Restarts": "12"
+    },
+    "435655": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:32",
+      "Restarts": "14"
+    },
+    "435656": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:12",
+      "Restarts": "15"
+    },
+    "435654": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:31",
+      "Restarts": "15"
+    },
+    "435756": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:08:32",
+      "Restarts": "35"
+    },
+    "435693": {
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:27",
+      "Restarts": "23"
+    },
+    "435642": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:08:46",
+      "Restarts": "154"
+    },
+    "436715": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:08:46",
+      "Restarts": "20"
+    },
+    "436712": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:07:43",
+      "Restarts": "19"
+    },
+    "436713": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:06:43",
+      "Restarts": "19"
+    },
+    "435643": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:06:42",
+      "Restarts": "172"
+    },
+    "435690": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:04:12",
+      "Restarts": "96"
+    },
+    "435691": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:03:43",
+      "Restarts": "97"
+    },
+    "436714": {
+      "State": "RUNNING",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:47",
+      "Restarts": "20"
+    }
+  },
+  "scheduler_recovery_checks": {
+    "munge": "active",
+    "completed_exits_verified": [
+      435756,
+      435693,
+      430782
+    ],
+    "gpu_policy_verified": true,
+    "rl_evaluation_dependencies_verified": true,
+    "analysis_dependencies_verified": true,
+    "mutations": []
+  },
+  "assessment": "Scheduler access restored; inspect states, accounting and dependencies alongside saved-output checks.",
+  "log_tails": {
+    "judge_resume_435637_435690.log": {
+      "mtime": "2026-11-05T00:42:35.769466+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:14<00:00,  7.32s/it, est. speed input: 219.64 toks/s, output: 42.21 toks/s]",
+        "",
+        "Rendering prompts:   0%|          | 0/1 [00:00<?, ?it/s]",
+        "Rendering prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:00<00:00, 323.78it/s]",
+        "",
+        "Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]"
+      ]
+    },
+    "judge_resume_435638_435691.log": {
+      "mtime": "2026-11-05T00:42:35.769466+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 5/5 [00:15<00:00,  3.11s/it, est. speed input: 593.92 toks/s, output: 106.59 toks/s]",
+        "",
+        "Rendering prompts:   0%|          | 0/5 [00:00<?, ?it/s]",
+        "Rendering prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 5/5 [00:00<00:00, 522.47it/s]",
+        "",
+        "Processed prompts:   0%|          | 0/5 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]"
+      ]
+    },
+    "llama_indexed_435756.log": {
+      "mtime": "2026-11-04T11:24:52.580590+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.68s/it, est. speed input: 1428.23 toks/s, output: 84.57 toks/s]",
+        "checkpoint llama 11 / 11",
+        "(EngineCore pid=3361931) INFO 11-04 11:24:50 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3361931) INFO 11-04 11:24:50 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "vega_recovery_435640_436712.log": {
+      "mtime": "2026-11-05T00:42:15.289124+00:00",
+      "tail": [
+        "WARNING 11-05 00:35:57 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:36:19 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "WARNING 11-05 00:37:59 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _fused_post_conv_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 64",
+        "generated 96"
+      ]
+    },
+    "vega_recovery_435641_436713.log": {
+      "mtime": "2026-11-05T00:41:29.209352+00:00",
+      "tail": [
+        "WARNING 11-05 00:36:20 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_update_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:36:20 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:36:37 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:36:43 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "generated 64"
+      ]
+    },
+    "normal_435585_435642.log": {
+      "mtime": "2026-11-05T00:41:03.607922+00:00",
+      "tail": [
+        "WARNING 11-05 00:34:15 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:34:31 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:35:31 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "generated 64",
+        "generated 96"
+      ]
+    },
+    "normal_435586_435643.log": {
+      "mtime": "2026-11-05T00:41:39.449524+00:00",
+      "tail": [
+        "WARNING 11-05 00:36:20 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _causal_conv1d_update_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:36:20 [jit_monitor.py:103] Triton kernel JIT compilation during inference: fused_recurrent_gated_delta_rule_packed_decode_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:36:41 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:37:08 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "generated 64"
+      ]
+    },
+    "vega_recovery_435644_436714.log": {
+      "mtime": "2026-11-05T00:42:40.889552+00:00",
+      "tail": [
+        "graded 64",
+        "",
+        "Rendering prompts:   0%|          | 0/32 [00:00<?, ?it/s]",
+        "Rendering prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 32/32 [00:00<00:00, 660.72it/s]",
+        "",
+        "Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]"
+      ]
+    },
+    "vega_recovery_435645_436715.log": {
+      "mtime": "2026-11-05T00:41:54.808782+00:00",
+      "tail": [
+        "WARNING 11-05 00:34:56 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _topk_topp_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "WARNING 11-05 00:35:26 [jit_monitor.py:103] Triton kernel JIT compilation during inference: layer_norm_fwd_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 32",
+        "generated 64",
+        "WARNING 11-05 00:39:52 [jit_monitor.py:103] Triton kernel JIT compilation during inference: _fused_post_conv_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.",
+        "generated 96"
+      ]
+    },
+    "normal_435589_435646.log": {
+      "mtime": "2026-11-04T06:24:16.556011+00:00",
+      "tail": [
+        "Processed prompts:  93%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258e| 13/14 [00:26<00:00,  2.39it/s, est. speed input: 3433.46 toks/s, output: 30.26 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.66it/s, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.66it/s, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:27<00:00,  1.98s/it, est. speed input: 3615.26 toks/s, output: 31.67 toks/s]",
+        "graded 398",
+        "[rank0]:[W1104 06:24:16.055071371 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435590_435647.log": {
+      "mtime": "2026-11-04T06:19:53.530310+00:00",
+      "tail": [
+        "Processed prompts:  86%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c | 12/14 [00:17<00:00,  2.65it/s, est. speed input: 3405.49 toks/s, output: 39.88 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  3.58it/s, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  3.58it/s, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 14/14 [00:17<00:00,  1.27s/it, est. speed input: 3691.69 toks/s, output: 48.46 toks/s]",
+        "graded 398",
+        "[rank0]:[W1104 06:19:53.021680035 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())"
+      ]
+    },
+    "normal_435597_435654.log": {
+      "mtime": "2026-11-04T06:53:04.632571+00:00",
+      "tail": [
+        "(EngineCore pid=225901)     sem_unlink(name)",
+        "(EngineCore pid=225901) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-225901-75lzviob': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "normal_435598_435655.log": {
+      "mtime": "2026-11-04T06:28:34.535601+00:00",
+      "tail": [
+        "(EngineCore pid=217157)     sem_unlink(name)",
+        "(EngineCore pid=217157) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-217157-blbb3zvd': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "normal_435599_435656.log": {
+      "mtime": "2026-11-04T06:46:04.328059+00:00",
+      "tail": [
+        "(EngineCore pid=221788)     sem_unlink(name)",
+        "(EngineCore pid=221788) FileNotFoundError: [Errno 2] No such file or directory",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown",
+        "  warnings.warn('resource_tracker: There appear to be %d '",
+        "/ada1/u/harsh/miniconda3/envs/sote/lib/python3.11/multiprocessing/resource_tracker.py:267: UserWarning: resource_tracker: '/loky-221788-1ftxqni0': [Errno 2] No such file or directory",
+        "  warnings.warn('resource_tracker: %r: %s' % (name, e))"
+      ]
+    },
+    "confirmation_430778.log": {
+      "mtime": "2026-11-04T06:53:33.453621+00:00",
+      "tail": []
+    },
+    "confirmation_430779.log": {
+      "mtime": "2026-11-04T06:53:33.455621+00:00",
+      "tail": []
+    },
+    "judge_resume_435657_435692.log": {
+      "mtime": "2026-11-04T06:57:49.268759+00:00",
+      "tail": [
+        "Processed prompts:  91%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588 | 20/22 [00:24<00:01,  1.93it/s, est. speed input: 4464.01 toks/s, output: 250.85 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 22/22 [00:24<00:00,  1.93it/s, est. speed input: 4624.30 toks/s, output: 274.88 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 22/22 [00:24<00:00,  1.13s/it, est. speed input: 4624.30 toks/s, output: 274.88 toks/s]",
+        "checkpoint gemma 3 / 3",
+        "(EngineCore pid=3312696) INFO 11-04 06:57:46 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3312696) INFO 11-04 06:57:46 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "judge_resume_435658_435693.log": {
+      "mtime": "2026-11-04T11:38:58.304652+00:00",
+      "tail": [
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "Processed prompts: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:08<00:00,  8.58s/it, est. speed input: 1052.78 toks/s, output: 16.20 toks/s]",
+        "checkpoint gemma 2 / 2",
+        "(EngineCore pid=3363238) INFO 11-04 11:38:57 [core.py:1266] Shutdown initiated (timeout=0)",
+        "(EngineCore pid=3363238) INFO 11-04 11:38:57 [core.py:1289] Shutdown complete"
+      ]
+    },
+    "confirmation_430782.log": {
+      "mtime": "2026-11-04T11:39:24.064546+00:00",
+      "tail": []
+    }
+  }
+}
